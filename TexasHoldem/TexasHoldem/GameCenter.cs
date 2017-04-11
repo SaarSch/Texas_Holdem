@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace TexasHoldem
 {
     class Program
@@ -11,6 +12,7 @@ namespace TexasHoldem
         static void Main(string[] args)
         {
             Console.WriteLine("Hello");
+            Console.ReadLine();
         }
     }
 }
