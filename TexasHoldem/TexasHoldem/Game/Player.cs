@@ -10,15 +10,19 @@ public class Player
         public int currentBet = 0;
         public Boolean folded =false;
         public HandStrongness strongestHand;
+        public User user;
 
 
 
-        public Player(string name, int chips)
+        public Player(string name, int chips ,User user)
         {
             if (name == null) throw new Exception("illegal player name");
             if (chips < 0) throw new Exception("illegal amount of chips");
+            if(user==null) throw new Exception("illegal User");
 
             this.name = name;
+            this.user=user;
+            this.chipsAmount=chips;
         }
 
         public void setStrongestHand(HandStrongness hand)
