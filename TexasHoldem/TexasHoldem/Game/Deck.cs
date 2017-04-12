@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class Deck
 {
-	public Deck()
-	{
-         public List<Card> cards = new List<Card>(52);
+	
+       public List<Card> cards = new List<Card>(52);
 
         public Deck()
         {
@@ -12,7 +12,7 @@ public class Deck
             {
                 for (int j = 1; j < 5; j++)
                 {
-                    cards.Add(new Card(i, j));
+                    cards.Add(new Card(i, (CardType)j));
                 }
             }
             ShuffulDeck();
@@ -23,7 +23,7 @@ public class Deck
             Random rnd = new Random();
             for (var i = 0; i < cards.Count; i++)
             {
-                Swap(cards, i, rnd.Next(i, cards.Count()));
+                Swap(cards, i, rnd.Next(i, cards.Count));
             }
         }
 
@@ -42,7 +42,7 @@ public class Deck
             return Temp;
         }
 
-        public Boolean Contains(int value, int type)
+        public Boolean Contains(int value, CardType type)
         {
            
             for(int i = 0; i < 52; i++)
@@ -55,4 +55,4 @@ public class Deck
 
 
 	}
-}
+

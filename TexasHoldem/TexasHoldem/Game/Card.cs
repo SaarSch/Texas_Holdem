@@ -1,58 +1,37 @@
 ﻿using System;
 
-public class Card
+public enum CardType
 {
-	public Card()
-	{
-         public List<Card> cards = new List<Card>(52);
+    Spades, //עלה
+    Hearts,//לב
+    Diamonds,// יהלום
+    Clubs, // תלתן
+}
+public class Card : IComparable
+{
 
-        public Deck()
+    public int value;
+    public CardType type;
+
+    public Card(int value, CardType type)
+    {
+        if (value < 1 || value > 13)
         {
-            for (int i = 1; i < 14; i++) // init deck
-            {
-                for (int j = 1; j < 5; j++)
-                {
-                    cards.Add(new Card(i, j));
-                }
-            }
-            ShuffulDeck();
+            throw new Exception("illegal card");
         }
 
-        public void ShuffulDeck()
-        {
-            Random rnd = new Random();
-            for (var i = 0; i < cards.Count; i++)
-            {
-                Swap(cards, i, rnd.Next(i, cards.Count()));
-            }
-        }
+        this.value = value;
+        this.type = type;
+    }
 
-        public static void Swap(List<Card> list, int i, int j)
-        {
-            var temp = list[i];
-            list[i] = list[j];
-            list[j] = temp;
-        }
+    public int CompareTo(object obj)
+    {
+        if (obj == null) return 1;
+        Card otherCard = obj as Card;
+        if (otherCard != null)
+            if (this.value.CompareTo(otherCard.value) == 0 && this.type.CompareTo(otherCard.type) == 0) return 0;
+            else return -1;
+        else return -1;
 
-        public Card Draw()
-        {
-            if (cards.Count < 1) throw new Exception("Deck is empty");
-            Card Temp = cards[0];
-            cards.RemoveAt(0);
-            return Temp;
-        }
-
-        public Boolean Contains(int value, int type)
-        {
-           
-            for(int i = 0; i < 52; i++)
-            {
-                if (cards[i].value == value && cards[i].type == type) return true;
-            }
-            return false;
-   
-        }
-
-
-	}
+    }
 }

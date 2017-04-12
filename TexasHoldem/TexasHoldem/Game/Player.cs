@@ -2,8 +2,7 @@
 
 public class Player
 {
-	public Player()
-	{
+
         public Card[] hand = new Card[2];
         public string name;
         public int chipsAmount;
@@ -25,11 +24,6 @@ public class Player
             this.chipsAmount=chips;
         }
 
-        public void setStrongestHand(HandStrongness hand)
-        {
-            strongestHand = hand;
-        }
-
         public int CurrentBet { get => currentBet; set => currentBet = value; }
 
         public void setCards(Card first, Card second)
@@ -49,8 +43,5 @@ public class Player
         public void ClearBet() { currentBet = 0; }
 
         public void Fold() { folded = true; }
-
-
-
-	}
+   }
 }
