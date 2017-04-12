@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameCenterHelpers\Pair.cs" />
+    <Compile Include="GameCenterHelpers\ProxyUser.cs" />
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
