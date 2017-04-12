@@ -48,6 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcceptanceTests\TestsAss1.cs" />
     <Compile Include="UnitTests\GameCenter\GameCenterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,7 +62,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AcceptanceTests\" />
     <Folder Include="UnitTests\Game\" />
     <Folder Include="UnitTests\Loggers\" />
     <Folder Include="UnitTests\Notifications\" />
