@@ -45,6 +45,7 @@
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
+    <Compile Include="Game\Room.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />
