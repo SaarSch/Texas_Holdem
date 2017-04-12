@@ -1,15 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem;
 
-namespace Tests.AcceptanceTests
+namespace AllTests
 {
     [TestClass]
-    public class UnitTest1
+    public class GameCenterTest
     {
+        Card c = new Card();
         [TestMethod]
         public void TestMethod1()
         {
-
         }
     }
 }
