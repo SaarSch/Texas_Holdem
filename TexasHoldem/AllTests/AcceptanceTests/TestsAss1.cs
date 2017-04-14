@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 
@@ -234,6 +235,216 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.editAvatar("newVIRUSavatar.jpg"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestCreateNewTexasHoldemGame_Good()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsTrue(bridge.createNewGame("Good Game Name",6));
+            Assert.IsTrue(bridge.isGameExist("Good Game Name"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestCreateNewTexasHoldemGame_Sad_IllegalGameName()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsFalse(bridge.createNewGame("Illegal Game Name                  35", 6));
+            Assert.IsFalse(bridge.isGameExist("Illegal Game Name                  35"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsFalse(bridge.createNewGame("Good Game Name", 10000000));
+            Assert.IsFalse(bridge.isGameExist("Good Game Name"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestCreateNewTexasHoldemGame_Bad_IllegalCharactersInGameName()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+            
+            Assert.IsFalse(bridge.createNewGame("Illegal@#Game!@Name?)", 6));
+            Assert.IsFalse(bridge.isGameExist("Illegal@#Game!@Name?)"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestJoinExistingGame_Good()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.register("GoodName", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 6);
+            bridge.logOut(legalUserName);
+
+            bridge.login("GoodName", legalPass);
+
+            ArrayList activeGames = bridge.getActiveGames();
+
+            Assert.IsTrue(bridge.joinGame(activeGames[0]));
+
+            bridge.deleteUser(legalUserName);
+            bridge.deleteUser("GoodName");
+        }
+
+        [TestMethod]
+        public void TestJoinExistingGame_Sad_IllegalGame()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.register("GoodName", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 6);
+            bridge.logOut(legalUserName);
+
+            bridge.login("GoodName", legalPass);
+
+            ArrayList activeGames = bridge.getActiveGames();
+
+            Assert.IsFalse(bridge.joinGame("gg12"));
+
+            bridge.deleteUser(legalUserName);
+            bridge.deleteUser("GoodName");
+        }
+
+        [TestMethod]
+        public void TestJoinExistingGame_bad_MultiplejoiningAttemptsToFullRoom()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.register("GoodName", legalPass);
+            bridge.register("AnotherGoodName", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 2);
+            bridge.logOut(legalUserName);
+
+            bridge.login("AnotherGoodName", legalPass);
+            bridge.joinGame("Good Game Name");
+            bridge.logOut("AnotherGoodName");
+
+            bridge.login("GoodName", legalPass);
+
+            ArrayList activeGames = bridge.getActiveGames();
+
+            Assert.IsFalse(bridge.joinGame("Good Game Name"));
+            Assert.IsFalse(bridge.joinGame("Good Game Name"));
+            Assert.IsFalse(bridge.joinGame("Good Game Name"));
+            Assert.IsFalse(bridge.joinGame("Good Game Name"));
+            Assert.IsFalse(bridge.joinGame("Good Game Name"));
+
+            bridge.deleteUser(legalUserName);
+            bridge.deleteUser("GoodName");
+            bridge.deleteUser("AnotherGoodName");
+        }
+
+        [TestMethod]
+        public void TestJoinExistingGame_Bad_IllegalGame()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsTrue(bridge.joinGame(""));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+
+
+
+        [TestMethod]
+        public void TestSpectateExistingGame_Good()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.register("GoodName", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 6);
+            bridge.logOut(legalUserName);
+
+            bridge.login("GoodName", legalPass);
+
+            ArrayList activeGames = bridge.getAllActiveGames();
+
+            Assert.IsTrue(bridge.SpectateGame(activeGames[0]));
+
+            bridge.deleteUser(legalUserName);
+            bridge.deleteUser("GoodName");
+        }
+
+        [TestMethod]
+        public void TestSpectateExistingGame_Sad_IllegalGame()
+        {
+            bridge.register(legalUserName, legalPass);
+   
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsFalse(bridge.SpectateGame("gg12"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestJoinExistingGame_Bad_IllegalChecters()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsFalse(bridge.SpectateGame("Illegal)@#$%Game!@#$Name"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestLeaveGame_Good()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 6);
+
+            Assert.IsTrue(bridge.leaveGame("Good Game Name"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestReplayGame_Good()//TODO:::how to create a replay??
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+            ArrayList replayGames=bridge.getAllGamesReplay();
+
+            Assert.IsTrue(bridge.leaveGame("Good Game Name"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestSaveTurn_Good()//TODO:::how to create a game to save a turn??
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            Assert.IsTrue(bridge.leaveGame("Good Game Name"));
 
             bridge.deleteUser(legalUserName);
         }
