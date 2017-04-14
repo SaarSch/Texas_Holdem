@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using TexasHoldem.Game;
+using TexasHoldem;
 
 public class User
 {
     public string Username { get; set; }
     public string Password { get; set; }
     public string AvatarPath { get; set; }
-    public bool Online { get; set; }
+ //   public bool Online { get; set; }
     public List<string> Notifications { get; set; }
 
     private List<Player> players; //change to list of Games?

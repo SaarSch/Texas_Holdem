@@ -14,21 +14,9 @@ public class Logger
     public static readonly string errorPath = Directory.GetCurrentDirectory() + "\\errorLog.txt";
     public static readonly string actionPath = Directory.GetCurrentDirectory() + "\\actionLog.txt";
 
-    private static Logger instance;
     private Logger() { }
-    public static Logger Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new Logger();
-            }
-            return instance;
-        }
-    }
 
-    public void Log(Severity s, string msg)
+    public static void Log(Severity s, string msg)
     {
         if (msg == "")
         {
