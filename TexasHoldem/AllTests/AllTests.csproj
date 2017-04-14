@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53E77A7C-53C0-4759-A2E8-3BFB33CDD95F}</ProjectGuid>
+    <ProjectGuid>{4A33E535-0A15-4036-8628-BC31D7A73B64}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
+    <RootNamespace>AllTests</RootNamespace>
+    <AssemblyName>AllTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -48,13 +48,24 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcceptanceTests\AcceptanceTest1.cs" />
+    <Compile Include="UnitTests\GameCenter\GameCenterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests\DeckTests.cs" />
-    <Compile Include="UnitTests\UnitTest1.cs" />
+    <Compile Include="UnitTests\Loggers\TestLogger.cs" />
+    <Compile Include="UnitTests\Notifications\TestNotifier.cs" />
+    <Compile Include="UnitTests\Users\TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TexasHoldem\TexasHoldem.csproj">
+      <Project>{f37c86e4-baff-48e9-9428-14afc10f26dc}</Project>
+      <Name>TexasHoldem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AcceptanceTests\" />
+    <Folder Include="UnitTests\Game\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

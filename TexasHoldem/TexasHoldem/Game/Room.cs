@@ -117,7 +117,7 @@ class Room
         List<Card> hand = new List<Card>();
 
         List<Card> orderByValue = cards.OrderBy(card => card.value).ToList();
-       
+
         int boost = (int)Math.Pow(14, 6);
 
 
@@ -315,5 +315,3 @@ class Room
         return null;
     }
 }
-
-
