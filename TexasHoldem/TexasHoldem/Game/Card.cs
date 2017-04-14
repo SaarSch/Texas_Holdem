@@ -1,8 +1,37 @@
 ﻿using System;
 
-public class Card
+public enum CardType
 {
-	public Card()
-	{
-	}
+    Spades, //עלה
+    Hearts,//לב
+    Diamonds,// יהלום
+    Clubs, // תלתן
+}
+public class Card : IComparable
+{
+
+    public int value;
+    public CardType type;
+
+    public Card(int value, CardType type)
+    {
+        if (value < 1 || value > 13)
+        {
+            throw new Exception("illegal card");
+        }
+
+        this.value = value;
+        this.type = type;
+    }
+
+    public int CompareTo(object obj)
+    {
+        if (obj == null) return 1;
+        Card otherCard = obj as Card;
+        if (otherCard != null)
+            if (this.value.CompareTo(otherCard.value) == 0 && this.type.CompareTo(otherCard.type) == 0) return 0;
+            else return -1;
+        else return -1;
+
+    }
 }

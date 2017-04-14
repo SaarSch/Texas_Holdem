@@ -45,11 +45,12 @@
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
-    <Compile Include="Game\Room.cs" />
+    <Compile Include="Game\HandStrength.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Game\Room.cs" />
     <Compile Include="Users\User.cs" />
   </ItemGroup>
   <ItemGroup>
