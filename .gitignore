@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /TexasHoldem/TexasHoldem/Game
+/TexasHoldem/TexasHoldemTests
+/TexasHoldem/TexasHoldemTests/Properties/AssemblyInfo.cs

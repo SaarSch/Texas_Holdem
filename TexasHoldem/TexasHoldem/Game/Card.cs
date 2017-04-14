@@ -15,7 +15,7 @@ public class Card : IComparable
 
     public Card(int value, CardType type)
     {
-        if (value < 1 || value > 13)
+        if (value < 2 || value > 14)
         {
             throw new Exception("illegal card");
         }

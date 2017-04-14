@@ -8,17 +8,17 @@ public class Deck
 
         public Deck()
         {
-            for (int i = 1; i < 14; i++) // init deck
+            for (int i = 2; i < 15; i++) // init deck
             {
                 for (int j = 1; j < 5; j++)
                 {
-                    cards.Add(new Card(i, (CardType)j));
+                    cards.Add(new Card(i, (CardType)j-1));
                 }
             }
-         Shufful();
+        Shuffle();
         }
 
-        public void Shufful()
+        public void Shuffle()
         {
             Random rnd = new Random();
             for (var i = 0; i < cards.Count; i++)
@@ -45,14 +45,12 @@ public class Deck
         public Boolean Contains(int value, CardType type)
         {
            
-            for(int i = 0; i < 52; i++)
+            for(int i = 0; i < this.cards.Count; i++)
             {
                 if (cards[i].value == value && cards[i].type == type) return true;
             }
             return false;
    
         }
-
-
 	}
 
