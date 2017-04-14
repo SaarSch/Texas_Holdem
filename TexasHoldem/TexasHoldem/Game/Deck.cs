@@ -15,10 +15,10 @@ public class Deck
                     cards.Add(new Card(i, (CardType)j));
                 }
             }
-            ShuffulDeck();
+         Shufful();
         }
 
-        public void ShuffulDeck()
+        public void Shufful()
         {
             Random rnd = new Random();
             for (var i = 0; i < cards.Count; i++)
@@ -27,7 +27,7 @@ public class Deck
             }
         }
 
-        public static void Swap(List<Card> list, int i, int j)
+        private void Swap(List<Card> list, int i, int j)
         {
             var temp = list[i];
             list[i] = list[j];

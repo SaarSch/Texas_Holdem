@@ -8,7 +8,7 @@ public class Player
         public int chipsAmount;
         public int currentBet = 0;
         public Boolean folded =false;
-        public HandStrongness strongestHand;
+        public HandStrength strongestHand;
         public User user;
 
 
@@ -26,7 +26,7 @@ public class Player
 
         public int CurrentBet { get => currentBet; set => currentBet = value; }
 
-        public void setCards(Card first, Card second)
+        public void SetCards(Card first, Card second)
         {
             if (first == null || second == null) throw new Exception("can't put null cards");
             hand[0] = first;

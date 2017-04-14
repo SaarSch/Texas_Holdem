@@ -109,7 +109,7 @@ class Room
         foreach (Player p in winners) p.chipsAmount += ChipsForPlayer;
     }
 
-    public HandStrongness Best5CardsCalculator(List<Card> cards)
+    public HandStrength Best5CardsCalculator(List<Card> cards)
     {
 
         int handValue = 0;
@@ -249,7 +249,7 @@ class Room
             hand.AddRange(orderByValue.GetRange(2, 5));
             handValue = CalculateHandValue(hand, 0);
         }
-        return new HandStrongness(handValue, handRank, hand);
+        return new HandStrength(handValue, handRank, hand);
     }
 
     private int CalculateHandValue(List<Card> hand, int boost)
