@@ -15,13 +15,13 @@ namespace TexasHoldem
             Console.ReadLine();
         }
 
-        // fields
+        // Implementation according to the Singleton Pattern
         private static GameCenter Instance = null;
-        private List<Pair<ProxyUser,bool>> Users;
+        private List<Pair<User,bool>> Users;
 
         public GameCenter()
         {
-            Users = new List<Pair<ProxyUser, bool>>();
+            Users = new List<Pair<User, bool>>();
         }
 
         public static GameCenter GetGameCenter()
@@ -43,6 +43,7 @@ namespace TexasHoldem
 
             if (password.Length > 12 || password.Length < 8)
             {
+                Logger.Log(Severity.Error, "ERROR in Register: Illegal password! Length must be between 8 and 12.");
                 throw new Exception("Illegal password! Length must be between 8 and 12.");
             }
 
@@ -50,6 +51,7 @@ namespace TexasHoldem
             {
                 if (password[i] == ' ')
                 {
+                    Logger.Log(Severity.Error, "ERROR in Register: Illegal password! Space is not allowed.");
                     throw new Exception("Illegal password! Space is not allowed.");
                 }
                 if (!Char.IsLetter(password[i]))
@@ -60,6 +62,7 @@ namespace TexasHoldem
 
             if (!hasNonLetterChar)
             {
+                Logger.Log(Severity.Error, "ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.");
                 throw new Exception("Illegal password! Must contain at least 1 non-letter character.");
             }
 
@@ -67,6 +70,7 @@ namespace TexasHoldem
 
             if (username.Length > 12 || username.Length < 8)
             {
+                Logger.Log(Severity.Error, "ERROR in Register: Illegal username!Length must be between 8 and 12.");
                 throw new Exception("Illegal username! Length must be between 8 and 12.");
             }
 
@@ -74,34 +78,38 @@ namespace TexasHoldem
             {
                 if (username[i] == ' ')
                 {
+                    Logger.Log(Severity.Error, "ERROR in Register: Illegal username! Space is not allowed.");
                     throw new Exception("Illegal username! Space is not allowed.");
                 }
             }
 
             for (i = 0; i < Users.Count; i++)
             {
-                if (Users[i].First.getUsername() == username)
+                if (Users[i].First.Username == username)
                 {
+                    Logger.Log(Severity.Error, "ERROR in Register: Username already exists!");
                     throw new Exception("Username already exists!");
                 }
             }
 
             // USERNAME & PASSWORD CONFIRMED
-            Users.Add(new Pair<ProxyUser, bool>(new ProxyUser(username, password), false));
+            Logger.Log(Severity.Action, "Registration completed successfully!");
+            Users.Add(new Pair<User, bool>(new User(username, password, ""), false));
         }
 
-        public ProxyUser Login(string username, string password)
+        public User Login(string username, string password)
         {
             int i;
-            ProxyUser user = null;
+            User user = null;
             for (i = 0; i < Users.Count; i++)
             {
-                if(Users[i].First.getUsername() == username)
+                if(Users[i].First.Username == username)
                 {
-                    if(Users[i].First.getPassword() == password)
+                    if(Users[i].First.Password == password)
                     {
                         if (Users[i].Second)
                         {
+                            Logger.Log(Severity.Error, "ERROR in Login: This user is already logged in.");
                             throw new Exception("This user is already logged in.");
                         }
                         else
@@ -112,6 +120,7 @@ namespace TexasHoldem
                     }
                     else
                     {
+                        Logger.Log(Severity.Error, "ERROR in Login: Wrong password!");
                         throw new Exception("Wrong password!");
                     }
                 }
@@ -119,7 +128,12 @@ namespace TexasHoldem
 
             if (user == null)
             {
+                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
                 throw new Exception("Username does not exist!");
+            }
+            else
+            {
+                Logger.Log(Severity.Action, username + " logged in successfully!");
             }
 
             return user;
@@ -133,10 +147,11 @@ namespace TexasHoldem
 
             for (i = 0; i < Users.Count; i++)
             {
-                if (Users[i].First.getUsername() == username)
+                if (Users[i].First.Username == username)
                 {
                     if (!Users[i].Second)
                     {
+                        Logger.Log(Severity.Action, "ERROR in Logout: User is already logged off.");
                         throw new Exception("User is already logged off.");
                     }
                     else
@@ -150,7 +165,12 @@ namespace TexasHoldem
 
             if (!exist)
             {
+                Logger.Log(Severity.Action, "ERROR in Logout: Username does not exist!");
                 throw new Exception("Username does not exist!");
+            }
+            else
+            {
+                Logger.Log(Severity.Action, username + " logged out successfully!");
             }
         }
     }
