@@ -15,6 +15,7 @@ namespace TexasHoldem
             Console.ReadLine();
         }
 
+        // fields
         private static GameCenter Instance = null;
         private List<Pair<ProxyUser,bool>> Users;
 
