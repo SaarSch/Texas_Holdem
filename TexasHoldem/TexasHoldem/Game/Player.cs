@@ -44,4 +44,3 @@ public class Player
 
         public void Fold() { folded = true; }
    }
-}
