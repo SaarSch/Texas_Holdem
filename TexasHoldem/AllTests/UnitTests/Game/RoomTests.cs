@@ -554,10 +554,10 @@ namespace AllTests.UnitTests.Game
         public void ChipsTest()
         {
 
-            Player p = new Player("shachar", 600, new User("tom", "123", "aaa"));
+            Player p = new Player("shachar1", 600, new User("tom", "123", "aaa"));
             Room r = new Room("aa", p);
-            Player p1 = new Player("shachar", 500, new User("tom", "123", "aaa"));
-            Player p2 = new Player("shachar", 300, new User("tom", "123", "aaa"));
+            Player p1 = new Player("shachar2", 500, new User("tom", "123", "aaa"));
+            Player p2 = new Player("shachar3", 300, new User("tom", "123", "aaa"));
             r.AddPlayer(p1);
             r.AddPlayer(p2);
             r.communityCards[0] = new Card(13, CardType.Diamonds);
@@ -578,9 +578,77 @@ namespace AllTests.UnitTests.Game
             p.SetBet(300);
             p1.SetBet(300);
             p2.SetBet(300);
+            Player temp1 = r.players[0];
+
             r.CalcWinnersChips();
 
             Assert.IsTrue(p.ChipsAmount==1200);
+        }
+
+        [TestMethod]
+        public void NextTurnTest()
+        {
+
+            Player p = new Player("shachar1", 770, new User("tom", "123", "aaa"));
+            Room r = new Room("aa", p);
+            Player p1 = new Player("shachar2", 700, new User("tom", "123", "aaa"));
+            Player p2 = new Player("shachar3", 7000 ,new User("tom", "123", "aaa"));
+            r.AddPlayer(p1);
+            r.AddPlayer(p2);
+            r.communityCards[0] = new Card(13, CardType.Diamonds);
+            r.communityCards[1] = new Card(11, CardType.Spades);
+            r.communityCards[2] = new Card(14, CardType.Hearts);
+            r.communityCards[3] = new Card(3, CardType.Clubs);
+            r.communityCards[4] = new Card(4, CardType.Diamonds);
+
+            p.Hand[0] = new Card(5, CardType.Diamonds);
+            p.Hand[1] = new Card(13, CardType.Spades);
+
+            p1.Hand[0] = new Card(2, CardType.Clubs);
+            p1.Hand[1] = new Card(13, CardType.Hearts);
+
+            p2.Hand[0] = new Card(7, CardType.Clubs);
+            p2.Hand[1] = new Card(7, CardType.Hearts);
+
+            p.SetBet(300);
+            p1.SetBet(300);
+            p2.SetBet(300);
+          
+
+            r.CalcWinnersChips();
+
+            Assert.IsTrue(r.players[0]==p1&&r.players[1]==p2&&r.players[2]==p);
+        }
+
+        [TestMethod]
+        public void SmallBigBlindTest()
+        {
+
+            Player p = new Player("shachar1", 770, new User("tom", "123", "aaa"));
+            Room r = new Room("aa", p);
+            Player p1 = new Player("shachar2", 700, new User("tom", "123", "aaa"));
+            Player p2 = new Player("shachar3", 7000, new User("tom", "123", "aaa"));
+            r.AddPlayer(p1);
+            r.AddPlayer(p2);
+            r.StartGame(200);
+
+
+            Assert.IsTrue(r.players[0].CurrentBet==0&& r.players[1].CurrentBet == 200&& r.players[2].CurrentBet == 400);
+        }
+
+        [TestMethod]
+        public void SmallBigBlind2PlayersTest()
+        {
+
+            Player p = new Player("shachar1", 770, new User("tom", "123", "aaa"));
+            Room r = new Room("aa", p);
+            Player p1 = new Player("shachar2", 700, new User("tom", "123", "aaa"));
+            Player p2 = new Player("shachar3", 7000, new User("tom", "123", "aaa"));
+            r.AddPlayer(p1);
+            r.StartGame(200);
+
+
+            Assert.IsTrue(r.players[0].CurrentBet == 200 && r.players[1].CurrentBet == 400);
         }
     }
 }

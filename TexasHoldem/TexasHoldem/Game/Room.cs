@@ -20,7 +20,7 @@ public enum HandRank
 public class Room
 {
 
-    public Queue<Player> players = new Queue<Player>(8);
+    public List<Player> players = new List<Player>(8);
     public Deck Deck = new Deck();
     public Card[] communityCards = new Card[5];
     public string name;
@@ -30,7 +30,7 @@ public class Room
         if (name == null) throw new Exception("illegal room name");
 
         if (creator == null) throw new Exception("illegal Player");
-        players.Enqueue(creator);
+        players.Add(creator);
         this.name = name;
     }
 
@@ -38,7 +38,7 @@ public class Room
     {
         if (p == null) throw new Exception("illegal Player");
         if (players.Count > 7) throw new Exception("room is full");
-        players.Enqueue(p);
+        players.Add(p);
     }
 
 
@@ -85,6 +85,30 @@ public class Room
         communityCards[4] = Deck.Draw();
     }
 
+    public void StartGame(int smallBlind)
+    {
+        if (players.Count < 2) throw new Exception("cant play with less then 2 players");
+        if(players.Count>1 && players[0].Hand[0]!=null) throw new Exception("game alerady started");
+        int minChip = players[0].ChipsAmount;
+        foreach (Player p in players) if (p.ChipsAmount < minChip) minChip = p.ChipsAmount;
+        if (smallBlind*2 > minChip) throw new Exception("there is a player with less then big blind");
+
+        Deck = new Deck();
+
+        // 0 = dealer 1=small blind 2=big blind
+        if (players.Count == 2)
+        {
+            players[0].SetBet(smallBlind);
+            players[1].SetBet(2 * smallBlind);
+        }
+        else
+        {
+            players[1].SetBet(smallBlind);
+            players[2].SetBet(2 * smallBlind);
+        }
+        DealTwo();
+    }
+
     public List<Player> Winners()
     {
         if (communityCards[4] == null) throw new Exception("game is not over");
@@ -110,6 +134,30 @@ public class Room
         foreach (Player p in players) totalChips += p.CurrentBet;
         int ChipsForPlayer = totalChips / winners.Count;
         foreach (Player p in winners) p.ChipsAmount += ChipsForPlayer;
+
+        CleanGame();
+        NextTurn();
+    }
+
+    public void NotifyRoom(string message)
+    {
+        if (message is null) throw new Exception("cant send null message");
+        List<User> roomUsers = new List<User>();
+
+        foreach (Player p in players) roomUsers.Add(p.User);
+        Notifier.Instance.Notify(roomUsers, message);
+    }
+
+    private void CleanGame()
+    {
+        foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; }
+        for (int i = 0; i < 5; i++) communityCards[i] = null;
+    }
+    private void NextTurn()
+    {
+        Player zero = players[0];
+        for(int i=0; i < players.Count-1; i++) players[i] = players[i + 1];
+        players[players.Count-1] = zero;
     }
 
     public HandStrength HandCalculator(List<Card> cards)
