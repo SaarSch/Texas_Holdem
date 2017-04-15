@@ -40,7 +40,7 @@ public class Room
         }
         players.Add(creator);
         this.name = name;
-        // rank= user.rank;
+        rank = creator.User.Rank;
         Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+rank );
     }
 
@@ -56,6 +56,12 @@ public class Room
             Logger.Log(Severity.Exception, "room is full, cant add the player");
             throw new Exception("room is full");
         }
+        if (p.User.Rank<rank)
+        {
+            Logger.Log(Severity.Error, "player rank is too low to join");
+            throw new Exception("player rank is too low to join");
+        }
+
         players.Add(p);
         Logger.Log(Severity.Action, "new player joined the room: room name=" + name +"player name="+p.Name);
     }
@@ -205,6 +211,15 @@ public class Room
     {
         List<Player> winners = Winners();
         Logger.Log(Severity.Action, "the winners in room" + name +"is"+PlayersToString(winners));
+        foreach(Player p in winners)
+        {
+            p.User.wins++;
+            if (p.User.wins == 10)
+            {
+                p.User.Rank++;
+                p.User.wins = 0;   
+            }
+        }
         int totalChips = 0;
         foreach (Player p in players) totalChips += p.CurrentBet;
         int ChipsForPlayer = totalChips / winners.Count;
