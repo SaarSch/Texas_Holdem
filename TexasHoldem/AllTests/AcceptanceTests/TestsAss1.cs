@@ -299,7 +299,7 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            ArrayList activeGames = bridge.getActiveGames();
+            ArrayList activeGames = bridge.getActiveGames(bridge.getRank("GoodName"));
 
             Assert.IsTrue(bridge.joinGame(activeGames[0]));
 
@@ -318,8 +318,6 @@ namespace AllTests.AcceptanceTests
             bridge.logOut(legalUserName);
 
             bridge.login("GoodName", legalPass);
-
-            ArrayList activeGames = bridge.getActiveGames();
 
             Assert.IsFalse(bridge.joinGame("gg12"));
 
@@ -343,8 +341,6 @@ namespace AllTests.AcceptanceTests
             bridge.logOut("AnotherGoodName");
 
             bridge.login("GoodName", legalPass);
-
-            ArrayList activeGames = bridge.getActiveGames();
 
             Assert.IsFalse(bridge.joinGame("Good Game Name"));
             Assert.IsFalse(bridge.joinGame("Good Game Name"));
@@ -383,7 +379,7 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            ArrayList activeGames = bridge.getAllActiveGames();
+            ArrayList activeGames = bridge.getActiveGames();
 
             Assert.IsTrue(bridge.SpectateGame(activeGames[0]));
 
@@ -448,6 +444,68 @@ namespace AllTests.AcceptanceTests
 
             bridge.deleteUser(legalUserName);
         }
+
+        [TestMethod]
+        public void TestFindGames_Good()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 6);
+            bridge.createNewGame("Game Not In Rank", 6);
+            bridge.setRank("Game Not In Rank", 10);
+
+            ArrayList activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
+
+            Assert.IsTrue(activeGames.Contains("Good Game Name"));
+            Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestFindGames_Sad_NoGamesFound()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            ArrayList activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
+
+            Assert.IsTrue(activeGames.Count==0);
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestListActiveGames_Good()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+            bridge.createNewGame("Good Game Name", 6);
+            bridge.createNewGame("Game Not In Rank", 6);
+            bridge.setRank("Game Not In Rank", 10);
+
+            ArrayList activeGames = bridge.getActiveGames();
+
+            Assert.IsTrue(activeGames.Contains("Good Game Name"));
+            Assert.IsTrue(activeGames.Contains("Game Not In Rank"));
+
+            bridge.deleteUser(legalUserName);
+        }
+
+        [TestMethod]
+        public void TestListActiveGames_Sad_NoGamesFound()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            ArrayList activeGames = bridge.getActiveGames();
+
+            Assert.IsTrue(activeGames.Count == 0);
+
+            bridge.deleteUser(legalUserName);
+        }
+
+
 
     }
 

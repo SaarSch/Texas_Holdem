@@ -15,11 +15,13 @@ namespace TexasHoldem.Bridges
         bool editAvatar(string path);
         bool createNewGame(string gameName, int numOfPlayers);
         bool isGameExist(string gameName);
-        ArrayList getActiveGames();
+        ArrayList getActiveGames(int rank);
         bool joinGame(object activeGame);
-        ArrayList getAllActiveGames();
+        ArrayList getActiveGames();
         bool SpectateGame(object activeGame);
         bool leaveGame(string goodGameName);
         ArrayList getAllGamesReplay();
+        int getRank(string userName);
+        void setRank(string gameName, int rank);
     }
 }

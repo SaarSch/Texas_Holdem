@@ -7,97 +7,123 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Bridges
 {
-    public class ProxyBridge : IBridge 
+    public class ProxyBridge : IBridge
     {
-        public bool register(string s1, string s2)
+        private IBridge real;
+        public ProxyBridge()
         {
-           return true;
+            real = null;
+        }
+        public bool register(string userName, string pass)
+        {
+            return  real==null || real.register(userName, pass);
+            
         }
 
-        public bool isUserExist(string s)
+        public bool isUserExist(string userName)
         {
-            return true;
+            return real == null || real.isUserExist(userName);
         }
 
-        public bool deleteUser(string s)
+        public bool deleteUser(string userName)
         {
-            return true;
+            return real == null || real.deleteUser(userName);
         }
 
-        public bool login(string s1, string s2)
+        public bool login(string userName, string pass)
         {
-            return true;
+            return real == null || real.login(userName, pass);
         }
 
-        public bool isLoggedIn(string s)
+        public bool isLoggedIn(string userName)
         {
-            return true;
+            return real == null || real.isLoggedIn(userName);
         }
 
-        public bool logOut(string s)
+        public bool logOut(string userName)
         {
-            return true;
+            return real == null || real.logOut(userName);
         }
 
-        public bool editUserName(string s)
+        public bool editUserName(string userName)
         {
-            return true;
+            return real == null || real.editUserName(userName);
         }
 
-        public bool editPassword(string s)
+        public bool editPassword(string pass)
         {
-            return true;
+            return real == null || real.editPassword(pass);
         }
 
-        public bool editAvatar(string s)
+        public bool editAvatar(string path)
         {
-            return true;
+            return real == null || real.editAvatar(path);
         }
 
         public bool createNewGame(string gameName, int numOfPlayers)
         {
-            return true;
+            return real == null || real.createNewGame(gameName,numOfPlayers);
         }
 
         public bool isGameExist(string gameName)
         {
-            return true;
+            return real == null || real.isGameExist(gameName);
+        }
+
+        public ArrayList getActiveGames(int rank)
+        {
+            ArrayList s = new ArrayList();
+            if (real != null)
+                s = real.getActiveGames(rank);
+            else
+                s.Add("Good Game Name");
+            return s;
         }
 
         public ArrayList getActiveGames()
         {
             ArrayList s = new ArrayList();
-            s.Add("Good Game Name");
+
+            if (real != null)
+                s = real.getActiveGames();
+            else
+                s.Add("Good Game Name");
             return s;
         }
 
         public bool joinGame(object activeGame)
         {
-            return true;
-        }
-
-        public ArrayList getAllActiveGames()
-        {
-            ArrayList s = new ArrayList();
-            s.Add("Good Game Name");
-            return s;
+            return real == null || real.joinGame(activeGame);
         }
 
         public bool SpectateGame(object activeGame)
         {
-            return true;
+            return real == null || real.SpectateGame(activeGame);
         }
 
         public bool leaveGame(string goodGameName)
         {
-            return true;
+            return real == null || real.leaveGame(goodGameName);
         }
 
         public ArrayList getAllGamesReplay()
         {
             ArrayList s = new ArrayList();
-            s.Add("Good Game Name");
+            if (real != null)
+                s = real.getAllGamesReplay();
+            else
+                s.Add("Good Game Name");
             return s;
+        }
+
+        public int getRank(string userName)
+        {
+            return real?.getRank(userName) ?? 0;
+        }
+
+        public void setRank(string gameName, int rank)
+        {
+            real?.setRank(gameName,rank);
         }
     }
 }
