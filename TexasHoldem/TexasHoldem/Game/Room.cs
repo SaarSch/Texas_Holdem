@@ -17,10 +17,10 @@ public enum HandRank
         HIGH_CARD
     }
 
-class Room
+public class Room
 {
 
-    public Queue<Player> players = new Queue<Player>(8);
+    public List<Player> players = new List<Player>(8);
     public Deck Deck = new Deck();
     public Card[] communityCards = new Card[5];
     public string name;
@@ -30,7 +30,7 @@ class Room
         if (name == null) throw new Exception("illegal room name");
 
         if (creator == null) throw new Exception("illegal Player");
-        players.Enqueue(creator);
+        players.Add(creator);
         this.name = name;
     }
 
@@ -38,7 +38,7 @@ class Room
     {
         if (p == null) throw new Exception("illegal Player");
         if (players.Count > 7) throw new Exception("room is full");
-        players.Enqueue(p);
+        players.Add(p);
     }
 
 
@@ -46,8 +46,8 @@ class Room
     {
         foreach (Player p in players)
         {
-            p.hand[1] = Deck.Draw();
-            p.hand[2] = Deck.Draw();
+            p.Hand[0] = Deck.Draw();
+            p.Hand[1] = Deck.Draw();
         }
     }
 
@@ -56,7 +56,7 @@ class Room
         bool ans = true;
         foreach (Player p in players)
         {
-            if (!p.folded) return p.folded;
+            if (!p.Folded) return p.Folded;
         }
         return ans;
     }
@@ -85,18 +85,45 @@ class Room
         communityCards[4] = Deck.Draw();
     }
 
+    public void StartGame(int smallBlind)
+    {
+        if (players.Count < 2) throw new Exception("cant play with less then 2 players");
+        if(players.Count>1 && players[0].Hand[0]!=null) throw new Exception("game alerady started");
+        int minChip = players[0].ChipsAmount;
+        foreach (Player p in players) if (p.ChipsAmount < minChip) minChip = p.ChipsAmount;
+        if (smallBlind*2 > minChip) throw new Exception("there is a player with less then big blind");
+
+        Deck = new Deck();
+
+        // 0 = dealer 1=small blind 2=big blind
+        if (players.Count == 2)
+        {
+            players[0].SetBet(smallBlind);
+            players[1].SetBet(2 * smallBlind);
+        }
+        else
+        {
+            players[1].SetBet(smallBlind);
+            players[2].SetBet(2 * smallBlind);
+        }
+        DealTwo();
+    }
+
     public List<Player> Winners()
     {
+        if (communityCards[4] == null) throw new Exception("game is not over");
+        if (players.Count < 2) throw new Exception("cant play with less then 2 players");
+        
         List<Player> winners = new List<Player>();
         foreach (Player p in players)
         {
-            List<Card> hand = p.hand.ToList();
+            List<Card> hand = p.Hand.ToList();
             hand.AddRange(communityCards.ToList());
-            p.strongestHand = Best5CardsCalculator(hand);
+            p.StrongestHand = HandCalculator(hand);
         }
         int maxHand = 0;
-        foreach (Player p in players)  if (p.strongestHand.handStrongessValue > maxHand) maxHand = p.strongestHand.handStrongessValue;
-        foreach (Player p in players) if (p.strongestHand.handStrongessValue == maxHand) winners.Add(p);
+        foreach (Player p in players)  if (p.StrongestHand.handStrongessValue > maxHand) maxHand = p.StrongestHand.handStrongessValue;
+        foreach (Player p in players) if (p.StrongestHand.handStrongessValue == maxHand) winners.Add(p);
         return winners;
     }
 
@@ -104,12 +131,36 @@ class Room
     {
         List<Player> winners = Winners();
         int totalChips = 0;
-        foreach (Player p in players) totalChips += p.currentBet;
+        foreach (Player p in players) totalChips += p.CurrentBet;
         int ChipsForPlayer = totalChips / winners.Count;
-        foreach (Player p in winners) p.chipsAmount += ChipsForPlayer;
+        foreach (Player p in winners) p.ChipsAmount += ChipsForPlayer;
+
+        CleanGame();
+        NextTurn();
     }
 
-    public HandStrength Best5CardsCalculator(List<Card> cards)
+    public void NotifyRoom(string message)
+    {
+        if (message is null) throw new Exception("cant send null message");
+        List<User> roomUsers = new List<User>();
+
+        foreach (Player p in players) roomUsers.Add(p.User);
+        Notifier.Instance.Notify(roomUsers, message);
+    }
+
+    private void CleanGame()
+    {
+        foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; }
+        for (int i = 0; i < 5; i++) communityCards[i] = null;
+    }
+    private void NextTurn()
+    {
+        Player zero = players[0];
+        for(int i=0; i < players.Count-1; i++) players[i] = players[i + 1];
+        players[players.Count-1] = zero;
+    }
+
+    public HandStrength HandCalculator(List<Card> cards)
     {
 
         int handValue = 0;
@@ -118,7 +169,7 @@ class Room
 
         List<Card> orderByValue = cards.OrderBy(card => card.value).ToList();
 
-        int boost = (int)Math.Pow(14, 6);
+        int boost = (int)Math.Pow(10, 6);
 
 
         //Look for simillar cards:
@@ -159,27 +210,23 @@ class Room
 
         //Look for ascending
         List<Card> ascending = new List<Card>();
-        int k = 0;
-        while (k < 6)
+        for (int j = 0; j < 6; j++)
         {
-            if (orderByValue.ElementAt(k).value + 1 == orderByValue.ElementAt(k + 1).value)
+            
+            for (int q = j + 1; q < 7; q++)
             {
-                if (ascending.Count == 0 && k < 5 &&
-                     orderByValue.ElementAt(k + 1).value + 1 == orderByValue.ElementAt(k + 2).value)
+                List<Card> TempOrderd = new List<Card>();
+                TempOrderd.AddRange(orderByValue);
+                TempOrderd.RemoveAt(q);
+                TempOrderd.RemoveAt(j);
+               
+                int tempAscending = 0;
+                for (int m = 0; m < 4; m++)
                 {
-                    ascending.AddRange(orderByValue.GetRange(k, 3));
-                    k = k + 2;
-                    continue;
+                    if (TempOrderd[m].value + 1 == TempOrderd[m + 1].value) tempAscending++;
                 }
-                else
-                    ascending.Add(orderByValue.ElementAt(k + 1));
+                if (tempAscending == 4 && SumListCard(ascending) < SumListCard(TempOrderd)) ascending = TempOrderd;
             }
-            else
-            {
-                if (ascending.Count >= 5) break;
-                ascending.Clear();
-            }
-            k++;
         }
 
         //Decide Hand
@@ -257,7 +304,7 @@ class Room
         int ans = boost;
         for (int i = 0; i < 5; i++)
         {
-            ans = ans + (int)Math.Pow(14, i) * hand.ElementAt(i).value;
+            ans = ans + (int)Math.Pow(10, i) * hand.ElementAt(i).value;
         }
         return ans;
     }
@@ -313,5 +360,12 @@ class Room
         ascending.RemoveAll(card => similarShape.Contains(card));
         if (ascending.Count == 0) return hand;
         return null;
+    }
+
+    private int SumListCard(List<Card> cards)
+    {
+        int sum = 0;
+        for (int i = 0; i < cards.Count;i++) sum += cards[i].value;
+        return sum;
     }
 }
