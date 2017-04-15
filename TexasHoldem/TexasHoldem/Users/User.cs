@@ -9,12 +9,16 @@ public class User
     public string AvatarPath { get; set; }
  //   public bool Online { get; set; }
     public List<string> Notifications { get; set; }
+    public int Rank;
+    public int wins;
 
     private List<Player> players; //change to list of Games?
     private List<Room> rooms; //do we need this?
 
     public User(string username, string password, string avatarPath)
     {
+        wins = 0;
+        Rank = 0;
         Username = username;
         Password = password;
         AvatarPath = avatarPath;

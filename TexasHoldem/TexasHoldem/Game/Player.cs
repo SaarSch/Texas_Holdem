@@ -15,27 +15,56 @@ public class Player
 
     public Player(string name, int chips ,User user)
         {
-        if (chips < 0) throw new Exception("illegal amount of chips");
-        Name = name ?? throw new Exception("illegal player name");
-        User = user ?? throw new Exception("illegal User");
-        ChipsAmount = chips;
-        }
-
-        public void SetCards(Card first, Card second)
+        if (chips < 0)
         {
-            if (first == null || second == null) throw new Exception("can't put null cards");
-            Hand[0] = first;
-            Hand[1] = second;
+            Logger.Log(Severity.Error, "cant create player With out chips");
+            throw new Exception("illegal amount of chips");
         }
+        if (name == null)
+        {
+            Logger.Log(Severity.Exception, "cant create player with null name");
+            throw new Exception("illegal player name");
+        }
+        if(user == null)
+        {
+            Logger.Log(Severity.Exception, "cant create player with null User");
+            throw new Exception("illegal User");
+        }
+        this.User = user;
+        this.Name = name;
+        ChipsAmount = chips;
+        Logger.Log(Severity.Action, "new player created for user:"+User.Username);
+    }
+
+    public void SetCards(Card first, Card second)
+    {
+        if (first == null || second == null)
+        {
+            Logger.Log(Severity.Exception, "cant put null cards int player hand");
+            throw new Exception("can't put null cards");
+        }
+        Hand[0] = first;
+        Hand[1] = second;
+        Logger.Log(Severity.Action,"user: " +User.Username+" player: "+Name+" got 2 cards: " +first.value+", "+second.value);
+    }
 
         public void SetBet(int amount)
         {
-            if (amount < 0 || amount > ChipsAmount) throw new Exception("illegael bet");
+        if (amount < 0 || amount > ChipsAmount)
+        {
+            Logger.Log(Severity.Error, "bet must be greater then zero and less-equal to player chips");
+            throw new Exception("illegael bet");
+        }
             CurrentBet +=amount;
             ChipsAmount -= amount;
-        }
+        Logger.Log(Severity.Action, "User: " + User.Username + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
+    }
 
         public void ClearBet() { CurrentBet = 0; }
 
         public void Fold() { Folded = true; }
+
+        public void UndoFold() { Folded = false; }
+
+        public string ToString() { return "User name: " + User.Username + " Player name: " + Name+" Chip amount:"+ChipsAmount; }
    }

@@ -24,21 +24,46 @@ public class Room
     public Deck Deck = new Deck();
     public Card[] communityCards = new Card[5];
     public string name;
+    public int rank;
 
     public Room(String name, Player creator)
     {
-        if (name == null) throw new Exception("illegal room name");
-
-        if (creator == null) throw new Exception("illegal Player");
+        if (name == null)
+        {
+            Logger.Log(Severity.Exception, "room name cant be null");
+            throw new Exception("illegal room name");
+        }
+        if (creator == null)
+        {
+            Logger.Log(Severity.Exception, "creator palyer cant be null");
+            throw new Exception("illegal Player");
+        }
         players.Add(creator);
         this.name = name;
+        rank = creator.User.Rank;
+        Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+rank );
     }
 
     public void AddPlayer(Player p)
     {
-        if (p == null) throw new Exception("illegal Player");
-        if (players.Count > 7) throw new Exception("room is full");
+        if (p == null)
+        {
+            Logger.Log(Severity.Exception, "cant add a null player to the room");
+            throw new Exception("illegal Player");
+        }
+        if (players.Count > 7)
+        {
+            Logger.Log(Severity.Exception, "room is full, cant add the player");
+            throw new Exception("room is full");
+        }
+        if (p.User.Rank<rank)
+        {
+            Logger.Log(Severity.Error, "player rank is too low to join");
+            throw new Exception("player rank is too low to join");
+        }
+
         players.Add(p);
+        Logger.Log(Severity.Action, "new player joined the room: room name=" + name +"player name="+p.Name);
     }
 
 
@@ -46,8 +71,7 @@ public class Room
     {
         foreach (Player p in players)
         {
-            p.Hand[0] = Deck.Draw();
-            p.Hand[1] = Deck.Draw();
+            p.SetCards(Deck.Draw(), Deck.Draw());
         }
     }
 
@@ -64,45 +88,86 @@ public class Room
 
     public void DealCommunityFirst()
     {
-        if (AllFold()) throw new Exception("all players folded");
-        for (int i = 0; i < 5; i++) if (communityCards[i] != null) throw new Exception("Already distributed community cards");
+        if (AllFold())
+        {
+            Logger.Log(Severity.Error, "all players folded no need to deal community cards");
+            throw new Exception("all players folded");
+        }
+        for (int i = 0; i < 5; i++) if (communityCards[i] != null)
+            {
+                Logger.Log(Severity.Error, "Already distributed first 3 community cards");
+                throw new Exception("Already distributed community cards");
+            }
         communityCards[0] = Deck.Draw();
         communityCards[1] = Deck.Draw();
         communityCards[2] = Deck.Draw();
+        Logger.Log(Severity.Action, "3 commuinty cards deald room name=" + name +"community cards:" +communityCards[0].ToString()+ communityCards[1].ToString()+ communityCards[2].ToString());
     }
 
     public void DealCommunitySecond()
     {
-        if (AllFold()) throw new Exception("all players folded");
-        for (int i = 3; i < 5; i++) if (communityCards[i] != null) throw new Exception("Already distributed community cards");
+        if (AllFold())
+        {
+            Logger.Log(Severity.Error, "all players folded no need to deal community cards");
+            throw new Exception("all players folded");
+        }
+        for (int i = 3; i < 5; i++) if (communityCards[i] != null)
+            {
+                Logger.Log(Severity.Error, "Already distributed 4 community cards");
+                throw new Exception("Already distributed community cards");
+            }
         communityCards[3] = Deck.Draw();
+        Logger.Log(Severity.Action, "1 commuinty cards deald room name=" + name + "community cards:"+ communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString()+ communityCards[3].ToString());
     }
 
     public void DealCommunityThird()
     {
-        if (AllFold()) throw new Exception("all players folded");
-        if (communityCards[4] != null) throw new Exception("Already distributed community cards");
+        if (AllFold())
+        {
+            Logger.Log(Severity.Error, "all players folded no need to deal community cards");
+            throw new Exception("all players folded");
+        }
+        if (communityCards[4] != null)
+        {
+            Logger.Log(Severity.Error, "Already distributed 5 community cards");
+            throw new Exception("Already distributed community cards");
+        }
         communityCards[4] = Deck.Draw();
+        Logger.Log(Severity.Action, "1 commuinty cards deald room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString() + communityCards[3].ToString()+ communityCards[4].ToString());
     }
 
     public void StartGame(int smallBlind)
     {
-        if (players.Count < 2) throw new Exception("cant play with less then 2 players");
-        if(players.Count>1 && players[0].Hand[0]!=null) throw new Exception("game alerady started");
+        if (players.Count < 2)
+        {
+            Logger.Log(Severity.Error, "cant play with less the 2 players");
+            throw new Exception("cant play with less then 2 players");
+        }
+        if (players.Count > 1 && players[0].Hand[0] != null)
+        {
+            Logger.Log(Severity.Exception, "game is already started");
+            throw new Exception("game alerady started");
+        }
         int minChip = players[0].ChipsAmount;
         foreach (Player p in players) if (p.ChipsAmount < minChip) minChip = p.ChipsAmount;
-        if (smallBlind*2 > minChip) throw new Exception("there is a player with less then big blind");
+        if (smallBlind * 2 > minChip)
+        {
+            Logger.Log(Severity.Error, "there is players with chip amount less then big blind");
+            throw new Exception("there is a player with less then big blind");
+        }
 
         Deck = new Deck();
 
         // 0 = dealer 1=small blind 2=big blind
         if (players.Count == 2)
         {
+            Logger.Log(Severity.Action, "new game started in room " + name + " dealer and small blind-" + players[0].ToString()+ "big blind-"+players[1]);
             players[0].SetBet(smallBlind);
             players[1].SetBet(2 * smallBlind);
         }
         else
         {
+            Logger.Log(Severity.Action, "new game started in room"+name+" dealer" + players[0].ToString()+ "small blind-" + players[1].ToString() + "big blind-" + players[2] +PlayersToString(players));
             players[1].SetBet(smallBlind);
             players[2].SetBet(2 * smallBlind);
         }
@@ -111,8 +176,16 @@ public class Room
 
     public List<Player> Winners()
     {
-        if (communityCards[4] == null) throw new Exception("game is not over");
-        if (players.Count < 2) throw new Exception("cant play with less then 2 players");
+        if (communityCards[4] == null)
+        {
+            Logger.Log(Severity.Exception, "game is not over");
+            throw new Exception("game is not over");
+        }
+        if (players.Count < 2)
+        {
+            Logger.Log(Severity.Error, "cant play with less the 2 players");
+            throw new Exception("cant play with less then 2 players");
+        }
         
         List<Player> winners = new List<Player>();
         foreach (Player p in players)
@@ -127,13 +200,31 @@ public class Room
         return winners;
     }
 
+    private string PlayersToString(List<Player> players)
+    {
+        string playersNames = "Players:";
+        foreach (Player p in players) playersNames += p.ToString();
+        return playersNames;
+    }
+
     public void CalcWinnersChips()
     {
         List<Player> winners = Winners();
+        Logger.Log(Severity.Action, "the winners in room" + name +"is"+PlayersToString(winners));
+        foreach(Player p in winners)
+        {
+            p.User.wins++;
+            if (p.User.wins == 10)
+            {
+                p.User.Rank++;
+                p.User.wins = 0;   
+            }
+        }
         int totalChips = 0;
         foreach (Player p in players) totalChips += p.CurrentBet;
         int ChipsForPlayer = totalChips / winners.Count;
         foreach (Player p in winners) p.ChipsAmount += ChipsForPlayer;
+        Logger.Log(Severity.Action, "cuurent status in room" + name + "is" + PlayersToString(players));
 
         CleanGame();
         NextTurn();
@@ -141,7 +232,11 @@ public class Room
 
     public void NotifyRoom(string message)
     {
-        if (message is null) throw new Exception("cant send null message");
+        if (message is null)
+        {
+            Logger.Log(Severity.Error, "cant send null mesege");
+            throw new Exception("cant send null message");
+        }
         List<User> roomUsers = new List<User>();
 
         foreach (Player p in players) roomUsers.Add(p.User);
@@ -150,7 +245,7 @@ public class Room
 
     private void CleanGame()
     {
-        foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; }
+        foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; p.UndoFold();}
         for (int i = 0; i < 5; i++) communityCards[i] = null;
     }
     private void NextTurn()
