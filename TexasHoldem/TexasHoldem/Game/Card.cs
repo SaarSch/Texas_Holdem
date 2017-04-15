@@ -35,4 +35,9 @@ public class Card : IComparable
         else return -1;
 
     }
+
+    public string ToString()
+    {
+        return " (" + value + "," + type + ")";
+    }
 }
