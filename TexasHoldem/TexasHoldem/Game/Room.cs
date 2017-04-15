@@ -210,13 +210,11 @@ public class Room
 
         //Look for ascending
         List<Card> ascending = new List<Card>();
-        int ttttt = 0;
         for (int j = 0; j < 6; j++)
         {
             
             for (int q = j + 1; q < 7; q++)
             {
-                ttttt++;
                 List<Card> TempOrderd = new List<Card>();
                 TempOrderd.AddRange(orderByValue);
                 TempOrderd.RemoveAt(q);
