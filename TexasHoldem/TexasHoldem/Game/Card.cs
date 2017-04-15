@@ -17,7 +17,8 @@ public class Card : IComparable
     {
         if (value < 2 || value > 14)
         {
-            throw new Exception("illegal card");
+            Logger.Log(Severity.Error, "card value is illegal");
+            throw new Exception("card value is illegal");
         }
 
         this.value = value;

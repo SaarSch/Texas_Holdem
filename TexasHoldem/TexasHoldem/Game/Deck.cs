@@ -36,7 +36,11 @@ public class Deck
 
         public Card Draw()
         {
-            if (cards.Count < 1) throw new Exception("Deck is empty");
+        if (cards.Count < 1)
+        {
+            Logger.Log(Severity.Exception, "Deck is empty cant draw card");
+            throw new Exception("Deck is empty");
+        }
             Card Temp = cards[0];
             cards.RemoveAt(0);
             return Temp;
