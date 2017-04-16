@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TexasHoldem;
 
 public class User
@@ -114,8 +115,18 @@ public class User
 
     public void SetAvatar(string avatarPath)
     {
-        // TODO: real set, with type checking
-        this.avatarPath = avatarPath;
+        if (avatarPath.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1
+            || (!avatarPath.EndsWith(".png") && !avatarPath.EndsWith(".jpg") && !avatarPath.EndsWith(".jpeg"))
+            || avatarPath.Contains("virus")
+            ||  avatarPath.Contains("VIRUS")) // TODO: add more?
+        {
+            Logger.Log(Severity.Error, "ERROR: Illegal avatar file! Must be a legal image");
+            throw new Exception("Illegal avatar file! Must be a legal image");
+        }
+        else
+        {
+            this.avatarPath = avatarPath;
+        }
     }
 
     public string GetAvatar()
@@ -125,8 +136,17 @@ public class User
 
     public void SetEmail(string email)
     {
-        // TODO: real set, with email validity check
-        this.email = email;
+        if (Regex.IsMatch(email, @"\A[a-z0-9]+([-._][a-z0-9]+)*@([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,4}\z")
+               && Regex.IsMatch(email, @"^(?=.{1,64}@.{4,64}$)(?=.{6,100}$).*"))
+        {
+            this.email = email;
+        }
+        else
+        {
+            Logger.Log(Severity.Error, "ERROR: Illegal email! must be in format: aaa@bbb.ccc");
+            throw new Exception("Illegal email! must be in format: aaa@bbb.ccc.");
+        }
+        
     }
 
     public string GetEmail()

@@ -15,8 +15,7 @@ namespace AllTests.AcceptanceTests
         [TestInitialize]
         public void Initialize()
         {
-            //bridge = new ProxyBridge();
-            bridge = new RealBridge();
+            bridge = new ProxyBridge();
         }
         [TestMethod]
         public void TestRegisterToTheSystem_Good() //legal userName and legal Pass
@@ -110,7 +109,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestLogOutToTheSystem_Good() //logout
+        public void TestLogOutFromTheSystem_Good() //logout
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -121,25 +120,25 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TesteditUsername_Good() 
+        public void TestEditUsername_Good() 
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsTrue(bridge.editUsername(legalUserName, legalPass, "thisIsEdited"));
+            Assert.IsTrue(bridge.editUsername(legalUserName, "thisIsEdited"));
             Assert.IsTrue(bridge.isUserExist("thisIsEdited"));
 
             bridge.deleteUser("thisIsEdited", legalPass);
         }
 
         [TestMethod]
-        public void TesteditUsername_Sad_UserNameExist() 
+        public void TestEditUsername_Sad_UserNameExist() 
         {
             bridge.register("existingName", legalPass);
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editUsername(legalUserName, legalPass, "existingName"));
+            Assert.IsFalse(bridge.editUsername(legalUserName, "existingName"));
             Assert.IsFalse(bridge.isLoggedIn("existingName", legalPass));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -147,24 +146,24 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TesteditUsername_Sad_IllegalUserName()
+        public void TestEditUsername_Sad_IllegalUserName()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editUsername(legalUserName, legalPass, "k"));
+            Assert.IsFalse(bridge.editUsername(legalUserName, "k"));
             Assert.IsFalse(bridge.isLoggedIn("k", legalPass));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
 
         [TestMethod]
-        public void TesteditUsername_Bad_IllegalCharacters() 
+        public void TestEditUsername_Bad_IllegalCharacters() 
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editUsername(legalUserName, legalPass, "@123 !$%+_-"));
+            Assert.IsFalse(bridge.editUsername(legalUserName, "@123 !$%+_-"));
             Assert.IsFalse(bridge.isLoggedIn("@123 !$%+_-", legalPass));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -176,13 +175,13 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsTrue(bridge.editPassword(legalUserName, legalPass, "9876543210"));
+            Assert.IsTrue(bridge.editPassword(legalUserName, "9876543210"));
 
             bridge.logOut(legalUserName);
 
             Assert.IsTrue(bridge.login(legalUserName, "9876543210"));
 
-            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName, "9876543210");
         }
 
         [TestMethod]
@@ -191,7 +190,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editPassword(legalUserName, legalPass, "0"));
+            Assert.IsFalse(bridge.editPassword(legalUserName, "0"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -202,7 +201,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editPassword(legalUserName, legalPass, "              "));
+            Assert.IsFalse(bridge.editPassword(legalUserName, "              "));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -213,7 +212,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsTrue(bridge.editAvatar(legalUserName, legalPass, "newavatar.jpg"));
+            Assert.IsTrue(bridge.editAvatar(legalUserName, "newavatar.jpg"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -224,7 +223,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editAvatar(legalUserName, legalPass, "newavatar.mp3"));
+            Assert.IsFalse(bridge.editAvatar(legalUserName, "newavatar.mp3"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -235,7 +234,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.editAvatar(legalUserName, legalPass, "newVIRUSavatar.jpg"));
+            Assert.IsFalse(bridge.editAvatar(legalUserName, "newVIRUSavatar.jpg"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }

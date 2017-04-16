@@ -103,11 +103,11 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editUsername(string username, string password, string newUsername)
+        public bool editUsername(string username, string newUsername)
         {
             try
             {
-                userManager.EditProfileUsername(username, password, newUsername);
+                userManager.EditProfileUsername(username, newUsername);
             }
             catch (Exception e)
             {
@@ -116,11 +116,11 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editPassword(string username, string password, string newPass)
+        public bool editPassword(string username, string newPass)
         {
             try
             {
-                userManager.EditProfilePassword(username, password, newPass);
+                userManager.EditProfilePassword(username, newPass);
             }
             catch (Exception e)
             {
@@ -129,11 +129,11 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editAvatar(string username, string password, string newPath)
+        public bool editAvatar(string username, string newPath)
         {
             try
             {
-                userManager.EditProfileAvatarPath(username, password, newPath);
+                userManager.EditProfileAvatarPath(username, newPath);
             }
             catch (Exception e)
             {

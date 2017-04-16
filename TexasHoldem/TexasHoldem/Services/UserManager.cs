@@ -31,24 +31,24 @@ namespace TexasHoldem.Services
             gameCenter.Logout(username);
         }
 
-        public void EditProfileUsername(string username, string password, string newusername) // UC 4
+        public void EditProfileUsername(string username, string newusername) // UC 4
         {
-            gameCenter.EditUser(username, password, newusername);
+            gameCenter.EditUser(username, newusername, null, null, null);
         }
 
-        public void EditProfilePassword(string username, string password, string newPassword) // UC 4
+        public void EditProfilePassword(string username, string newPassword) // UC 4
         {
-            gameCenter.EditUser(username, password, null, newPassword);
+            gameCenter.EditUser(username, null, newPassword, null, null);
         }
 
-        public void EditProfileEmail(string username, string password, string newEmail) // UC 4
+        public void EditProfileEmail(string username, string newEmail) // UC 4
         {
-            gameCenter.EditUser(username, password, null, null, null, newEmail);
+            gameCenter.EditUser(username, null, null, null, newEmail);
         }
 
-        public void EditProfileAvatarPath(string username, string password, string newAvatarPath) // UC 4
+        public void EditProfileAvatarPath(string username, string newAvatarPath) // UC 4
         {
-            gameCenter.EditUser(username, password, null, null, newAvatarPath);
+            gameCenter.EditUser(username, null, null, newAvatarPath, null);
         }
 
         public void DeleteUser(string username, string password)

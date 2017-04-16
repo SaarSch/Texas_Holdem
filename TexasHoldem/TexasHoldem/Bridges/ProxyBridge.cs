@@ -12,7 +12,8 @@ namespace TexasHoldem.Bridges
         private IBridge real;
         public ProxyBridge()
         {
-            real = null;
+            //real = null;
+            real = new RealBridge();
         }
         public bool register(string username, string pass)
         {
@@ -45,19 +46,19 @@ namespace TexasHoldem.Bridges
             return real == null || real.logOut(username);
         }
 
-        public bool editUsername(string username, string password, string newusername)
+        public bool editUsername(string username, string newusername)
         {
-            return real == null || real.editUsername(username, password, newusername);
+            return real == null || real.editUsername(username, newusername);
         }
 
-        public bool editPassword(string username, string password, string newPass)
+        public bool editPassword(string username, string newPass)
         {
-            return real == null || real.editPassword(username, password, newPass);
+            return real == null || real.editPassword(username, newPass);
         }
 
-        public bool editAvatar(string username, string password, string newPath)
+        public bool editAvatar(string username, string newPath)
         {
-            return real == null || real.editAvatar(username, password, newPath);
+            return real == null || real.editAvatar(username, newPath);
         }
 
         public bool createNewGame(string gameName, int numOfPlayers)

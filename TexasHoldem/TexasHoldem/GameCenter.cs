@@ -48,7 +48,7 @@ namespace TexasHoldem
 
             try
             {
-                Users.Add(new Pair<User, bool>(new User(username, password, "", ""), false));
+                Users.Add(new Pair<User, bool>(new User(username, password, "default.png", "default@gmail.com"), false));
             }
             catch (Exception e)
             {
@@ -135,47 +135,44 @@ namespace TexasHoldem
             }
         }
 
-        public void EditUser(string username, string password, string newUserName = null, string newPassword = null,
-            string newAvatarPath = null, string newEmail = null)
+        public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail)
         {
-            for (int i = 0; i < Users.Count; i++)
-            {
-                if (Users[i].First.GetUsername() == newUserName)
-                {
-                    Logger.Log(Severity.Error, "ERROR in Edit Profile: New username already exists!");
-                    throw new Exception("New username already exists!");
-                }
-            }
-
             bool userExists = false;
             for (int i = 0; i < Users.Count; i++)
             {
                 if (Users[i].First.GetUsername() == username)
                 {
                     userExists = true;
-                    if (Users[i].First.GetPassword() == password)
+                    if (!Users[i].Second)
                     {
-                        try
-                        {
-                            if (newUserName != null)
-                                Users[i].First.SetUsername(newUserName);
-                            if (newPassword != null)
-                                Users[i].First.SetPassword(newPassword);
-                            if (newAvatarPath != null)
-                                Users[i].First.SetAvatar(newAvatarPath);
-                            if (newEmail != null)
-                                Users[i].First.SetEmail(newEmail);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Log(Severity.Error, "ERROR in Edit Profile: Invalid new user details!"); // TODO specific?
-                            throw e;
-                        }
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This user is not logged in.");
+                        throw new Exception("This user is not logged in.");
                     }
-                    else
+                    try
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Wrong password!");
-                        throw new Exception("Wrong password!");
+                        if (newUserName != null)
+                        {
+                            for (int j = 0; j < Users.Count; j++)
+                            {
+                                if (Users[j].First.GetUsername() == newUserName)
+                                {
+                                    Logger.Log(Severity.Error, "ERROR in Edit Profile: New username already exists!");
+                                    throw new Exception("New username already exists!");
+                                }
+                            }
+                            Users[i].First.SetUsername(newUserName);
+                        }
+                        if (newPassword != null)
+                            Users[i].First.SetPassword(newPassword);
+                        if (newAvatarPath != null)
+                            Users[i].First.SetAvatar(newAvatarPath);
+                        if (newEmail != null)
+                            Users[i].First.SetEmail(newEmail);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Invalid new user details!"); // TODO specific?
+                        throw e;
                     }
                 }
             }
