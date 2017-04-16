@@ -8,7 +8,7 @@ using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
-    class RealBridge:IBridge
+    public class RealBridge:IBridge
     {
         private UserManager userManager;
         private GameManager gameManager;
@@ -49,10 +49,17 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool deleteUser(string userName)
+        public bool deleteUser(string username, string password)
         {
-            // TODO
-            throw new NotImplementedException();
+            try
+            {
+                userManager.DeleteUser(username, password);
+            }
+            catch (Exception e)
+            {
+               return false;
+            }
+            return true;
         }
 
         public bool login(string userName, string pass)
@@ -76,7 +83,7 @@ namespace TexasHoldem.Bridges
             }
             catch (Exception e)
             {
-                if (e.Message.Equals("ERROR in Login: This user is already logged in."))
+                if (e.Message.Equals("This user is already logged in."))
                     return true;
             }
             return false;
@@ -96,22 +103,43 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editUserName(string newName)
+        public bool editUsername(string username, string password, string newUsername)
         {
-            // TODO
-            throw new NotImplementedException();
+            try
+            {
+                userManager.EditProfileUsername(username, password, newUsername);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public bool editPassword(string pass)
+        public bool editPassword(string username, string password, string newPass)
         {
-            // TODO
-            throw new NotImplementedException();
+            try
+            {
+                userManager.EditProfilePassword(username, password, newPass);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public bool editAvatar(string path)
+        public bool editAvatar(string username, string password, string newPath)
         {
-            // TODO
-            throw new NotImplementedException();
+            try
+            {
+                userManager.EditProfileAvatarPath(username, password, newPath);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool createNewGame(string gameName, int numOfPlayers)

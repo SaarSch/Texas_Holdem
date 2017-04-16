@@ -135,8 +135,8 @@ namespace TexasHoldem
             }
         }
 
-        public void EditUser(string username, string password, string newUserName, string newPassword,
-            string newAvatarPath, string newEmail)
+        public void EditUser(string username, string password, string newUserName = null, string newPassword = null,
+            string newAvatarPath = null, string newEmail = null)
         {
             for (int i = 0; i < Users.Count; i++)
             {
@@ -157,10 +157,14 @@ namespace TexasHoldem
                     {
                         try
                         {
-                            Users[i].First.SetUsername(newUserName);
-                            Users[i].First.SetPassword(newPassword);
-                            Users[i].First.SetAvatar(newAvatarPath);
-                            Users[i].First.SetEmail(newEmail);
+                            if (newUserName != null)
+                                Users[i].First.SetUsername(newUserName);
+                            if (newPassword != null)
+                                Users[i].First.SetPassword(newPassword);
+                            if (newAvatarPath != null)
+                                Users[i].First.SetAvatar(newAvatarPath);
+                            if (newEmail != null)
+                                Users[i].First.SetEmail(newEmail);
                         }
                         catch (Exception e)
                         {
@@ -184,6 +188,37 @@ namespace TexasHoldem
             else
             {
                 Logger.Log(Severity.Action, username + "'s profile edited successfully!");
+            }
+        }
+
+        public void DeleteUser(string username, string password)
+        {
+            Pair<User, bool> userToDelete = null;
+            for (int i = 0; i < Users.Count; i++)
+            {
+                if (Users[i].First.GetUsername() == username)
+                {
+                    if (Users[i].First.GetPassword() == password)
+                    {
+                        userToDelete = Users[i];
+                    }
+                    else
+                    {
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Wrong password!");
+                        throw new Exception("Wrong password!");
+                    }
+                }
+            }
+
+            if (userToDelete == null)
+            {
+                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
+                throw new Exception("Username does not exist!");
+            }
+            else
+            {
+                Users.Remove(userToDelete);
+                Logger.Log(Severity.Action, "User: " + username + " deleted successfully!");
             }
         }
     }
