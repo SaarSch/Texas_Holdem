@@ -67,7 +67,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
 
             Assert.IsTrue(bridge.login(legalUserName, legalPass));
-            Assert.IsTrue(bridge.isLoggedIn(legalUserName));
+            Assert.IsTrue(bridge.isLoggedIn(legalUserName, legalPass));
 
             bridge.deleteUser(legalUserName);
         }
@@ -76,7 +76,7 @@ namespace AllTests.AcceptanceTests
         public void TestLoginToTheSystem_Sad_UserNotExist() //user does not exist or password is wrong
         {
             Assert.IsFalse(bridge.login(legalUserName, legalPass));
-            Assert.IsFalse(bridge.isLoggedIn(legalUserName));
+            Assert.IsFalse(bridge.isLoggedIn(legalUserName, legalPass));
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.login(legalUserName, "notThePass1"));
-            Assert.IsFalse(bridge.isLoggedIn(legalUserName));
+            Assert.IsFalse(bridge.isLoggedIn(legalUserName, legalPass));
 
             bridge.deleteUser(legalUserName);
         }
@@ -94,7 +94,7 @@ namespace AllTests.AcceptanceTests
         public void TestLoginToTheSystem_Bad_UserNameEmpty() //Username field is empty or SQL Injection in password field
         {
             Assert.IsFalse(bridge.login("", legalPass));
-            Assert.IsFalse(bridge.isLoggedIn(""));
+            Assert.IsFalse(bridge.isLoggedIn("", legalPass));
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.login(legalUserName, "OR 'a'='a'"));
-            Assert.IsFalse(bridge.isLoggedIn(legalUserName));
+            Assert.IsFalse(bridge.isLoggedIn(legalUserName, legalPass));
 
             bridge.deleteUser(legalUserName);
         }
@@ -139,7 +139,7 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.editUserName("existingName"));
-            Assert.IsFalse(bridge.isLoggedIn("existingName"));
+            Assert.IsFalse(bridge.isLoggedIn("existingName", legalPass));
 
             bridge.deleteUser(legalUserName);
             bridge.deleteUser("existingName");
@@ -152,7 +152,7 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.editUserName("k"));
-            Assert.IsFalse(bridge.isLoggedIn("k"));
+            Assert.IsFalse(bridge.isLoggedIn("k", legalPass));
 
             bridge.deleteUser(legalUserName);
         }
@@ -164,7 +164,7 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.editUserName("@123 !$%+_-"));
-            Assert.IsFalse(bridge.isLoggedIn("@123 !$%+_-"));
+            Assert.IsFalse(bridge.isLoggedIn("@123 !$%+_-", legalPass));
 
             bridge.deleteUser(legalUserName);
         }

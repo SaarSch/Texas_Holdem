@@ -8,7 +8,7 @@ namespace TexasHoldem.Bridges
         bool isUserExist(string userName);
         bool deleteUser(string userName);
         bool login(string userName, string pass);
-        bool isLoggedIn(string userName);
+        bool isLoggedIn(string userName, string pass);
         bool logOut(string userName);
         bool editUserName(string newName);
         bool editPassword(string pass);

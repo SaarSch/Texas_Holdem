@@ -35,9 +35,9 @@ namespace TexasHoldem.Bridges
             return real == null || real.login(userName, pass);
         }
 
-        public bool isLoggedIn(string userName)
+        public bool isLoggedIn(string userName, string pass)
         {
-            return real == null || real.isLoggedIn(userName);
+            return real == null || real.isLoggedIn(userName, pass);
         }
 
         public bool logOut(string userName)
