@@ -13,7 +13,7 @@ public class Player
 
 
 
-    public Player(string name, int chips ,User user)
+    public Player(string name, int chips, User user)
         {
         if (chips < 0)
         {
@@ -33,7 +33,7 @@ public class Player
         this.User = user;
         this.Name = name;
         ChipsAmount = chips;
-        Logger.Log(Severity.Action, "new player created for user:"+User.Username);
+        Logger.Log(Severity.Action, "new player created for user:"+User.GetUsername());
     }
 
     public void SetCards(Card first, Card second)
@@ -45,7 +45,7 @@ public class Player
         }
         Hand[0] = first;
         Hand[1] = second;
-        Logger.Log(Severity.Action,"user: " +User.Username+" player: "+Name+" got 2 cards: " +first.value+", "+second.value);
+        Logger.Log(Severity.Action,"user: " +User.GetUsername()+" player: "+Name+" got 2 cards: " +first.value+", "+second.value);
     }
 
         public void SetBet(int amount)
@@ -57,7 +57,7 @@ public class Player
         }
             CurrentBet +=amount;
             ChipsAmount -= amount;
-        Logger.Log(Severity.Action, "User: " + User.Username + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
+        Logger.Log(Severity.Action, "User: " + User.GetUsername() + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
     }
 
         public void ClearBet() { CurrentBet = 0; }
@@ -66,5 +66,5 @@ public class Player
 
         public void UndoFold() { Folded = false; }
 
-        public string ToString() { return "User name: " + User.Username + " Player name: " + Name+" Chip amount:"+ChipsAmount; }
+        public string ToString() { return "User name: " + User.GetUsername() + " Player name: " + Name+" Chip amount:"+ChipsAmount; }
    }

@@ -88,7 +88,7 @@ namespace AllTests
             {
                 succ = false;
             }
-            Assert.AreEqual(false, succ);
+            Assert.IsFalse(succ);
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace AllTests
             {
                 succ = false;
             }
-            Assert.AreEqual(true, succ);
+            Assert.IsTrue(succ);
         }
 
         [TestMethod]
@@ -121,7 +121,7 @@ namespace AllTests
             {
                 succ = false;
             }
-            Assert.AreEqual(true, succ);
+            Assert.IsTrue(succ);
         }
     }
 }

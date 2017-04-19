@@ -16,85 +16,46 @@ namespace TexasHoldem
         }
 
         // Implementation according to the Singleton Pattern
-        private static GameCenter Instance = null;
+        private static GameCenter instance = null;
         private List<Pair<User,bool>> Users;
 
-        public GameCenter()
+        private GameCenter()
         {
             Users = new List<Pair<User, bool>>();
         }
 
         public static GameCenter GetGameCenter()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                return new GameCenter();
+                instance = new GameCenter();
+                return instance;
             }
 
-            return Instance;
+            return instance;
         }
 
         public void Register(string username, string password)
         {
-            Boolean hasNonLetterChar = false;
-            int i;
-
-            // PASSWORD CHECK
-
-            if (password.Length > 12 || password.Length < 8)
+            for (int i = 0; i < Users.Count; i++)
             {
-                Logger.Log(Severity.Error, "ERROR in Register: Illegal password! Length must be between 8 and 12.");
-                throw new Exception("Illegal password! Length must be between 8 and 12.");
-            }
-
-            for (i = 0; i < password.Length; i++)
-            {
-                if (password[i] == ' ')
-                {
-                    Logger.Log(Severity.Error, "ERROR in Register: Illegal password! Space is not allowed.");
-                    throw new Exception("Illegal password! Space is not allowed.");
-                }
-                if (!Char.IsLetter(password[i]))
-                {
-                    hasNonLetterChar = true;
-                }
-            }
-
-            if (!hasNonLetterChar)
-            {
-                Logger.Log(Severity.Error, "ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.");
-                throw new Exception("Illegal password! Must contain at least 1 non-letter character.");
-            }
-
-            // USERNAME CHECK
-
-            if (username.Length > 12 || username.Length < 8)
-            {
-                Logger.Log(Severity.Error, "ERROR in Register: Illegal username!Length must be between 8 and 12.");
-                throw new Exception("Illegal username! Length must be between 8 and 12.");
-            }
-
-            for (i = 0; i < username.Length; i++)
-            {
-                if (username[i] == ' ')
-                {
-                    Logger.Log(Severity.Error, "ERROR in Register: Illegal username! Space is not allowed.");
-                    throw new Exception("Illegal username! Space is not allowed.");
-                }
-            }
-
-            for (i = 0; i < Users.Count; i++)
-            {
-                if (Users[i].First.Username == username)
+                if (Users[i].First.GetUsername() == username)
                 {
                     Logger.Log(Severity.Error, "ERROR in Register: Username already exists!");
                     throw new Exception("Username already exists!");
                 }
             }
 
+            try
+            {
+                Users.Add(new Pair<User, bool>(new User(username, password, "default.png", "default@gmail.com"), false));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
-            Users.Add(new Pair<User, bool>(new User(username, password, ""), false));
         }
 
         public User Login(string username, string password)
@@ -103,9 +64,9 @@ namespace TexasHoldem
             User user = null;
             for (i = 0; i < Users.Count; i++)
             {
-                if(Users[i].First.Username == username)
+                if(Users[i].First.GetUsername() == username)
                 {
-                    if(Users[i].First.Password == password)
+                    if(Users[i].First.GetPassword() == password)
                     {
                         if (Users[i].Second)
                         {
@@ -147,7 +108,7 @@ namespace TexasHoldem
 
             for (i = 0; i < Users.Count; i++)
             {
-                if (Users[i].First.Username == username)
+                if (Users[i].First.GetUsername() == username)
                 {
                     if (!Users[i].Second)
                     {
@@ -171,6 +132,90 @@ namespace TexasHoldem
             else
             {
                 Logger.Log(Severity.Action, username + " logged out successfully!");
+            }
+        }
+
+        public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail)
+        {
+            bool userExists = false;
+            for (int i = 0; i < Users.Count; i++)
+            {
+                if (Users[i].First.GetUsername() == username)
+                {
+                    userExists = true;
+                    if (!Users[i].Second)
+                    {
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This user is not logged in.");
+                        throw new Exception("This user is not logged in.");
+                    }
+                    try
+                    {
+                        if (newUserName != null)
+                        {
+                            for (int j = 0; j < Users.Count; j++)
+                            {
+                                if (Users[j].First.GetUsername() == newUserName)
+                                {
+                                    Logger.Log(Severity.Error, "ERROR in Edit Profile: New username already exists!");
+                                    throw new Exception("New username already exists!");
+                                }
+                            }
+                            Users[i].First.SetUsername(newUserName);
+                        }
+                        if (newPassword != null)
+                            Users[i].First.SetPassword(newPassword);
+                        if (newAvatarPath != null)
+                            Users[i].First.SetAvatar(newAvatarPath);
+                        if (newEmail != null)
+                            Users[i].First.SetEmail(newEmail);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Invalid new user details!"); // TODO specific?
+                        throw e;
+                    }
+                }
+            }
+
+            if (!userExists)
+            {
+                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
+                throw new Exception("Username does not exist!");
+            }
+            else
+            {
+                Logger.Log(Severity.Action, username + "'s profile edited successfully!");
+            }
+        }
+
+        public void DeleteUser(string username, string password)
+        {
+            Pair<User, bool> userToDelete = null;
+            for (int i = 0; i < Users.Count; i++)
+            {
+                if (Users[i].First.GetUsername() == username)
+                {
+                    if (Users[i].First.GetPassword() == password)
+                    {
+                        userToDelete = Users[i];
+                    }
+                    else
+                    {
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Wrong password!");
+                        throw new Exception("Wrong password!");
+                    }
+                }
+            }
+
+            if (userToDelete == null)
+            {
+                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
+                throw new Exception("Username does not exist!");
+            }
+            else
+            {
+                Users.Remove(userToDelete);
+                Logger.Log(Severity.Action, "User: " + username + " deleted successfully!");
             }
         }
     }

@@ -12,52 +12,53 @@ namespace TexasHoldem.Bridges
         private IBridge real;
         public ProxyBridge()
         {
-            real = null;
+            //real = null;
+            real = new RealBridge();
         }
-        public bool register(string userName, string pass)
+        public bool register(string username, string pass)
         {
-            return  real==null || real.register(userName, pass);
+            return  real==null || real.register(username, pass);
             
         }
 
-        public bool isUserExist(string userName)
+        public bool isUserExist(string username)
         {
-            return real == null || real.isUserExist(userName);
+            return real == null || real.isUserExist(username);
         }
 
-        public bool deleteUser(string userName)
+        public bool deleteUser(string username, string password)
         {
-            return real == null || real.deleteUser(userName);
+            return real == null || real.deleteUser(username, password);
         }
 
-        public bool login(string userName, string pass)
+        public bool login(string username, string pass)
         {
-            return real == null || real.login(userName, pass);
+            return real == null || real.login(username, pass);
         }
 
-        public bool isLoggedIn(string userName)
+        public bool isLoggedIn(string username, string pass)
         {
-            return real == null || real.isLoggedIn(userName);
+            return real == null || real.isLoggedIn(username, pass);
         }
 
-        public bool logOut(string userName)
+        public bool logOut(string username)
         {
-            return real == null || real.logOut(userName);
+            return real == null || real.logOut(username);
         }
 
-        public bool editUserName(string userName)
+        public bool editUsername(string username, string newusername)
         {
-            return real == null || real.editUserName(userName);
+            return real == null || real.editUsername(username, newusername);
         }
 
-        public bool editPassword(string pass)
+        public bool editPassword(string username, string newPass)
         {
-            return real == null || real.editPassword(pass);
+            return real == null || real.editPassword(username, newPass);
         }
 
-        public bool editAvatar(string path)
+        public bool editAvatar(string username, string newPath)
         {
-            return real == null || real.editAvatar(path);
+            return real == null || real.editAvatar(username, newPath);
         }
 
         public bool createNewGame(string gameName, int numOfPlayers)
@@ -116,9 +117,9 @@ namespace TexasHoldem.Bridges
             return s;
         }
 
-        public int getRank(string userName)
+        public int getRank(string username)
         {
-            return real?.getRank(userName) ?? 0;
+            return real?.getRank(username) ?? 0;
         }
 
         public void setRank(string gameName, int rank)
