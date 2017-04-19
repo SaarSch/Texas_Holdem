@@ -49,6 +49,7 @@
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
+    <Compile Include="Game\GamePreferences.cs" />
     <Compile Include="Game\HandStrength.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
