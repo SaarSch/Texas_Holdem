@@ -1,0 +1,19 @@
+round no,seat0,seat1,seat2,seat3,seat4,seat5,seat6,seat7,seat8,pot,community,,,
+0,100,50,u,u,u,u,u,0,0,150,0,,,"start - seat0 = big blind, seat1 = small blind"
+0,100,50,u,u,u,u,u,0,F,150,0,,,seat8 folded
+0,100,50,u,u,u,u,u,100,F,250,0,,,seat7 called
+0,100,100,u,u,u,u,u,100,F,300,0,,,seat1 called
+0,100,100,u,u,u,u,u,100,F,300,0,,,seat0 checked
+0,100,100,u,u,u,u,u,100,F,300,10S;5D;14C,,,flop
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,U = undefined player
+,,,,,,,,,,,,,,F = folded
