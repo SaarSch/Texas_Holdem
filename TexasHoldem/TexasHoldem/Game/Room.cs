@@ -224,7 +224,7 @@ public class Room
         foreach(Player p in winners)
         {
             p.User.wins++;
-            if (p.User.wins == 10)
+            if (p.User.wins == 10) // change to game center field
             {
                 p.User.Rank++;
                 p.User.wins = 0;   
@@ -250,6 +250,7 @@ public class Room
         List<User> roomUsers = new List<User>();
 
         foreach (Player p in players) roomUsers.Add(p.User);
+        roomUsers.AddRange(spectateUsers);
         Notifier.Instance.Notify(roomUsers, message);
     }
 
