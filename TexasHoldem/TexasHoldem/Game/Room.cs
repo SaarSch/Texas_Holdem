@@ -19,7 +19,7 @@ public enum HandRank
 
 public class Room
 {
-
+    public List<User> spectateUsers = new List<User>();
     public List<Player> players = new List<Player>(8);
     public Deck Deck = new Deck();
     public Card[] communityCards = new Card[5];
@@ -66,6 +66,16 @@ public class Room
         Logger.Log(Severity.Action, "new player joined the room: room name=" + name +"player name="+p.Name);
     }
 
+    public void Spectate(User user)
+    {
+        if(user is null)
+        {
+            Logger.Log(Severity.Exception, "cant add a null user to the room");
+            throw new Exception("null user");
+        }
+
+        spectateUsers.Add(user);
+    }
 
     public void DealTwo()
     {

@@ -654,5 +654,15 @@ namespace AllTests.UnitTests.Game
 
             Assert.IsTrue(r.players[0].CurrentBet == 200 && r.players[1].CurrentBet == 400);
         }
+
+        [TestMethod]
+        public void SpectateTest()
+        {
+
+            Player p = new Player("shachar1", 770, u);
+            Room r = new Room("aa", p);
+            r.Spectate(u);
+            Assert.IsTrue(r.spectateUsers.Contains(u));
+        }
     }
 }
