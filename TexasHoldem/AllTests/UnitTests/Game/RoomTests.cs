@@ -7,9 +7,9 @@ namespace AllTests.UnitTests.Game
     [TestClass]
     public class RoomTests
     {
-        private User u = new User("tom12345", "12345678", "aaa", "hello@gmail.com");
-        private User u1 = new User("tom12346", "12345678", "aaa", "hello1@gmail.com");
-        private User u2 = new User("tom12347", "12345678", "aaa", "hello3@gmail.com");
+        private User u = new User("tom12345", "12345678", "aaa.png", "hello@gmail.com");
+        private User u1 = new User("tom12346", "12345678", "bbb.png", "hello1@gmail.com");
+        private User u2 = new User("tom12347", "12345678", "ccc.png", "hello3@gmail.com");
 
         [TestMethod]
         public void AddPlayerTest()
@@ -29,9 +29,9 @@ namespace AllTests.UnitTests.Game
             Room r = new Room("aa", p);
             Assert.IsTrue(r.players.Count == 1);
             Player p1 = new Player("shachar", 0, u1);
-            Player p3 = new Player("shachar", 0, new User("tom12345f", "12345678", "aaa", "hello@gmail.com"));
-            Player p4 = new Player("shachar", 0, new User("tom12345g", "12345678", "aaa", "hello@gmail.com"));
-            Player p5 = new Player("shachar", 0, new User("tom12345h", "12345678", "aaa", "hello@gmail.com"));
+            Player p3 = new Player("shachar", 0, new User("tom12345f", "12345678", "gggg.png", "hello@gmail.com"));
+            Player p4 = new Player("shachar", 0, new User("tom12345g", "12345678", "eeee.png", "hello@gmail.com"));
+            Player p5 = new Player("shachar", 0, new User("tom12345h", "12345678", "jgjg.png", "hello@gmail.com"));
             r.AddPlayer(p1);
             r.AddPlayer(p3);
             r.AddPlayer(p4);
@@ -309,7 +309,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void BHandCalculatorPairHighCardTest()
         {
-            Player p = new Player("shachar", 0, new User("tom12345a", "12345678", "aaa", "hello@gmail.com"));
+            Player p = new Player("shachar", 0, new User("tom12345a", "12345678", "aaa.png", "hello@gmail.com"));
             Room r = new Room("aa", p);
 
         
