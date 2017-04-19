@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllTests.UnitTests.Game
-{
     public enum Gametype
     {
         limit, 
@@ -68,4 +66,3 @@ namespace AllTests.UnitTests.Game
 
 
     }
-}
