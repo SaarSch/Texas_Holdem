@@ -18,10 +18,12 @@ namespace TexasHoldem
         // Implementation according to the Singleton Pattern
         private static GameCenter instance = null;
         private List<Pair<User,bool>> Users;
-
+        private List<Room> Rooms;
+        
         private GameCenter()
         {
             Users = new List<Pair<User, bool>>();
+            Rooms = new List<Room>();
         }
 
         public static GameCenter GetGameCenter()
@@ -188,6 +190,27 @@ namespace TexasHoldem
             }
         }
 
+        public User GetLoggedInUser(string username)
+        {
+            User user = null;
+            for (int i = 0; i < Users.Count; i++)
+            {
+                if (Users[i].First.GetUsername() == username)
+                {
+                    if (!Users[i].Second)
+                    {
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This user is not logged in.");
+                        throw new Exception("This user is not logged in.");
+                    }
+                    else
+                    {
+                        user = Users[i].First;
+                    }
+                }
+            }
+            return user;
+        }
+
         public void DeleteUser(string username, string password)
         {
             Pair<User, bool> userToDelete = null;
@@ -216,6 +239,73 @@ namespace TexasHoldem
             {
                 Users.Remove(userToDelete);
                 Logger.Log(Severity.Action, "User: " + username + " deleted successfully!");
+            }
+        }
+
+        public Room CreateRoom(string roomName, string username, string creator)
+        {
+            User user = GetLoggedInUser(username);
+            if (user != null)
+            {
+                Player p = new Player(creator, 0, user);
+                if (IsRoomExist(roomName))
+                {
+                    Logger.Log(Severity.Error, "ERROR in CreateRoom: room name already taken!");
+                    throw new Exception("Room name already taken!");
+                }
+                else
+                {
+                    Room newRoom = new Room(roomName, p);
+                    Rooms.Add(newRoom);
+                    Logger.Log(Severity.Action, "Room " + newRoom.name + " created successfully by " + creator + "!");
+                    return newRoom;
+                }
+            }
+            else
+            {
+                Logger.Log(Severity.Error, "ERROR in CreateRoom: Username does not exist!");
+                throw new Exception("Username does not exist!");
+            }
+        }
+
+        public Room GetRoom(string roomName)
+        {
+            Room roomFound = null;
+            for (int i = 0; i < Rooms.Count && roomFound == null; i++)
+            {
+                if (Rooms[i].name == roomName)
+                    roomFound = Rooms[i];
+            }
+            return roomFound;
+        }
+
+        public bool IsRoomExist(string roomName)
+        {
+            return GetRoom(roomName) != null;
+        }
+
+        public void AddUserToRoom(string username, string roomName, string playerName, bool isSpectator)
+        {
+            Room room = null;
+            User user = null;
+            try
+            {
+                room = GetRoom(roomName);
+                user = GetLoggedInUser(username);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            if (room != null)
+            {
+                room.AddPlayer(new Player(playerName, 0, user)/*, isSpectator*/);
+            }
+            else
+            {
+                Logger.Log(Severity.Error, "Error in AddUserToRoom: Room " + roomName + " doesn't exist!");
+                throw new Exception("Room " + roomName + " doesn't exist!");
             }
         }
     }

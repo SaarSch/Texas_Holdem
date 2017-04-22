@@ -8,24 +8,52 @@ namespace TexasHoldem.Services
 {
     class GameManager
     {
-        public void CreateGame() // UC 5
+        private readonly GameCenter gameCenter;
+
+        public GameManager()
         {
-            
+            gameCenter = GameCenter.GetGameCenter();
         }
 
-        public void JoinGame() // UC 6
+        public Room CreateGame(string roomName, string creatorUserName, string creatorName) // UC 5
         {
-            
+            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName);
         }
 
-        public void SpectateGame() // UC 7
+        public bool IsRoomExist(string roomName)
         {
-            
+            return gameCenter.IsRoomExist(roomName);
         }
 
-        public void LeaveGame() // UC 8
+        public bool JoinGame(string username, string roomName, string playerName) // UC 6
         {
-            
+            try
+            {
+                gameCenter.AddUserToRoom(username, roomName, playerName, false);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool SpectateGame(string username, string roomName, string playerName) // UC 7
+        {
+            try
+            {
+                gameCenter.AddUserToRoom(username, roomName, playerName, true);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool LeaveGame(string username, string roomName) // UC 8
+        {
+            return false;
         }
 
         public void SaveGame() // UC 11
@@ -33,9 +61,14 @@ namespace TexasHoldem.Services
             
         }
 
-        public void ListActiveGames() // UC 12
+        public List<Room> ListActiveGames(int rank) // UC 12
         {
-            
+            return null;
+        }
+
+        public List<Room> ListActiveGames() // UC 12
+        {
+            return null; // -1
         }
 
         public void PlayGame() // UC 13
