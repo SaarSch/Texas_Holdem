@@ -192,7 +192,6 @@ namespace TexasHoldem
 
         public User GetLoggedInUser(string username)
         {
-            User user = null;
             for (int i = 0; i < Users.Count; i++)
             {
                 if (Users[i].First.GetUsername() == username)
@@ -204,11 +203,12 @@ namespace TexasHoldem
                     }
                     else
                     {
-                        user = Users[i].First;
+                        return Users[i].First;
                     }
                 }
             }
-            return user;
+            Logger.Log(Severity.Error, "ERROR in Edit Profile: This user doesn't exist.");
+            throw new Exception("This user doesn't exist.");
         }
 
         public void DeleteUser(string username, string password)
@@ -305,6 +305,38 @@ namespace TexasHoldem
             else
             {
                 Logger.Log(Severity.Error, "Error in AddUserToRoom: Room " + roomName + " doesn't exist!");
+                throw new Exception("Room " + roomName + " doesn't exist!");
+            }
+        }
+
+        public void RemoveUserFromRoom(string username, string roomName, string playerName)
+        {
+            Room room = null;
+            User user = null;
+            try
+            {
+                room = GetRoom(roomName);
+                user = GetLoggedInUser(username);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            if (room != null)
+            {
+                try
+                {
+                    room.RemovePlayer(playerName);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            else
+            {
+                Logger.Log(Severity.Error, "Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
                 throw new Exception("Room " + roomName + " doesn't exist!");
             }
         }

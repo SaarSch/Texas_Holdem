@@ -51,9 +51,17 @@ namespace TexasHoldem.Services
             return true;
         }
 
-        public bool LeaveGame(string username, string roomName) // UC 8
+        public bool LeaveGame(string username, string roomName, string playerName) // UC 8
         {
-            return false;
+            try
+            {
+                gameCenter.RemoveUserFromRoom(username, roomName, playerName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public void SaveGame() // UC 11

@@ -107,9 +107,9 @@ namespace TexasHoldem.Bridges
             return real == null || real.spectateGame(username, roomName, playerName);
         }
 
-        public bool leaveGame(string goodGameName)
+        public bool leaveGame(string username, string roomName, string playerName)
         {
-            return real == null || real.leaveGame(goodGameName);
+            return real == null || real.leaveGame(username, roomName, playerName);
         }
 
         public IList getAllGamesReplay()

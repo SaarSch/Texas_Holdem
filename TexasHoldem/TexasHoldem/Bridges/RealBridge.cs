@@ -170,9 +170,9 @@ namespace TexasHoldem.Bridges
             return gameManager.SpectateGame(username, roomName, playerName);
         }
 
-        public bool leaveGame(string goodGameName)
+        public bool leaveGame(string username, string roomName, string playerName)
         {
-            throw new NotImplementedException();
+            return gameManager.LeaveGame(username, roomName, playerName);
         }
 
         public IList getAllGamesReplay()
