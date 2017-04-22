@@ -152,7 +152,7 @@ namespace TexasHoldem.Bridges
 
         public IList getActiveGames(int rank)
         {
-            return gameManager.ListActiveGames(rank);
+            return gameManager.FindGames(rank);
         }
 
         public IList getActiveGames()

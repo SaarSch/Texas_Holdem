@@ -64,19 +64,14 @@ namespace TexasHoldem.Services
             return true;
         }
 
-        public void SaveGame() // UC 11
-        {
-            
-        }
-
-        public List<Room> ListActiveGames(int rank) // UC 12
+        public List<Room> FindGames(int rank) // UC 11
         {
             return null;
         }
 
         public List<Room> ListActiveGames() // UC 12
         {
-            return null; // -1
+            return gameCenter.GetAllRooms();
         }
 
         public void PlayGame() // UC 13

@@ -340,5 +340,10 @@ namespace TexasHoldem
                 throw new Exception("Room " + roomName + " doesn't exist!");
             }
         }
+
+        public List<Room> GetAllRooms()
+        {
+            return Rooms;
+        }
     }
 }
