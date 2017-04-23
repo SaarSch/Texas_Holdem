@@ -77,17 +77,7 @@ namespace TexasHoldem.Bridges
 
         public bool isLoggedIn(string userName, string pass)
         {
-            try
-            {
-                userManager.Login(userName, pass);
-            }
-            catch (Exception e)
-            {
-                if (e.Message.Equals("This user is already logged in."))
-                    return true;
-            }
-            return false;
-           
+            return userManager.IsUserLoggedIn(userName, pass);
         }
 
         public bool logOut(string userName)
@@ -142,42 +132,50 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool createNewGame(string gameName, int numOfPlayers)
+        public bool createNewGame(string gameName, string username, string creatorName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                gameManager.CreateGame(gameName, username, creatorName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool isGameExist(string gameName)
         {
-            throw new NotImplementedException();
+            return gameManager.IsRoomExist(gameName);
         }
 
-        public ArrayList getActiveGames(int rank)
+        public IList getActiveGames(int rank)
         {
-            throw new NotImplementedException();
+            return gameManager.FindGames(rank);
         }
 
-        public bool joinGame(object activeGame)
+        public IList getActiveGames()
         {
-            throw new NotImplementedException();
+            return gameManager.ListActiveGames();
         }
 
-        public ArrayList getActiveGames()
+        public bool joinGame(string username, string roomName, string playerName)
         {
-            throw new NotImplementedException();
+            return gameManager.JoinGame(username, roomName, playerName);
         }
 
-        public bool SpectateGame(object activeGame)
+        public bool spectateGame(string username, string roomName, string playerName)
         {
-            throw new NotImplementedException();
+            return gameManager.SpectateGame(username, roomName, playerName);
         }
 
-        public bool leaveGame(string goodGameName)
+        public bool leaveGame(string username, string roomName, string playerName)
         {
-            throw new NotImplementedException();
+            return gameManager.LeaveGame(username, roomName, playerName);
         }
 
-        public ArrayList getAllGamesReplay()
+        public IList getAllGamesReplay()
         {
             throw new NotImplementedException();
         }

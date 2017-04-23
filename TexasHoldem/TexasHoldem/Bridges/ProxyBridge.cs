@@ -61,9 +61,9 @@ namespace TexasHoldem.Bridges
             return real == null || real.editAvatar(username, newPath);
         }
 
-        public bool createNewGame(string gameName, int numOfPlayers)
+        public bool createNewGame(string gameName, string username, string creatorName)
         {
-            return real == null || real.createNewGame(gameName,numOfPlayers);
+            return real == null || real.createNewGame(gameName, username, creatorName);
         }
 
         public bool isGameExist(string gameName)
@@ -71,49 +71,57 @@ namespace TexasHoldem.Bridges
             return real == null || real.isGameExist(gameName);
         }
 
-        public ArrayList getActiveGames(int rank)
+        public IList getActiveGames(int rank)
         {
-            ArrayList s = new ArrayList();
+            IList s;
             if (real != null)
                 s = real.getActiveGames(rank);
             else
+            {
+                s = new List<string>();
                 s.Add("Good Game Name");
+            }
             return s;
         }
 
-        public ArrayList getActiveGames()
+        public IList getActiveGames()
         {
-            ArrayList s = new ArrayList();
-
+            IList s;
             if (real != null)
                 s = real.getActiveGames();
             else
+            {
+                s = new List<string>();
                 s.Add("Good Game Name");
+            }
             return s;
         }
 
-        public bool joinGame(object activeGame)
+        public bool joinGame(string username, string roomName, string playerName)
         {
-            return real == null || real.joinGame(activeGame);
+            return real == null || real.joinGame(username, roomName, playerName);
         }
 
-        public bool SpectateGame(object activeGame)
+        public bool spectateGame(string username, string roomName, string playerName)
         {
-            return real == null || real.SpectateGame(activeGame);
+            return real == null || real.spectateGame(username, roomName, playerName);
         }
 
-        public bool leaveGame(string goodGameName)
+        public bool leaveGame(string username, string roomName, string playerName)
         {
-            return real == null || real.leaveGame(goodGameName);
+            return real == null || real.leaveGame(username, roomName, playerName);
         }
 
-        public ArrayList getAllGamesReplay()
+        public IList getAllGamesReplay()
         {
-            ArrayList s = new ArrayList();
+            IList s;
             if (real != null)
                 s = real.getAllGamesReplay();
             else
+            {
+                s = new List<string>();
                 s.Add("Good Game Name");
+            }
             return s;
         }
 

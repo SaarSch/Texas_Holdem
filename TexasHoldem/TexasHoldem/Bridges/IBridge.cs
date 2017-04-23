@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TexasHoldem.Bridges
 {
@@ -13,14 +15,15 @@ namespace TexasHoldem.Bridges
         bool editUsername(string username, string newName);
         bool editPassword(string username, string newPass);
         bool editAvatar(string username, string newPath);
-        bool createNewGame(string gameName, int numOfPlayers);
+        bool createNewGame(string gameName, string username, string creatorName);
         bool isGameExist(string gameName);
-        ArrayList getActiveGames(int rank);
-        bool joinGame(object activeGame);
-        ArrayList getActiveGames();
-        bool SpectateGame(object activeGame);
-        bool leaveGame(string goodGameName);
-        ArrayList getAllGamesReplay();
+        bool joinGame(string username, string roomName, string playerName);
+        bool spectateGame(string username, string roomName, string playerName);
+        bool leaveGame(string username, string roomName, string playerName);
+
+        IList getActiveGames(int rank);
+        IList getActiveGames();
+        IList getAllGamesReplay();
         int getRank(string username);
         void setRank(string gameName, int rank);
     }

@@ -8,34 +8,70 @@ namespace TexasHoldem.Services
 {
     class GameManager
     {
-        public void CreateGame() // UC 5
+        private readonly GameCenter gameCenter;
+
+        public GameManager()
         {
-            
+            gameCenter = GameCenter.GetGameCenter();
         }
 
-        public void JoinGame() // UC 6
+        public Room CreateGame(string roomName, string creatorUserName, string creatorName) // UC 5
         {
-            
+            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName);
         }
 
-        public void SpectateGame() // UC 7
+        public bool IsRoomExist(string roomName)
         {
-            
+            return gameCenter.IsRoomExist(roomName);
         }
 
-        public void LeaveGame() // UC 8
+        public bool JoinGame(string username, string roomName, string playerName) // UC 6
         {
-            
+            try
+            {
+                gameCenter.AddUserToRoom(username, roomName, playerName, false);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public void SaveGame() // UC 11
+        public bool SpectateGame(string username, string roomName, string playerName) // UC 7
         {
-            
+            try
+            {
+                gameCenter.AddUserToRoom(username, roomName, playerName, true);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public void ListActiveGames() // UC 12
+        public bool LeaveGame(string username, string roomName, string playerName) // UC 8
         {
-            
+            try
+            {
+                gameCenter.RemoveUserFromRoom(username, roomName, playerName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public List<Room> FindGames(int rank) // UC 11
+        {
+            return null;
+        }
+
+        public List<Room> ListActiveGames() // UC 12
+        {
+            return gameCenter.GetAllRooms();
         }
 
         public void PlayGame() // UC 13

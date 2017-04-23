@@ -56,14 +56,46 @@ public class Room
             Logger.Log(Severity.Exception, "room is full, cant add the player");
             throw new Exception("room is full");
         }
-        if (p.User.Rank<rank)
+        if (p.User.Rank < rank)
         {
             Logger.Log(Severity.Error, "player rank is too low to join");
             throw new Exception("player rank is too low to join");
         }
 
         players.Add(p);
-        Logger.Log(Severity.Action, "new player joined the room: room name=" + name +"player name="+p.Name);
+        Logger.Log(Severity.Action, "new player joined the room: room name=" + name + "player name=" + p.Name);
+    }
+
+    public void RemovePlayer(string player)
+    {
+        Player p = null;
+        for (int i = 0; i < players.Count && p == null; i++)
+        {
+            if (player == players[i].Name)
+                p = players[i];
+        }
+
+        if (p == null)
+        {
+            Logger.Log(Severity.Exception, "Player " + player + " isn't in room " + name);
+            throw new Exception("illegal Player");
+        }
+        //TODO:
+        /*
+        if (players.Count > 7)
+        {
+            Logger.Log(Severity.Exception, "room is full, cant add the player");
+            throw new Exception("room is full");
+        }
+        if (p.User.Rank < rank)
+        {
+            Logger.Log(Severity.Error, "player rank is too low to join");
+            throw new Exception("player rank is too low to join");
+        }
+        */
+
+        players.Remove(p);
+        Logger.Log(Severity.Action, "player " + p.Name + " left the room: room name=" + name);
     }
 
 

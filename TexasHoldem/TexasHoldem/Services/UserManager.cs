@@ -55,5 +55,18 @@ namespace TexasHoldem.Services
         {
             gameCenter.DeleteUser(username, password);
         }
+
+        public bool IsUserLoggedIn(string userName, string pass)
+        {
+            try
+            {
+                gameCenter.GetLoggedInUser(userName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
