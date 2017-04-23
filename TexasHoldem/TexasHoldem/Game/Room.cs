@@ -27,6 +27,7 @@ public class Room
     public int rank;
     public GamePreferences gamePreferences;
     public Boolean flop;
+    public int pot = 0;
 
     public Room(String name, Player creator, GamePreferences gamePreferences)
     {
@@ -134,7 +135,7 @@ public class Room
         spectateUsers.Add(user);
     }
 
-    private void DealTwo()
+    public void DealTwo()
     {
         foreach (Player p in players)
         {
@@ -259,7 +260,7 @@ public class Room
 
     public void SetBet(Player p, int bet)
     {
-        if(p == null)
+        if (p == null)
         {
             Logger.Log(Severity.Exception, "player cant be null");
             throw new Exception("player cant be null");
@@ -271,14 +272,37 @@ public class Room
             throw new Exception("cant bet less then min bet");
         }
 
-        if (gamePreferences.gameType == Gametype.NoLimit && p.betInThisRound && p.previousRaise<bet) // no limit mode
+        if (gamePreferences.gameType == Gametype.NoLimit && p.betInThisRound && p.previousRaise < bet) // no limit mode
         {
             Logger.Log(Severity.Error, "cant bet less then previous raise in no limit mode");
             throw new Exception("cant bet less then previous raise in no limit mode");
         }
 
+        if (gamePreferences.gameType == Gametype.limit) // limit mode
+        {
+            if (communityCards[0]== null || communityCards[3] == null)  //pre flop & flop
+            {
+               if(bet!= gamePreferences.minBet)
+                {
+                    Logger.Log(Severity.Error, "in pre flop/flop in limit mode bet must be equal to big blind");
+                    throw new Exception("in pre flop/flop in limit mode set must be equal to big blind");
+                }
+            }
 
+            if (communityCards[3]!=null || communityCards[4] != null)  //turn & river
+            {
+                if (bet*2 != gamePreferences.minBet)
+                {
+                    Logger.Log(Severity.Error, "in pre turn/river in limit mode bet must be equal to 2*big blind");
+                    throw new Exception("in pre turn/river in limit mode bet must be equal to 2*big blind");
+                }
+            }
+        }
 
+        if (gamePreferences.gameType == Gametype.PotLimit)// limit pot
+        {
+
+        }
 
         p.SetBet(bet);
 
@@ -303,18 +327,7 @@ public class Room
     }
 
     public List<Player> Winners()
-    {
-        if (communityCards[4] == null)
-        {
-            Logger.Log(Severity.Exception, "game is not over");
-            throw new Exception("game is not over");
-        }
-        if (players.Count < 2)
-        {
-            Logger.Log(Severity.Error, "cant play with less the 2 players");
-            throw new Exception("cant play with less then 2 players");
-        }
-        
+    {  
         List<Player> winners = new List<Player>();
         foreach (Player p in players)
         {
@@ -337,6 +350,17 @@ public class Room
 
     public void CalcWinnersChips()
     {
+        if (communityCards[4] == null)
+        {
+            Logger.Log(Severity.Exception, "game is not over");
+            throw new Exception("game is not over");
+        }
+        if (!IsOn)
+        {
+            Logger.Log(Severity.Error, "cant play with less the 2 players");
+            throw new Exception("cant play with less then 2 players");
+        }
+
         List<Player> winners = Winners();
         Logger.Log(Severity.Action, "the winners in room" + name +"is"+PlayersToString(winners));
         foreach(Player p in winners)
@@ -373,12 +397,12 @@ public class Room
         Notifier.Instance.Notify(roomUsers, message);
     }
 
-    private void CleanGame()
+    public void CleanGame()
     {
         foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; p.UndoFold();}
         for (int i = 0; i < 5; i++) communityCards[i] = null;
     }
-    private void NextTurn()
+    public void NextTurn()
     {
         Player zero = players[0];
         for(int i=0; i < players.Count-1; i++) players[i] = players[i + 1];
@@ -387,15 +411,11 @@ public class Room
 
     public HandStrength HandCalculator(List<Card> cards)
     {
-
         int handValue = 0;
         HandRank handRank;
         List<Card> hand = new List<Card>();
-
         List<Card> orderByValue = cards.OrderBy(card => card.value).ToList();
-
         int boost = (int)Math.Pow(10, 6);
-
 
         //Look for simillar cards:
         List<Card> threesList = new List<Card>();
@@ -524,7 +544,7 @@ public class Room
         return new HandStrength(handValue, handRank, hand);
     }
 
-    private int CalculateHandValue(List<Card> hand, int boost)
+    public int CalculateHandValue(List<Card> hand, int boost)
     {
         int ans = boost;
         for (int i = 0; i < 5; i++)

@@ -22,7 +22,7 @@ using System.Threading.Tasks;
         public Boolean spectating;
 
 
-        public GamePreferences(Gametype gameType,int buyIn, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
+        public GamePreferences(Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
         {
             
 
