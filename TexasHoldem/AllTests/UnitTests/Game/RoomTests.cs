@@ -10,7 +10,7 @@ namespace AllTests.UnitTests.Game
         private User u = new User("tom12345", "12345678", "aaa.png", "hello@gmail.com",50000);
         private User u1 = new User("tom12346", "12345678", "bbb.png", "hello1@gmail.com",50000);
         private User u2 = new User("tom12347", "12345678", "ccc.png", "hello3@gmail.com",50000);
-        private GamePreferences  gp= new GamePreferences(Gametype.NoLimit,1,0,1,1,8,true);
+        private GamePreferences  gp= new GamePreferences(Gametype.NoLimit,1,0,4,2,8,true);
 
         [TestMethod]
         public void AddPlayerTest()
@@ -51,6 +51,7 @@ namespace AllTests.UnitTests.Game
             Player p = new Player("shachar", u);
             Room r = new Room("aa", p,gp);
             Assert.IsTrue(r.players.Count == 1);
+            r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
             Assert.IsTrue(r.Deck.cards.Count == 47);
@@ -64,6 +65,7 @@ namespace AllTests.UnitTests.Game
             Player p = new Player("shachar", u);
             Room r = new Room("aa", p,gp);
             Assert.IsTrue(r.players.Count == 1);
+            r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
             Assert.IsTrue(r.Deck.cards.Count == 47);
@@ -80,6 +82,7 @@ namespace AllTests.UnitTests.Game
             Player p = new Player("shachar", u);
             Room r = new Room("aa", p,gp);
             Assert.IsTrue(r.players.Count == 1);
+            r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
             Assert.IsTrue(r.Deck.cards.Count == 47);
@@ -585,10 +588,10 @@ namespace AllTests.UnitTests.Game
             p1.SetBet(300);
             p2.SetBet(300);
             Player temp1 = r.players[0];
-
+            r.IsOn = true;
             r.CalcWinnersChips();
 
-            Assert.IsTrue(p.ChipsAmount==1200);
+            Assert.IsTrue(p.ChipsAmount==50600);
         }
 
         [TestMethod]
@@ -615,7 +618,7 @@ namespace AllTests.UnitTests.Game
 
             p2.Hand[0] = new Card(7, CardType.Clubs);
             p2.Hand[1] = new Card(7, CardType.Hearts);
-
+            r.IsOn = true;
             p.SetBet(300);
             p1.SetBet(300);
             p2.SetBet(300);
@@ -639,7 +642,7 @@ namespace AllTests.UnitTests.Game
             r.StartGame();
 
 
-            Assert.IsTrue(r.players[0].CurrentBet==0&& r.players[1].CurrentBet == 200&& r.players[2].CurrentBet == 400);
+            Assert.IsTrue(r.players[0].CurrentBet==0&& r.players[1].CurrentBet == 2&& r.players[2].CurrentBet == 4);
         }
 
         [TestMethod]
@@ -654,7 +657,7 @@ namespace AllTests.UnitTests.Game
             r.StartGame();
 
 
-            Assert.IsTrue(r.players[0].CurrentBet == 200 && r.players[1].CurrentBet == 400);
+            Assert.IsTrue(r.players[0].CurrentBet == 2 && r.players[1].CurrentBet == 4);
         }
 
         [TestMethod]

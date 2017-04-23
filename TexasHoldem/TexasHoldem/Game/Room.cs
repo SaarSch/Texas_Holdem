@@ -71,6 +71,7 @@ public class Room
             creator.User.chipsAmount -= gamePreferences.chipPolicy;
         }
 
+        this.gamePreferences = gamePreferences;
         players.Add(creator);
         this.name = name;
         rank = creator.User.Rank;
@@ -357,8 +358,8 @@ public class Room
         }
         if (!IsOn)
         {
-            Logger.Log(Severity.Error, "cant play with less the 2 players");
-            throw new Exception("cant play with less then 2 players");
+            Logger.Log(Severity.Error, "The game has not yet started");
+            throw new Exception("The game has not yet started");
         }
 
         List<Player> winners = Winners();

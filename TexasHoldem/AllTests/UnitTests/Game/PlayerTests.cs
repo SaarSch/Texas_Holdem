@@ -25,6 +25,7 @@ namespace AllTests.UnitTests.Game
         {
             Player p = new Player("shachar", new User("tom12346", "12345678", "aaa.png", "hello@gmail.com",50000));
             p.SetCards(new Card(14, CardType.Clubs), new Card(2, CardType.Clubs));
+            p.ChipsAmount = 50000;
             int chip = p.ChipsAmount;
             p.SetBet(500);
             Assert.IsTrue(p.CurrentBet == 500 && p.ChipsAmount + 500 == chip);
@@ -33,8 +34,9 @@ namespace AllTests.UnitTests.Game
         [TestMethod()]
         public void ClearBetTest()
         {
-            Player p = new Player("shachar", new User("tom12347", "12345678", "aaa.jpeg", "hello@gmail.com",5000));
+            Player p = new Player("shachar", new User("tom12347", "12345678", "aaa.jpeg", "hello@gmail.com",50000));
             p.SetCards(new Card(14, CardType.Clubs), new Card(2, CardType.Clubs));
+            p.ChipsAmount = 50000;
             p.SetBet(500);
             p.ClearBet();
             Assert.IsTrue(p.CurrentBet == 0);
