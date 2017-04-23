@@ -11,7 +11,7 @@ using System.Threading.Tasks;
         PotLimit, 
     }
 
-    class GamePreferences
+    public class GamePreferences
     {
         public Gametype gameType;
         public int buyInPolicy;
@@ -22,8 +22,9 @@ using System.Threading.Tasks;
         public Boolean spectating;
 
 
-        public GamePreferences(Gametype gameType,int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
+        public GamePreferences(Gametype gameType,int buyIn, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
         {
+            
 
             if(buyInPolicy < 0)
             {
@@ -55,6 +56,12 @@ using System.Threading.Tasks;
                 throw new Exception("Maximum players cant be more then 8");
             }
 
+            if (minBet > chipPolicy &&chipPolicy>0)
+            {
+                Logger.Log(Severity.Error, "min bet cant be higher the chip policy");
+                throw new Exception("min bet cant be higher the chip policy");
+            }
+
             this.gameType= gameType;
             this.buyInPolicy = buyInPolicy;
             this.chipPolicy = chipPolicy;
@@ -63,6 +70,4 @@ using System.Threading.Tasks;
             this.maxPlayers = maxPlayer;
             this.spectating = spectating;
         }
-
-
     }

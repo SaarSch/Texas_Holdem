@@ -10,16 +10,13 @@ public class Player
     public Boolean Folded = false;
     public HandStrength StrongestHand;
     public User User;
+    public int previousRaise = 0;
+    public Boolean betInThisRound = false;
 
 
 
-    public Player(string name, int chips, User user)
+    public Player(string name, User user)
         {
-        if (chips < 0)
-        {
-            Logger.Log(Severity.Error, "cant create player With out chips");
-            throw new Exception("illegal amount of chips");
-        }
         if (name == null)
         {
             Logger.Log(Severity.Exception, "cant create player with null name");
@@ -32,7 +29,6 @@ public class Player
         }
         this.User = user;
         this.Name = name;
-        ChipsAmount = chips;
         Logger.Log(Severity.Action, "new player created for user:"+User.GetUsername());
     }
 
@@ -55,8 +51,10 @@ public class Player
             Logger.Log(Severity.Error, "bet must be greater then zero and less-equal to player chips");
             throw new Exception("illegael bet");
         }
-            CurrentBet +=amount;
-            ChipsAmount -= amount;
+        CurrentBet +=amount;
+        ChipsAmount -= amount;
+        previousRaise = amount;
+        betInThisRound = true;
         Logger.Log(Severity.Action, "User: " + User.GetUsername() + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
     }
 
