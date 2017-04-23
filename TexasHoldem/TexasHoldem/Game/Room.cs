@@ -302,7 +302,13 @@ public class Room
 
         if (gamePreferences.gameType == Gametype.PotLimit)// limit pot
         {
-
+            int pot = 0;
+            foreach (Player p1 in players) pot += p1.CurrentBet;
+            if (bet > pot)
+            {
+                Logger.Log(Severity.Error, "in limit pot mode bet must lower then pot");
+                throw new Exception("in limit pot mode bet must lower then pot");
+            }
         }
 
         p.SetBet(bet);
