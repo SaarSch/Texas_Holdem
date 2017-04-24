@@ -6,8 +6,8 @@ namespace AllTests.UnitTests.Users
     [TestClass]
     public class TestUser
     {
-        User yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com");
-        User kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com");
+        User yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+        User kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
         string notif = "10/04/2017 15:30: This is a notification.";
         string notif2 = "";
 

@@ -50,7 +50,7 @@ namespace TexasHoldem
 
             try
             {
-                Users.Add(new Pair<User, bool>(new User(username, password, "default.png", "default@gmail.com"), false));
+                Users.Add(new Pair<User, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
             }
             catch (Exception e)
             {

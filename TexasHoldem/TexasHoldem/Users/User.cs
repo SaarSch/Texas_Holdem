@@ -13,11 +13,12 @@ public class User
     public List<string> Notifications { get; set; }
     public int Rank;
     public int wins;
+    public int chipsAmount;
 
     private List<Player> players; //change to list of Games?
     private List<Room> rooms; //do we need this?
 
-    public User(string username, string password, string avatarPath, string email)
+    public User(string username, string password, string avatarPath, string email, int chipsAmount)
     {
         wins = 0;
         Rank = 0;
@@ -28,6 +29,7 @@ public class User
         Notifications = new List<string>();
         players = new List<Player>();
         rooms = new List<Room>();
+        this.chipsAmount = chipsAmount;
     }
 
     public void AddNotification(string notif)

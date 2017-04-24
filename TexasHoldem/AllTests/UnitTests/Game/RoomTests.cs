@@ -7,17 +7,18 @@ namespace AllTests.UnitTests.Game
     [TestClass]
     public class RoomTests
     {
-        private User u = new User("tom12345", "12345678", "aaa.png", "hello@gmail.com");
-        private User u1 = new User("tom12346", "12345678", "bbb.png", "hello1@gmail.com");
-        private User u2 = new User("tom12347", "12345678", "ccc.png", "hello3@gmail.com");
+        private User u = new User("tom12345", "12345678", "aaa.png", "hello@gmail.com",50000);
+        private User u1 = new User("tom12346", "12345678", "bbb.png", "hello1@gmail.com",50000);
+        private User u2 = new User("tom12347", "12345678", "ccc.png", "hello3@gmail.com",50000);
+        private GamePreferences  gp= new GamePreferences(Gametype.NoLimit,1,0,4,2,8,true);
 
         [TestMethod]
         public void AddPlayerTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar" ,u);
+            Room r = new Room("aa", p, gp);
             Assert.IsTrue(r.players.Count == 1);
-            Player p1 = new Player("shachar", 0, u1);
+            Player p1 = new Player("shachar", u1);
             r.AddPlayer(p1);
             Assert.IsTrue(r.players.Count == 2);
         }
@@ -25,13 +26,13 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void DealTwoTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
             Assert.IsTrue(r.players.Count == 1);
-            Player p1 = new Player("shachar", 0, u1);
-            Player p3 = new Player("shachar", 0, new User("tom12345f", "12345678", "gggg.png", "hello@gmail.com"));
-            Player p4 = new Player("shachar", 0, new User("tom12345g", "12345678", "eeee.png", "hello@gmail.com"));
-            Player p5 = new Player("shachar", 0, new User("tom12345h", "12345678", "jgjg.png", "hello@gmail.com"));
+            Player p1 = new Player("shachar", u1);
+            Player p3 = new Player("shachar",  new User("tom12345f", "12345678", "gggg.png", "hello@gmail.com",50000));
+            Player p4 = new Player("shachar",  new User("tom12345g", "12345678", "eeee.png", "hello@gmail.com", 50000));
+            Player p5 = new Player("shachar",  new User("tom12345h", "12345678", "jgjg.png", "hello@gmail.com", 50000));
             r.AddPlayer(p1);
             r.AddPlayer(p3);
             r.AddPlayer(p4);
@@ -47,9 +48,10 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void DealCommunityFirstTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p,gp);
             Assert.IsTrue(r.players.Count == 1);
+            r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
             Assert.IsTrue(r.Deck.cards.Count == 47);
@@ -60,9 +62,10 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void DealCommunitySecondTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p,gp);
             Assert.IsTrue(r.players.Count == 1);
+            r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
             Assert.IsTrue(r.Deck.cards.Count == 47);
@@ -76,9 +79,10 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void DealCommunityThirdTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p,gp);
             Assert.IsTrue(r.players.Count == 1);
+            r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
             Assert.IsTrue(r.Deck.cards.Count == 47);
@@ -96,8 +100,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorRoyalStraightTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p,gp);
             List < Card > win= new List<Card>();// royal flush
             win.Add(new Card(14, CardType.Clubs));
             win.Add(new Card(13, CardType.Clubs));
@@ -122,8 +126,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraight4OfTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
             List<Card> win = new List<Card>();// straight flush
             win.Add(new Card(7, CardType.Clubs));
             win.Add(new Card(2, CardType.Clubs));
@@ -148,8 +152,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator4OfFullTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
             List<Card> win = new List<Card>();//4 of a kind
             win.Add(new Card(7, CardType.Clubs));
             win.Add(new Card(7, CardType.Spades));
@@ -174,8 +178,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorFullFlushTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
             List<Card> win = new List<Card>();//full house
             win.Add(new Card(6, CardType.Clubs));
@@ -201,8 +205,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorFlushStraightTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
             List<Card> win = new List<Card>();//flush
             win.Add(new Card(14, CardType.Diamonds));
@@ -228,8 +232,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraight3OfTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
             List<Card> win = new List<Card>();//straight
             win.Add(new Card(14, CardType.Diamonds));
@@ -255,8 +259,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator3Of2PairsTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
             List<Card> win = new List<Card>();//3 of a kind
             win.Add(new Card(14, CardType.Diamonds));
@@ -282,8 +286,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator2PairsPairTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
             List<Card> win = new List<Card>();//2 pairs
             win.Add(new Card(14, CardType.Diamonds));
@@ -309,8 +313,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void BHandCalculatorPairHighCardTest()
         {
-            Player p = new Player("shachar", 0, new User("tom12345a", "12345678", "aaa.png", "hello@gmail.com"));
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", new User("tom12345a", "12345678", "aaa.png", "hello@gmail.com",50000));
+            Room r = new Room("aa", p, gp);
 
         
             List<Card> win = new List<Card>();//pair
@@ -337,8 +341,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorPairPairTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
 
             List<Card> win = new List<Card>();//pair
@@ -365,8 +369,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator2Pair2PairTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
 
             List<Card> win = new List<Card>();// 2 pair
@@ -393,8 +397,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorHighHighTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
 
             List<Card> win = new List<Card>();//high card
@@ -421,8 +425,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraightStraightTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
 
             List<Card> win = new List<Card>();//straight
@@ -449,8 +453,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator3Of3OfTest()
         {
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
 
             List<Card> win = new List<Card>();//3 of a kind
             win.Add(new Card(14, CardType.Diamonds));
@@ -477,9 +481,10 @@ namespace AllTests.UnitTests.Game
         public void WinnersTest()
         {
 
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar", 0, u1);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p,gp);
+            Player p1 = new Player("shachar", u1);
+
             r.AddPlayer(p1);
             r.communityCards[0]= new Card(13, CardType.Diamonds);
             r.communityCards[1] = new Card(13, CardType.Spades);
@@ -500,10 +505,10 @@ namespace AllTests.UnitTests.Game
         public void WinnersSameHandRankTest()
         {
 
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar", 0, u1);
-            Player p2 = new Player("shachar", 0, u2);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p,gp);
+            Player p1 = new Player("shachar", u1);
+            Player p2 = new Player("shachar", u2);
             r.AddPlayer(p1);
             r.communityCards[0] = new Card(13, CardType.Diamonds);
             r.communityCards[1] = new Card(11, CardType.Spades);
@@ -529,10 +534,10 @@ namespace AllTests.UnitTests.Game
         public void WinnersTieTest()
         {
 
-            Player p = new Player("shachar", 0, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar", 0, u1);
-            Player p2 = new Player("shachar", 0, u2);
+            Player p = new Player("shachar", u);
+            Room r = new Room("aa", p, gp);
+            Player p1 = new Player("shachar",  u1);
+            Player p2 = new Player("shachar", u2);
             r.AddPlayer(p1);
             r.communityCards[0] = new Card(13, CardType.Diamonds);
             r.communityCards[1] = new Card(11, CardType.Spades);
@@ -558,10 +563,10 @@ namespace AllTests.UnitTests.Game
         public void ChipsTest()
         {
 
-            Player p = new Player("shachar1", 600, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar2", 500, u1);
-            Player p2 = new Player("shachar3", 300, u2);
+            Player p = new Player("shachar1", u);
+            Room r = new Room("aa", p, gp);
+            Player p1 = new Player("shachar2", u1);
+            Player p2 = new Player("shachar3", u2);
             r.AddPlayer(p1);
             r.AddPlayer(p2);
             r.communityCards[0] = new Card(13, CardType.Diamonds);
@@ -583,20 +588,20 @@ namespace AllTests.UnitTests.Game
             p1.SetBet(300);
             p2.SetBet(300);
             Player temp1 = r.players[0];
-
+            r.IsOn = true;
             r.CalcWinnersChips();
 
-            Assert.IsTrue(p.ChipsAmount==1200);
+            Assert.IsTrue(p.ChipsAmount==50600);
         }
 
         [TestMethod]
         public void NextTurnTest()
         {
 
-            Player p = new Player("shachar1", 770, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar2", 700, u1);
-            Player p2 = new Player("shachar3", 7000 , u2);
+            Player p = new Player("shachar1", u);
+            Room r = new Room("aa", p, gp);
+            Player p1 = new Player("shachar2", u1);
+            Player p2 = new Player("shachar3", u2);
             r.AddPlayer(p1);
             r.AddPlayer(p2);
             r.communityCards[0] = new Card(13, CardType.Diamonds);
@@ -613,7 +618,7 @@ namespace AllTests.UnitTests.Game
 
             p2.Hand[0] = new Card(7, CardType.Clubs);
             p2.Hand[1] = new Card(7, CardType.Hearts);
-
+            r.IsOn = true;
             p.SetBet(300);
             p1.SetBet(300);
             p2.SetBet(300);
@@ -628,31 +633,41 @@ namespace AllTests.UnitTests.Game
         public void SmallBigBlindTest()
         {
 
-            Player p = new Player("shachar1", 770, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar2", 700, u1);
-            Player p2 = new Player("shachar3", 7000, u2);
+            Player p = new Player("shachar1", u);
+            Room r = new Room("aa", p,gp);
+            Player p1 = new Player("shachar2", u1);
+            Player p2 = new Player("shachar3", u2);
             r.AddPlayer(p1);
             r.AddPlayer(p2);
-            r.StartGame(200);
+            r.StartGame();
 
 
-            Assert.IsTrue(r.players[0].CurrentBet==0&& r.players[1].CurrentBet == 200&& r.players[2].CurrentBet == 400);
+            Assert.IsTrue(r.players[0].CurrentBet==0&& r.players[1].CurrentBet == 2&& r.players[2].CurrentBet == 4);
         }
 
         [TestMethod]
         public void SmallBigBlind2PlayersTest()
         {
 
-            Player p = new Player("shachar1", 770, u);
-            Room r = new Room("aa", p);
-            Player p1 = new Player("shachar2", 700, u1);
-            Player p2 = new Player("shachar3", 7000, u2);
+            Player p = new Player("shachar1" , u);
+            Room r = new Room("aa", p,gp);
+            Player p1 = new Player("shachar2", u1);
+            Player p2 = new Player("shachar3" , u2);
             r.AddPlayer(p1);
-            r.StartGame(200);
+            r.StartGame();
 
 
-            Assert.IsTrue(r.players[0].CurrentBet == 200 && r.players[1].CurrentBet == 400);
+            Assert.IsTrue(r.players[0].CurrentBet == 2 && r.players[1].CurrentBet == 4);
+        }
+
+        [TestMethod]
+        public void SpectateTest()
+        {
+
+            Player p = new Player("shachar1", u);
+            Room r = new Room("aa", p,gp);
+            r.Spectate(u);
+            Assert.IsTrue(r.spectateUsers.Contains(u));
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 
 public enum HandRank
     {
-
         ROYAL_FLUSH,
         STRAIGHT_FLUSH,
         FOUR_OF_A_KIND,
@@ -19,25 +18,60 @@ public enum HandRank
 
 public class Room
 {
-
+    public Boolean IsOn = false;
+    public List<User> spectateUsers = new List<User>();
     public List<Player> players = new List<Player>(8);
     public Deck Deck = new Deck();
     public Card[] communityCards = new Card[5];
     public string name;
     public int rank;
+    public GamePreferences gamePreferences;
+    public Boolean flop;
+    public int pot = 0;
 
-    public Room(String name, Player creator)
+    public Room(String name, Player creator, GamePreferences gamePreferences)
     {
+
         if (name == null)
         {
             Logger.Log(Severity.Exception, "room name cant be null");
-            throw new Exception("illegal room name");
+            throw new Exception("room name cant be null");
         }
+
         if (creator == null)
         {
             Logger.Log(Severity.Exception, "creator palyer cant be null");
-            throw new Exception("illegal Player");
+            throw new Exception("creator palyer cant be null");
         }
+
+        if (gamePreferences == null)
+        {
+            Logger.Log(Severity.Exception, "game Preferences cant be null");
+            throw new Exception("game Preferences cant be null");
+        }
+        //chipPolicy- amount of chips eace player is given, 0== all in.  
+        //minBet- the minimum bet
+        //buy-in- the minimum chip to join the game
+
+        if (creator.User.chipsAmount < gamePreferences.minBet || (creator.User.chipsAmount < gamePreferences.chipPolicy && gamePreferences.chipPolicy > 0) || creator.User.chipsAmount < gamePreferences.buyInPolicy)
+        {
+            Logger.Log(Severity.Error, "player chips amount is too low to join");
+            throw new Exception("player chips amount is too low to join");
+        }
+
+        if (gamePreferences.chipPolicy == 0)
+        {
+            creator.ChipsAmount = creator.User.chipsAmount;
+            creator.User.chipsAmount = 0;
+        }
+
+        else
+        {
+            creator.ChipsAmount = gamePreferences.chipPolicy;
+            creator.User.chipsAmount -= gamePreferences.chipPolicy;
+        }
+
+        this.gamePreferences = gamePreferences;
         players.Add(creator);
         this.name = name;
         rank = creator.User.Rank;
@@ -46,12 +80,17 @@ public class Room
 
     public void AddPlayer(Player p)
     {
+        if (IsOn)
+        {
+            Logger.Log(Severity.Exception, "cant join, game is on");
+            throw new Exception("cant join, game is on");
+        }
         if (p == null)
         {
             Logger.Log(Severity.Exception, "cant add a null player to the room");
             throw new Exception("illegal Player");
         }
-        if (players.Count > 7)
+        if (players.Count > gamePreferences.maxPlayers)
         {
             Logger.Log(Severity.Exception, "room is full, cant add the player");
             throw new Exception("room is full");
@@ -61,7 +100,22 @@ public class Room
             Logger.Log(Severity.Error, "player rank is too low to join");
             throw new Exception("player rank is too low to join");
         }
+        if (p.User.chipsAmount < gamePreferences.minBet || (p.User.chipsAmount < gamePreferences.chipPolicy && gamePreferences.chipPolicy > 0)|| p.User.chipsAmount<gamePreferences.buyInPolicy)
+        {
+            Logger.Log(Severity.Error, "player chips amount is too low to join");
+            throw new Exception("player chips amount is too low to join");
+        }
 
+        if (gamePreferences.chipPolicy == 0)
+        {
+            p.ChipsAmount = p.User.chipsAmount;
+            p.User.chipsAmount = 0;
+        }
+        else
+        {
+            p.ChipsAmount = gamePreferences.chipPolicy;
+            p.User.chipsAmount -= gamePreferences.chipPolicy;
+        }
         players.Add(p);
         Logger.Log(Severity.Action, "new player joined the room: room name=" + name + "player name=" + p.Name);
     }
@@ -98,6 +152,21 @@ public class Room
         Logger.Log(Severity.Action, "player " + p.Name + " left the room: room name=" + name);
     }
 
+    public void Spectate(User user)
+    {
+        if (!gamePreferences.spectating)
+        {
+
+            Logger.Log(Severity.Exception, "cant spectat at this room");
+            throw new Exception("cant spectat at this room");
+        }
+        if(user is null)
+        {
+            Logger.Log(Severity.Exception, "cant add a null user to the room");
+            throw new Exception("null user");
+        }
+        spectateUsers.Add(user);
+    }
 
     public void DealTwo()
     {
@@ -107,7 +176,7 @@ public class Room
         }
     }
 
-    public bool AllFold()
+    private bool AllFold()
     {
         bool ans = true;
         foreach (Player p in players)
@@ -120,40 +189,60 @@ public class Room
 
     public void DealCommunityFirst()
     {
+        if (!IsOn)
+        {
+            Logger.Log(Severity.Exception, "The game has not yet started cant deal community first");
+            throw new Exception("The game has not yet started cant deal community first");
+        }
         if (AllFold())
         {
             Logger.Log(Severity.Error, "all players folded no need to deal community cards");
             throw new Exception("all players folded");
         }
-        for (int i = 0; i < 5; i++) if (communityCards[i] != null)
+        for (int i = 0; i < 5; i++)
+            if (communityCards[i] != null)
             {
                 Logger.Log(Severity.Error, "Already distributed first 3 community cards");
                 throw new Exception("Already distributed community cards");
             }
+
         communityCards[0] = Deck.Draw();
         communityCards[1] = Deck.Draw();
         communityCards[2] = Deck.Draw();
-        Logger.Log(Severity.Action, "3 commuinty cards deald room name=" + name +"community cards:" +communityCards[0].ToString()+ communityCards[1].ToString()+ communityCards[2].ToString());
+        foreach (Player p in players) p.betInThisRound = false;
+        Logger.Log(Severity.Action, "3 commuinty cards deald room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString());
     }
 
     public void DealCommunitySecond()
     {
+        if (!IsOn)
+        {
+            Logger.Log(Severity.Exception, "The game has not yet started cant deal community second");
+            throw new Exception("The game has not yet started cant deal community second");
+        }
         if (AllFold())
         {
             Logger.Log(Severity.Error, "all players folded no need to deal community cards");
             throw new Exception("all players folded");
         }
-        for (int i = 3; i < 5; i++) if (communityCards[i] != null)
+        for (int i = 3; i < 5; i++)
+            if (communityCards[i] != null)
             {
                 Logger.Log(Severity.Error, "Already distributed 4 community cards");
                 throw new Exception("Already distributed community cards");
             }
         communityCards[3] = Deck.Draw();
+        foreach (Player p in players) p.betInThisRound = false;
         Logger.Log(Severity.Action, "1 commuinty cards deald room name=" + name + "community cards:"+ communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString()+ communityCards[3].ToString());
     }
 
     public void DealCommunityThird()
     {
+        if (!IsOn)
+        {
+            Logger.Log(Severity.Exception, "The game has not yet started cant deal community third");
+            throw new Exception("The game has not yet started cant deal community third");
+        }
         if (AllFold())
         {
             Logger.Log(Severity.Error, "all players folded no need to deal community cards");
@@ -165,29 +254,25 @@ public class Room
             throw new Exception("Already distributed community cards");
         }
         communityCards[4] = Deck.Draw();
+        foreach (Player p in players) p.betInThisRound = false;
         Logger.Log(Severity.Action, "1 commuinty cards deald room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString() + communityCards[3].ToString()+ communityCards[4].ToString());
     }
 
-    public void StartGame(int smallBlind)
+    public void StartGame()
     {
-        if (players.Count < 2)
+        if (players.Count < gamePreferences.minPlayers)
         {
-            Logger.Log(Severity.Error, "cant play with less the 2 players");
-            throw new Exception("cant play with less then 2 players");
+            Logger.Log(Severity.Error, "cant play with less then min players");
+            throw new Exception("cant play with less then min players");
         }
-        if (players.Count > 1 && players[0].Hand[0] != null)
+        if (IsOn)
         {
             Logger.Log(Severity.Exception, "game is already started");
             throw new Exception("game alerady started");
         }
-        int minChip = players[0].ChipsAmount;
-        foreach (Player p in players) if (p.ChipsAmount < minChip) minChip = p.ChipsAmount;
-        if (smallBlind * 2 > minChip)
-        {
-            Logger.Log(Severity.Error, "there is players with chip amount less then big blind");
-            throw new Exception("there is a player with less then big blind");
-        }
 
+        IsOn = true;
+        int smallBlind = gamePreferences.minBet / 2;
         Deck = new Deck();
 
         // 0 = dealer 1=small blind 2=big blind
@@ -195,30 +280,93 @@ public class Room
         {
             Logger.Log(Severity.Action, "new game started in room " + name + " dealer and small blind-" + players[0].ToString()+ "big blind-"+players[1]);
             players[0].SetBet(smallBlind);
-            players[1].SetBet(2 * smallBlind);
+            players[1].SetBet(gamePreferences.minBet);
         }
         else
         {
             Logger.Log(Severity.Action, "new game started in room"+name+" dealer" + players[0].ToString()+ "small blind-" + players[1].ToString() + "big blind-" + players[2] +PlayersToString(players));
             players[1].SetBet(smallBlind);
-            players[2].SetBet(2 * smallBlind);
+            players[2].SetBet(gamePreferences.minBet);
         }
         DealTwo();
     }
 
-    public List<Player> Winners()
+    public void SetBet(Player p, int bet)
     {
-        if (communityCards[4] == null)
+        if (p == null)
         {
-            Logger.Log(Severity.Exception, "game is not over");
-            throw new Exception("game is not over");
+            Logger.Log(Severity.Exception, "player cant be null");
+            throw new Exception("player cant be null");
         }
-        if (players.Count < 2)
+
+        if (bet < gamePreferences.minBet)
         {
-            Logger.Log(Severity.Error, "cant play with less the 2 players");
-            throw new Exception("cant play with less then 2 players");
+            Logger.Log(Severity.Error, "cant bet less then min bet");
+            throw new Exception("cant bet less then min bet");
         }
-        
+
+        if (gamePreferences.gameType == Gametype.NoLimit && p.betInThisRound && p.previousRaise < bet) // no limit mode
+        {
+            Logger.Log(Severity.Error, "cant bet less then previous raise in no limit mode");
+            throw new Exception("cant bet less then previous raise in no limit mode");
+        }
+
+        if (gamePreferences.gameType == Gametype.limit) // limit mode
+        {
+            if (communityCards[0]== null || communityCards[3] == null)  //pre flop & flop
+            {
+               if(bet!= gamePreferences.minBet)
+                {
+                    Logger.Log(Severity.Error, "in pre flop/flop in limit mode bet must be equal to big blind");
+                    throw new Exception("in pre flop/flop in limit mode set must be equal to big blind");
+                }
+            }
+
+            if (communityCards[3]!=null || communityCards[4] != null)  //turn & river
+            {
+                if (bet*2 != gamePreferences.minBet)
+                {
+                    Logger.Log(Severity.Error, "in pre turn/river in limit mode bet must be equal to 2*big blind");
+                    throw new Exception("in pre turn/river in limit mode bet must be equal to 2*big blind");
+                }
+            }
+        }
+
+        if (gamePreferences.gameType == Gametype.PotLimit)// limit pot
+        {
+            int pot = 0;
+            foreach (Player p1 in players) pot += p1.CurrentBet;
+            if (bet > pot)
+            {
+                Logger.Log(Severity.Error, "in limit pot mode bet must lower then pot");
+                throw new Exception("in limit pot mode bet must lower then pot");
+            }
+        }
+
+        p.SetBet(bet);
+
+    }
+
+    public void ExitRoom(Player p)
+    {
+        if (IsOn)
+        {
+            Logger.Log(Severity.Error, "cant exit while game is on");
+            throw new Exception("cant exit while game is on");
+        }
+
+        if (p == null||!players.Contains(p))
+        {
+            Logger.Log(Severity.Exception, "cant exit from room player is invalid");
+            throw new Exception("cant exit from room player is invalid");
+        }
+
+        p.User.chipsAmount += p.ChipsAmount;
+        players.Remove(p);
+    }
+
+    public List<Player> Winners()
+    {  
         List<Player> winners = new List<Player>();
         foreach (Player p in players)
         {
@@ -241,12 +389,23 @@ public class Room
 
     public void CalcWinnersChips()
     {
+        if (communityCards[4] == null)
+        {
+            Logger.Log(Severity.Exception, "game is not over");
+            throw new Exception("game is not over");
+        }
+        if (!IsOn)
+        {
+            Logger.Log(Severity.Error, "The game has not yet started");
+            throw new Exception("The game has not yet started");
+        }
+
         List<Player> winners = Winners();
         Logger.Log(Severity.Action, "the winners in room" + name +"is"+PlayersToString(winners));
         foreach(Player p in winners)
         {
             p.User.wins++;
-            if (p.User.wins == 10)
+            if (p.User.wins == 10) // change to game center field
             {
                 p.User.Rank++;
                 p.User.wins = 0;   
@@ -258,7 +417,8 @@ public class Room
         foreach (Player p in winners) p.ChipsAmount += ChipsForPlayer;
         Logger.Log(Severity.Action, "cuurent status in room" + name + "is" + PlayersToString(players));
 
-        CleanGame();
+        CleanGame(); 
+        IsOn = false;
         NextTurn();
     }
 
@@ -272,15 +432,16 @@ public class Room
         List<User> roomUsers = new List<User>();
 
         foreach (Player p in players) roomUsers.Add(p.User);
+        roomUsers.AddRange(spectateUsers);
         Notifier.Instance.Notify(roomUsers, message);
     }
 
-    private void CleanGame()
+    public void CleanGame()
     {
         foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; p.UndoFold();}
         for (int i = 0; i < 5; i++) communityCards[i] = null;
     }
-    private void NextTurn()
+    public void NextTurn()
     {
         Player zero = players[0];
         for(int i=0; i < players.Count-1; i++) players[i] = players[i + 1];
@@ -289,15 +450,11 @@ public class Room
 
     public HandStrength HandCalculator(List<Card> cards)
     {
-
         int handValue = 0;
         HandRank handRank;
         List<Card> hand = new List<Card>();
-
         List<Card> orderByValue = cards.OrderBy(card => card.value).ToList();
-
         int boost = (int)Math.Pow(10, 6);
-
 
         //Look for simillar cards:
         List<Card> threesList = new List<Card>();
@@ -426,7 +583,7 @@ public class Room
         return new HandStrength(handValue, handRank, hand);
     }
 
-    private int CalculateHandValue(List<Card> hand, int boost)
+    public int CalculateHandValue(List<Card> hand, int boost)
     {
         int ans = boost;
         for (int i = 0; i < 5; i++)
