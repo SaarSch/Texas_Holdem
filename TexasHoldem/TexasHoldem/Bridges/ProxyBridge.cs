@@ -61,9 +61,9 @@ namespace TexasHoldem.Bridges
             return real == null || real.editAvatar(username, newPath);
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName)
+        public bool createNewGame(string gameName, string username, string creatorName, GamePreferences gp)
         {
-            return real == null || real.createNewGame(gameName, username, creatorName);
+            return real == null || real.createNewGame(gameName, username, creatorName, gp);
         }
 
         public bool isGameExist(string gameName)

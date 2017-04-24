@@ -15,9 +15,9 @@ namespace TexasHoldem.Services
             gameCenter = GameCenter.GetGameCenter();
         }
 
-        public Room CreateGame(string roomName, string creatorUserName, string creatorName) // UC 5
+        public Room CreateGame(string roomName, string creatorUserName, string creatorName, GamePreferences gp) // UC 5
         {
-            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName);
+            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName, gp);
         }
 
         public bool IsRoomExist(string roomName)

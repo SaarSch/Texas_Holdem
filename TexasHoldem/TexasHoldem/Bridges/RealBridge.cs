@@ -132,11 +132,11 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName)
+        public bool createNewGame(string gameName, string username, string creatorName, GamePreferences gp)
         {
             try
             {
-                gameManager.CreateGame(gameName, username, creatorName);
+                gameManager.CreateGame(gameName, username, creatorName, gp);
             }
             catch (Exception e)
             {
