@@ -242,12 +242,12 @@ namespace TexasHoldem
             }
         }
 
-        public Room CreateRoom(string roomName, string username, string creator)
+        public Room CreateRoom(string roomName, string username, string creator,GamePreferences gp)
         {
             User user = GetLoggedInUser(username);
             if (user != null)
             {
-                Player p = new Player(creator, 0, user);
+                Player p = new Player(creator, user);
                 if (IsRoomExist(roomName))
                 {
                     Logger.Log(Severity.Error, "ERROR in CreateRoom: room name already taken!");
@@ -255,7 +255,7 @@ namespace TexasHoldem
                 }
                 else
                 {
-                    Room newRoom = new Room(roomName, p);
+                    Room newRoom = new Room(roomName, p,gp);
                     Rooms.Add(newRoom);
                     Logger.Log(Severity.Action, "Room " + newRoom.name + " created successfully by " + creator + "!");
                     return newRoom;
@@ -300,7 +300,7 @@ namespace TexasHoldem
 
             if (room != null)
             {
-                room.AddPlayer(new Player(playerName, 0, user)/*, isSpectator*/);
+                room.AddPlayer(new Player(playerName, user)/*, isSpectator*/);
             }
             else
             {
