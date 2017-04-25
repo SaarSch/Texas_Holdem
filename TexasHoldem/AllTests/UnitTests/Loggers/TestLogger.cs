@@ -9,7 +9,7 @@ namespace AllTests.UnitTests.Loggers
     {
 
         [TestMethod]
-        public void Log_LogActionAndErrorMessages_LogsGrewLonger()
+        public void Log_LogActionAndErrorMessages_LogsHaveChanged()
         {
             long errorLength = 0;
             long actionLength = 0;
@@ -17,15 +17,13 @@ namespace AllTests.UnitTests.Loggers
             long errorLengthAfter = 0;
             long actionLengthAfter = 0;
 
-            if (System.IO.File.Exists(Logger.errorPath))
+            if (File.Exists(Logger.errorPath))
             {
-                File.WriteAllText(Logger.errorPath, String.Empty);
-                errorLength = new System.IO.FileInfo(Logger.errorPath).Length;
+                errorLength = new FileInfo(Logger.errorPath).Length;
             }
-            if (System.IO.File.Exists(Logger.actionPath))
+            if (File.Exists(Logger.actionPath))
             {
-                File.WriteAllText(Logger.actionPath, String.Empty);
-                actionLength = new System.IO.FileInfo(Logger.actionPath).Length;
+                actionLength = new FileInfo(Logger.actionPath).Length;
             }
 
             Logger.Log(Severity.Error, "This is an error message.");
@@ -33,17 +31,17 @@ namespace AllTests.UnitTests.Loggers
             Logger.Log(Severity.Action, "This is an action message.");
             Logger.Log(Severity.Exception, "This is an exception message.");
 
-            if (System.IO.File.Exists(Logger.errorPath))
+            if (File.Exists(Logger.errorPath))
             {
-                errorLengthAfter = new System.IO.FileInfo(Logger.errorPath).Length;
+                errorLengthAfter = new FileInfo(Logger.errorPath).Length;
             }
-            if (System.IO.File.Exists(Logger.actionPath))
+            if (File.Exists(Logger.actionPath))
             {
-                actionLengthAfter = new System.IO.FileInfo(Logger.actionPath).Length;
+                actionLengthAfter = new FileInfo(Logger.actionPath).Length;
             }
 
-            Assert.AreEqual(actionLength + 45, actionLengthAfter);
-            Assert.AreEqual(errorLength + 110, errorLengthAfter);
+            Assert.AreNotEqual(actionLength, actionLengthAfter);
+            Assert.AreNotEqual(errorLength, errorLengthAfter);
         }
 
         [TestMethod]

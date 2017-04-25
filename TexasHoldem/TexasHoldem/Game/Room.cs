@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TexasHoldem.GameReplay;
 
 public enum HandRank
     {
@@ -28,6 +29,8 @@ public class Room
     public GamePreferences gamePreferences;
     public Boolean flop;
     public int pot = 0;
+    private readonly string gameReplay;
+    private int turn = 1;
 
     public Room(String name, Player creator, GamePreferences gamePreferences)
     {
@@ -75,6 +78,8 @@ public class Room
         players.Add(creator);
         this.name = name;
         rank = creator.User.Rank;
+
+        gameReplay = Replayer.CreateReplay();
         Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+rank );
     }
 
@@ -162,7 +167,6 @@ public class Room
         return ans;
     }
 
-
     public void DealCommunityFirst()
     {
         if (!IsOn)
@@ -186,7 +190,9 @@ public class Room
         communityCards[1] = Deck.Draw();
         communityCards[2] = Deck.Draw();
         foreach (Player p in players) p.betInThisRound = false;
-        Logger.Log(Severity.Action, "3 commuinty cards deald room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString());
+
+        Replayer.Save(gameReplay, turn, players, pot, communityCards, "the flop");
+        Logger.Log(Severity.Action, "3 community cards dealed room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString());
     }
 
     public void DealCommunitySecond()
@@ -209,7 +215,9 @@ public class Room
             }
         communityCards[3] = Deck.Draw();
         foreach (Player p in players) p.betInThisRound = false;
-        Logger.Log(Severity.Action, "1 commuinty cards deald room name=" + name + "community cards:"+ communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString()+ communityCards[3].ToString());
+
+        Replayer.Save(gameReplay, turn, players, pot, communityCards, "the turn");
+        Logger.Log(Severity.Action, "1 community card dealed room name=" + name + "community cards:"+ communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString()+ communityCards[3].ToString());
     }
 
     public void DealCommunityThird()
@@ -231,7 +239,9 @@ public class Room
         }
         communityCards[4] = Deck.Draw();
         foreach (Player p in players) p.betInThisRound = false;
-        Logger.Log(Severity.Action, "1 commuinty cards deald room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString() + communityCards[3].ToString()+ communityCards[4].ToString());
+
+        Replayer.Save(gameReplay, turn, players, pot, communityCards, "the river");
+        Logger.Log(Severity.Action, "1 community card dealed room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString() + communityCards[3].ToString()+ communityCards[4].ToString());
     }
 
     public void StartGame()
@@ -252,6 +262,7 @@ public class Room
         Deck = new Deck();
 
         // 0 = dealer 1=small blind 2=big blind
+        Replayer.Save(gameReplay, turn, players, pot, null, "start of turn");
         if (players.Count == 2)
         {
             Logger.Log(Severity.Action, "new game started in room " + name + " dealer and small blind-" + players[0].ToString()+ "big blind-"+players[1]);
@@ -325,7 +336,7 @@ public class Room
         }
 
         p.SetBet(bet);
-
+        Replayer.Save(gameReplay, turn, players, pot, null, null);
     }
 
     public void ExitRoom(String player)
@@ -401,6 +412,8 @@ public class Room
         }
 
         List<Player> winners = Winners();
+
+        Replayer.Save(gameReplay, turn, players, pot, communityCards, "end of turn");
         Logger.Log(Severity.Action, "the winners in room" + name +"is"+PlayersToString(winners));
         foreach(Player p in winners)
         {
@@ -415,7 +428,7 @@ public class Room
         foreach (Player p in players) totalChips += p.CurrentBet;
         int ChipsForPlayer = totalChips / winners.Count;
         foreach (Player p in winners) p.ChipsAmount += ChipsForPlayer;
-        Logger.Log(Severity.Action, "cuurent status in room" + name + "is" + PlayersToString(players));
+        Logger.Log(Severity.Action, "current status in room" + name + "is" + PlayersToString(players));
 
         CleanGame(); 
         IsOn = false;
@@ -441,11 +454,13 @@ public class Room
         foreach (Player p in players) { p.Hand[0] = null; p.Hand[1] = null; p.UndoFold();}
         for (int i = 0; i < 5; i++) communityCards[i] = null;
     }
+
     public void NextTurn()
     {
         Player zero = players[0];
         for(int i=0; i < players.Count-1; i++) players[i] = players[i + 1];
         players[players.Count-1] = zero;
+        turn++;
     }
 
     public HandStrength HandCalculator(List<Card> cards)
