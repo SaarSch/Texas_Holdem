@@ -80,6 +80,14 @@ public class Room
 
     public void AddPlayer(Player p)
     {
+        foreach(Player p1 in players)
+        {
+            if (p1.Name.Equals(p.Name))
+            {
+                Logger.Log(Severity.Exception, "cant join, player name is already exist");
+                throw new Exception("cant join, player name is already exist");
+            }
+        }
         if (IsOn)
         {
             Logger.Log(Severity.Exception, "cant join, game is on");
@@ -119,39 +127,7 @@ public class Room
         players.Add(p);
         Logger.Log(Severity.Action, "new player joined the room: room name=" + name + "player name=" + p.Name);
     }
-
-    public void RemovePlayer(string player)
-    {
-        Player p = null;
-        for (int i = 0; i < players.Count && p == null; i++)
-        {
-            if (player == players[i].Name)
-                p = players[i];
-        }
-
-        if (p == null)
-        {
-            Logger.Log(Severity.Exception, "Player " + player + " isn't in room " + name);
-            throw new Exception("illegal Player");
-        }
-        //TODO:
-        /*
-        if (players.Count > 7)
-        {
-            Logger.Log(Severity.Exception, "room is full, cant add the player");
-            throw new Exception("room is full");
-        }
-        if (p.User.Rank < rank)
-        {
-            Logger.Log(Severity.Error, "player rank is too low to join");
-            throw new Exception("player rank is too low to join");
-        }
-        */
-
-        players.Remove(p);
-        Logger.Log(Severity.Action, "player " + p.Name + " left the room: room name=" + name);
-    }
-
+  
     public void Spectate(User user)
     {
         if (!gamePreferences.spectating)
@@ -293,6 +269,11 @@ public class Room
 
     public void SetBet(Player p, int bet)
     {
+       if(!players.Contains(p))
+        {
+            Logger.Log(Severity.Exception, "invalid player");
+            throw new Exception("invalid player");
+        }
         if (p == null)
         {
             Logger.Log(Severity.Exception, "player cant be null");
@@ -305,7 +286,7 @@ public class Room
             throw new Exception("cant bet less then min bet");
         }
 
-        if (gamePreferences.gameType == Gametype.NoLimit && p.betInThisRound && p.previousRaise < bet) // no limit mode
+        if (gamePreferences.gameType == Gametype.NoLimit && p.betInThisRound && p.previousRaise > bet) // no limit mode
         {
             Logger.Log(Severity.Error, "cant bet less then previous raise in no limit mode");
             throw new Exception("cant bet less then previous raise in no limit mode");
@@ -318,7 +299,7 @@ public class Room
                if(bet!= gamePreferences.minBet)
                 {
                     Logger.Log(Severity.Error, "in pre flop/flop in limit mode bet must be equal to big blind");
-                    throw new Exception("in pre flop/flop in limit mode set must be equal to big blind");
+                    throw new Exception("in pre flop/flop in limit mode bet must be equal to big blind");
                 }
             }
 
@@ -347,7 +328,7 @@ public class Room
 
     }
 
-    public void ExitRoom(Player p)
+    public void ExitRoom(String player)
     {
         if (IsOn)
         {
@@ -355,14 +336,33 @@ public class Room
             throw new Exception("cant exit while game is on");
         }
 
-        if (p == null||!players.Contains(p))
+        if (player == null)
         {
             Logger.Log(Severity.Exception, "cant exit from room player is invalid");
             throw new Exception("cant exit from room player is invalid");
         }
 
-        p.User.chipsAmount += p.ChipsAmount;
-        players.Remove(p);
+        Boolean found = false;
+        foreach (Player p in players) if (p.Name.Equals(player)) found = true;
+        if (!found)
+        {
+            Logger.Log(Severity.Exception, "cant exit from room player is not found");
+            throw new Exception("cant exit from room player is not found");
+        }
+
+        if (players.Count ==1)
+        {
+            Logger.Log(Severity.Exception, "cant exit from room, player is last player");
+            throw new Exception("cant exit from room, player is last player");
+        }
+
+         foreach (Player p in players)
+            if (p.Name.Equals(player))
+            {
+                p.User.chipsAmount += p.ChipsAmount;
+                players.Remove(p);
+                break;
+            }      
     }
 
     public List<Player> Winners()
@@ -509,7 +509,10 @@ public class Room
                 {
                     if (TempOrderd[m].value + 1 == TempOrderd[m + 1].value) tempAscending++;
                 }
-                if (tempAscending == 4 && SumListCard(ascending) < SumListCard(TempOrderd)) ascending = TempOrderd;
+                if (tempAscending == 4 && SumListCard(ascending) < SumListCard(TempOrderd))
+                {
+                    ascending = TempOrderd;
+                }
             }
         }
 
@@ -600,40 +603,6 @@ public class Room
         {
             return IsStrightFlushHelper(ascending, similarShape);
         }
-        if (ascending.Count == 6)
-        {
-            List<Card> leftCut = new List<Card>();
-            leftCut.AddRange(ascending);
-            List<Card> rightCut = new List<Card>();
-            rightCut.AddRange(ascending);
-
-            leftCut.RemoveAt(0);
-            rightCut.RemoveAt(5);
-            leftCut = IsStrightFlushHelper(leftCut, similarShape);
-            rightCut = IsStrightFlushHelper(rightCut, similarShape);
-            if (leftCut == null) return rightCut;
-            return leftCut;
-        }
-        if (ascending.Count == 7)
-        {
-            List<Card> leftCut = new List<Card>();
-            leftCut.AddRange(ascending);
-            List<Card> rightCut = new List<Card>();
-            rightCut.AddRange(ascending);
-            List<Card> bothCut = new List<Card>();
-            bothCut.AddRange(ascending);
-
-            leftCut.RemoveRange(0, 2);
-            rightCut.RemoveRange(5, 2);
-            bothCut.RemoveAt(0);
-            bothCut.RemoveAt(5);
-            leftCut = IsStrightFlushHelper(leftCut, similarShape);
-            rightCut = IsStrightFlushHelper(rightCut, similarShape);
-            bothCut = IsStrightFlushHelper(bothCut, similarShape);
-            if (bothCut == null && leftCut == null) return rightCut;
-            if (leftCut == null) return bothCut;
-            return leftCut;
-        }
         return null;
     }
 
@@ -651,5 +620,28 @@ public class Room
         int sum = 0;
         for (int i = 0; i < cards.Count;i++) sum += cards[i].value;
         return sum;
+    }
+
+    public void Fold(Player p)
+    {
+        if (p == null)
+        {
+            Logger.Log(Severity.Exception, "player cant be null");
+            throw new Exception("player cant be null");
+        }
+
+        if (!players.Contains(p))
+        {
+            Logger.Log(Severity.Exception, "invalid player");
+            throw new Exception("invalid player");
+        }
+
+        if (p.Folded)
+        {
+            Logger.Log(Severity.Exception, "player already folded");
+            throw new Exception("player already folded");
+        }
+
+        p.Fold();
     }
 }

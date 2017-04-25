@@ -21,6 +21,15 @@ namespace AllTests.UnitTests.Game
         }
 
         [TestMethod()]
+        public void SetCardsTestFalse()
+        {
+            Player p = new Player("shachar", new User("tom1234555", "12345678", "aaa.png", "hello@gmail.com", 50000));
+            try { p.SetCards(null, new Card(2, CardType.Clubs)); }
+            catch(Exception e) { Assert.IsTrue(e.Message.Equals("can't put null cards")); }
+           
+        }
+
+        [TestMethod()]
         public void SetBetTest()
         {
             Player p = new Player("shachar", new User("tom12346", "12345678", "aaa.png", "hello@gmail.com",50000));
@@ -29,6 +38,23 @@ namespace AllTests.UnitTests.Game
             int chip = p.ChipsAmount;
             p.SetBet(500);
             Assert.IsTrue(p.CurrentBet == 500 && p.ChipsAmount + 500 == chip);
+        }
+
+        [TestMethod()]
+        public void SetBetTestFlase()
+        {
+            Player p = new Player("shachar", new User("tom12346", "12345678", "aaa.png", "hello@gmail.com", 50000));
+            p.SetCards(new Card(14, CardType.Clubs), new Card(2, CardType.Clubs));
+            p.ChipsAmount = 50000;
+            int chip = p.ChipsAmount;
+            try
+            {
+                p.SetBet(-500);
+            }
+            catch(Exception e)
+            {
+                Assert.IsTrue(e.Message.Equals("illegael bet"));
+            }
         }
 
         [TestMethod()]

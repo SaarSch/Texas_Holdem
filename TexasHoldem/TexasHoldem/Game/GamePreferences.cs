@@ -50,10 +50,10 @@ using System.Threading.Tasks;
                 throw new Exception("Minimum players cant be less then 2");
             }
 
-            if (maxPlayer > 8)
+            if (maxPlayer > 10)
             {
-                Logger.Log(Severity.Error, "Maximum players cant be more then 8");
-                throw new Exception("Maximum players cant be more then 8");
+                Logger.Log(Severity.Error, "Maximum players cant be more then 9");
+                throw new Exception("Maximum players cant be more then 9");
             }
 
             if (minBet > chipPolicy &&chipPolicy>0)
