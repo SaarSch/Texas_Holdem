@@ -327,7 +327,7 @@ namespace TexasHoldem
             {
                 try
                 {
-                    room.RemovePlayer(playerName);
+                    room.ExitRoom(playerName);
                 }
                 catch (Exception e)
                 {

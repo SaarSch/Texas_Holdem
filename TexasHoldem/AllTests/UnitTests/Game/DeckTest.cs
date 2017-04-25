@@ -39,5 +39,23 @@ namespace AllTests.UnitTests.Game
             Assert.IsTrue(!d.Contains(test.value, test.type));
      
         }
+
+        [TestMethod]
+        public void ComperCardTest()
+        {
+            Card d = new Card(2, CardType.Clubs);
+            Card d1 = new Card(2, CardType.Clubs);
+            Assert.IsTrue(d.CompareTo(d1) == 0);
+
+        }
+
+        [TestMethod]
+        public void ComperCardTestFalse()
+        {
+            Card d = new Card(3, CardType.Clubs);
+            Card d1 = new Card(2, CardType.Clubs);
+            Assert.IsTrue(d.CompareTo(d1) == -1);
+
+        }
     }
 }
