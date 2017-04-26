@@ -14,7 +14,8 @@ public enum HandRank
         THREE_OF_A_KIND,
         TWO_PAIR,
         PAIR,
-        HIGH_CARD
+        HIGH_CARD,
+        FOLD
     }
 
 public class Room
@@ -381,9 +382,14 @@ public class Room
         List<Player> winners = new List<Player>();
         foreach (Player p in players)
         {
-            List<Card> hand = p.Hand.ToList();
-            hand.AddRange(communityCards.ToList());
-            p.StrongestHand = HandCalculator(hand);
+            if (!p.Folded)
+            {
+                List<Card> hand = p.Hand.ToList();
+                hand.AddRange(communityCards.ToList());
+                p.StrongestHand = HandCalculator(hand);
+            }
+            else p.StrongestHand = new HandStrength(0, HandRank.FOLD, p.Hand.ToList());
+
         }
         int maxHand = 0;
         foreach (Player p in players)  if (p.StrongestHand.handStrongessValue > maxHand) maxHand = p.StrongestHand.handStrongessValue;
