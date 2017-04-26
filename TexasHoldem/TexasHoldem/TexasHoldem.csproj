@@ -47,6 +47,7 @@
     <Compile Include="Bridges\ProxyBridge.cs" />
     <Compile Include="Bridges\RealBridge.cs" />
     <Compile Include="GameCenterHelpers\Pair.cs" />
+    <Compile Include="GameReplay\Replayer.cs" />
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />

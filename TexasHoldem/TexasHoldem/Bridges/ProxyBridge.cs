@@ -61,9 +61,9 @@ namespace TexasHoldem.Bridges
             return real == null || real.editAvatar(username, newPath);
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName, GamePreferences gp)
+        public bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
         {
-            return real == null || real.createNewGame(gameName, username, creatorName, gp);
+            return real == null || real.createNewGame(gameName, username, creatorName, gameType, buyInPolicy,  chipPolicy,  minBet,  minPlayers,  maxPlayer,  spectating);
         }
 
         public bool isGameExist(string gameName)
@@ -130,9 +130,24 @@ namespace TexasHoldem.Bridges
             return real?.getRank(username) ?? 0;
         }
 
-        public void setRank(string gameName, int rank)
+        public void setgameRank(string gameName, int rank)
         {
-            real?.setRank(gameName,rank);
+            real?.setgameRank(gameName,rank);
+        }
+
+        public bool raiseingame(int raiseamount, string gamename, string playername)
+        {
+            return real == null || real.raiseingame(raiseamount, gamename, playername);
+        }
+
+        public bool callingame(string gamename, string playername)
+        {
+            return real == null || real.callingame(gamename, playername);
+        }
+
+        public bool foldingame(string goodGameName, string legalPlayer)
+        {
+            return real == null || real.foldingame(goodGameName, legalPlayer);
         }
     }
 }

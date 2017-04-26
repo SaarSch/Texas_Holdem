@@ -43,8 +43,6 @@ public class Logger
             case Severity.Warning:
                 Console.WriteLine(e);
                 break;
-            default:
-                break;
         }
     }
 }
