@@ -11,8 +11,8 @@ namespace AllTests.AcceptanceTests
         private IBridge bridge;
         private string legalUserName = "eladkamin"; //legal userName
         private string legalPass = "123456789"; //legal password
-        private string legalPlayer = "saarsch12"; //legal player name
-        //private GamePreferences gp = new GamePreferences(Gametype.NoLimit, 1, 0, 4, 2, 8, true);
+        private string legalPlayer = "eladkaminGameName"; //legal player name
+       
 
 
         [TestInitialize]
@@ -403,7 +403,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestJoinExistingGame_Bad_IllegalChecters()
+        public void TestSpectateExistingGame_Bad_IllegalChecters()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -508,6 +508,30 @@ namespace AllTests.AcceptanceTests
             bridge.deleteUser(legalUserName, legalPass);
         }
 
+        [TestMethod]
+        public void TestGameFull_Good()
+        {
+            //login and register 2 pleyers
+            bridge.register(legalUserName, legalPass);
+            bridge.register(legalUserName + "1", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.login(legalUserName + "1", legalPass);
+            //create and join to players to a game
+            bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.joinGame(legalUserName + "1", "Good Game Name",legalPlayer+"1");
+            //play the game-round 1
+            Assert.IsTrue(bridge.raiseingame(50, "Good Game Name", legalPlayer));
+            Assert.IsTrue(bridge.callingame("Good Game Name", legalPlayer+"1"));
+            //round 2
+            Assert.IsTrue(bridge.foldingame("Good Game Name", legalPlayer));
+            bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer);
+
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName+"1", legalPass);
+
+        }
 
 
     }

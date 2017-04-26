@@ -25,6 +25,9 @@ namespace TexasHoldem.Bridges
         IList getActiveGames();
         IList getAllGamesReplay();
         int getRank(string username);
-        void setRank(string gameName, int rank);
+        void setgameRank(string gameName, int rank);
+        bool raiseingame(int raiseamount, string gamename, string playername);
+        bool callingame(string gamename, string playername);
+        bool foldingame(string goodGameName, string legalPlayer);
     }
 }

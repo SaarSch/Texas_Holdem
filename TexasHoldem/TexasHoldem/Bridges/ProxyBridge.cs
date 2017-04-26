@@ -130,9 +130,24 @@ namespace TexasHoldem.Bridges
             return real?.getRank(username) ?? 0;
         }
 
-        public void setRank(string gameName, int rank)
+        public void setgameRank(string gameName, int rank)
         {
-            real?.setRank(gameName,rank);
+            real?.setgameRank(gameName,rank);
+        }
+
+        public bool raiseingame(int raiseamount, string gamename, string playername)
+        {
+            return real == null || real.raiseingame(raiseamount, gamename, playername);
+        }
+
+        public bool callingame(string gamename, string playername)
+        {
+            return real == null || real.callingame(gamename, playername);
+        }
+
+        public bool foldingame(string goodGameName, string legalPlayer)
+        {
+            return real == null || real.foldingame(goodGameName, legalPlayer);
         }
     }
 }
