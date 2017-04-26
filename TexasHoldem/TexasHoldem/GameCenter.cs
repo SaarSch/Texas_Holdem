@@ -138,11 +138,16 @@ namespace TexasHoldem
             {
                 Logger.Log(Severity.Action, username + " logged out successfully!");
             }
-        }
+        } 
 
         public void DeleteAllUsers()
         {
             Users.Clear();
+        }
+
+        public void DeleteAllRooms()
+        {
+            Rooms.Clear();
         }
 
         public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail)
@@ -264,7 +269,7 @@ namespace TexasHoldem
             }
         }
 
-        public Room CreateRoom(string roomName, string username, string creator,GamePreferences gp)
+        public Room CreateRoom(string roomName, string username, string creator, GamePreferences gp)
         {
             User user = GetLoggedInUser(username);
             if (user != null)
@@ -394,7 +399,7 @@ namespace TexasHoldem
             Logger.Log(Severity.Action, username + " changed the default rank to " + rank + "!");
         }
 
-        public void SetEXPCriteria(string username, int exp)
+        public void SetExpCriteria(string username, int exp)
         {
             User context = null;
             try
@@ -420,7 +425,7 @@ namespace TexasHoldem
             Logger.Log(Severity.Action, username + " changed the EXP criteria to " + exp + "!");
         }
 
-        public void SetUserRank(string username, string username_to_set, int rank)
+        public void SetUserRank(string username, string usernameToSet, int rank)
         {
             User context = null;
             User toSetRank = null;
@@ -445,14 +450,144 @@ namespace TexasHoldem
             }
             try
             {
-                toSetRank = GetUser(username_to_set);
+                toSetRank = GetUser(usernameToSet);
             }
             catch (Exception e)
             {
                 throw e;
             }
             toSetRank.Rank = rank;
-            Logger.Log(Severity.Action, username + " changed the rank of " + username_to_set + " to " + rank + "!");
+            Logger.Log(Severity.Action, username + " changed the rank of " + usernameToSet + " to " + rank + "!");
         }
+
+        public void DeleteRoom(string roomName)
+        {
+            for (int i = 0; i < Rooms.Count; i++)
+            {
+                if (Rooms[i].name == roomName)
+                {
+                    Rooms.RemoveAt(i);
+                    Logger.Log(Severity.Action, "Room " + roomName + " deleted successfully!");
+                    return;
+                }
+            }
+            Logger.Log(Severity.Error, "Room " + roomName + " does not exist!");
+            throw new Exception("ERROR in DeleteRoom: Room "+ roomName + " does not exist!");
+        }
+
+        public List<Room> FindGames(string contextUser, string playerName, bool playerFlag, int potSize, bool potFlag, GamePreferences gp,
+            bool prefFlag, bool leagueFlag)
+        {
+            List<Room> ans = new List<Room>();
+            string roomsFound = "";
+            User context = null;
+            try
+            {
+                context = GetLoggedInUser(contextUser);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            for (int i = 0; i < Rooms.Count; i++)
+            {
+                bool passed = true;
+
+                if (playerFlag)
+                {
+                    bool found = false;
+                    for (int j = 0; j < Rooms[i].players.Count; j++)
+                    {
+                        if (Rooms[i].players[j].Name == playerName)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        passed = false;
+                    }
+                }
+
+                if (potFlag)
+                {
+                    if (Rooms[i].pot != potSize)
+                    {
+                        passed = false;
+                    }
+                }
+
+                if (leagueFlag)
+                {
+                    if (Rooms[i].rank != context.Rank)
+                    {
+                        passed = false;
+                    }
+                }
+
+                if (prefFlag)
+                {
+                    if (Rooms[i].gamePreferences.minPlayers != gp.minPlayers)
+                    {
+                        passed = false;
+                    }
+                    if (Rooms[i].gamePreferences.maxPlayers != gp.maxPlayers)
+                    {
+                        passed = false;
+                    }
+                    if (Rooms[i].gamePreferences.buyInPolicy != gp.buyInPolicy)
+                    {
+                        passed = false;
+                    }
+                    if (Rooms[i].gamePreferences.chipPolicy != gp.chipPolicy)
+                    {
+                        passed = false;
+                    }
+                    if (Rooms[i].gamePreferences.minBet != gp.minBet)
+                    {
+                        passed = false;
+                    }
+                    if (Rooms[i].gamePreferences.gameType != gp.gameType)
+                    {
+                        passed = false;
+                    }
+                    if (Rooms[i].gamePreferences.spectating != gp.spectating)
+                    {
+                        passed = false;
+                    }
+                }
+
+                if (passed)
+                {
+                    ans.Add(Rooms[i]);
+                }
+            }
+
+            for (int i = 0; i < ans.Count; i++)
+            {
+                if (i < ans.Count - 1)
+                {
+                    roomsFound = roomsFound + ans[i].name + ", ";
+                }
+                else
+                {
+                    roomsFound = roomsFound + ans[i].name + ".";
+                }
+                
+            }
+
+            if (ans.Count > 0)
+            {
+                Logger.Log(Severity.Action, "Found the following game rooms: " + roomsFound);
+                return ans;
+            }
+            else
+            {
+                Logger.Log(Severity.Error, "ERROR in FindGames: No game rooms found.");
+                throw new Exception("No game rooms found.");
+            }
+        }
+
     }
 }

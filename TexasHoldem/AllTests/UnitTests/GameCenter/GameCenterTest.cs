@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem;
 
@@ -238,7 +239,7 @@ namespace AllTests
                 gc.Register("login1234", "123exm1234");
                 context = gc.Login("login1234", "123exm1234");
                 context.Rank = 10;
-                gc.SetEXPCriteria("login1234", 6);
+                gc.SetExpCriteria("login1234", 6);
                 if (gc.EXPCriteria == 6)
                 {
                     succ = true;
@@ -260,7 +261,7 @@ namespace AllTests
             {
                 gc.Register("login1234", "123exm1234");
                 context = gc.Login("login1234", "123exm1234");
-                gc.SetEXPCriteria("login1234", 6);
+                gc.SetExpCriteria("login1234", 6);
                 if (gc.EXPCriteria == 6)
                 {
                     succ = true;
@@ -283,7 +284,7 @@ namespace AllTests
                 gc.Register("login1234", "123exm1234");
                 context = gc.Login("login1234", "123exm1234");
                 context.Rank = 10;
-                gc.SetEXPCriteria("login1234", 4);
+                gc.SetExpCriteria("login1234", 4);
                 if (gc.EXPCriteria == 4)
                 {
                     succ = true;
@@ -302,7 +303,7 @@ namespace AllTests
 
             try
             {
-                gc.SetEXPCriteria("login1234", 6);
+                gc.SetExpCriteria("login1234", 6);
                 if (gc.EXPCriteria == 6)
                 {
                     succ = true;
@@ -408,6 +409,228 @@ namespace AllTests
             { }
             gc.DeleteAllUsers();
             Assert.IsFalse(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_SearchPlayer()
+        {
+            bool succ = false;
+            List<Room> ans = null;
+            GamePreferences pref = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                gc.Login("seanoch123", "seanoch123");
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", pref);
+                gc.CreateRoom("MyRoom2", "login1234", "player2", pref);
+                ans = gc.FindGames("login1234", "player1", true, 0, false, pref, false, false);
+                if (ans.Count == 1 && ans[0].name == "MyRoom1")
+                {
+                    succ = true;
+                }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_SearchPot()
+        {
+            bool succ = false;
+            List<Room> ans = null;
+            Room r = null;
+            GamePreferences pref = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                gc.Login("seanoch123", "seanoch123");
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", pref);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", pref);
+                r.pot = 5;
+                ans = gc.FindGames("login1234", "player1", false, 5, true, pref, false, false);
+                if (ans.Count == 1 && ans[0].name == "MyRoom2")
+                {
+                    succ = true;
+                }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_NoFilter()
+        {
+            bool succ = false;
+            List<Room> ans = null;
+            Room r = null;
+            GamePreferences pref = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                gc.Login("seanoch123", "seanoch123");
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", pref);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", pref);
+                r.pot = 5;
+                ans = gc.FindGames("login1234", "player1", false, 5, false, pref, false, false);
+                if (ans.Count == 2)
+                {
+                    succ = true;
+                }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_DeleteRoom()
+        {
+            bool succ = false;
+            List<Room> ans = null;
+            Room r = null;
+            GamePreferences pref = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                bool before = false;
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.CreateRoom("MyRoom1", "login1234", "player1", pref);
+                if (gc.GetAllRooms().Count == 1)
+                {
+                    before = true;
+                }
+                gc.DeleteRoom("MyRoom1");
+                if (gc.GetAllRooms().Count == 0 && before)
+                {
+                    succ = true;
+                }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_Preferences()
+        {
+            bool succ = false;
+            List<Room> ans = null;
+            Room r = null;
+            GamePreferences pref1 = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+            GamePreferences pref2 = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 2, 10, false);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                gc.Login("seanoch123", "seanoch123");
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", pref1);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", pref2);
+                r.pot = 5;
+                ans = gc.FindGames("login1234", "player1", false, 5, false, pref1, true, false);
+                if (ans.Count == 1)
+                {
+                    succ = true;
+                }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_InLeague()
+        {
+            bool succ = false;
+            User user = null;
+            List<Room> ans = null;
+            Room r = null;
+            GamePreferences pref = new GamePreferences(Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                user = gc.Login("seanoch123", "seanoch123");
+                user.Rank = 5;
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", pref);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", pref);
+                r.pot = 5;
+                ans = gc.FindGames("login1234", "player1", false, 5, false, pref, false, true);
+                if (ans.Count == 1 && ans[0].name=="MyRoom2")
+                if (ans.Count == 1 && ans[0].name=="MyRoom2")
+                {
+                    succ = true;
+                }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_PotAndPlayer()
+        {
+            bool succ = false;
+            List<Room> ans = null;
+            Room r = null;
+            GamePreferences pref = new GamePreferences(Gametype.NoLimit, 0, 10, 5, 3, 4, true);
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                gc.Login("seanoch123", "seanoch123");
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", pref);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", pref);
+                r.pot = 5;
+                gc.CreateRoom("MyRoom3", "login1234", "player2", pref);
+                ans = gc.FindGames("login1234", "player2", true, 5, true, pref, false, false);
+                if (ans.Count == 1 && ans[0].name == "MyRoom2")
+                    if (ans.Count == 1 && ans[0].name == "MyRoom2")
+                    {
+                        succ = true;
+                    }
+            }
+            catch
+            { }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
         }
     }
 }
