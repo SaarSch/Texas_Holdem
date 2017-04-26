@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,8 +133,22 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName, GamePreferences gp)
+        public bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
         {
+            Gametype d = Gametype.NoLimit;
+            switch (gameType)
+            {
+                case "NoLimit":
+                    d=Gametype.NoLimit;
+                    break;
+                case "limit":
+                    d = Gametype.limit;
+                    break;
+                case "PotLimit":
+                    d = Gametype.PotLimit;
+                    break;
+            }
+            GamePreferences gp=new GamePreferences(d, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayer, spectating);
             try
             {
                 gameManager.CreateGame(gameName, username, creatorName, gp);
@@ -185,7 +200,22 @@ namespace TexasHoldem.Bridges
             throw new NotImplementedException();
         }
 
-        public void setRank(string gameName, int rank)
+        public bool raiseingame(int raiseamount, string gamename, string playername)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool callingame(string gamename, string playername)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool foldingame(string goodGameName, string legalPlayer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setgameRank(string gameName, int rank)
         {
             throw new NotImplementedException();
         }
