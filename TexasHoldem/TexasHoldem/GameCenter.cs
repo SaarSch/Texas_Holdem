@@ -17,13 +17,16 @@ namespace TexasHoldem
 
         // Implementation according to the Singleton Pattern
         private static GameCenter instance = null;
-        private List<Pair<User,bool>> Users;
+        private List<Pair<User, bool>> Users;
         private List<Room> Rooms;
-        
+        public int EXPCriteria { get; private set; }
+        public int DefaultRank { get; private set; }
+
         private GameCenter()
         {
             Users = new List<Pair<User, bool>>();
             Rooms = new List<Room>();
+            EXPCriteria = 10;
         }
 
         public static GameCenter GetGameCenter()
@@ -137,6 +140,11 @@ namespace TexasHoldem
             }
         }
 
+        public void DeleteAllUsers()
+        {
+            Users.Clear();
+        }
+
         public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail)
         {
             bool userExists = false;
@@ -198,7 +206,7 @@ namespace TexasHoldem
                 {
                     if (!Users[i].Second)
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This user is not logged in.");
+                        Logger.Log(Severity.Error, "ERROR in GetLoggedInUser: This user is not logged in.");
                         throw new Exception("This user is not logged in.");
                     }
                     else
@@ -208,6 +216,20 @@ namespace TexasHoldem
                 }
             }
             Logger.Log(Severity.Error, "ERROR in Edit Profile: This user doesn't exist.");
+            throw new Exception("This user doesn't exist.");
+        }
+
+        public User GetUser(string username)
+        {
+            for (int i = 0; i < Users.Count; i++)
+            {
+                if (Users[i].First.GetUsername() == username)
+                {
+
+                        return Users[i].First;
+                }
+            }
+            Logger.Log(Severity.Error, "ERROR in GetUser: This user doesn't exist.");
             throw new Exception("This user doesn't exist.");
         }
 
@@ -344,6 +366,93 @@ namespace TexasHoldem
         public List<Room> GetAllRooms()
         {
             return Rooms;
+        }
+
+        public void SetDefaultRank(string username, int rank)
+        {
+            User context = null;
+            try
+            {
+                context = GetLoggedInUser(username);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            if (context.Rank != 10)
+            {
+                Logger.Log(Severity.Error, "ERROR in SetDefaultRank: Only highest rank users can update the default rank!");
+                throw new Exception("Only highest rank users can update the default rank!");
+            }
+            if (rank < 0 || rank > 10)
+            {
+                Logger.Log(Severity.Error, "ERROR in SetDefaultRank: Default rank must be an integer in [0,10]!");
+                throw new Exception("Default rank must be an integer in [0,10]!");
+            }
+            this.DefaultRank = rank;
+            Logger.Log(Severity.Action, username + " changed the default rank to " + rank + "!");
+        }
+
+        public void SetEXPCriteria(string username, int exp)
+        {
+            User context = null;
+            try
+            {
+                context = GetLoggedInUser(username);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            if (context.Rank != 10)
+            {
+                Logger.Log(Severity.Error, "ERROR in SetEXPCriteria: Only highest rank users can update the EXP criteria!");
+                throw new Exception("Only highest rank users can update the EXP criteria!");
+            }
+            if (exp < 5 || exp > 20)
+            {
+                Logger.Log(Severity.Error, "ERROR in SetDefaultRank: EXP criteria must be an integer in [5,20]!");
+                throw new Exception("EXP criteria must be an integer in [5, 20]!");
+            }
+            this.EXPCriteria = exp;
+            Logger.Log(Severity.Action, username + " changed the EXP criteria to " + exp + "!");
+        }
+
+        public void SetUserRank(string username, string username_to_set, int rank)
+        {
+            User context = null;
+            User toSetRank = null;
+            try
+            {
+                context = GetLoggedInUser(username);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            if (context.Rank != 10)
+            {
+                Logger.Log(Severity.Error, "ERROR in SetUserRank: Only highest rank users can set other users' rank!");
+                throw new Exception("Only highest rank users can set other users' rank!");
+            }
+            if (rank < 0 || rank > 10)
+            {
+                Logger.Log(Severity.Error, "ERROR in SetUserRank: Default rank must be an integer in [0,10]!");
+                throw new Exception("Default rank must be an integer in [0,10]!");
+            }
+            try
+            {
+                toSetRank = GetUser(username_to_set);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            toSetRank.Rank = rank;
+            Logger.Log(Severity.Action, username + " changed the rank of " + username_to_set + " to " + rank + "!");
         }
     }
 }
