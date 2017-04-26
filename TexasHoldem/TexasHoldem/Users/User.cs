@@ -21,7 +21,7 @@ public class User
     public User(string username, string password, string avatarPath, string email, int chipsAmount)
     {
         wins = 0;
-        Rank = 0;
+        Rank = GameCenter.GetGameCenter().DefaultRank;
         SetUsername(username);
         SetPassword(password);
         SetAvatar(avatarPath);

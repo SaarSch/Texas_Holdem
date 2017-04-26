@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TexasHoldem.GameReplay;
+using TexasHoldem;
 
 public enum HandRank
     {
@@ -424,7 +424,7 @@ public class Room
         foreach(Player p in winners)
         {
             p.User.wins++;
-            if (p.User.wins == 10) // change to game center field
+            if (p.User.wins == GameCenter.GetGameCenter().EXPCriteria && p.User.Rank < 10) // change to game center field
             {
                 p.User.Rank++;
                 p.User.wins = 0;   
