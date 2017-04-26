@@ -15,7 +15,7 @@ namespace TexasHoldem.Bridges
         bool editUsername(string username, string newName);
         bool editPassword(string username, string newPass);
         bool editAvatar(string username, string newPath);
-        bool createNewGame(string gameName, string username, string creatorName, GamePreferences gp);
+        bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating);
         bool isGameExist(string gameName);
         bool joinGame(string username, string roomName, string playerName);
         bool spectateGame(string username, string roomName, string playerName);
