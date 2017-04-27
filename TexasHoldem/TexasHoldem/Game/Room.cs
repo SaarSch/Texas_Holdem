@@ -143,6 +143,7 @@ public class Room
             Logger.Log(Severity.Exception, "cant spectat at this room");
             throw new Exception("cant spectat at this room");
         }
+
         if(user is null)
         {
             Logger.Log(Severity.Exception, "cant add a null user to the room");
