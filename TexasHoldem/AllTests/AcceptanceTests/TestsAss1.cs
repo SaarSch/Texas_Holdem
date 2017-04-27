@@ -455,7 +455,7 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
             bridge.createNewGame("Good Game Name789", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.createNewGame("Game Not In Rank", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.setRank("Game Not In Rank", 10);
+            bridge.setgameRank("Game Not In Rank", 10);
 
             IList activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
 
@@ -485,7 +485,7 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
             bridge.createNewGame("Good Game Name777", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.createNewGame("Game Not In Rank777", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.setRank("Game Not In Rank", 1);
+            bridge.setgameRank("Game Not In Rank", 1);
 
             IList activeGames = bridge.getActiveGames();
 
