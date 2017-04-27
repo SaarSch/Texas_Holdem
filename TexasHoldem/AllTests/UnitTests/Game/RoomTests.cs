@@ -537,7 +537,7 @@ namespace AllTests.UnitTests.Game
             try { r.SetBet(null, 1000); }
             catch(Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("player cant be null"));
+                Assert.IsTrue(e.Message.Equals("invalid player"));
             }
      
         }
