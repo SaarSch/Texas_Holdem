@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TexasHoldem;
+using TexasHoldem.GameReplay;
 
 public enum HandRank
     {
@@ -154,7 +155,9 @@ public class Room
     {
         foreach (Player p in players)
         {
+
             p.SetCards(Deck.Draw(), Deck.Draw());
+            Logger.Log(Severity.Action, "player"+p.Name+"got 2 cards:" +p.Hand[0].ToString()+p.Hand[1].ToString());
         }
     }
 
