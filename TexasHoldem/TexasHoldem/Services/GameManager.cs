@@ -15,9 +15,11 @@ namespace TexasHoldem.Services
             gameCenter = GameCenter.GetGameCenter();
         }
 
-        public Room CreateGame(string roomName, string creatorUserName, string creatorName, GamePreferences gp) // UC 5
+        public Room CreateGame(string roomName, string creatorUserName, string creatorName, Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            bool spectating) // UC 5
         {
-            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName, gp);
+            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName, gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
+            spectating);
         }
 
         public bool IsRoomExist(string roomName)
@@ -25,73 +27,34 @@ namespace TexasHoldem.Services
             return gameCenter.IsRoomExist(roomName);
         }
 
-        public bool JoinGame(string username, string roomName, string playerName) // UC 6
+        public void JoinGame(string username, string roomName, string playerName) // UC 6
         {
-            try
-            {
-                gameCenter.AddUserToRoom(username, roomName, playerName, false);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-            return true;
+            gameCenter.AddUserToRoom(username, roomName, false, playerName);
         }
 
-        public bool SpectateGame(string username, string roomName, string playerName) // UC 7
+        public void SpectateGame(string username, string roomName, string playerName) // UC 7
         {
-            try
-            {
-                gameCenter.AddUserToRoom(username, roomName, playerName, true);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-            return true;
+            gameCenter.AddUserToRoom(username, roomName, true);
         }
 
-        public bool LeaveGame(string username, string roomName, string playerName) // UC 8
+        public void LeaveGame(string username, string roomName, string playerName) // UC 8
         {
-            try
-            {
-                gameCenter.RemoveUserFromRoom(username, roomName, playerName);
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-            return true;
+            gameCenter.RemoveUserFromRoom(username, roomName, playerName);
         }
 
         public List<string> FindGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
             Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag) // UC 11
         {
-            try
-            {
-                return gameCenter.FindGames(username, playerName, playerFlag, potSize, potFlag,
-                    gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-                    spectating, prefFlag, leagueFlag);
-            }
-            catch (Exception e)
-            {
-                return new List<string>(); // no rooms found
-            }
+            return gameCenter.FindGames(username, playerName, playerFlag, potSize, potFlag,
+                gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
+                spectating, prefFlag, leagueFlag);
         }
 
-        public List<string> FindGames(string username) // UC 11
+        public List<string> FindGames(string username) // UC 11 (Finds any available game)
         {
-            try
-            {
-                return gameCenter.FindGames(username, "", false, 0, false, Gametype.NoLimit, 0, 10, 4, 3, 7, false, false,
-                    false);
-            }
-            catch (Exception e)
-            {
-                return new List<string>(); // no rooms found
-            }
-            
+            return gameCenter.FindGames(username, "", false, 0, false, Gametype.NoLimit, 0, 10, 4, 3, 7, false, false,
+                false);
         }
 
         public void PlayGame() // UC 12
@@ -102,6 +65,11 @@ namespace TexasHoldem.Services
         public void PlaceBets() // UC 13
         {
             
+        }
+
+        public void SetDefaultRank(string username, int rank)
+        {
+            gameCenter.SetDefaultRank(username, rank);
         }
 
         public bool restartGameCenter()

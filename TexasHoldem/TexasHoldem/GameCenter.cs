@@ -270,8 +270,10 @@ namespace TexasHoldem
             }
         }
 
-        public Room CreateRoom(string roomName, string username, string creator, GamePreferences gp)
+        public Room CreateRoom(string roomName, string username, string creator, Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            bool spectating)
         {
+            GamePreferences gp = new GamePreferences(gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers, spectating);
             User user = GetLoggedInUser(username);
             if (user != null)
             {
@@ -328,7 +330,7 @@ namespace TexasHoldem
             return true;
         }
 
-        public void AddUserToRoom(string username, string roomName, string playerName, bool isSpectator)
+        public void AddUserToRoom(string username, string roomName, bool isSpectator, string playerName = "")
         {
             Room room = null;
             User user = null;
@@ -344,7 +346,15 @@ namespace TexasHoldem
 
             if (room != null)
             {
-                room.AddPlayer(new Player(playerName, user)/*, isSpectator*/);
+                if (isSpectator)
+                {
+                    room.Spectate(user);
+                }
+                else
+                { 
+                    
+                room.AddPlayer(new Player(playerName, user));
+                }
             }
             else
             {
