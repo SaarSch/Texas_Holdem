@@ -18,6 +18,12 @@ namespace AllTests.AcceptanceTests
             bridge = new ProxyBridge();
         }
 
+        [TestCleanup()] // happens after each test
+        public void Cleanup() 
+        {
+            bridge.restartGameCenter();
+        }
+
         [TestMethod]
         public void TestRegisterToTheSystem_Good()
         {
@@ -268,14 +274,14 @@ namespace AllTests.AcceptanceTests
 
         [TestMethod]
         public void
-            TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers() // TODO: remove? no need for number of players when creating a room
+            TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8,
+            Assert.IsFalse(bridge.createNewGame("Good Game Name2", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 11,
                 true));
-            Assert.IsFalse(bridge.isGameExist("Good Game Name"));
+            Assert.IsFalse(bridge.isGameExist("Good Game Name2"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -300,14 +306,14 @@ namespace AllTests.AcceptanceTests
             bridge.register("GoodName", legalPass);
 
             bridge.login(legalUserName, legalPass);
-            bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.createNewGame("Good Game Name1568", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.logOut(legalUserName);
 
             bridge.login("GoodName", legalPass);
 
-            var activeGames = bridge.getActiveGames(bridge.getRank("GoodName"));
+            var activeGames = bridge.findGames("GoodName", "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
 
-            Assert.IsTrue(bridge.joinGame(legalUserName, "Good Game Name", legalPlayer));
+            Assert.IsTrue(bridge.joinGame("GoodName", "Good Game Name1568", "imaplayer"));
 
             bridge.deleteUser(legalUserName, legalPass);
             bridge.deleteUser("GoodName", legalPass);
@@ -365,7 +371,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsTrue(bridge.joinGame(legalUserName, "", legalPlayer));
+            Assert.IsFalse(bridge.joinGame(legalUserName, "", legalPlayer)); // the room shouldn't exist because it's name is illegal
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -383,7 +389,7 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            var activeGames = bridge.getActiveGames();
+            var activeGames = bridge.findGames(legalUserName);
 
             Assert.IsTrue(bridge.spectateGame("GoodName", "Good Game Name", "SEAN1234"));
 
@@ -427,11 +433,11 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestReplayGame_Good() //TODO:::how to create a replay??
+        public void TestReplayGame_Good()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-            var replayGames = bridge.getAllGamesReplay();
+            var replayGames = bridge.getAllGameReplays();
 
             Assert.IsTrue(bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer));
 
@@ -454,13 +460,13 @@ namespace AllTests.AcceptanceTests
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-            bridge.createNewGame("Good Game Name789", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.createNewGame("Good Game Name564", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.createNewGame("Game Not In Rank", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.setgameRank("Game Not In Rank", 10);
+            //bridge.setGameRank("Game Not In Rank", 10);
 
-            var activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
+            var activeGames = bridge.findGames(legalUserName, "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
 
-            Assert.IsTrue(activeGames.Contains("Good Game Name789"));
+            Assert.IsTrue(activeGames.Contains("Good Game Name564"));
             Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -472,7 +478,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            var activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
+            var activeGames = bridge.findGames(legalUserName, "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
 
             Assert.IsTrue(activeGames.Count == 0);
 
@@ -484,11 +490,11 @@ namespace AllTests.AcceptanceTests
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-            bridge.createNewGame("Good Game Name777", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.createNewGame("Game Not In Rank777", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.setgameRank("Game Not In Rank", 1);
+            bridge.createNewGame("Good Game Name777", legalUserName, legalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
+            bridge.createNewGame("Game Not In Rank777", legalUserName, legalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
+            //bridge.setGameRank("Game Not In Rank", 1);
 
-            var activeGames = bridge.getActiveGames();
+            var activeGames = bridge.findGames(legalUserName);
 
             Assert.IsTrue(activeGames.Contains("Good Game Name777"));
             Assert.IsTrue(activeGames.Contains("Game Not In Rank777"));
@@ -502,7 +508,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            var activeGames = bridge.getActiveGames();
+            var activeGames = bridge.findGames(legalUserName);
 
             Assert.IsTrue(activeGames.Count == 0);
 
@@ -522,10 +528,10 @@ namespace AllTests.AcceptanceTests
             bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
             //play the game-round 1
-            Assert.IsTrue(bridge.raiseingame(50, "Good Game Name", legalPlayer));
-            Assert.IsTrue(bridge.callingame("Good Game Name", legalPlayer + "1"));
+            Assert.IsTrue(bridge.raiseInGame(50, "Good Game Name", legalPlayer));
+            Assert.IsTrue(bridge.callInGame("Good Game Name", legalPlayer + "1"));
             //round 2
-            Assert.IsTrue(bridge.foldingame("Good Game Name", legalPlayer));
+            Assert.IsTrue(bridge.foldInGame("Good Game Name", legalPlayer));
             bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer);
 
 

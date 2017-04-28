@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TexasHoldem;
 using TexasHoldem.GameReplay;
 
@@ -31,7 +33,7 @@ public class Room
     public GamePreferences gamePreferences;
     public Boolean flop;
     public int pot = 0;
-    private readonly string gameReplay;
+    public readonly string gameReplay;
     private int turn = 1;
 
     public Room(String name, Player creator, GamePreferences gamePreferences)
@@ -45,8 +47,8 @@ public class Room
 
         if (creator == null)
         {
-            Logger.Log(Severity.Exception, "creator palyer cant be null");
-            throw new Exception("creator palyer cant be null");
+            Logger.Log(Severity.Exception, "creator player cant be null");
+            throw new Exception("creator player cant be null");
         }
 
         if (gamePreferences == null)
@@ -78,6 +80,16 @@ public class Room
 
         this.gamePreferences = gamePreferences;
         players.Add(creator);
+        if (!Regex.IsMatch(name, "^[a-zA-Z0-9 ]*$"))
+        {
+            Logger.Log(Severity.Error, "room name contains illegal characters");
+            throw new Exception("room name contains illegal characters");
+        }
+        if (name.Length > 30 || name.Length < 4)
+        {
+            Logger.Log(Severity.Error, "room name must be between 4 and 30 characters long");
+            throw new Exception("room name too short / long");
+        }
         this.name = name;
         rank = creator.User.Rank;
 
@@ -366,19 +378,21 @@ public class Room
             throw new Exception("cant exit from room player is not found");
         }
 
-        if (players.Count ==1)
-        {
-            Logger.Log(Severity.Exception, "cant exit from room, player is last player");
-            throw new Exception("cant exit from room, player is last player");
-        }
-
          foreach (Player p in players)
             if (p.Name.Equals(player))
             {
                 p.User.chipsAmount += p.ChipsAmount;
                 players.Remove(p);
                 break;
-            }      
+            }
+
+        if (players.Count == 0)
+        {
+            GameCenter.GetGameCenter().DeleteRoom(name);
+            Logger.Log(Severity.Action, "last player exited, room closed");
+            //Logger.Log(Severity.Exception, "cant exit from room, player is last player");
+            //throw new Exception("cant exit from room, player is last player");
+        }
     }
 
     public List<Player> Winners()

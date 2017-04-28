@@ -19,23 +19,21 @@ using System.Threading.Tasks;
         public int minBet;
         public int minPlayers;
         public int maxPlayers;
-        public Boolean spectating;
+        public bool spectating;
 
 
-        public GamePreferences(Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
+        public GamePreferences(Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
         {
-            
-
             if(buyInPolicy < 0)
             {
-                    Logger.Log(Severity.Error, "buy in policy cant be negativ");
-                    throw new Exception("buy in policy  cant be negativ");
+                    Logger.Log(Severity.Error, "buy in policy cant be negative");
+                    throw new Exception("buy in policy cant be negative");
             }
 
             if (chipPolicy < 0)
             {
-                Logger.Log(Severity.Error, "Chip policy cant be negativ");
-                throw new Exception("Chip policy value cant be negativ");
+                Logger.Log(Severity.Error, "Chip policy cant be negative");
+                throw new Exception("Chip policy value cant be negative");
             }
 
             if (minBet < 2)
@@ -52,11 +50,11 @@ using System.Threading.Tasks;
 
             if (maxPlayer > 10)
             {
-                Logger.Log(Severity.Error, "Maximum players cant be more then 9");
-                throw new Exception("Maximum players cant be more then 9");
+                Logger.Log(Severity.Error, "Maximum players cant be more then 10");
+                throw new Exception("Maximum players cant be more then 10");
             }
 
-            if (minBet > chipPolicy &&chipPolicy>0)
+            if (minBet > chipPolicy && chipPolicy > 0)
             {
                 Logger.Log(Severity.Error, "min bet cant be higher the chip policy");
                 throw new Exception("min bet cant be higher the chip policy");

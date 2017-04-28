@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace TexasHoldem
         // Implementation according to the Singleton Pattern
         private static GameCenter instance = null;
         private List<Pair<User, bool>> Users;
-        private List<Room> Rooms;
+        public List<Room> Rooms;
         public int EXPCriteria { get; private set; }
         public int DefaultRank { get; private set; }
 
@@ -303,12 +304,28 @@ namespace TexasHoldem
                 if (Rooms[i].name == roomName)
                     roomFound = Rooms[i];
             }
-            return roomFound;
+            if (roomFound != null)
+            {
+                return roomFound;
+            }
+            else
+            {
+                Logger.Log(Severity.Error, "Error in GetRoom: Room " + roomName + " doesn't exist!");
+                throw new Exception("Room " + roomName + " doesn't exist!");
+            }
         }
 
         public bool IsRoomExist(string roomName)
         {
-            return GetRoom(roomName) != null;
+            try
+            {
+                GetRoom(roomName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public void AddUserToRoom(string username, string roomName, string playerName, bool isSpectator)
@@ -366,11 +383,6 @@ namespace TexasHoldem
                 Logger.Log(Severity.Error, "Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
                 throw new Exception("Room " + roomName + " doesn't exist!");
             }
-        }
-
-        public List<Room> GetAllRooms()
-        {
-            return Rooms;
         }
 
         public void SetDefaultRank(string username, int rank)
@@ -475,9 +487,12 @@ namespace TexasHoldem
             throw new Exception("ERROR in DeleteRoom: Room "+ roomName + " does not exist!");
         }
 
-        public List<Room> FindGames(string contextUser, string playerName, bool playerFlag, int potSize, bool potFlag, GamePreferences gp,
+        // changes from List<Room>
+        public List<string> FindGames(string contextUser, string playerName, bool playerFlag, int potSize, bool potFlag, 
+            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating,
             bool prefFlag, bool leagueFlag)
         {
+            GamePreferences gp = new GamePreferences(gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers, spectating);
             List<Room> ans = new List<Room>();
             string roomsFound = "";
             User context = null;
@@ -580,7 +595,14 @@ namespace TexasHoldem
             if (ans.Count > 0)
             {
                 Logger.Log(Severity.Action, "Found the following game rooms: " + roomsFound);
-                return ans;
+                // added
+                List<string> stringList = new List<string>();
+                foreach (Room r in ans)
+                {
+                    stringList.Add(r.name);
+                }
+                return stringList;
+                //return ans;
             }
             else
             {
@@ -589,5 +611,10 @@ namespace TexasHoldem
             }
         }
 
+        public string GetReplay(string roomName) // TODO : change to CSV file (and move to Replayer?)
+        {
+            string replayFile = GetRoom(roomName).gameReplay;
+            return File.ReadAllText(replayFile);
+        }
     }
 }
