@@ -68,5 +68,10 @@ namespace TexasHoldem.Services
             }
             return true;
         }
+
+        public int GetRank(string userName)
+        {
+           return gameCenter.GetUser(userName).Rank;
+        }
     }
 }

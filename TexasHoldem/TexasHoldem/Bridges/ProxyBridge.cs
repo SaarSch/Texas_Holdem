@@ -116,19 +116,6 @@ namespace TexasHoldem.Bridges
             return real == null || real.leaveGame(username, roomName, playerName);
         }
 
-        public IList getAllGameReplays()
-        {
-            IList s;
-            if (real != null)
-                s = real.getAllGameReplays();
-            else
-            {
-                s = new List<string>();
-                s.Add("Good Game Name");
-            }
-            return s;
-        }
-
         public int getRank(string username)
         {
             return real?.getRank(username) ?? 0;
@@ -145,14 +132,24 @@ namespace TexasHoldem.Bridges
             return real == null || real.callInGame(gamename, playername);
         }
 
-        public bool foldInGame(string goodGameName, string legalPlayer)
+        public bool foldInGame(string gameName, string playerName)
         {
-            return real == null || real.foldInGame(goodGameName, legalPlayer);
+            return real == null || real.foldInGame(gameName, playerName);
         }
 
         public bool restartGameCenter()
         {
             return real == null || real.restartGameCenter();
+        }
+
+        public bool startGame(string roomName)
+        {
+            return real == null || real.startGame(roomName);
+        }
+
+        public bool setBet(string roomName, string PlayerName, int bet)
+        {
+            return real == null || real.setBet(roomName, PlayerName, bet);
         }
     }
 }

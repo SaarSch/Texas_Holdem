@@ -57,19 +57,29 @@ namespace TexasHoldem.Services
                 false);
         }
 
-        public void PlayGame() // UC 12
+        public void StartGame(string gameName) // UC 12
         {
-            
+            gameCenter.GetRoom(gameName).StartGame();
         }
 
-        public void PlaceBets() // UC 13
+        public void PlaceBet(string gameName,string player,int bet) // UC 13
         {
-            
+            gameCenter.GetRoom(gameName).SetBet(gameCenter.GetRoom(gameName).GetPlayer(player), bet, false);
         }
 
         public void SetDefaultRank(string username, int rank)
         {
             gameCenter.SetDefaultRank(username, rank);
+        }
+
+        public void Fold(string room, string userName)
+        {
+            gameCenter.GetRoom(room).Fold(gameCenter.GetRoom(room).GetPlayer(userName));
+        }
+
+        public void Call(string room, string userName)
+        {
+            gameCenter.GetRoom(room).Call(gameCenter.GetRoom(room).GetPlayer(userName));
         }
 
         public bool restartGameCenter()
