@@ -35,7 +35,8 @@ namespace TexasHoldem.GameReplay
             }
             if (round < 1)
             {
-                throw new Exception("round no. is invalid");
+                throw new Exception("round no. is invalid" +
+                    "");
             }
             if (players == null)
             {

@@ -283,19 +283,19 @@ public class Room
         if (players.Count == 2)
         {
             Logger.Log(Severity.Action, "new game started in room " + name + " dealer and small blind-" + players[0].ToString()+ "big blind-"+players[1]);
-            players[0].SetBet(smallBlind);
-            players[1].SetBet(gamePreferences.minBet);
+            SetBet(players[0], smallBlind,true);
+            SetBet(players[1], gamePreferences.minBet,false);
         }
         else
         {
             Logger.Log(Severity.Action, "new game started in room"+name+" dealer" + players[0].ToString()+ "small blind-" + players[1].ToString() + "big blind-" + players[2] +PlayersToString(players));
-            players[1].SetBet(smallBlind);
-            players[2].SetBet(gamePreferences.minBet);
+            SetBet(players[1], smallBlind,true);
+            SetBet(players[2], gamePreferences.minBet,false);
         }
         DealTwo();
     }
 
-    public void SetBet(Player p, int bet)
+    public void SetBet(Player p, int bet,Boolean smallBlind)
     {
        if(!players.Contains(p))
         {
@@ -308,7 +308,7 @@ public class Room
             throw new Exception("player cant be null");
         }
 
-        if (bet < gamePreferences.minBet)
+        if ((bet < gamePreferences.minBet&&!smallBlind)||(smallBlind&&bet!=gamePreferences.minBet/2))
         {
             Logger.Log(Severity.Error, "cant bet less then min bet");
             throw new Exception("cant bet less then min bet");
@@ -663,6 +663,18 @@ public class Room
 
     public void Fold(Player p)
     {
+        Boolean allFolded = true;
+        foreach(Player p1 in players)
+            if (!p1.Folded)
+            {
+                allFolded = false;
+                break;
+            }
+        if (allFolded)
+        {
+            Logger.Log(Severity.Exception, "player cant Fold, all players are folded");
+            throw new Exception("player cant Fold, all players are folded");
+        }
         if (p == null)
         {
             Logger.Log(Severity.Exception, "player cant be null");
@@ -682,5 +694,8 @@ public class Room
         }
 
         p.Fold();
+        Logger.Log(Severity.Action, "player "+p.Name+" folded");
+        Replayer.Save(gameReplay, turn, players, pot, null, null);
+
     }
 }

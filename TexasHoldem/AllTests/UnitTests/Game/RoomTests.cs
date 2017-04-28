@@ -534,7 +534,7 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, gp1);
             try
             {
-                r.SetBet(null, 1000);
+                r.SetBet(null, 1000,false);
             }
             catch (Exception e)
             {
@@ -550,7 +550,7 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, gp1);
             try
             {
-                r.SetBet(p, 0);
+                r.SetBet(p, 0, false);
             }
             catch (Exception e)
             {
@@ -568,7 +568,7 @@ namespace AllTests.UnitTests.Game
             {
                 p.previousRaise = 30;
                 p.betInThisRound = true;
-                r.SetBet(p, 10);
+                r.SetBet(p, 10, false);
             }
             catch (Exception e)
             {
@@ -584,7 +584,7 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, gp1);
             try
             {
-                r.SetBet(p, 120);
+                r.SetBet(p, 120, false);
             }
             catch (Exception e)
             {
@@ -604,7 +604,7 @@ namespace AllTests.UnitTests.Game
             r.communityCards[3] = new Card(5, CardType.Clubs);
             try
             {
-                r.SetBet(p, 120);
+                r.SetBet(p, 120, false);
             }
             catch (Exception e)
             {
@@ -623,7 +623,7 @@ namespace AllTests.UnitTests.Game
             p2.CurrentBet = 500;
             try
             {
-                r.SetBet(p, 600);
+                r.SetBet(p, 600, false);
             }
             catch (Exception e)
             {
@@ -641,7 +641,7 @@ namespace AllTests.UnitTests.Game
             r.AddPlayer(p2);
             p.ChipsAmount = 60000;
             p2.CurrentBet = 500;
-            r.SetBet(p, 300);
+            r.SetBet(p, 300, false);
             Assert.IsTrue(p.CurrentBet == 300);
         }
 
