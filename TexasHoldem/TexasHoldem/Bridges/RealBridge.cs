@@ -257,6 +257,45 @@ namespace TexasHoldem.Bridges
             throw new NotImplementedException();
         }
 
+        public bool setExpCriteria(string username, int exp)
+        {
+            try
+            {
+                gameManager.SetExpCriteria(username, exp);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool setDefaultRank(string username, int rank)
+        {
+            try
+            {
+                gameManager.SetDefaultRank(username, rank);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool setUserLeague(string username, string usernameToSet, int rank)
+        {
+            try
+            {
+                gameManager.SetUserLeague(username, usernameToSet, rank);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool restartGameCenter()
         {
             return gameManager.restartGameCenter();
