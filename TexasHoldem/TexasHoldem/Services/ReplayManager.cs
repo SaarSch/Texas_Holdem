@@ -1,15 +1,25 @@
-﻿namespace TexasHoldem.Services
+﻿using TexasHoldem.GameReplay;
+
+namespace TexasHoldem.Services
 {
     class ReplayManager
     {
-        public void ReplayGame() // UC 9
+        private readonly GameCenter gameCenter;
+
+        public ReplayManager()
         {
-            
+            gameCenter = GameCenter.GetGameCenter();
         }
 
-        public void SaveTurn() // UC 10
+        public string ReplayGame(string roomName) // UC 9
         {
+            return gameCenter.GetReplay(roomName);
+        }
 
+        public string SaveTurn(string roomName, int turnNum) // UC 10
+        {
+            //return Replayer.GetTurn(roomName, turnNum);
+            return "";
         }
     }
 }

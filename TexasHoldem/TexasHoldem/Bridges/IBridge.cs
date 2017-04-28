@@ -21,13 +21,16 @@ namespace TexasHoldem.Bridges
         bool spectateGame(string username, string roomName, string playerName);
         bool leaveGame(string username, string roomName, string playerName);
 
-        IList getActiveGames(int rank);
-        IList getActiveGames();
-        IList getAllGamesReplay();
+        IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
+            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            bool spectating, bool prefFlag, bool leagueFlag);
+        IList findGames(string username);
+        IList getAllGameReplays();
         int getRank(string username);
-        void setgameRank(string gameName, int rank);
-        bool raiseingame(int raiseamount, string gamename, string playername);
-        bool callingame(string gamename, string playername);
-        bool foldingame(string goodGameName, string legalPlayer);
+        bool raiseInGame(int raiseamount, string gamename, string playername);
+        bool callInGame(string gamename, string playername);
+        bool foldInGame(string goodGameName, string legalPlayer);
+
+        bool restartGameCenter();
     }
 }

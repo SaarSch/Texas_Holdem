@@ -70,7 +70,7 @@ namespace AllTests.UnitTests.GameReplay
                 fileLengthAfter = new FileInfo(path).Length;
 
             Assert.AreNotEqual(fileLength, fileLengthAfter);
-            File.Delete(Directory.GetCurrentDirectory() + "\\" + filename);
+            //File.Delete(Directory.GetCurrentDirectory() + "\\" + filename);
         }
 
         [TestMethod]

@@ -64,24 +64,58 @@ namespace TexasHoldem.Services
             return true;
         }
 
-        public List<Room> FindGames(int rank) // UC 11
+        public List<string> FindGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
+            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            bool spectating, bool prefFlag, bool leagueFlag) // UC 11
         {
-            return null;
+            try
+            {
+                return gameCenter.FindGames(username, playerName, playerFlag, potSize, potFlag,
+                    gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
+                    spectating, prefFlag, leagueFlag);
+            }
+            catch (Exception e)
+            {
+                return new List<string>(); // no rooms found
+            }
         }
 
-        public List<Room> ListActiveGames() // UC 12
+        public List<string> FindGames(string username) // UC 11
         {
-            return gameCenter.GetAllRooms();
+            try
+            {
+                return gameCenter.FindGames(username, "", false, 0, false, Gametype.NoLimit, 0, 10, 4, 3, 7, false, false,
+                    false);
+            }
+            catch (Exception e)
+            {
+                return new List<string>(); // no rooms found
+            }
+            
         }
 
-        public void PlayGame() // UC 13
+        public void PlayGame() // UC 12
         {
             
         }
 
-        public void PlaceBets() // UC 14
+        public void PlaceBets() // UC 13
         {
             
+        }
+
+        public bool restartGameCenter()
+        {
+            try
+            {
+                gameCenter.DeleteAllRooms();
+                gameCenter.DeleteAllUsers();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

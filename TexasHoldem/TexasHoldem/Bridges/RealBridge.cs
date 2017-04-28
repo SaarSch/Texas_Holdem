@@ -148,9 +148,9 @@ namespace TexasHoldem.Bridges
                     d = Gametype.PotLimit;
                     break;
             }
-            GamePreferences gp=new GamePreferences(d, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayer, spectating);
             try
             {
+                GamePreferences gp = new GamePreferences(d, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayer, spectating);
                 gameManager.CreateGame(gameName, username, creatorName, gp);
             }
             catch (Exception e)
@@ -165,14 +165,18 @@ namespace TexasHoldem.Bridges
             return gameManager.IsRoomExist(gameName);
         }
 
-        public IList getActiveGames(int rank)
+        public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
+            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            bool spectating, bool prefFlag, bool leagueFlag)
         {
-            return gameManager.FindGames(rank);
+            return gameManager.FindGames(username, playerName, playerFlag, potSize, potFlag,
+                    gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
+                    spectating, prefFlag, leagueFlag);
         }
 
-        public IList getActiveGames()
+        public IList findGames(string username)
         {
-            return gameManager.ListActiveGames();
+            return gameManager.FindGames(username);
         }
 
         public bool joinGame(string username, string roomName, string playerName)
@@ -190,7 +194,7 @@ namespace TexasHoldem.Bridges
             return gameManager.LeaveGame(username, roomName, playerName);
         }
 
-        public IList getAllGamesReplay()
+        public IList getAllGameReplays()
         {
             throw new NotImplementedException();
         }
@@ -200,24 +204,24 @@ namespace TexasHoldem.Bridges
             throw new NotImplementedException();
         }
 
-        public bool raiseingame(int raiseamount, string gamename, string playername)
+        public bool raiseInGame(int raiseamount, string gamename, string playername)
         {
             throw new NotImplementedException();
         }
 
-        public bool callingame(string gamename, string playername)
+        public bool callInGame(string gamename, string playername)
         {
             throw new NotImplementedException();
         }
 
-        public bool foldingame(string goodGameName, string legalPlayer)
+        public bool foldInGame(string goodGameName, string legalPlayer)
         {
             throw new NotImplementedException();
         }
 
-        public void setgameRank(string gameName, int rank)
+        public bool restartGameCenter()
         {
-            throw new NotImplementedException();
+            return gameManager.restartGameCenter();
         }
     }
 }
