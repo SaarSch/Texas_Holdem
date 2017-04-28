@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 
 namespace AllTests.AcceptanceTests
@@ -9,10 +7,9 @@ namespace AllTests.AcceptanceTests
     public class TestsAss1
     {
         private IBridge bridge;
-        private string legalUserName = "eladkamin"; //legal userName
-        private string legalPass = "123456789"; //legal password
-        private string legalPlayer = "eladkaminGameName"; //legal player name
-       
+        private readonly string legalPass = "123456789"; //legal password
+        private readonly string legalPlayer = "eladkaminGameName"; //legal player name
+        private readonly string legalUserName = "eladkamin"; //legal userName
 
 
         [TestInitialize]
@@ -20,8 +17,9 @@ namespace AllTests.AcceptanceTests
         {
             bridge = new ProxyBridge();
         }
+
         [TestMethod]
-        public void TestRegisterToTheSystem_Good() 
+        public void TestRegisterToTheSystem_Good()
         {
             Assert.IsTrue(bridge.register(legalUserName, legalPass));
             Assert.IsTrue(bridge.isUserExist(legalUserName));
@@ -37,14 +35,14 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestRegisterToTheSystem_Sad_IllegalUserName() 
+        public void TestRegisterToTheSystem_Sad_IllegalUserName()
         {
             Assert.IsFalse(bridge.register("K", legalPass));
             Assert.IsFalse(bridge.isUserExist("K"));
         }
 
         [TestMethod]
-        public void TestRegisterToTheSystem_Sad_IllegalPass() 
+        public void TestRegisterToTheSystem_Sad_IllegalPass()
         {
             Assert.IsFalse(bridge.register(legalUserName, "1"));
             Assert.IsFalse(bridge.isUserExist(legalUserName));
@@ -58,14 +56,14 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestRegisterToTheSystem_Bad_IllegalCharactersPass() 
+        public void TestRegisterToTheSystem_Bad_IllegalCharactersPass()
         {
             Assert.IsFalse(bridge.register(legalUserName, "           "));
             Assert.IsFalse(bridge.isUserExist(legalUserName));
         }
 
         [TestMethod]
-        public void TestLoginToTheSystem_Good() 
+        public void TestLoginToTheSystem_Good()
         {
             bridge.register(legalUserName, legalPass);
 
@@ -83,7 +81,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestLoginToTheSystem_Sad_WrongPass() 
+        public void TestLoginToTheSystem_Sad_WrongPass()
         {
             bridge.register(legalUserName, legalPass);
 
@@ -101,7 +99,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestLoginToTheSystem_Bad_SQLInjection() 
+        public void TestLoginToTheSystem_Bad_SQLInjection()
         {
             bridge.register(legalUserName, legalPass);
 
@@ -112,7 +110,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestLogOutFromTheSystem_Good() 
+        public void TestLogOutFromTheSystem_Good()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -123,7 +121,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditUsername_Good() 
+        public void TestEditUsername_Good()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -135,7 +133,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditUsername_Sad_UserNameExist() 
+        public void TestEditUsername_Sad_UserNameExist()
         {
             bridge.register("existingName", legalPass);
             bridge.register(legalUserName, legalPass);
@@ -161,7 +159,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditUsername_Bad_IllegalCharacters() 
+        public void TestEditUsername_Bad_IllegalCharacters()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -188,7 +186,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditPassword_Sad_IllegalPass() 
+        public void TestEditPassword_Sad_IllegalPass()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -210,7 +208,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditAvatar_Good() 
+        public void TestEditAvatar_Good()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -221,7 +219,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditAvatar_Sad_IllegalPic() 
+        public void TestEditAvatar_Sad_IllegalPic()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -232,7 +230,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestEditAvatar_Bad_InfectedPic() 
+        public void TestEditAvatar_Bad_InfectedPic()
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -248,7 +246,8 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsTrue(bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true));
+            Assert.IsTrue(bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8,
+                true));
             Assert.IsTrue(bridge.isGameExist("Good Game Name"));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -260,19 +259,22 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.createNewGame("Illegal Game Name                  35", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true));
+            Assert.IsFalse(bridge.createNewGame("Illegal Game Name                  35", legalUserName, legalPlayer,
+                "NoLimit", 1, 0, 4, 2, 8, true));
             Assert.IsFalse(bridge.isGameExist("Illegal Game Name                  35"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
 
         [TestMethod]
-        public void TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers() // TODO: remove? no need for number of players when creating a room
+        public void
+            TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers() // TODO: remove? no need for number of players when creating a room
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            Assert.IsFalse(bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true));
+            Assert.IsFalse(bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8,
+                true));
             Assert.IsFalse(bridge.isGameExist("Good Game Name"));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -283,8 +285,9 @@ namespace AllTests.AcceptanceTests
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-            
-            Assert.IsFalse(bridge.createNewGame("Illegal@#Game!@Name?)", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true));
+
+            Assert.IsFalse(bridge.createNewGame("Illegal@#Game!@Name?)", legalUserName, legalPlayer, "NoLimit", 1, 0, 4,
+                2, 8, true));
             Assert.IsFalse(bridge.isGameExist("Illegal@#Game!@Name?)"));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -302,7 +305,7 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            IList activeGames = bridge.getActiveGames(bridge.getRank("GoodName"));
+            var activeGames = bridge.getActiveGames(bridge.getRank("GoodName"));
 
             Assert.IsTrue(bridge.joinGame(legalUserName, "Good Game Name", legalPlayer));
 
@@ -368,8 +371,6 @@ namespace AllTests.AcceptanceTests
         }
 
 
-
-
         [TestMethod]
         public void TestSpectateExistingGame_Good()
         {
@@ -382,7 +383,7 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            IList activeGames = bridge.getActiveGames();
+            var activeGames = bridge.getActiveGames();
 
             Assert.IsTrue(bridge.spectateGame("GoodName", "Good Game Name", "SEAN1234"));
 
@@ -394,7 +395,7 @@ namespace AllTests.AcceptanceTests
         public void TestSpectateExistingGame_Sad_IllegalGame()
         {
             bridge.register(legalUserName, legalPass);
-   
+
             bridge.login(legalUserName, legalPass);
 
             Assert.IsFalse(bridge.spectateGame(legalUserName, "gg12", legalPlayer));
@@ -426,11 +427,11 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestReplayGame_Good()//TODO:::how to create a replay??
+        public void TestReplayGame_Good() //TODO:::how to create a replay??
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-            IList replayGames=bridge.getAllGamesReplay();
+            var replayGames = bridge.getAllGamesReplay();
 
             Assert.IsTrue(bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer));
 
@@ -438,7 +439,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestSaveTurn_Good()//TODO:::how to create a game to save a turn??
+        public void TestSaveTurn_Good() //TODO:::how to create a game to save a turn??
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
@@ -457,7 +458,7 @@ namespace AllTests.AcceptanceTests
             bridge.createNewGame("Game Not In Rank", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.setgameRank("Game Not In Rank", 10);
 
-            IList activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
+            var activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
 
             Assert.IsTrue(activeGames.Contains("Good Game Name789"));
             Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
@@ -471,9 +472,9 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            IList activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
+            var activeGames = bridge.getActiveGames(bridge.getRank(legalUserName));
 
-            Assert.IsTrue(activeGames.Count==0);
+            Assert.IsTrue(activeGames.Count == 0);
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -487,7 +488,7 @@ namespace AllTests.AcceptanceTests
             bridge.createNewGame("Game Not In Rank777", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.setgameRank("Game Not In Rank", 1);
 
-            IList activeGames = bridge.getActiveGames();
+            var activeGames = bridge.getActiveGames();
 
             Assert.IsTrue(activeGames.Contains("Good Game Name777"));
             Assert.IsTrue(activeGames.Contains("Game Not In Rank777"));
@@ -501,7 +502,7 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            IList activeGames = bridge.getActiveGames();
+            var activeGames = bridge.getActiveGames();
 
             Assert.IsTrue(activeGames.Count == 0);
 
@@ -519,21 +520,17 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName + "1", legalPass);
             //create and join to players to a game
             bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.joinGame(legalUserName + "1", "Good Game Name",legalPlayer+"1");
+            bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
             //play the game-round 1
             Assert.IsTrue(bridge.raiseingame(50, "Good Game Name", legalPlayer));
-            Assert.IsTrue(bridge.callingame("Good Game Name", legalPlayer+"1"));
+            Assert.IsTrue(bridge.callingame("Good Game Name", legalPlayer + "1"));
             //round 2
             Assert.IsTrue(bridge.foldingame("Good Game Name", legalPlayer));
             bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer);
 
 
             bridge.deleteUser(legalUserName, legalPass);
-            bridge.deleteUser(legalUserName+"1", legalPass);
-
+            bridge.deleteUser(legalUserName + "1", legalPass);
         }
-
-
     }
-
 }
