@@ -66,12 +66,7 @@ namespace TexasHoldem.Services
         {
             gameCenter.GetRoom(gameName).SetBet(gameCenter.GetRoom(gameName).GetPlayer(player), bet, false);
         }
-
-        public void SetDefaultRank(string username, int rank)
-        {
-            gameCenter.SetDefaultRank(username, rank);
-        }
-
+      
         public void Fold(string room, string userName)
         {
             gameCenter.GetRoom(room).Fold(gameCenter.GetRoom(room).GetPlayer(userName));
@@ -80,6 +75,21 @@ namespace TexasHoldem.Services
         public void Call(string room, string userName)
         {
             gameCenter.GetRoom(room).Call(gameCenter.GetRoom(room).GetPlayer(userName));
+        }
+
+        public void SetDefaultRank(string username, int rank) // UC 14
+        {
+            gameCenter.SetDefaultRank(username, rank);
+        }
+      
+        public void SetExpCriteria(string username, int exp) // UC 14
+        {
+            gameCenter.SetExpCriteria(username, exp);
+        }
+
+        public void SetUserLeague(string username, string usernameToSet, int rank) // UC 14
+        {
+            gameCenter.SetUserRank(username, usernameToSet, rank);
         }
 
         public bool restartGameCenter()
