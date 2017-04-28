@@ -150,8 +150,7 @@ namespace TexasHoldem.Bridges
             }
             try
             {
-                GamePreferences gp = new GamePreferences(d, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayer, spectating);
-                gameManager.CreateGame(gameName, username, creatorName, gp);
+                gameManager.CreateGame(gameName, username, creatorName, d, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayer, spectating);
             }
             catch (Exception e)
             {
@@ -169,29 +168,68 @@ namespace TexasHoldem.Bridges
             Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag)
         {
-            return gameManager.FindGames(username, playerName, playerFlag, potSize, potFlag,
+            try
+            {
+                return gameManager.FindGames(username, playerName, playerFlag, potSize, potFlag,
                     gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
                     spectating, prefFlag, leagueFlag);
+            }
+            catch (Exception e)
+            {
+                return new List<string>();
+            }
+            
         }
 
         public IList findGames(string username)
         {
-            return gameManager.FindGames(username);
+            try
+            { 
+                return gameManager.FindGames(username);
+            }
+            catch (Exception e)
+            {
+                return new List<string>();
+            }
         }
 
         public bool joinGame(string username, string roomName, string playerName)
         {
-            return gameManager.JoinGame(username, roomName, playerName);
+            try
+            {
+                gameManager.JoinGame(username, roomName, playerName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool spectateGame(string username, string roomName, string playerName)
         {
-            return gameManager.SpectateGame(username, roomName, playerName);
+            try
+            {
+                gameManager.SpectateGame(username, roomName, playerName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool leaveGame(string username, string roomName, string playerName)
         {
-            return gameManager.LeaveGame(username, roomName, playerName);
+            try
+            {
+                gameManager.LeaveGame(username, roomName, playerName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public IList getAllGameReplays()

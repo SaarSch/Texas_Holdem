@@ -152,8 +152,8 @@ public class Room
         if (!gamePreferences.spectating)
         {
 
-            Logger.Log(Severity.Exception, "cant spectat at this room");
-            throw new Exception("cant spectat at this room");
+            Logger.Log(Severity.Exception, "cant spectate at this room");
+            throw new Exception("cant spectate at this room");
         }
 
         if(user is null)
