@@ -21,6 +21,14 @@ public enum HandRank
         FOLD
     }
 
+public enum gameStatus
+{
+    preFlop,
+    flop,
+    turn,
+    river, 
+}
+
 public class Room
 {
     public Boolean IsOn = false;
@@ -35,6 +43,7 @@ public class Room
     public int pot = 0;
     public readonly string gameReplay;
     private int turn = 1;
+    public gameStatus gameStatus;
 
     public Room(String name, Player creator, GamePreferences gamePreferences)
     {
@@ -196,8 +205,8 @@ public class Room
             Logger.Log(Severity.Error, "all players folded no need to deal community cards");
             throw new Exception("all players folded");
         }
-        for (int i = 0; i < 5; i++)
-            if (communityCards[i] != null)
+        
+            if (gameStatus!=gameStatus.preFlop)
             {
                 Logger.Log(Severity.Error, "Already distributed first 3 community cards");
                 throw new Exception("Already distributed community cards");
@@ -207,6 +216,7 @@ public class Room
         communityCards[1] = Deck.Draw();
         communityCards[2] = Deck.Draw();
         foreach (Player p in players) p.betInThisRound = false;
+        gameStatus = gameStatus.flop;
 
         Replayer.Save(gameReplay, turn, players, pot, communityCards, "the flop");
         Logger.Log(Severity.Action, "3 community cards dealed room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString());
@@ -224,14 +234,15 @@ public class Room
             Logger.Log(Severity.Error, "all players folded no need to deal community cards");
             throw new Exception("all players folded");
         }
-        for (int i = 3; i < 5; i++)
-            if (communityCards[i] != null)
+      
+            if (gameStatus!=gameStatus.flop)
             {
                 Logger.Log(Severity.Error, "Already distributed 4 community cards");
                 throw new Exception("Already distributed community cards");
             }
         communityCards[3] = Deck.Draw();
         foreach (Player p in players) p.betInThisRound = false;
+        gameStatus = gameStatus.turn;
 
         Replayer.Save(gameReplay, turn, players, pot, communityCards, "the turn");
         Logger.Log(Severity.Action, "1 community card dealed room name=" + name + "community cards:"+ communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString()+ communityCards[3].ToString());
@@ -249,13 +260,14 @@ public class Room
             Logger.Log(Severity.Error, "all players folded no need to deal community cards");
             throw new Exception("all players folded");
         }
-        if (communityCards[4] != null)
+        if (gameStatus != gameStatus.turn)
         {
             Logger.Log(Severity.Error, "Already distributed 5 community cards");
             throw new Exception("Already distributed community cards");
         }
         communityCards[4] = Deck.Draw();
         foreach (Player p in players) p.betInThisRound = false;
+        gameStatus = gameStatus.river;
 
         Replayer.Save(gameReplay, turn, players, pot, communityCards, "the river");
         Logger.Log(Severity.Action, "1 community card dealed room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString() + communityCards[3].ToString()+ communityCards[4].ToString());
@@ -273,7 +285,7 @@ public class Room
             Logger.Log(Severity.Exception, "game is already started");
             throw new Exception("game alerady started");
         }
-
+        gameStatus = gameStatus.preFlop;
         IsOn = true;
         int smallBlind = gamePreferences.minBet / 2;
         Deck = new Deck();
@@ -294,6 +306,50 @@ public class Room
         }
         DealTwo();
     }
+
+    public void Call(Player p)
+    {
+        if (!players.Contains(p))
+        {
+            Logger.Log(Severity.Exception, "invalid player");
+            throw new Exception("invalid player");
+        }
+        if (p == null)
+        {
+            Logger.Log(Severity.Exception, "player cant be null");
+            throw new Exception("player cant be null");
+        }
+
+        int maxCips = 0;
+        foreach (Player p1 in players) if (p1.CurrentBet > maxCips) maxCips = p1.CurrentBet;
+        if (p.CurrentBet >maxCips)
+        {
+            Logger.Log(Severity.Exception, "player cant call, he have the high bet!");
+            throw new Exception("player cant call, he have the high bet!");
+        }
+        int callAmount = maxCips - p.CurrentBet;
+        SetBet(p, callAmount, false);
+
+        int amount = p.CurrentBet;
+        bool allCall = true;
+        foreach (Player p1 in players) if (p1.CurrentBet != amount)
+            {
+                allCall = false;
+                break;
+            }
+
+        if (allCall)
+        {
+
+            if (gameStatus==gameStatus.preFlop) DealCommunityFirst();
+
+            else if (gameStatus == gameStatus.flop) DealCommunityFirst();
+
+            else if (gameStatus == gameStatus.turn) DealCommunityThird();
+
+            else if (gameStatus == gameStatus.river) CalcWinnersChips();
+        }
+      }
 
     public void SetBet(Player p, int bet,Boolean smallBlind)
     {
@@ -322,7 +378,7 @@ public class Room
 
         if (gamePreferences.gameType == Gametype.limit) // limit mode
         {
-            if (communityCards[0]== null || communityCards[3] == null)  //pre flop & flop
+            if (gameStatus==gameStatus.preFlop || gameStatus==gameStatus.flop)  //pre flop & flop
             {
                if(bet!= gamePreferences.minBet)
                 {
@@ -331,7 +387,7 @@ public class Room
                 }
             }
 
-            if (communityCards[3]!=null || communityCards[4] != null)  //turn & river
+            if (gameStatus==gameStatus.turn||gameStatus==gameStatus.river)  //turn & river
             {
                 if (bet*2 != gamePreferences.minBet)
                 {
@@ -698,4 +754,30 @@ public class Room
         Replayer.Save(gameReplay, turn, players, pot, null, null);
 
     }
+
+    public Player GetPlayer(string name)
+    {
+        Player ans = null;
+        if(name == null)
+        {
+            Logger.Log(Severity.Exception, "name cant be null");
+            throw new Exception("player name be null");
+        }
+
+        Boolean found = false;
+        foreach (Player p in players) if (p.Name.Equals(name)) found = true;
+        if (!found)
+        {
+            Logger.Log(Severity.Exception, "player is not found");
+            throw new Exception("player is not found");
+        }
+
+        foreach (Player p in players) if (p.Name.Equals(name)) ans = p;
+
+        return ans;
+    }
+
+    
+
+
 }

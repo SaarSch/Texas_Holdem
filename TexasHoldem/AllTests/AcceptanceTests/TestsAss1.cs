@@ -433,23 +433,11 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestReplayGame_Good()
-        {
-            bridge.register(legalUserName, legalPass);
-            bridge.login(legalUserName, legalPass);
-            var replayGames = bridge.getAllGameReplays();
-
-            Assert.IsTrue(bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer));
-
-            bridge.deleteUser(legalUserName, legalPass);
-        }
-
-        [TestMethod]
         public void TestSaveTurn_Good() //TODO:::how to create a game to save a turn??
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-
+            //TODO add call to save turn afther daniel add it!!
             Assert.IsTrue(bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -528,6 +516,7 @@ namespace AllTests.AcceptanceTests
             bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
             //play the game-round 1
+            bridge.startGame("Good Game Name");
             Assert.IsTrue(bridge.raiseInGame(50, "Good Game Name", legalPlayer));
             Assert.IsTrue(bridge.callInGame("Good Game Name", legalPlayer + "1"));
             //round 2

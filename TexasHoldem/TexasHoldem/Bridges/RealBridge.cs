@@ -232,29 +232,48 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public IList getAllGameReplays()
-        {
-            throw new NotImplementedException();
-        }
-
         public int getRank(string userName)
         {
-            throw new NotImplementedException();
+            return userManager.GetRank(userName);
         }
 
         public bool raiseInGame(int raiseamount, string gamename, string playername)
         {
-            throw new NotImplementedException();
+            try
+            {
+                gameManager.PlaceBet(gamename, playername, raiseamount);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool callInGame(string gamename, string playername)
         {
-            throw new NotImplementedException();
+            try
+            {
+                gameManager.Call(gamename, playername);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public bool foldInGame(string goodGameName, string legalPlayer)
+        public bool foldInGame(string gameName, string playerName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                gameManager.Fold(gameName, playerName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool setExpCriteria(string username, int exp)
@@ -300,5 +319,32 @@ namespace TexasHoldem.Bridges
         {
             return gameManager.restartGameCenter();
         }
-    }
+
+        public bool startGame(string roomName)
+        {
+            try
+            {
+                gameManager.StartGame(roomName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool setBet(string roomName, string PlayerName, int bet)
+        {
+            try
+            {
+                gameManager.PlaceBet(roomName,PlayerName,bet);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+      }
 }

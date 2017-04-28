@@ -608,7 +608,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("in pre turn/river in limit mode bet must be equal to 2*big blind"));
+                Assert.IsTrue(e.Message.Equals("in pre flop/flop in limit mode bet must be equal to big blind"));
             }
         }
 

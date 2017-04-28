@@ -25,7 +25,6 @@ namespace TexasHoldem.Bridges
             Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag);
         IList findGames(string username);
-        IList getAllGameReplays();
         int getRank(string username);
         bool raiseInGame(int raiseamount, string gamename, string playername);
         bool callInGame(string gamename, string playername);
@@ -36,5 +35,8 @@ namespace TexasHoldem.Bridges
         bool setUserLeague(string username, string usernameToSet, int rank);
 
         bool restartGameCenter();
+
+        bool startGame(string roomName);
+        bool setBet(string roomName, string PlayerName, int bet);
     }
 }
