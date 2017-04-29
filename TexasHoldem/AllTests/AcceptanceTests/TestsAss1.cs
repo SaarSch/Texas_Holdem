@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 
 namespace AllTests.AcceptanceTests
@@ -530,10 +531,160 @@ namespace AllTests.AcceptanceTests
             bridge.startGame("Good Game Name");
             Assert.IsTrue(bridge.raiseInGame(50, "Good Game Name", legalPlayer));
             Assert.IsTrue(bridge.callInGame("Good Game Name", legalPlayer + "1"));
-            //round 2
+
+            //round 2-afterflop
+            Assert.IsTrue(bridge.raiseInGame(50, "Good Game Name", legalPlayer));
+            Assert.IsTrue(bridge.callInGame("Good Game Name", legalPlayer + "1"));
+
+            //round 3-afterturn
+            Assert.IsTrue(bridge.raiseInGame(50, "Good Game Name", legalPlayer));
+            Assert.IsTrue(bridge.callInGame("Good Game Name", legalPlayer + "1"));
+
+            //round 4-afterriver
             Assert.IsTrue(bridge.foldInGame("Good Game Name", legalPlayer));
             bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer);
 
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName + "1", legalPass);
+        }
+
+        [TestMethod]
+        public void TestGameFull_Sad_IllegalBet()
+        {
+            //login and register 2 players
+            bridge.register(legalUserName, legalPass);
+            bridge.register(legalUserName + "1", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.login(legalUserName + "1", legalPass);
+            //create and join to players to a game
+            bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
+            //play the game-round 1
+            bridge.startGame("Good Game Name");
+            Assert.IsFalse(bridge.raiseInGame(Int32.MaxValue, "Good Game Name", legalPlayer));
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName + "1", legalPass);
+        }
+
+        [TestMethod]
+        public void TestGameFull_Bad_illegalCharacters()
+        {
+            //login and register 2 players
+            bridge.register(legalUserName, legalPass);
+            bridge.register(legalUserName + "1", legalPass);
+
+            bridge.login(legalUserName, legalPass);
+            bridge.login(legalUserName + "1", legalPass);
+            //create and join to players to a game
+            bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
+            //play the game-round 1
+            var e = 'e';
+            bridge.startGame("Good Game Name");
+            Assert.IsFalse(bridge.raiseInGame(e, "Good Game Name", legalPlayer));
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName + "1", legalPass);
+        }
+
+
+
+        [TestMethod]
+        public void TestLeagueManagement_Good_changeDefultLeague_changeLeagueOfUser_changeXP()
+        {
+            bridge.register(legalUserName, legalPass);
+            
+
+            bridge.login(legalUserName, legalPass);
+
+            bridge.setUserRank(legalUserName,10);//max rank-can manage the league
+
+            Assert.IsTrue(bridge.setDefaultRank(legalUserName, 5));
+            bridge.register(legalUserName + "1", legalPass);//create new user
+            Assert.AreEqual(5,bridge.getRank(legalUserName+"1"));//checks if the rank is 5
+
+            Assert.IsTrue(bridge.setUserLeague(legalUserName, legalUserName + "1", 1));
+            Assert.AreEqual(1, bridge.getRank(legalUserName + "1"));//checks if the rank had changed to 1
+
+            Assert.IsTrue(bridge.setExpCriteria(legalUserName,19));
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName+"1", legalPass);
+        }
+
+        [TestMethod]
+        public void TestLeagueManagement_sad_illegalRankLeagueOrExp()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            bridge.setUserRank(legalUserName, 10);//max rank-can manage the league
+
+            Assert.IsFalse(bridge.setDefaultRank(legalUserName, 300));//the rank is not in range [0,10]
+
+            bridge.register(legalUserName + "1", legalPass);//create new user
+            Assert.AreNotEqual(300, bridge.getRank(legalUserName + "1"));//checks if the rank is not 300
+
+            Assert.IsFalse(bridge.setUserLeague(legalUserName, legalUserName + "1", 300));//the rank is not in range [0,10]
+            Assert.AreNotEqual(300, bridge.getRank(legalUserName + "1"));//checks if the rank had not changed to 300
+
+            Assert.IsFalse(bridge.setExpCriteria(legalUserName, 40));//the exp is not in range [5,20]
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName + "1", legalPass);
+        }
+
+        [TestMethod]
+        public void TestLeagueManagement_sad_userDoesnotexist()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            bridge.setUserRank(legalUserName, 10);//max rank-can manage the league
+
+            Assert.IsFalse(bridge.setUserLeague(legalUserName, legalUserName + "1", 1));
+
+            bridge.deleteUser(legalUserName, legalPass);
+        }
+
+        [TestMethod]
+        public void TestLeagueManagement_sad_PermissionDenied()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            bridge.setUserRank(legalUserName, 0);//min rank-can not manage the league
+
+            Assert.IsFalse(bridge.setDefaultRank(legalUserName, 10));
+            bridge.register(legalUserName + "1", legalPass);//create new user
+            Assert.AreNotEqual(10, bridge.getRank(legalUserName + "1"));//checks if the rank is not 10
+
+            Assert.IsFalse(bridge.setUserLeague(legalUserName, legalUserName + "1", 1));
+            Assert.AreNotEqual(1, bridge.getRank(legalUserName + "1"));//checks if the rank had not changed to 1
+
+            Assert.IsFalse(bridge.setExpCriteria(legalUserName, 18));
+
+            bridge.deleteUser(legalUserName, legalPass);
+            bridge.deleteUser(legalUserName + "1", legalPass);
+        }
+
+
+        [TestMethod]
+        public void TestLeagueManagement_Bad()
+        {
+            bridge.register(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+
+            bridge.setUserRank(legalUserName, 10);//max rank-can manage the league
+            var i = 'e';
+            Assert.IsFalse(bridge.setDefaultRank(legalUserName,i));
+
+            Assert.IsFalse(bridge.setUserLeague(legalUserName, legalUserName + "1", i));
+
+            Assert.IsFalse(bridge.setExpCriteria(legalUserName, i));
 
             bridge.deleteUser(legalUserName, legalPass);
             bridge.deleteUser(legalUserName + "1", legalPass);

@@ -171,5 +171,10 @@ namespace TexasHoldem.Bridges
         {
             return real == null || real.setBet(roomName, PlayerName, bet);
         }
+
+        public void setUserRank(string legalUserName, int newrank)
+        {
+            real?.setUserRank(legalUserName, newrank);
+        }
     }
 }
