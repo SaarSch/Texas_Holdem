@@ -34,6 +34,8 @@ namespace TexasHoldem.Bridges
         bool setDefaultRank(string username, int rank);
         bool setUserLeague(string username, string usernameToSet, int rank);
 
+        bool saveTurn(string roomName, int turnNum);
+
         bool restartGameCenter();
 
         bool startGame(string roomName);

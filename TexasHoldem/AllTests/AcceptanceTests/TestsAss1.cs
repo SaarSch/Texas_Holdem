@@ -433,14 +433,27 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestSaveTurn_Good() //TODO:::how to create a game to save a turn??
+        public void TestSaveTurn_Good()
         {
+            //login and register 2 pleyers
             bridge.register(legalUserName, legalPass);
-            bridge.login(legalUserName, legalPass);
-            //TODO add call to save turn afther daniel add it!!
-            Assert.IsTrue(bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer));
+            bridge.register(legalUserName + "1", legalPass);
 
-            bridge.deleteUser(legalUserName, legalPass);
+            bridge.login(legalUserName, legalPass);
+            bridge.login(legalUserName + "1", legalPass);
+            //create and join to players to a game
+            bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
+            //play the game-round 1
+            bridge.startGame("Good Game Name");
+
+            Assert.IsTrue(bridge.saveTurn("Good Game Name", 1));
+            Assert.IsFalse(bridge.saveTurn("Good Game Name", 7));
+
+            bridge.leaveGame(legalUserName, "Good Game Name", legalPlayer);
+            bridge.leaveGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
+
+            bridge.restartGameCenter();
         }
 
         [TestMethod]
@@ -450,7 +463,6 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
             bridge.createNewGame("Good Game Name564", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.createNewGame("Game Not In Rank", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            //bridge.setGameRank("Game Not In Rank", 10);
 
             var activeGames = bridge.findGames(legalUserName, "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
 
@@ -480,7 +492,6 @@ namespace AllTests.AcceptanceTests
             bridge.login(legalUserName, legalPass);
             bridge.createNewGame("Good Game Name777", legalUserName, legalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
             bridge.createNewGame("Game Not In Rank777", legalUserName, legalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
-            //bridge.setGameRank("Game Not In Rank", 1);
 
             var activeGames = bridge.findGames(legalUserName);
 
@@ -506,7 +517,7 @@ namespace AllTests.AcceptanceTests
         [TestMethod]
         public void TestGameFull_Good()
         {
-            //login and register 2 pleyers
+            //login and register 2 players
             bridge.register(legalUserName, legalPass);
             bridge.register(legalUserName + "1", legalPass);
 
