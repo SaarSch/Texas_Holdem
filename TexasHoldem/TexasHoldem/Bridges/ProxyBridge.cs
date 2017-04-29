@@ -152,6 +152,11 @@ namespace TexasHoldem.Bridges
             return real == null || real.setUserLeague(username, usernameToSet, rank);
         }
 
+        public bool saveTurn(string roomName, int turnNum)
+        {
+            return real == null || real.saveTurn(roomName, turnNum);
+        }
+
         public bool restartGameCenter()
         {
             return real == null || real.restartGameCenter();

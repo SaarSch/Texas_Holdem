@@ -621,10 +621,9 @@ namespace TexasHoldem
             }
         }
 
-        public string GetReplay(string roomName) // TODO : change to CSV file (and move to Replayer?)
+        public string GetReplayFilename(string roomName) // TODO : change to CSV file (and move to Replayer?)
         {
-            string replayFile = GetRoom(roomName).gameReplay;
-            return File.ReadAllText(replayFile);
+            return GetRoom(roomName).gameReplay;
         }
     }
 }

@@ -13,13 +13,12 @@ namespace TexasHoldem.Services
 
         public string ReplayGame(string roomName) // UC 9
         {
-            return gameCenter.GetReplay(roomName);
+            return gameCenter.GetReplayFilename(roomName);
         }
 
         public string SaveTurn(string roomName, int turnNum) // UC 10
         {
-            //return Replayer.GetTurn(roomName, turnNum);
-            return "";
+            return Replayer.SaveTurn(gameCenter.GetReplayFilename(roomName), turnNum);
         }
     }
 }

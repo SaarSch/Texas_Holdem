@@ -315,6 +315,19 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
+        public bool saveTurn(string roomName, int turnNum)
+        {
+            try
+            {
+                replayManager.SaveTurn(roomName, turnNum);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool restartGameCenter()
         {
             return gameManager.restartGameCenter();
