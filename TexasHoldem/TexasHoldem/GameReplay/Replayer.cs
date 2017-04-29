@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 
 namespace TexasHoldem.GameReplay
@@ -31,23 +32,28 @@ namespace TexasHoldem.GameReplay
             string path = Directory.GetCurrentDirectory() + "\\" + filename;
             if (!File.Exists(path))
             {
+                Logger.Log(Severity.Exception, "gameReplay file does not exists");
                 throw new Exception("gameReplay file does not exists");
             }
             if (round < 1)
             {
+                Logger.Log(Severity.Exception, "round no. is invalid");
                 throw new Exception("round no. is invalid" +
                     "");
             }
             if (players == null)
             {
+                Logger.Log(Severity.Exception, "player list is invalid");
                 throw new Exception("player list is invalid");
             }
             if (players.Count == 0)
             {
+                Logger.Log(Severity.Exception, "player list is empty");
                 throw new Exception("player list is empty");
             }
             if (pot < 0)
             {
+                Logger.Log(Severity.Exception, "pot value is invalid");
                 throw new Exception("pot value is invalid");
             }
 
@@ -85,6 +91,37 @@ namespace TexasHoldem.GameReplay
             entry += ",,," + comment;
 
             File.AppendAllText(path, entry + Environment.NewLine);
+        }
+
+        public static string SaveTurn(string replay, int turnNum)
+        {
+            string path = Directory.GetCurrentDirectory() + "\\" + replay;
+            string turn = "";
+            if (File.Exists(path))
+            {
+                StreamReader file = new StreamReader(path);
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (Char.GetNumericValue(line[0]) == turnNum)
+                    { 
+                        turn += line + "\n";
+                    }
+                }
+
+                file.Close();
+            }
+            else
+            {
+                Logger.Log(Severity.Exception, "game replay not found");
+                throw new Exception("game replay not found");
+            }
+            if (turn == "")
+            {
+                Logger.Log(Severity.Exception, "turn not found in game replay");
+                throw new Exception("turn not found in game replay");
+            }
+            return turn;
         }
     }
 }

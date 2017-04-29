@@ -21,6 +21,7 @@ public class Notifier
     {
         if(msg == "")
         {
+            Logger.Log(Severity.Exception, "message is empty.");
             throw new Exception("message is empty.");
         }
 
@@ -29,14 +30,6 @@ public class Notifier
         foreach (User u in users)
         {
             u.AddNotification(notif);
-
-            /*
-            if (u.Online)
-            {
-                u.ShowNotification(notif);
-                u.RemoveNotification(notif);
-            }
-            */
         }
     }
 }

@@ -20,6 +20,7 @@ public class Logger
     {
         if (msg == "")
         {
+            Log(Severity.Exception, "message is empty.");
             throw new Exception("message is empty.");
         }
 
