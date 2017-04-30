@@ -359,5 +359,9 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-      }
+        public void setUserRank(string legalUserName, int newrank)
+        {
+            userManager.ChangeRank(legalUserName, newrank);
+        }
+    }
 }

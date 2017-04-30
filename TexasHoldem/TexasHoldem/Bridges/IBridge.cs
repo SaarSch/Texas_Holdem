@@ -40,5 +40,6 @@ namespace TexasHoldem.Bridges
 
         bool startGame(string roomName);
         bool setBet(string roomName, string PlayerName, int bet);
+        void setUserRank(string legalUserName, int newrank);
     }
 }
