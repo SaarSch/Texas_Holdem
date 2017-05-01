@@ -343,7 +343,7 @@ public class Room
 
             if (gameStatus==gameStatus.preFlop) DealCommunityFirst();
 
-            else if (gameStatus == gameStatus.flop) DealCommunityFirst();
+            else if (gameStatus == gameStatus.flop) DealCommunitySecond();
 
             else if (gameStatus == gameStatus.turn) DealCommunityThird();
 
