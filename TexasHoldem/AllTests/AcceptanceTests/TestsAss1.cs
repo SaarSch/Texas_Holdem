@@ -582,7 +582,7 @@ namespace AllTests.AcceptanceTests
             bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
             //play the game-round 1
-            var e = 'e';
+            int e = -1;
             bridge.startGame("Good Game Name");
             Assert.IsFalse(bridge.raiseInGame(e, "Good Game Name", legalPlayer));
 
