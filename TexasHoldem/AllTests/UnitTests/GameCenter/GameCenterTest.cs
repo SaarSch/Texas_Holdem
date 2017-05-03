@@ -560,8 +560,7 @@ namespace AllTests.UnitTests.GameCenter
                 r.pot = 5;
                 ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, true);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
-                    if (ans.Count == 1 && ans[0] == "MyRoom2")
-                        succ = true;
+                    succ = true;
             }
             catch
             {
@@ -591,8 +590,7 @@ namespace AllTests.UnitTests.GameCenter
                 gc.CreateRoom("MyRoom3", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
                 ans = gc.FindGames("login1234", "player2", true, 5, true, Gametype.NoLimit, 0, 10, 5, 3, 4, true, false, false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
-                    if (ans.Count == 1 && ans[0] == "MyRoom2")
-                        succ = true;
+                    succ = true;
             }
             catch
             {
