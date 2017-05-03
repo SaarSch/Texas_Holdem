@@ -589,7 +589,7 @@ namespace AllTests.AcceptanceTests
             bridge.deleteUser(legalUserName, legalPass);
             bridge.deleteUser(legalUserName + "1", legalPass);
         }
-
+       
 
 
         [TestMethod]
