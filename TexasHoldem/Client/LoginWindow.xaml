@@ -1,0 +1,22 @@
+﻿<Window x:Class="Client.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Login" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="447*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="74.758,96,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="151.758,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="74.758,133,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <PasswordBox HorizontalAlignment="Left" Margin="151.758,137,0,0" VerticalAlignment="Top" Width="120" Height="22" Grid.Column="1"/>
+        <Button Content="Log in" HorizontalAlignment="Left" Margin="196.758,181,0,0" VerticalAlignment="Top" Width="75" Click="LogInButtonClick" Name="LogInButton" Grid.Column="1"/>
+        <Button Content="Register" HorizontalAlignment="Left" Margin="105.758,181,0,0" VerticalAlignment="Top" Width="75" Click="RegisterButtonClick" x:Name="RegisterButton" Grid.Column="1"/>
+
+    </Grid>
+</Window>

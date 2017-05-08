@@ -1,0 +1,57 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="TexasHoldem" Height="600" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="419*"/>
+            <RowDefinition Height="150*"/>
+        </Grid.RowDefinitions>
+        <Frame Content="" HorizontalAlignment="Left" Height="126" Margin="176,34,0,0" VerticalAlignment="Top" Width="222" BorderBrush="Black" BorderThickness="1"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="pack://siteoforigin:,,,/Resources/profilePicture.png" Stretch="Fill"/>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="47,134,0,0" VerticalAlignment="Top"/>
+        <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,173,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
+        <DataGrid Name="RoomsGrid" HorizontalAlignment="Left" Height="362" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Room Name"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Players"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="126" Margin="403,34,0,0" VerticalAlignment="Top" Width="455" BorderBrush="Black" BorderThickness="2"/>
+        <Frame Content="" HorizontalAlignment="Left" Height="126" Margin="176,34,0,0" VerticalAlignment="Top" Width="222" BorderBrush="Black" BorderThickness="2"/>
+        <CheckBox Content="Player Name" HorizontalAlignment="Left" Margin="189,52,0,0" VerticalAlignment="Top" x:Name="PlayerCheckbox" Checked="PlayerCheckBoxChecked" Unchecked="PlayerCheckBoxChecked"/>
+        <CheckBox Content="Pot Size" HorizontalAlignment="Left" Margin="189,88,0,0" VerticalAlignment="Top" x:Name="PotCheckbox" Checked="PotCheckboxChecked" Unchecked="PotCheckboxChecked"/>
+        <CheckBox Content="Show only games in my league" HorizontalAlignment="Left" Margin="189,124,0,0" VerticalAlignment="Top" x:Name="LeagueCheckbox"/>
+        <TextBox x:Name="PlayerNameTxt" HorizontalAlignment="Left" Height="23" Margin="290,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+        <TextBox x:Name="PotSizeTxt" HorizontalAlignment="Left" Height="23" Margin="290,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+        <Button x:Name="SearchButton" Content="Search!" HorizontalAlignment="Left" Margin="874,80,0,0" VerticalAlignment="Top" Width="75" Height="36" RenderTransformOrigin="0.507,1" Click="SearchButton_Click"/>
+        <Frame Content="" HorizontalAlignment="Left" Height="126" Margin="403,34,0,0" VerticalAlignment="Top" Width="455" BorderBrush="Black" BorderThickness="1"/>
+        <CheckBox Content="Game Type" HorizontalAlignment="Left" Margin="412,61,0,0" VerticalAlignment="Top" x:Name="GameTypeCheckbox" Checked="GameTypeCheckbox_Checked" Unchecked="GameTypeCheckbox_Checked"/>
+        <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="519,56,0,0" VerticalAlignment="Top" Width="125" Height="25" RenderTransformOrigin="0.7,-0.36" x:Name="GameTypeCombobox" SelectedIndex="0">
+            <ComboBoxItem Content="Limit" />
+            <ComboBoxItem Content="No-Limit"/>
+            <ComboBoxItem Content="Pot-Limit"/>
+        </ComboBox>
+        <CheckBox Content="Buy-in Policy" HorizontalAlignment="Left" Margin="412,91,0,0" VerticalAlignment="Top" x:Name="BuyinPolicyCheckbox" Checked="BuyInPolicyChecked" Unchecked="BuyInPolicyChecked"/>
+        <TextBox x:Name ="BuyinPolicyTxt" HorizontalAlignment="Left" Height="23" Margin="519,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" IsEnabled="False"/>
+        <CheckBox Content="Chip Policy" HorizontalAlignment="Left" Margin="412,119,0,0" VerticalAlignment="Top" x:Name="ChipPolicyCheckbox" Checked="ChipPolicyCheckbox_Checked" Unchecked="ChipPolicyCheckbox_Checked"/>
+        <TextBox x:Name ="ChipPolicyTxt" HorizontalAlignment="Left" Height="23" Margin="519,117,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" IsEnabled="False"/>
+        <CheckBox Content="Min. Bet" HorizontalAlignment="Left" Margin="667,46,0,0" VerticalAlignment="Top" x:Name="MinBetCheckbox" Checked="MinBetCheckbox_Checked" Unchecked="MinBetCheckbox_Checked"/>
+        <TextBox x:Name ="MinBetTxt" HorizontalAlignment="Left" Height="23" Margin="769,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False"/>
+        <CheckBox Content="Min. Players" HorizontalAlignment="Left" Margin="667,72,0,0" VerticalAlignment="Top" x:Name="MinPlayersCheckbox" Checked="MinPlayersCheckbox_Checked" Unchecked="MinPlayersCheckbox_Checked"/>
+        <TextBox x:Name ="MinPlayersTxt" HorizontalAlignment="Left" Height="23" Margin="769,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False"/>
+        <CheckBox Content="Max. Players" HorizontalAlignment="Left" Margin="667,98,0,0" VerticalAlignment="Top" x:Name="MaxPlayersCheckbox" Checked="MaxPlayersCheckbox_Checked" Unchecked="MaxPlayersCheckbox_Checked"/>
+        <TextBox x:Name ="MaxPlayersTxt" HorizontalAlignment="Left" Height="23" Margin="769,96,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False"/>
+        <CheckBox Content="Spectating Allowed" HorizontalAlignment="Left" Margin="667,127,0,0" VerticalAlignment="Top" x:Name="SpectatingCheckbox" Checked="SpectatingCheckbox_Checked" Unchecked="SpectatingCheckbox_Checked"/>
+        <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="794,124,0,0" VerticalAlignment="Top" Width="51" Height="21" RenderTransformOrigin="0.7,-0.36" x:Name="SpectatingCombobox" SelectedIndex="0">
+            <ComboBoxItem Content="Yes" />
+            <ComboBoxItem Content="No"/>
+        </ComboBox>
+
+
+    </Grid>
+</Window>
