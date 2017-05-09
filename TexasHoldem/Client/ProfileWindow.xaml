@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Profile Editor" Height="400" Width="500">
+        Title="Profile Editor" Height="400" Width="500" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image HorizontalAlignment="Left" Height="144" Margin="31,50,0,0" VerticalAlignment="Top" Width="143" Source="pack://siteoforigin:,,,/Resources/profilePicture.png" Stretch="Fill"/>
         <Label Content="Username" HorizontalAlignment="Left" Margin="208,86,0,0" VerticalAlignment="Top"/>

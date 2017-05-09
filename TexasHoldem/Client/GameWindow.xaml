@@ -5,15 +5,82 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="GameWindow" Height="1101.879" Width="2250.145">
+        Title="GameWindow" Height="639.576" Width="1122.479" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/background.jpg"></ImageBrush>
+    </Window.Background>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="83*"/>
-            <ColumnDefinition Width="29*"/>
-            <ColumnDefinition Width="514*"/>
-            <ColumnDefinition Width="341*"/>
-        </Grid.ColumnDefinitions>
-        <Rectangle Fill="#FF1C7428" HorizontalAlignment="Left" Height="694" Margin="192,229,0,0" Stroke="Black" VerticalAlignment="Top" Width="1366" Grid.Column="2" Grid.ColumnSpan="2"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Ellipse Fill="#2D8A26" HorizontalAlignment="Left" Height="251" Margin="193,196,0,0" Stroke="#594112" StrokeThickness="5" VerticalAlignment="Top" Width="767"/>
+        <Slider HorizontalAlignment="Left" Margin="979,508,0,0" VerticalAlignment="Top" Width="121" Minimum="1" Maximum="100" Value="1" ValueChanged="Slider_ValueChanged"/>
+        <Button Content="Bet" HorizontalAlignment="Left" Margin="1002,532,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Check" HorizontalAlignment="Left" Margin="1002,556,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Fold" HorizontalAlignment="Left" Margin="1002,580,0,0" VerticalAlignment="Top" Width="75"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="641,416,0,0" VerticalAlignment="Top" Width="73" Source="Resources/eladk.jpg"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="680,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/4_of_diamonds.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="641,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/ace_of_diamonds.png"/>
+        <Label Content="EladKamin" HorizontalAlignment="Left" Margin="641,492,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="641,520,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="676,520,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="442,416,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="481,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="442,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="442,492,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="442,520,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="477,520,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="307,372,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="346,317,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="307,317,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="307,448,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="307,476,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="342,476,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="145,288,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="223,301,0,0" VerticalAlignment="Top" Width="37" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="67,294,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="76,320,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="111,320,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="935,286,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="852,301,0,0" VerticalAlignment="Top" Width="35" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="892,301,0,0" VerticalAlignment="Top" Width="38" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="1013,295,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="1013,317,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="1048,317,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="769,380,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="808,325,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="769,325,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="769,456,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="769,484,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="804,484,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="717,153,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="756,234,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="717,234,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="720,109,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="726,127,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="761,127,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="265,301,0,0" VerticalAlignment="Top" Width="37" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="541,138,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="584,219,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="541,219,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="544,94,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="550,112,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="585,112,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="76" Margin="344,153,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="383,234,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="344,234,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
+        <Label Content="PlayerName" HorizontalAlignment="Left" Margin="342,104,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="348,122,0,0" VerticalAlignment="Top"/>
+        <Label Content="143" HorizontalAlignment="Left" Margin="383,122,0,0" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="520,296,0,0" VerticalAlignment="Top" Width="37" Source="Resources/4_of_clubs.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="481,296,0,0" VerticalAlignment="Top" Width="43" Source="Resources/2_of_spades.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="559,296,0,0" VerticalAlignment="Top" Width="37" Source="Resources/ace_of_hearts.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="596,296,0,0" VerticalAlignment="Top" Width="37" Source="Resources/jack_of_diamonds2.png"/>
+        <Image HorizontalAlignment="Left" Height="50" Margin="633,296,0,0" VerticalAlignment="Top" Width="37" Source="Resources/king_of_diamonds2.png"/>
+        <Separator HorizontalAlignment="Left" Height="27" Margin="0,62,-0.2,0" VerticalAlignment="Top" Width="1353"/>
+        <Label Content="Room Name" HorizontalAlignment="Left" Margin="41,22,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" BorderBrush="White" Background="Silver"/>
+        <Label Content="Players: 9/9" HorizontalAlignment="Left" Margin="171,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" BorderBrush="White" Background="Silver"/>
+        <Label Name="CurrentBet_Label" Content="1" HorizontalAlignment="Left" Margin="963,502,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

@@ -23,5 +23,13 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (CurrentBet_Label != null)
+            {
+                CurrentBet_Label.Content = (int)e.NewValue;
+            }
+        }
     }
 }
