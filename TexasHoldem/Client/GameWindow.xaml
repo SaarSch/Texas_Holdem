@@ -1,0 +1,19 @@
+﻿<Window x:Class="Client.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="GameWindow" Height="1101.879" Width="2250.145">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="29*"/>
+            <ColumnDefinition Width="514*"/>
+            <ColumnDefinition Width="341*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="#FF1C7428" HorizontalAlignment="Left" Height="694" Margin="192,229,0,0" Stroke="Black" VerticalAlignment="Top" Width="1366" Grid.Column="2" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

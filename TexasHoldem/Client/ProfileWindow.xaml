@@ -1,0 +1,21 @@
+﻿<Window x:Class="Client.ProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Profile Editor" Height="400" Width="500">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="144" Margin="31,50,0,0" VerticalAlignment="Top" Width="143" Source="pack://siteoforigin:,,,/Resources/profilePicture.png" Stretch="Fill"/>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="208,86,0,0" VerticalAlignment="Top"/>
+        <Button Content="Upload new avatar" HorizontalAlignment="Left" Margin="31,199,0,0" VerticalAlignment="Top" Width="143" Name="AvatarButton"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="208,117,0,0" VerticalAlignment="Top"/>
+        <Label Content="Email" HorizontalAlignment="Left" Margin="208,148,0,0" VerticalAlignment="Top"/>
+        <TextBox Name = "UsernameTxt"  HorizontalAlignment="Left" Height="23" Margin="288,90,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
+        <TextBox Name = "PasswordTxt"  HorizontalAlignment="Left" Height="23" Margin="288,121,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
+        <TextBox Name = "EmailTxt" HorizontalAlignment="Left" Height="23" Margin="288,151,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
+        <Button Content="Confirm" HorizontalAlignment="Left" Margin="330,219,0,0" VerticalAlignment="Top" Width="75" Name ="ConfirmButton"/>
+
+    </Grid>
+</Window>
