@@ -50,7 +50,10 @@ namespace TexasHoldem.Services
         {
             gameCenter.EditUser(username, null, null, newAvatarPath, null);
         }
-
+        public void EditUser(string username, string newusername, string newPassword, string newAvatarPath, string newEmail)
+        {
+            gameCenter.EditUser(username, newusername, newPassword, newAvatarPath, newEmail);
+        }
         public void DeleteUser(string username, string password)
         {
             gameCenter.DeleteUser(username, password);

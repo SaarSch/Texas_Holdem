@@ -33,28 +33,19 @@ namespace server.Controllers
 
             return ret;
         }
-        // POST: api/Login   edit
-        public UserData Post([FromBody]UserData value,int id)
+        // POST: api/Login?username=elad
+        public string Post([FromBody]UserData value,string username)
         {
-            User u;
-            UserData ret = new UserData();
             try
             {
-                u = WebApiConfig.userManger.Login(value.username, value.password);
-                ret.avatarPath = u.GetAvatar();
-                ret.chips = u.chipsAmount;
-                ret.email = u.GetEmail();
-                ret.password = u.GetPassword();
-                ret.Rank = u.Rank;
-                ret.username = u.GetUsername();
-                ret.wins = u.wins;
+                WebApiConfig.userManger.EditUser(username, value.username,value.password,value.avatarPath,value.email);
             }
             catch (Exception e)
             {
-                ret.message = e.Message;
+                return e.Message;
             }
 
-            return ret;
+            return "";
         }
     }
 }
