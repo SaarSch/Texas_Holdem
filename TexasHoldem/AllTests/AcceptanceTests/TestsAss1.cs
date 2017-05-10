@@ -592,7 +592,7 @@ namespace AllTests.AcceptanceTests
 
             bridge.restartGameCenter();
         }
-
+       
 
 
         [TestMethod]
