@@ -14,9 +14,9 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Ellipse Fill="#2D8A26" HorizontalAlignment="Left" Height="251" Margin="193,196,0,0" Stroke="#594112" StrokeThickness="5" VerticalAlignment="Top" Width="767"/>
-        <Slider HorizontalAlignment="Left" Margin="979,508,0,0" VerticalAlignment="Top" Width="121" Minimum="1" Maximum="100" Value="1" ValueChanged="Slider_ValueChanged"/>
-        <Button Content="Bet" HorizontalAlignment="Left" Margin="1002,532,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Check" HorizontalAlignment="Left" Margin="1002,556,0,0" VerticalAlignment="Top" Width="75"/>
+        <Slider HorizontalAlignment="Left" Margin="978,488,0,0" VerticalAlignment="Top" Width="121" Minimum="1" Maximum="100" Value="1" ValueChanged="Slider_ValueChanged"/>
+        <Button Content="Bet" HorizontalAlignment="Left" Margin="1002,506,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Check" HorizontalAlignment="Left" Margin="1002,531,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
         <Button Content="Fold" HorizontalAlignment="Left" Margin="1002,580,0,0" VerticalAlignment="Top" Width="75"/>
         <Image HorizontalAlignment="Left" Height="76" Margin="641,416,0,0" VerticalAlignment="Top" Width="73" Source="Resources/eladk.jpg"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="680,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/4_of_diamonds.png"/>
@@ -80,7 +80,8 @@
         <Separator HorizontalAlignment="Left" Height="27" Margin="0,62,-0.2,0" VerticalAlignment="Top" Width="1353"/>
         <Label Content="Room Name" HorizontalAlignment="Left" Margin="41,22,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" BorderBrush="White" Background="Silver"/>
         <Label Content="Players: 9/9" HorizontalAlignment="Left" Margin="171,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" BorderBrush="White" Background="Silver"/>
-        <Label Name="CurrentBet_Label" Content="1" HorizontalAlignment="Left" Margin="963,502,0,0" VerticalAlignment="Top"/>
+        <Label Name="CurrentBet_Label" Content="1" HorizontalAlignment="Left" Margin="1029,470,0,0" VerticalAlignment="Top"/>
+        <Button Content="Call" HorizontalAlignment="Left" Margin="1002,555,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>

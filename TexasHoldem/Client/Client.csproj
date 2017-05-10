@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Martz90-Hex-Game-governor-of-poker.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Martz90-Hex-Game-governor-of-poker.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,6 +64,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RestClient.cs" />
     <Page Include="GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -326,7 +327,7 @@
     <Resource Include="Resources\red_joker.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Martz90-Hex-Game-governor-of-poker.ico" />
+    <Resource Include="Resources\Martz90-Hex-Game-governor-of-poker.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\eladk.jpg" />
