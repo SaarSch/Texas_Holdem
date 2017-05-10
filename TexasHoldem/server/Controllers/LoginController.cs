@@ -33,5 +33,19 @@ namespace server.Controllers
 
             return ret;
         }
+        // POST: api/Login?username=elad
+        public string Post([FromBody]UserData value,string username)
+        {
+            try
+            {
+                WebApiConfig.userManger.EditUser(username, value.username,value.password,value.avatarPath,value.email);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+
+            return "";
+        }
     }
 }
