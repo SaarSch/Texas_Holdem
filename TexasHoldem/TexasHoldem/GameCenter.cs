@@ -1,4 +1,5 @@
-﻿using System;
+﻿using server;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace TexasHoldem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello");
+            RestClient r = new RestClient();
+            Console.WriteLine(r.MakeRequest("aaaa"));
             Console.ReadLine();
         }
 

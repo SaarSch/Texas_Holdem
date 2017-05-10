@@ -11,17 +11,18 @@ public class User
     private string email;
  //   public bool Online { get; set; }
     public List<string> Notifications { get; set; }
-    public int Rank;
+    public int Rank=-1;
     public int wins;
     public int chipsAmount;
+    public int numOfGames;
 
     private List<Player> players; //change to list of Games?
     private List<Room> rooms; //do we need this?
 
     public User(string username, string password, string avatarPath, string email, int chipsAmount)
     {
+        numOfGames = 0;
         wins = 0;
-        Rank = GameCenter.GetGameCenter().DefaultRank;
         SetUsername(username);
         SetPassword(password);
         SetAvatar(avatarPath);

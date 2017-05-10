@@ -285,6 +285,16 @@ public class Room
             Logger.Log(Severity.Exception, "game is already started");
             throw new Exception("game alerady started");
         }
+
+        foreach(Player p in players)
+        {
+            p.User.numOfGames++;
+            if (p.User.numOfGames == 11)
+            {
+                p.User.Rank = p.User.wins;
+            }
+        }
+
         gameStatus = gameStatus.preFlop;
         IsOn = true;
         int smallBlind = gamePreferences.minBet / 2;
