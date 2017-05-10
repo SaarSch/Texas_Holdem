@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using Newtonsoft.Json.Linq;
 
 namespace Client
@@ -29,24 +16,34 @@ namespace Client
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
             RestClient.SetController("Registration");
-            string ans = RestClient.MakePostRequest("{\"username\":\""+UsernameTxt.Text+"\",\"password\":\""+ PasswordTxt.Password+"\"");
-            CommentTxt.Content = ans;
+            string ans = RestClient.MakePostRequest("{\"username\":\""+UsernameTxt.Text+"\",\"password\":\""+ PasswordTxt.Password+"\"}");
+            if (ans != "\"\"")
+            {
+                MessageBox.Show(ans, "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
         }
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
             RestClient.SetController("Login");
-            string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"");
+            string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"}");
             JObject json = JObject.Parse(ans);
-            JToken token = json.GetValue("message");
-            ans = token.Value<string>();
-            CommentTxt.Content = ans;
-            if (ans == null)
+            UserData loggedUser = json.ToObject<UserData>();
+            if (loggedUser != null)
             {
-                MainWindow main = new MainWindow();
+                MainWindow main = new MainWindow(loggedUser);
                 App.Current.MainWindow = main;
                 this.Close();
                 main.Show();
+            }
+            else
+            {
+                MessageBox.Show(ans, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

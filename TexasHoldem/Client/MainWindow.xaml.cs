@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Client
 {
@@ -19,10 +8,20 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private UserData loggedUser;
+
+        public MainWindow(UserData user)
         {
             InitializeComponent();
-            //RoomsGrid.ItemsSource = 
+            loggedUser = user;
+            UpdateUserLabels(loggedUser.username, loggedUser.chips);
+        }
+
+        //TODO: add avatar update
+        public void UpdateUserLabels(string username, int chips)
+        {
+            usernameLabel.Content = username;
+            chipsLabel.Content = chips;
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -77,10 +76,10 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            ProfileWindow main = new ProfileWindow();
-            App.Current.MainWindow = main;
-            this.Close();
-            main.Show();
+            ProfileWindow profileWindow = new ProfileWindow(loggedUser, this);
+            App.Current.MainWindow = profileWindow;
+            //this.Close();
+            profileWindow.Show();
         }
 
         private void GameTypeCheckbox_Checked(object sender, RoutedEventArgs e)

@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
         <Frame Content="" HorizontalAlignment="Left" Height="126" Margin="176,34,0,0" VerticalAlignment="Top" Width="222" BorderBrush="Black" BorderThickness="1"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="pack://siteoforigin:,,,/Resources/profilePicture.png" Stretch="Fill"/>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="47,134,0,0" VerticalAlignment="Top"/>
-        <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,173,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
+        <Label Name="usernameLabel"  Content="Username" HorizontalAlignment="Left" Margin="47,134,0,0" VerticalAlignment="Top"/>
+        <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
         <DataGrid Name="RoomsGrid" HorizontalAlignment="Left" Height="362" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Room Name"/>
@@ -51,6 +51,8 @@
             <ComboBoxItem Content="Yes" />
             <ComboBoxItem Content="No"/>
         </ComboBox>
+        <Label Content="Chips: " HorizontalAlignment="Left" Margin="47,160,0,0" VerticalAlignment="Top"/>
+        <Label Name="chipsLabel" HorizontalAlignment="Left" Margin="86,160,0,0" VerticalAlignment="Top"/>
 
 
     </Grid>
