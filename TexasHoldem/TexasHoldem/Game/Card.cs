@@ -38,6 +38,6 @@ public class Card : IComparable
 
     public string ToString()
     {
-        return " (" + value + "," + type + ")";
+        return "(" + value + type + ")";
     }
 }
