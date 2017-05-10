@@ -27,7 +27,9 @@ namespace Client
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
-
+            RestClient.SetController("Register/");
+            string ans = RestClient.MakePostRequest("{\"username\":\""+UsernameTxt.Text+"\",\"password\":\""+ PasswordTxt.Password+"\"");
+            CommentTxt.Content = ans;
         }
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
