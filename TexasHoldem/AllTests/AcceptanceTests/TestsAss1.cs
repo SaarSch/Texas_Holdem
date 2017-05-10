@@ -582,12 +582,15 @@ namespace AllTests.AcceptanceTests
             bridge.createNewGame("Good Game Name", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
             bridge.joinGame(legalUserName + "1", "Good Game Name", legalPlayer + "1");
             //play the game-round 1
-            int e = -1;
+            int e;
+            int.TryParse("e", out e);
             bridge.startGame("Good Game Name");
             Assert.IsFalse(bridge.raiseInGame(e, "Good Game Name", legalPlayer));
 
             bridge.deleteUser(legalUserName, legalPass);
             bridge.deleteUser(legalUserName + "1", legalPass);
+
+            bridge.restartGameCenter();
         }
        
 
