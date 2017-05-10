@@ -8,7 +8,7 @@ namespace Client
 
     public class RestClient
     {
-        private static string _endPoint = "localhost:57856/api/";
+        private static string _endPoint = "http://localhost:57856/api/";
 
         private static void WriteData(HttpWebRequest request, string data)
         {
@@ -26,8 +26,8 @@ namespace Client
             string strResponseValue = "";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
-            WriteData(request, data);
             request.Method = "POST";
+            WriteData(request, data);
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
                 if (response.StatusCode != HttpStatusCode.OK)
@@ -47,7 +47,7 @@ namespace Client
                 }//End of using ResponseStream
 
             }//End of using ResponseStream
-
+            _endPoint = "http://localhost:57856/api/";
             return strResponseValue;
         }
 
@@ -76,7 +76,7 @@ namespace Client
                 }//End of using ResponseStream
 
             }//End of using ResponseStream
-
+            _endPoint = "http://localhost:57856/api/";
             return strResponseValue;
         }
 

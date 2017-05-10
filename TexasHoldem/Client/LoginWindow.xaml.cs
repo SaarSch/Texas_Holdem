@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json.Linq;
 
 namespace Client
 {
@@ -27,17 +28,26 @@ namespace Client
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("Register/");
+            RestClient.SetController("Registration");
             string ans = RestClient.MakePostRequest("{\"username\":\""+UsernameTxt.Text+"\",\"password\":\""+ PasswordTxt.Password+"\"");
             CommentTxt.Content = ans;
         }
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
-            MainWindow main = new MainWindow();
-            App.Current.MainWindow = main;
-            this.Close();
-            main.Show();
+            RestClient.SetController("Login");
+            string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"");
+            JObject json = JObject.Parse(ans);
+            JToken token = json.GetValue("message");
+            ans = token.Value<string>();
+            CommentTxt.Content = ans;
+            if (ans == null)
+            {
+                MainWindow main = new MainWindow();
+                App.Current.MainWindow = main;
+                this.Close();
+                main.Show();
+            }
         }
     }
 }
