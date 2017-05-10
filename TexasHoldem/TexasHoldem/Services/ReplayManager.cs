@@ -2,7 +2,7 @@
 
 namespace TexasHoldem.Services
 {
-    class ReplayManager
+    public class ReplayManager
     {
         private readonly GameCenter gameCenter;
 

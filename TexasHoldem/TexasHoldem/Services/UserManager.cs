@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Services
 {
-    class UserManager
+    public class UserManager
     {
         private readonly GameCenter gameCenter;
 

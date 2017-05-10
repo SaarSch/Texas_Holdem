@@ -1,10 +1,5 @@
-﻿using server;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TexasHoldem.GameCenterHelpers;
 
 namespace TexasHoldem
@@ -12,9 +7,8 @@ namespace TexasHoldem
     public class GameCenter
     {
         static void Main(string[] args)
-        {
-            RestClient r = new RestClient();
-            Console.WriteLine(r.MakeRequest("aaaa"));
+        {   
+            Console.WriteLine("aaaa");
             Console.ReadLine();
         }
 
