@@ -5,17 +5,17 @@ using System.Web;
 
 namespace server.Models
 {
-    public class Room
+    public class RoomState
     {
         public string room_name;
-        public string creator_user_name;
-        public string creator_player_name;
-        public string game_type;
-        public int chip_policy;
-        public int buy_in_policy;
-        public int min_bet;
+        public bool is_on;
+        public int pot;
+        public string game_status;
+        public string[] community_cards=new string[5];
+        public Models.Player[] all_players=new Models.Player[5];
         public int min_players;
         public int max_players;
         public bool sepctating_allowed;
+        public string messege;
     }
 }

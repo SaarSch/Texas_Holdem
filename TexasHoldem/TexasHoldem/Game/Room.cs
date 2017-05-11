@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TexasHoldem;
@@ -273,7 +272,7 @@ public class Room
         Logger.Log(Severity.Action, "1 community card dealed room name=" + name + "community cards:" + communityCards[0].ToString() + communityCards[1].ToString() + communityCards[2].ToString() + communityCards[3].ToString()+ communityCards[4].ToString());
     }
 
-    public void StartGame()
+    public Room StartGame()
     {
         if (players.Count < gamePreferences.minPlayers)
         {
@@ -315,9 +314,10 @@ public class Room
             SetBet(players[2], gamePreferences.minBet,false);
         }
         DealTwo();
+        return this;
     }
 
-    public void Call(Player p)
+    public Room Call(Player p)
     {
         if (!players.Contains(p))
         {
@@ -359,9 +359,10 @@ public class Room
 
             else if (gameStatus == gameStatus.river) CalcWinnersChips();
         }
+        return this;
       }
 
-    public void SetBet(Player p, int bet,Boolean smallBlind)
+    public Room SetBet(Player p, int bet,Boolean smallBlind)
     {
        if(!players.Contains(p))
         {
@@ -420,6 +421,7 @@ public class Room
 
         p.SetBet(bet);
         Replayer.Save(gameReplay, turn, players, pot, null, null);
+        return this;
     }
 
     public void ExitRoom(String player)
@@ -459,6 +461,7 @@ public class Room
             //Logger.Log(Severity.Exception, "cant exit from room, player is last player");
             //throw new Exception("cant exit from room, player is last player");
         }
+
     }
 
     public List<Player> Winners()
@@ -727,7 +730,7 @@ public class Room
         return sum;
     }
 
-    public void Fold(Player p)
+    public Room Fold(Player p)
     {
         Boolean allFolded = true;
         foreach(Player p1 in players)
@@ -762,7 +765,7 @@ public class Room
         p.Fold();
         Logger.Log(Severity.Action, "player "+p.Name+" folded");
         Replayer.Save(gameReplay, turn, players, pot, null, null);
-
+        return this;
     }
 
     public Player GetPlayer(string name)

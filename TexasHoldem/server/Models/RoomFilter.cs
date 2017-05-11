@@ -7,6 +7,7 @@ namespace server.Models
 {
     public class RoomFilter
     {
+        public string user_name;
         public string player_name;
         public int pot_size;
         public bool league_only;
