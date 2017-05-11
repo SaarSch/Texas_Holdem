@@ -57,9 +57,9 @@ namespace TexasHoldem.Services
                 false);
         }
 
-        public void StartGame(string gameName) // UC 12
+        public Room StartGame(string gameName) // UC 12
         {
-            gameCenter.GetRoom(gameName).StartGame();
+           return gameCenter.GetRoom(gameName).StartGame();
         }
 
         public Room PlaceBet(string gameName,string player,int bet) // UC 13
