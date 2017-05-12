@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
+using TexasHoldem.Services;
 
 namespace AllTests.AcceptanceTests
 {
@@ -312,8 +313,6 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            var activeGames = bridge.findGames("GoodName", "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
-
             Assert.IsTrue(bridge.joinGame("GoodName", "Good Game Name1568", "imaplayer"));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -390,8 +389,6 @@ namespace AllTests.AcceptanceTests
 
             bridge.login("GoodName", legalPass);
 
-            var activeGames = bridge.findGames(legalUserName);
-
             Assert.IsTrue(bridge.spectateGame("GoodName", "Good Game Name", "SEAN1234"));
 
             bridge.deleteUser(legalUserName, legalPass);
@@ -462,13 +459,15 @@ namespace AllTests.AcceptanceTests
         {
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
-            bridge.createNewGame("Good Game Name564", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
-            bridge.createNewGame("Game Not In Rank", legalUserName, legalPlayer, "NoLimit", 1, 0, 4, 2, 8, true);
+            bridge.createNewGame("Good Game Name564", legalUserName, legalPlayer, "NoLimit", 1, 5, 4, 2, 8, true);
+            bridge.createNewGame("Game Not In Rank", legalUserName, legalPlayer, "NoLimit", 1, 5, 4, 2, 8, true);
 
-            var activeGames = bridge.findGames(legalUserName, "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
+            RoomFilter rf = new RoomFilter();
+            rf.LeagueOnly = true;
+            var activeGames = bridge.findGames(legalUserName, rf);
 
             Assert.IsTrue(activeGames.Contains("Good Game Name564"));
-            Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
+            Assert.IsTrue(activeGames.Contains("Game Not In Rank"));
 
             bridge.deleteUser(legalUserName, legalPass);
         }
@@ -479,36 +478,9 @@ namespace AllTests.AcceptanceTests
             bridge.register(legalUserName, legalPass);
             bridge.login(legalUserName, legalPass);
 
-            var activeGames = bridge.findGames(legalUserName, "", false, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, false, false, true);
-
-            Assert.IsTrue(activeGames.Count == 0);
-
-            bridge.deleteUser(legalUserName, legalPass);
-        }
-
-        [TestMethod]
-        public void TestListActiveGames_Good()
-        {
-            bridge.register(legalUserName, legalPass);
-            bridge.login(legalUserName, legalPass);
-            bridge.createNewGame("Good Game Name777", legalUserName, legalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
-            bridge.createNewGame("Game Not In Rank777", legalUserName, legalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
-
-            var activeGames = bridge.findGames(legalUserName);
-
-            Assert.IsTrue(activeGames.Contains("Good Game Name777"));
-            Assert.IsTrue(activeGames.Contains("Game Not In Rank777"));
-
-            bridge.deleteUser(legalUserName, legalPass);
-        }
-
-        [TestMethod]
-        public void TestListActiveGames_Sad_NoGamesFound()
-        {
-            bridge.register(legalUserName, legalPass);
-            bridge.login(legalUserName, legalPass);
-
-            var activeGames = bridge.findGames(legalUserName);
+            RoomFilter rf = new RoomFilter();
+            rf.LeagueOnly = true;
+            var activeGames = bridge.findGames(legalUserName, rf);
 
             Assert.IsTrue(activeGames.Count == 0);
 
@@ -606,7 +578,7 @@ namespace AllTests.AcceptanceTests
             bridge.setUserRank(legalUserName,10);//max rank-can manage the league
 
             Assert.IsTrue(bridge.setDefaultRank(legalUserName, 5));
-            bridge.register(legalUserName + "1", legalPass);//create new user
+            bridge.register(legalUserName + "1", legalPass);//create new User
             Assert.AreEqual(5,bridge.getRank(legalUserName+"1"));//checks if the rank is 5
 
             Assert.IsTrue(bridge.setUserLeague(legalUserName, legalUserName + "1", 1));
@@ -628,7 +600,7 @@ namespace AllTests.AcceptanceTests
 
             Assert.IsFalse(bridge.setDefaultRank(legalUserName, 300));//the rank is not in range [0,10]
 
-            bridge.register(legalUserName + "1", legalPass);//create new user
+            bridge.register(legalUserName + "1", legalPass);//create new User
             Assert.AreNotEqual(300, bridge.getRank(legalUserName + "1"));//checks if the rank is not 300
 
             Assert.IsFalse(bridge.setUserLeague(legalUserName, legalUserName + "1", 300));//the rank is not in range [0,10]
@@ -662,7 +634,7 @@ namespace AllTests.AcceptanceTests
             bridge.setUserRank(legalUserName, 0);//min rank-can not manage the league
 
             Assert.IsFalse(bridge.setDefaultRank(legalUserName, 10));
-            bridge.register(legalUserName + "1", legalPass);//create new user
+            bridge.register(legalUserName + "1", legalPass);//create new User
             Assert.AreNotEqual(10, bridge.getRank(legalUserName + "1"));//checks if the rank is not 10
 
             Assert.IsFalse(bridge.setUserLeague(legalUserName, legalUserName + "1", 1));

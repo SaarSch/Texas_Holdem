@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Services;
 
 namespace AllTests.UnitTests.GameCenter
 {
@@ -401,7 +403,7 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_SearchPlayer()
         {
             var succ = false;
-            List<string> ans = null;
+            List<Room> ans = null;
             gc.DeleteAllRooms();
             gc.DeleteAllUsers();
             try
@@ -412,8 +414,10 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Login("seanoch123", "seanoch123");
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
                 gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                ans = gc.FindGames("login1234", "player1", true, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
-                if (ans.Count == 1 && ans[0] == "MyRoom1")
+                List<Predicate<Room>> p = new List<Predicate<Room>>();
+                p.Add(room => room.hasPlayer("player1"));
+                ans = gc.FindGames(p);
+                if (ans.Count == 1 && ans[0].name == "MyRoom1")
                     succ = true;
             }
             catch
@@ -425,10 +429,37 @@ namespace AllTests.UnitTests.GameCenter
         }
 
         [TestMethod]
+        public void GameCenter_FindGames_SearchPlayer_Null()
+        {
+            var succ = false;
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            try
+            {
+                gc.Register("login1234", "123exm1234");
+                gc.Login("login1234", "123exm1234");
+                gc.Register("seanoch123", "seanoch123");
+                gc.Login("seanoch123", "seanoch123");
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                List<Predicate<Room>> p = new List<Predicate<Room>>();
+                p.Add(room => room.hasPlayer(null));
+                gc.FindGames(p);
+            }
+            catch
+            {
+                succ = true;
+            }
+            gc.DeleteAllRooms();
+            gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
         public void GameCenter_FindGames_SearchPot()
         {
             var succ = false;
-            List<string> ans = null;
+            List<Room> ans = null;
             Room r = null;
             gc.DeleteAllRooms();
             gc.DeleteAllUsers();
@@ -441,8 +472,10 @@ namespace AllTests.UnitTests.GameCenter
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, true, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
-                if (ans.Count == 1 && ans[0] == "MyRoom2")
+                List<Predicate<Room>> p = new List<Predicate<Room>>();
+                p.Add(room => room.pot==5);
+                ans = gc.FindGames(p);
+                if (ans.Count == 1 && ans[0].name == "MyRoom2")
                     succ = true;
             }
             catch
@@ -457,7 +490,7 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_NoFilter()
         {
             var succ = false;
-            List<string> ans = null;
+            List<Room> ans = null;
             Room r = null;
             gc.DeleteAllRooms();
             gc.DeleteAllUsers();
@@ -470,7 +503,8 @@ namespace AllTests.UnitTests.GameCenter
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                List<Predicate<Room>> p = new List<Predicate<Room>>();
+                ans = gc.FindGames(p);
                 if (ans.Count == 2)
                     succ = true;
             }
@@ -511,11 +545,10 @@ namespace AllTests.UnitTests.GameCenter
         }
 
         [TestMethod]
-        public void GameCenter_FindGames_Preferences()
+        public void GameCenter_FindGames_GameType()
         {
             var succ = false;
-            List<string> ans = null;
-            Room r = null;
+            List<Room> ans = null;
             gc.DeleteAllRooms();
             gc.DeleteAllUsers();
             try
@@ -525,9 +558,10 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Register("seanoch123", "seanoch123");
                 gc.Login("seanoch123", "seanoch123");
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 2, 10, false);
-                r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, true, false);
+                gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.PotLimit, 0, 0, 5, 2, 10, false);
+                List<Predicate<Room>> p = new List<Predicate<Room>>();
+                p.Add(room => room.gamePreferences.gameType == Gametype.PotLimit);
+                ans = gc.FindGames(p);
                 if (ans.Count == 1)
                     succ = true;
             }
@@ -539,42 +573,12 @@ namespace AllTests.UnitTests.GameCenter
             Assert.IsTrue(succ);
         }
 
-        [TestMethod]
-        public void GameCenter_FindGames_InLeague()
-        {
-            var succ = false;
-            User user = null;
-            List<string> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
-            try
-            {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                user = gc.Login("seanoch123", "seanoch123");
-                user.Rank = 5;
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, true);
-                if (ans.Count == 1 && ans[0] == "MyRoom2")
-                    succ = true;
-            }
-            catch
-            {
-            }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
-            Assert.IsTrue(succ);
-        }
 
         [TestMethod]
         public void GameCenter_FindGames_PotAndPlayer()
         {
             var succ = false;
-            List<string> ans = null;
+            List<Room> ans = null;
             Room r = null;
             gc.DeleteAllRooms();
             gc.DeleteAllUsers();
@@ -588,8 +592,11 @@ namespace AllTests.UnitTests.GameCenter
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
                 r.pot = 5;
                 gc.CreateRoom("MyRoom3", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
-                ans = gc.FindGames("login1234", "player2", true, 5, true, Gametype.NoLimit, 0, 10, 5, 3, 4, true, false, false);
-                if (ans.Count == 1 && ans[0] == "MyRoom2")
+                List<Predicate<Room>> p = new List<Predicate<Room>>();
+                p.Add(room => room.hasPlayer("player2"));
+                p.Add(room => room.pot == 5);
+                ans = gc.FindGames(p);
+                if (ans.Count == 1 && ans[0].name == "MyRoom2")
                     succ = true;
             }
             catch

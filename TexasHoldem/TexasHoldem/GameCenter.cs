@@ -72,8 +72,8 @@ namespace TexasHoldem
                     {
                         if (Users[i].Second)
                         {
-                            Logger.Log(Severity.Error, "ERROR in Login: This user is already logged in.");
-                            throw new Exception("This user is already logged in.");
+                            Logger.Log(Severity.Error, "ERROR in Login: This User is already logged in.");
+                            throw new Exception("This User is already logged in.");
                         }
                         else
                         {
@@ -157,8 +157,8 @@ namespace TexasHoldem
                     userExists = true;
                     if (!Users[i].Second)
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This user is not logged in.");
-                        throw new Exception("This user is not logged in.");
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This User is not logged in.");
+                        throw new Exception("This User is not logged in.");
                     }
                     try
                     {
@@ -183,7 +183,7 @@ namespace TexasHoldem
                     }
                     catch (Exception e)
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Invalid new user details!"); // TODO specific?
+                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Invalid new User details!"); // TODO specific?
                         throw e;
                     }
                 }
@@ -208,8 +208,8 @@ namespace TexasHoldem
                 {
                     if (!Users[i].Second)
                     {
-                        Logger.Log(Severity.Error, "ERROR in GetLoggedInUser: This user is not logged in.");
-                        throw new Exception("This user is not logged in.");
+                        Logger.Log(Severity.Error, "ERROR in GetLoggedInUser: This User is not logged in.");
+                        throw new Exception("This User is not logged in.");
                     }
                     else
                     {
@@ -217,8 +217,8 @@ namespace TexasHoldem
                     }
                 }
             }
-            Logger.Log(Severity.Error, "ERROR in Edit Profile: This user doesn't exist.");
-            throw new Exception("This user doesn't exist.");
+            Logger.Log(Severity.Error, "ERROR in Edit Profile: This User doesn't exist.");
+            throw new Exception("This User doesn't exist.");
         }
 
         public User GetUser(string username)
@@ -231,8 +231,8 @@ namespace TexasHoldem
                         return Users[i].First;
                 }
             }
-            Logger.Log(Severity.Error, "ERROR in GetUser: This user doesn't exist.");
-            throw new Exception("This user doesn't exist.");
+            Logger.Log(Severity.Error, "ERROR in GetUser: This User doesn't exist.");
+            throw new Exception("This User doesn't exist.");
         }
 
         public void DeleteUser(string username, string password)
@@ -493,128 +493,50 @@ namespace TexasHoldem
             throw new Exception("ERROR in DeleteRoom: Room "+ roomName + " does not exist!");
         }
 
-        // changes from List<Room>
-        public List<string> FindGames(string contextUser, string playerName, bool playerFlag, int potSize, bool potFlag, 
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating,
-            bool prefFlag, bool leagueFlag)
+        public List<Room> FindGames(List<Predicate<Room>> predicates)
         {
-            GamePreferences gp = new GamePreferences(gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers, spectating);
             List<Room> ans = new List<Room>();
             string roomsFound = "";
-            User context = null;
-            try
+            foreach (Room r in Rooms)
             {
-                context = GetLoggedInUser(contextUser);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            for (int i = 0; i < Rooms.Count; i++)
-            {
-                bool passed = true;
-
-                if (playerFlag)
+                bool toAdd = true;
+                foreach (Predicate<Room> p in predicates)
                 {
-                    bool found = false;
-                    for (int j = 0; j < Rooms[i].players.Count; j++)
+                    if (!p.Invoke(r))
                     {
-                        if (Rooms[i].players[j].Name == playerName)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        passed = false;
+                        toAdd = false;
                     }
                 }
-
-                if (potFlag)
+                if (toAdd)
                 {
-                    if (Rooms[i].pot != potSize)
-                    {
-                        passed = false;
-                    }
+                    ans.Add(r);
                 }
-
-                if (leagueFlag)
-                {
-                    if (Rooms[i].rank != context.Rank)
-                    {
-                        passed = false;
-                    }
-                }
-
-                if (prefFlag)
-                {
-                    if (Rooms[i].gamePreferences.minPlayers != gp.minPlayers)
-                    {
-                        passed = false;
-                    }
-                    if (Rooms[i].gamePreferences.maxPlayers != gp.maxPlayers)
-                    {
-                        passed = false;
-                    }
-                    if (Rooms[i].gamePreferences.buyInPolicy != gp.buyInPolicy)
-                    {
-                        passed = false;
-                    }
-                    if (Rooms[i].gamePreferences.chipPolicy != gp.chipPolicy)
-                    {
-                        passed = false;
-                    }
-                    if (Rooms[i].gamePreferences.minBet != gp.minBet)
-                    {
-                        passed = false;
-                    }
-                    if (Rooms[i].gamePreferences.gameType != gp.gameType)
-                    {
-                        passed = false;
-                    }
-                    if (Rooms[i].gamePreferences.spectating != gp.spectating)
-                    {
-                        passed = false;
-                    }
-                }
-
-                if (passed)
-                {
-                    ans.Add(Rooms[i]);
-                }
-            }
-
-            for (int i = 0; i < ans.Count; i++)
-            {
-                if (i < ans.Count - 1)
-                {
-                    roomsFound = roomsFound + ans[i].name + ", ";
-                }
-                else
-                {
-                    roomsFound = roomsFound + ans[i].name + ".";
-                }
-                
             }
 
             if (ans.Count > 0)
             {
-                Logger.Log(Severity.Action, "Found the following game rooms: " + roomsFound);
-                // added
-                List<string> stringList = new List<string>();
-                foreach (Room r in ans)
+                for (int i = 0; i < ans.Count; i++)
                 {
-                    stringList.Add(r.name);
+                    if (i < ans.Count - 1)
+                    {
+                        roomsFound = roomsFound + ans[i].name + ", ";
+                    }
+                    else
+                    {
+                        roomsFound = roomsFound + ans[i].name + ".";
+                    }
+
                 }
-                return stringList;
-                //return ans;
+                Logger.Log(Severity.Action, "Found the following game rooms: " + roomsFound);
+
             }
             else
             {
                 Logger.Log(Severity.Error, "ERROR in FindGames: No game rooms found.");
                 throw new Exception("No game rooms found.");
             }
+
+            return ans;
         }
 
         public string GetReplayFilename(string roomName) // TODO : change to CSV file (and move to Replayer?)

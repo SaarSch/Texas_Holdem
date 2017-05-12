@@ -29,7 +29,7 @@ public class Player
         }
         this.User = user;
         this.Name = name;
-        Logger.Log(Severity.Action, "new player created for user:"+User.GetUsername());
+        Logger.Log(Severity.Action, "new player created for User:"+User.GetUsername());
     }
 
     public void SetCards(Card first, Card second)
@@ -41,7 +41,7 @@ public class Player
         }
         Hand[0] = first;
         Hand[1] = second;
-        Logger.Log(Severity.Action,"user: " +User.GetUsername()+" player: "+Name+" got 2 cards: " +first.value+", "+second.value);
+        Logger.Log(Severity.Action,"User: " +User.GetUsername()+" player: "+Name+" got 2 cards: " +first.value+", "+second.value);
     }
 
         public void SetBet(int amount)

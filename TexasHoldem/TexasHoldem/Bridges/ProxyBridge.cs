@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
@@ -71,28 +72,12 @@ namespace TexasHoldem.Bridges
             return real == null || real.isGameExist(gameName);
         }
 
-        public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag)
-        {
-            IList s;
-            if (real != null)
-                s = real.findGames(username, playerName, playerFlag, potSize, potFlag,
-                gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-            spectating, prefFlag, leagueFlag);
-            else
-            {
-                s = new List<string>();
-                s.Add("Good Game Name");
-            }
-            return s;
-        }
 
-        public IList findGames(string username)
+        public IList findGames(string username, RoomFilter filter)
         {
             IList s;
             if (real != null)
-                s = real.findGames(username);
+                s = real.findGames(username, filter);
             else
             {
                 s = new List<string>();

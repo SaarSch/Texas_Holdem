@@ -42,19 +42,50 @@ namespace TexasHoldem.Services
             gameCenter.RemoveUserFromRoom(username, roomName, playerName);
         }
 
-        public List<string> FindGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag) // UC 11
+        public List<Room> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
         {
-            return gameCenter.FindGames(username, playerName, playerFlag, potSize, potFlag,
-                gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-                spectating, prefFlag, leagueFlag);
-        }
+            User context = gameCenter.GetUser(username);
 
-        public List<string> FindGames(string username) // UC 11 (Finds any available game)
-        {
-            return gameCenter.FindGames(username, "", false, 0, false, Gametype.NoLimit, 0, 10, 4, 3, 7, false, false,
-                false);
+            List<Predicate<Room>> predicates = new List<Predicate<Room>>();
+
+            if (context.Rank != -1 && r.LeagueOnly != null && r.LeagueOnly.Value == true)
+            {
+                predicates.Add(room => room.rank == context.Rank);
+            }
+            if (r.PlayerName != null)
+            {
+                predicates.Add(room => room.hasPlayer(r.PlayerName));
+            }
+            if (r.PotSize != null)
+            {
+                predicates.Add(room => room.pot == r.PotSize.Value);
+            }
+            if (r.GameType != null)
+            {
+                predicates.Add(room => room.gamePreferences.gameType.ToString() == r.GameType);
+            }
+            if (r.BuyInPolicy != null)
+            {
+                predicates.Add(room => room.gamePreferences.buyInPolicy == r.BuyInPolicy.Value);
+            }
+            if (r.ChipPolicy != null)
+            {
+                predicates.Add(room => room.gamePreferences.chipPolicy == r.ChipPolicy.Value);
+            }
+            if (r.MinPlayers != null)
+            {
+                predicates.Add(room => room.gamePreferences.minPlayers == r.MinPlayers.Value);
+            }
+            if (r.MaxPlayers != null)
+            {
+                predicates.Add(room => room.gamePreferences.maxPlayers == r.MaxPlayers.Value);
+            }
+            if (r.SepctatingAllowed != null)
+            {
+                predicates.Add(room => room.gamePreferences.spectating == r.SepctatingAllowed.Value);
+            }
+
+            return gameCenter.FindGames(predicates);
         }
 
         public void StartGame(string gameName) // UC 12

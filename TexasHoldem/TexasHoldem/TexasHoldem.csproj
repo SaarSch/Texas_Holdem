@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Game\Room.cs" />
     <Compile Include="Services\GameManager.cs" />
+    <Compile Include="Services\RoomFilter.cs" />
     <Compile Include="Services\UserManager.cs" />
     <Compile Include="Services\ReplayManager.cs" />
     <Compile Include="Users\User.cs" />

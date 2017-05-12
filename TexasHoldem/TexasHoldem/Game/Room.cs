@@ -106,6 +106,16 @@ public class Room
         Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+rank );
     }
 
+    public bool hasPlayer(string name)
+    {
+        foreach (Player p in players)
+        {
+            if (p.Name == name)
+                return true;
+        }
+        return false;
+    }
+
     public void AddPlayer(Player p)
     {
         foreach(Player p1 in players)
@@ -167,8 +177,8 @@ public class Room
 
         if(user is null)
         {
-            Logger.Log(Severity.Exception, "cant add a null user to the room");
-            throw new Exception("null user");
+            Logger.Log(Severity.Exception, "cant add a null User to the room");
+            throw new Exception("null User");
         }
         spectateUsers.Add(user);
     }
