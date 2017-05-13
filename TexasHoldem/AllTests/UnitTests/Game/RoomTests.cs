@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.GamePrefrences;
 
 namespace AllTests.UnitTests.Game
 {
     [TestClass]
     public class RoomTests
     {
-        private readonly GamePreferences gp = new GamePreferences(Gametype.NoLimit, 1, 0, 4, 2, 8, true);
+        private readonly GamePreferences gp = new GamePreferences();
         private readonly User u = new User("tom12345", "12345678", "aaa.png", "hello@gmail.com", 50000);
         private readonly User u1 = new User("tom12346", "12345678", "bbb.png", "hello1@gmail.com", 50000);
         private readonly User u2 = new User("tom12347", "12345678", "ccc.png", "hello3@gmail.com", 50000);
@@ -28,12 +29,13 @@ namespace AllTests.UnitTests.Game
         {
             try
             {
-                var gp = new GamePreferences(Gametype.NoLimit, -8, 0, 4, 2, 8, true);
+                //Gametype.NoLimit, -8, 0, 4, 2, 8, true
+                var gp = new GamePreferences();
             }
 
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("buy in policy cant be negative"));
+                Assert.IsTrue(e.Message.Equals("buy in policy can't be negative"));
             }
         }
 
@@ -42,48 +44,53 @@ namespace AllTests.UnitTests.Game
         {
             try
             {
-                var gp = new GamePreferences(Gametype.NoLimit, 1, -8, 4, 2, 8, true);
+                //Gametype.NoLimit, 1, -8, 4, 2, 8, true
+                var gp = new GamePreferences();
             }
 
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("Chip policy value cant be negative"));
+                Assert.IsTrue(e.Message.Equals("Chip policy can't be negative"));
             }
             try
             {
-                var gp = new GamePreferences(Gametype.NoLimit, 1, 2, 1, 2, 8, true);
+                //Gametype.NoLimit, 1, 2, 1, 2, 8, true
+                var gp = new GamePreferences();
             }
 
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("Minimum bet cant be less then 2"));
+                Assert.IsTrue(e.Message.Equals("Minimum bet can't be less then 2"));
             }
             try
             {
-                var gp = new GamePreferences(Gametype.NoLimit, 1, 2, 4, 1, 8, true);
+                //Gametype.NoLimit, 1, 4, 4, 1, 8, true
+                var gp = new GamePreferences();
             }
 
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("Minimum players cant be less then 2"));
+                Assert.IsTrue(e.Message.Equals("Minimum players can't be less then 2"));
             }
             try
             {
-                var gp = new GamePreferences(Gametype.NoLimit, 1, 2, 4, 2, 15, true);
+                //Gametype.NoLimit, 1, 4, 4, 2, 15, true
+                var gp = new GamePreferences();
             }
 
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("Maximum players cant be more then 10"));
+                Assert.IsTrue(e.Message.Equals("Maximum players can't be more then 10"));
             }
             try
             {
-                var gp = new GamePreferences(Gametype.NoLimit, 1, 2, 4, 2, 8, true);
+                //Gametype.NoLimit, 1, 2, 4, 2, 8, true
+                var gp = new GamePreferences();
             }
 
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("min bet cant be higher the chip policy"));
+                Assert.IsTrue(e.Message.Equals("min bet can't be higher then chip policy"));
             }
         }
 
@@ -500,7 +507,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorHighHighTest1()
         {
-            var gp1 = new GamePreferences(Gametype.limit, 1, 30, 10, 3, 8, true);
+            //Gametype.Limit, 1, 30, 10, 3, 8, true
+            var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
 
@@ -529,7 +537,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest()
         {
-            var gp1 = new GamePreferences(Gametype.limit, 1, 30, 10, 3, 8, true);
+            //Gametype.Limit, 1, 30, 10, 3, 8, true
+            var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
             try
@@ -545,7 +554,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest2()
         {
-            var gp1 = new GamePreferences(Gametype.limit, 1, 30, 10, 3, 8, true);
+            //Gametype.Limit, 1, 30, 10, 3, 8, true
+            var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
             try
@@ -561,7 +571,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest3()
         {
-            var gp1 = new GamePreferences(Gametype.NoLimit, 1, 30, 10, 3, 8, true);
+            //Gametype.NoLimit, 1, 30, 10, 3, 8, true
+            var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
             try
@@ -579,7 +590,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest4()
         {
-            var gp1 = new GamePreferences(Gametype.limit, 1, 30, 10, 3, 8, true);
+            //Gametype.Limit, 1, 30, 10, 3, 8, true
+            var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
             try
@@ -595,7 +607,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest5()
         {
-            var gp1 = new GamePreferences(Gametype.limit, 1, 30, 10, 3, 8, true);
+            //Gametype.Limit, 1, 30, 10, 3, 8, true
+            var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
             r.communityCards[0] = new Card(5, CardType.Clubs);
@@ -615,10 +628,15 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest6()
         {
-            var gp1 = new GamePreferences(Gametype.PotLimit, 1, 30, 10, 3, 8, true);
+            IPreferences gp = new GamePreferences();
+            gp = new ModifiedGameType(Gametype.PotLimit, gp);
+            gp = new ModifiedChipPolicy(30, gp);
+            gp = new ModifiedMinBet(10, gp);
+            gp = new ModifiedMinPlayers(3, gp);
+
             var p = new Player("shachar", u);
             var p2 = new Player("shachar1", u);
-            var r = new Room("aaaa", p, gp1);
+            var r = new Room("aaaa", p, gp);
             r.AddPlayer(p2);
             p2.CurrentBet = 500;
             try
@@ -634,10 +652,15 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest7()
         {
-            var gp1 = new GamePreferences(Gametype.PotLimit, 1, 30, 10, 3, 8, true);
+            IPreferences gp = new GamePreferences();
+            gp = new ModifiedGameType(Gametype.PotLimit, gp);
+            gp = new ModifiedChipPolicy(30, gp);
+            gp = new ModifiedMinBet(10, gp);
+            gp = new ModifiedMinPlayers(3, gp);
+
             var p = new Player("shachar", u);
             var p2 = new Player("shachar2", u);
-            var r = new Room("aaaa", p, gp1);
+            var r = new Room("aaaa", p, gp);
             r.AddPlayer(p2);
             p.ChipsAmount = 60000;
             p2.CurrentBet = 500;

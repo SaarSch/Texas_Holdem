@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.GameCenterHelpers;
+using TexasHoldem.GamePrefrences;
 
 namespace TexasHoldem
 {
@@ -266,10 +267,8 @@ namespace TexasHoldem
             }
         }
 
-        public Room CreateRoom(string roomName, string username, string creator, Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating)
+        public Room CreateRoom(string roomName, string username, string creator, IPreferences gp)
         {
-            GamePreferences gp = new GamePreferences(gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers, spectating);
             User user = GetLoggedInUser(username);
             if (user != null)
             {
@@ -279,19 +278,13 @@ namespace TexasHoldem
                     Logger.Log(Severity.Error, "ERROR in CreateRoom: room name already taken!");
                     throw new Exception("Room name already taken!");
                 }
-                else
-                {
-                    Room newRoom = new Room(roomName, p,gp);
-                    Rooms.Add(newRoom);
-                    Logger.Log(Severity.Action, "Room " + newRoom.name + " created successfully by " + creator + "!");
-                    return newRoom;
-                }
+                Room newRoom = new Room(roomName, p, gp);
+                Rooms.Add(newRoom);
+                Logger.Log(Severity.Action, "Room " + newRoom.name + " created successfully by " + creator + "!");
+                return newRoom;
             }
-            else
-            {
-                Logger.Log(Severity.Error, "ERROR in CreateRoom: Username does not exist!");
-                throw new Exception("Username does not exist!");
-            }
+            Logger.Log(Severity.Error, "ERROR in CreateRoom: Username does not exist!");
+            throw new Exception("Username does not exist!");
         }
 
         public Room GetRoom(string roomName)
@@ -497,10 +490,18 @@ namespace TexasHoldem
 
         // changes from List<Room>
         public List<string> FindGames(string contextUser, string playerName, bool playerFlag, int potSize, bool potFlag, 
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating,
+            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating,
             bool prefFlag, bool leagueFlag)
         {
-            GamePreferences gp = new GamePreferences(gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers, spectating);
+            IPreferences gp = new GamePreferences();
+            gp = new ModifiedGameType((Gametype)Enum.Parse(typeof(Gametype), gameType), gp);
+            gp = new ModifiedBuyInPolicy(buyInPolicy, gp);
+            gp = new ModifiedChipPolicy(chipPolicy, gp);
+            gp = new ModifiedMinBet(minBet, gp);
+            gp = new ModifiedMinPlayers(minPlayers, gp);
+            gp = new ModifiedMaxPlayers(maxPlayers, gp);
+            gp = new ModifiedSpectating(spectating, gp);
+
             List<Room> ans = new List<Room>();
             string roomsFound = "";
             User context = null;
@@ -551,31 +552,31 @@ namespace TexasHoldem
 
                 if (prefFlag)
                 {
-                    if (Rooms[i].gamePreferences.minPlayers != gp.minPlayers)
+                    if (Rooms[i].gamePreferences.GetMinPlayers() != gp.GetMinPlayers())
                     {
                         passed = false;
                     }
-                    if (Rooms[i].gamePreferences.maxPlayers != gp.maxPlayers)
+                    if (Rooms[i].gamePreferences.GetMaxPlayers() != gp.GetMaxPlayers())
                     {
                         passed = false;
                     }
-                    if (Rooms[i].gamePreferences.buyInPolicy != gp.buyInPolicy)
+                    if (Rooms[i].gamePreferences.GetBuyInPolicy() != gp.GetBuyInPolicy())
                     {
                         passed = false;
                     }
-                    if (Rooms[i].gamePreferences.chipPolicy != gp.chipPolicy)
+                    if (Rooms[i].gamePreferences.GetChipPolicy() != gp.GetChipPolicy())
                     {
                         passed = false;
                     }
-                    if (Rooms[i].gamePreferences.minBet != gp.minBet)
+                    if (Rooms[i].gamePreferences.GetMinBet() != gp.GetMinBet())
                     {
                         passed = false;
                     }
-                    if (Rooms[i].gamePreferences.gameType != gp.gameType)
+                    if (Rooms[i].gamePreferences.GetGameType() != gp.GetGameType())
                     {
                         passed = false;
                     }
-                    if (Rooms[i].gamePreferences.spectating != gp.spectating)
+                    if (Rooms[i].gamePreferences.GetSpectating() != gp.GetSpectating())
                     {
                         passed = false;
                     }
@@ -623,5 +624,6 @@ namespace TexasHoldem
         {
             return GetRoom(roomName).gameReplay;
         }
+
     }
 }

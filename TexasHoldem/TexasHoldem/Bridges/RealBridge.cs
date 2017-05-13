@@ -5,6 +5,7 @@ using System.Diagnostics.PerformanceData;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.GamePrefrences;
 using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
@@ -133,24 +134,26 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
+        public bool createNewGame(string gameName, string username, string creatorName)
         {
-            Gametype d = Gametype.NoLimit;
-            switch (gameType)
-            {
-                case "NoLimit":
-                    d=Gametype.NoLimit;
-                    break;
-                case "limit":
-                    d = Gametype.limit;
-                    break;
-                case "PotLimit":
-                    d = Gametype.PotLimit;
-                    break;
-            }
             try
             {
-                gameManager.CreateGame(gameName, username, creatorName, d, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayer, spectating);
+                gameManager.CreateGame(gameName, username, creatorName);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool createNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
+            int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
+        {
+            try
+            {
+                gameManager.CreateGameWithPreferences(gameName, username, creatorName, gameType, buyInPolicy,
+                    chipPolicy, minBet, minPlayers, maxPlayer, spectating);
             }
             catch (Exception e)
             {
@@ -165,7 +168,7 @@ namespace TexasHoldem.Bridges
         }
 
         public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag)
         {
             try
@@ -330,7 +333,7 @@ namespace TexasHoldem.Bridges
 
         public bool restartGameCenter()
         {
-            return gameManager.restartGameCenter();
+            return gameManager.RestartGameCenter();
         }
 
         public bool startGame(string roomName)

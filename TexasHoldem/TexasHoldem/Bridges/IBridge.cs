@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TexasHoldem.GamePrefrences;
 
 namespace TexasHoldem.Bridges
 {
@@ -15,14 +16,15 @@ namespace TexasHoldem.Bridges
         bool editUsername(string username, string newName);
         bool editPassword(string username, string newPass);
         bool editAvatar(string username, string newPath);
-        bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating);
+        bool createNewGame(string gameName, string username, string creatorName);
+        bool createNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating);
         bool isGameExist(string gameName);
         bool joinGame(string username, string roomName, string playerName);
         bool spectateGame(string username, string roomName, string playerName);
         bool leaveGame(string username, string roomName, string playerName);
 
         IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag);
         IList findGames(string username);
         int getRank(string username);

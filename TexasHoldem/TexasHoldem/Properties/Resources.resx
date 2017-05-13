@@ -122,6 +122,6 @@
     <value>..\Resources\actionLog.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1255</value>
   </data>
   <data name="errorLog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\errorLog.txt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1255</value>
+    <value>..\Resources\errorLog.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1255</value>
   </data>
 </root>

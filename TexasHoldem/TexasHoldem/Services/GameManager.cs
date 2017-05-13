@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.GamePrefrences;
 
 namespace TexasHoldem.Services
 {
@@ -15,11 +16,23 @@ namespace TexasHoldem.Services
             gameCenter = GameCenter.GetGameCenter();
         }
 
-        public Room CreateGame(string roomName, string creatorUserName, string creatorName, Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating) // UC 5
+        public Room CreateGame(string gameName, string username, string creatorName) // UC 5
         {
-            return gameCenter.CreateRoom(roomName, creatorUserName, creatorName, gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-            spectating);
+            return gameCenter.CreateRoom(gameName, username, creatorName, new GamePreferences());
+        }
+
+        public Room CreateGameWithPreferences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating)
+        {
+            IPreferences gp = new GamePreferences();
+            gp = new ModifiedGameType((Gametype)Enum.Parse(typeof(Gametype), gameType), gp);
+            gp = new ModifiedBuyInPolicy(buyInPolicy, gp);
+            gp = new ModifiedChipPolicy(chipPolicy, gp);
+            gp = new ModifiedMinBet(minBet, gp);
+            gp = new ModifiedMinPlayers(minPlayers, gp);
+            gp = new ModifiedMaxPlayers(maxPlayers, gp);
+            gp = new ModifiedSpectating(spectating, gp);
+
+            return gameCenter.CreateRoom(gameName, username, creatorName, gp);
         }
 
         public bool IsRoomExist(string roomName)
@@ -43,7 +56,7 @@ namespace TexasHoldem.Services
         }
 
         public List<string> FindGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag) // UC 11
         {
             return gameCenter.FindGames(username, playerName, playerFlag, potSize, potFlag,
@@ -53,7 +66,7 @@ namespace TexasHoldem.Services
 
         public List<string> FindGames(string username) // UC 11 (Finds any available game)
         {
-            return gameCenter.FindGames(username, "", false, 0, false, Gametype.NoLimit, 0, 10, 4, 3, 7, false, false,
+            return gameCenter.FindGames(username, "", false, 0, false, "NoLimit", 0, 10, 4, 3, 7, false, false,
                 false);
         }
 
@@ -92,7 +105,7 @@ namespace TexasHoldem.Services
             gameCenter.SetUserRank(username, usernameToSet, rank);
         }
 
-        public bool restartGameCenter()
+        public bool RestartGameCenter()
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.GamePrefrences;
 
 namespace AllTests.UnitTests.GameCenter
 {
@@ -410,9 +411,12 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Login("login1234", "123exm1234");
                 gc.Register("seanoch123", "seanoch123");
                 gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                ans = gc.FindGames("login1234", "player1", true, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                ans = gc.FindGames("login1234", "player1", true, 0, false, "NoLimit", 0, 0, 5, 3, 4, true, false,
+                    false);
                 if (ans.Count == 1 && ans[0] == "MyRoom1")
                     succ = true;
             }
@@ -438,10 +442,13 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Login("login1234", "123exm1234");
                 gc.Register("seanoch123", "seanoch123");
                 gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, true, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                ans = gc.FindGames("login1234", "player1", false, 5, true, "NoLimit", 0, 0, 5, 3, 4, true, false,
+                    false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
             }
@@ -467,10 +474,13 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Login("login1234", "123exm1234");
                 gc.Register("seanoch123", "seanoch123");
                 gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                ans = gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true,
+                    false, false);
                 if (ans.Count == 2)
                     succ = true;
             }
@@ -495,7 +505,9 @@ namespace AllTests.UnitTests.GameCenter
                 var before = false;
                 gc.Register("login1234", "123exm1234");
                 gc.Login("login1234", "123exm1234");
-                gc.CreateRoom("MyRoom1", "login1234", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                gc.CreateRoom("MyRoom1", "login1234", "player1", gp);
                 if (gc.Rooms.Count == 1)
                     before = true;
                 gc.DeleteRoom("MyRoom1");
@@ -512,7 +524,8 @@ namespace AllTests.UnitTests.GameCenter
 
         [TestMethod]
         public void GameCenter_FindGames_Preferences()
-        {
+        { 
+
             var succ = false;
             List<string> ans = null;
             Room r = null;
@@ -524,10 +537,27 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Login("login1234", "123exm1234");
                 gc.Register("seanoch123", "seanoch123");
                 gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 2, 10, false);
+
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                IPreferences gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMinPlayers(3, gp);
+                gp = new ModifiedMaxPlayers(4, gp);
+
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+
+                //Gametype.NoLimit, 0, 0, 5, 2, 10, false
+                //Gametype.NoLimit, 1, 0, 4, 2, 8, true
+                gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMaxPlayers(10, gp);
+                gp = new ModifiedSpectating(false, gp);
+
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, true, false);
+                ans = gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, true, false);
                 if (ans.Count == 1)
                     succ = true;
             }
@@ -555,10 +585,12 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Register("seanoch123", "seanoch123");
                 user = gc.Login("seanoch123", "seanoch123");
                 user.Rank = 5;
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, true);
+                ans = gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, false, true);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
             }
@@ -584,11 +616,19 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Login("login1234", "123exm1234");
                 gc.Register("seanoch123", "seanoch123");
                 gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
+
+                IPreferences gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedChipPolicy(10, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMinPlayers(3, gp);
+                gp = new ModifiedMaxPlayers(4, gp);
+
+                gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.pot = 5;
-                gc.CreateRoom("MyRoom3", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
-                ans = gc.FindGames("login1234", "player2", true, 5, true, Gametype.NoLimit, 0, 10, 5, 3, 4, true, false, false);
+                gc.CreateRoom("MyRoom3", "login1234", "player2", gp);
+                ans = gc.FindGames("login1234", "player2", true, 5, true, "NoLimit", 0, 10, 5, 3, 4, true, false, false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
             }
