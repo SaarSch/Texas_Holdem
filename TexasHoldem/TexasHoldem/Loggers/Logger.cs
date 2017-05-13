@@ -12,17 +12,26 @@ public enum Severity
 
 public class Logger
 {
-    //private static readonly string app_data_path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-    //public static readonly string errorPath = app_data_path + "\\errorLog.txt";
-    //public static readonly string actionPath = app_data_path + "\\actionLog.txt";
-
-    public static readonly string errorPath = Directory.GetCurrentDirectory() + "\\errorLog.txt";
-    public static readonly string actionPath = Directory.GetCurrentDirectory() + "\\actionLog.txt";
+    public static string app_data_path, errorPath, actionPath;// = AppDomain.CurrentDomain.BaseDirectory; // current directory
+    //public static string errorPath = app_data_path + "\\errorLog.txt";
+    //public static string actionPath = app_data_path + "\\actionLog.txt";
 
     private Logger() { }
 
     public static void Log(Severity s, string msg)
     {
+        // if 'log' was called from the server project
+        if (AppDomain.CurrentDomain.GetData("DataDirectory") != null)
+        {
+            app_data_path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();// the server's App_Data directory
+        }
+        else
+        {
+            app_data_path = AppDomain.CurrentDomain.BaseDirectory; // current directory
+        }
+        errorPath = app_data_path + "\\errorLog.txt";
+        actionPath = app_data_path + "\\actionLog.txt";
+
         if (msg == "")
         {
             Log(Severity.Exception, "message is empty.");
