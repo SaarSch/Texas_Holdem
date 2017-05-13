@@ -27,6 +27,35 @@ namespace server.Controllers
             return ans;
         }
 
+        // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
+        public RoomState GET(string user_name ,string game_name, string player_name, string option)// join/spectate game// leave game
+        {
+            Room r = null;
+            RoomState ans = new RoomState();
+            try
+            {
+                if (option == "join")
+                {
+                    r = WebApiConfig.gameManger.JoinGame(user_name, game_name, player_name);
+                }
+                else if(option == "spectate")
+                {
+                    r = WebApiConfig.gameManger.SpectateGame(user_name, game_name, player_name);    
+                }
+                else if (option == "leave")
+                {
+                    r = WebApiConfig.gameManger.LeaveGame(user_name, game_name, player_name);
+                }
+            }
+            catch (Exception e)
+            {
+                ans.messege = e.Message;
+            }
+            if (r != null) CreateRoomState(player_name, r, ans);
+            return ans;
+        }
+
+
         // GET: /api/Room?game_name=moshe&player_name=kaki&bet=100
         public RoomState GET(String game_name, string player_name, int bet) //palce bet
         {
@@ -46,7 +75,7 @@ namespace server.Controllers
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki&option=call 
-        public RoomState GET(string game_name, string player_name, string option) //call / fold W
+        public RoomState GET(string game_name, string player_name, string option) //call / fold 
         {
             Room r = null;
             RoomState ans = new RoomState();
@@ -55,7 +84,6 @@ namespace server.Controllers
                 if (option == "fold")
                 {
                     r = WebApiConfig.gameManger.Fold(game_name, player_name);
-
                 }
                 else if (option == "call")
                 {
@@ -64,13 +92,11 @@ namespace server.Controllers
                 if (r != null) CreateRoomState(player_name, r, ans);
                 return ans;
             }
-
             catch (Exception e)
             {
                 ans.messege = e.Message;
             }
             return ans;
-
         }
 
         // POST: api/Room  -------create room
