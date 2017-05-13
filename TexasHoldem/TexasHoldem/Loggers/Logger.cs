@@ -12,9 +12,12 @@ public enum Severity
 
 public class Logger
 {
-    private static readonly string app_data_path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-    public static readonly string errorPath = app_data_path + "\\errorLog.txt";
-    public static readonly string actionPath = app_data_path + "\\actionLog.txt";
+    //private static readonly string app_data_path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
+    //public static readonly string errorPath = app_data_path + "\\errorLog.txt";
+    //public static readonly string actionPath = app_data_path + "\\actionLog.txt";
+
+    public static readonly string errorPath = Directory.GetCurrentDirectory() + "\\errorLog.txt";
+    public static readonly string actionPath = Directory.GetCurrentDirectory() + "\\actionLog.txt";
 
     private Logger() { }
 

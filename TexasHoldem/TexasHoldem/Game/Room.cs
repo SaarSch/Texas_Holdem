@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TexasHoldem;
+using TexasHoldem.GamePrefrences;
 using TexasHoldem.GameReplay;
 
 public enum HandRank
@@ -37,14 +38,14 @@ public class Room
     public Card[] communityCards = new Card[5];
     public string name;
     public int rank;
-    public GamePreferences gamePreferences;
+    public IPreferences gamePreferences;
     public Boolean flop;
     public int pot = 0;
     public readonly string gameReplay;
     private int turn = 1;
     public gameStatus gameStatus;
 
-    public Room(String name, Player creator, GamePreferences gamePreferences)
+    public Room(String name, Player creator, IPreferences gamePreferences)
     {
 
         if (name == null)
@@ -68,13 +69,13 @@ public class Room
         //minBet- the minimum bet
         //buy-in- the minimum chip to join the game
 
-        if (creator.User.chipsAmount < gamePreferences.minBet || (creator.User.chipsAmount < gamePreferences.chipPolicy && gamePreferences.chipPolicy > 0) || creator.User.chipsAmount < gamePreferences.buyInPolicy)
+        if (creator.User.chipsAmount < gamePreferences.GetMinBet() || (creator.User.chipsAmount < gamePreferences.GetChipPolicy() && gamePreferences.GetChipPolicy() > 0) || creator.User.chipsAmount < gamePreferences.GetBuyInPolicy())
         {
             Logger.Log(Severity.Error, "player chips amount is too low to join");
             throw new Exception("player chips amount is too low to join");
         }
 
-        if (gamePreferences.chipPolicy == 0)
+        if (gamePreferences.GetChipPolicy() == 0)
         {
             creator.ChipsAmount = creator.User.chipsAmount;
             creator.User.chipsAmount = 0;
@@ -82,8 +83,8 @@ public class Room
 
         else
         {
-            creator.ChipsAmount = gamePreferences.chipPolicy;
-            creator.User.chipsAmount -= gamePreferences.chipPolicy;
+            creator.ChipsAmount = gamePreferences.GetChipPolicy();
+            creator.User.chipsAmount -= gamePreferences.GetChipPolicy();
         }
 
         this.gamePreferences = gamePreferences;
@@ -125,7 +126,7 @@ public class Room
             Logger.Log(Severity.Exception, "cant add a null player to the room");
             throw new Exception("illegal Player");
         }
-        if (players.Count > gamePreferences.maxPlayers)
+        if (players.Count > gamePreferences.GetMaxPlayers())
         {
             Logger.Log(Severity.Exception, "room is full, cant add the player");
             throw new Exception("room is full");
@@ -135,21 +136,21 @@ public class Room
             Logger.Log(Severity.Error, "player rank is too low to join");
             throw new Exception("player rank is too low to join");
         }
-        if (p.User.chipsAmount < gamePreferences.minBet || (p.User.chipsAmount < gamePreferences.chipPolicy && gamePreferences.chipPolicy > 0)|| p.User.chipsAmount<gamePreferences.buyInPolicy)
+        if (p.User.chipsAmount < gamePreferences.GetMinBet() || (p.User.chipsAmount < gamePreferences.GetChipPolicy() && gamePreferences.GetChipPolicy() > 0)|| p.User.chipsAmount<gamePreferences.GetBuyInPolicy())
         {
             Logger.Log(Severity.Error, "player chips amount is too low to join");
             throw new Exception("player chips amount is too low to join");
         }
 
-        if (gamePreferences.chipPolicy == 0)
+        if (gamePreferences.GetChipPolicy() == 0)
         {
             p.ChipsAmount = p.User.chipsAmount;
             p.User.chipsAmount = 0;
         }
         else
         {
-            p.ChipsAmount = gamePreferences.chipPolicy;
-            p.User.chipsAmount -= gamePreferences.chipPolicy;
+            p.ChipsAmount = gamePreferences.GetChipPolicy();
+            p.User.chipsAmount -= gamePreferences.GetChipPolicy();
         }
         players.Add(p);
         Logger.Log(Severity.Action, "new player joined the room: room name=" + name + "player name=" + p.Name);
@@ -157,7 +158,7 @@ public class Room
   
     public void Spectate(User user)
     {
-        if (!gamePreferences.spectating)
+        if (!gamePreferences.GetSpectating())
         {
 
             Logger.Log(Severity.Exception, "cant spectate at this room");
@@ -274,7 +275,7 @@ public class Room
 
     public Room StartGame()
     {
-        if (players.Count < gamePreferences.minPlayers)
+        if (players.Count < gamePreferences.GetMinPlayers())
         {
             Logger.Log(Severity.Error, "cant play with less then min players");
             throw new Exception("cant play with less then min players");
@@ -296,7 +297,7 @@ public class Room
 
         gameStatus = gameStatus.preFlop;
         IsOn = true;
-        int smallBlind = gamePreferences.minBet / 2;
+        int smallBlind = gamePreferences.GetMinBet() / 2;
         Deck = new Deck();
 
         // 0 = dealer 1=small blind 2=big blind
@@ -305,13 +306,13 @@ public class Room
         {
             Logger.Log(Severity.Action, "new game started in room " + name + " dealer and small blind-" + players[0].ToString()+ "big blind-"+players[1]);
             SetBet(players[0], smallBlind,true);
-            SetBet(players[1], gamePreferences.minBet,false);
+            SetBet(players[1], gamePreferences.GetMinBet(),false);
         }
         else
         {
             Logger.Log(Severity.Action, "new game started in room"+name+" dealer" + players[0].ToString()+ "small blind-" + players[1].ToString() + "big blind-" + players[2] +PlayersToString(players));
             SetBet(players[1], smallBlind,true);
-            SetBet(players[2], gamePreferences.minBet,false);
+            SetBet(players[2], gamePreferences.GetMinBet(),false);
         }
         DealTwo();
         return this;
@@ -375,23 +376,23 @@ public class Room
             throw new Exception("player cant be null");
         }
 
-        if ((bet < gamePreferences.minBet&&!smallBlind)||(smallBlind&&bet!=gamePreferences.minBet/2))
+        if ((bet < gamePreferences.GetMinBet()&&!smallBlind)||(smallBlind&&bet!=gamePreferences.GetMinBet()/2))
         {
             Logger.Log(Severity.Error, "cant bet less then min bet");
             throw new Exception("cant bet less then min bet");
         }
 
-        if (gamePreferences.gameType == Gametype.NoLimit && p.betInThisRound && p.previousRaise > bet) // no limit mode
+        if (gamePreferences.GetGameType() == Gametype.NoLimit && p.betInThisRound && p.previousRaise > bet) // no limit mode
         {
             Logger.Log(Severity.Error, "cant bet less then previous raise in no limit mode");
             throw new Exception("cant bet less then previous raise in no limit mode");
         }
 
-        if (gamePreferences.gameType == Gametype.limit) // limit mode
+        if (gamePreferences.GetGameType() == Gametype.Limit) // limit mode
         {
             if (gameStatus==gameStatus.preFlop || gameStatus==gameStatus.flop)  //pre flop & flop
             {
-               if(bet!= gamePreferences.minBet)
+               if(bet!= gamePreferences.GetMinBet())
                 {
                     Logger.Log(Severity.Error, "in pre flop/flop in limit mode bet must be equal to big blind");
                     throw new Exception("in pre flop/flop in limit mode bet must be equal to big blind");
@@ -400,7 +401,7 @@ public class Room
 
             if (gameStatus==gameStatus.turn||gameStatus==gameStatus.river)  //turn & river
             {
-                if (bet*2 != gamePreferences.minBet)
+                if (bet*2 != gamePreferences.GetMinBet())
                 {
                     Logger.Log(Severity.Error, "in pre turn/river in limit mode bet must be equal to 2*big blind");
                     throw new Exception("in pre turn/river in limit mode bet must be equal to 2*big blind");
@@ -408,7 +409,7 @@ public class Room
             }
         }
 
-        if (gamePreferences.gameType == Gametype.PotLimit)// limit pot
+        if (gamePreferences.GetGameType() == Gametype.PotLimit)// limit pot
         {
             int pot = 0;
             foreach (Player p1 in players) pot += p1.CurrentBet;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.GamePrefrences;
 
 namespace TexasHoldem.Bridges
 {
@@ -61,9 +62,16 @@ namespace TexasHoldem.Bridges
             return real == null || real.editAvatar(username, newPath);
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
+        public bool createNewGame(string gameName, string username, string creatorName)
         {
-            return real == null || real.createNewGame(gameName, username, creatorName, gameType, buyInPolicy,  chipPolicy,  minBet,  minPlayers,  maxPlayer,  spectating);
+            return real == null || real.createNewGame(gameName, username, creatorName);
+        }
+
+        public bool createNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
+            int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
+        {
+            return real == null || real.createNewGameWithPrefrences(gameName, username, creatorName, gameType, buyInPolicy,
+            chipPolicy, minBet, minPlayers, maxPlayer, spectating);
         }
 
         public bool isGameExist(string gameName)
@@ -72,7 +80,7 @@ namespace TexasHoldem.Bridges
         }
 
         public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag)
         {
             IList s;
