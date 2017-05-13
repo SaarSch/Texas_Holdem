@@ -18,14 +18,12 @@ namespace AllTests.AcceptanceTests
         public void Initialize()
         {
             bridge = new ProxyBridge();
-            //Logger.SetLoggerForTests(true);
         }
 
         [TestCleanup()] // happens after each test
         public void Cleanup() 
         {
             bridge.restartGameCenter();
-            //Logger.SetLoggerForTests(false);
         }
 
         [TestMethod]

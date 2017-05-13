@@ -12,9 +12,7 @@ public enum Severity
 
 public class Logger
 {
-    public static string app_data_path, errorPath, actionPath;// = AppDomain.CurrentDomain.BaseDirectory; // current directory
-    //public static string errorPath = app_data_path + "\\errorLog.txt";
-    //public static string actionPath = app_data_path + "\\actionLog.txt";
+    public static string app_data_path, errorPath, actionPath;
 
     private Logger() { }
 
