@@ -145,7 +145,7 @@ namespace AllTests.UnitTests.GameCenter
                 gc.SetDefaultRank("login1234", 2);
                 gc.Register("check1234", "321exm321");
                 check = gc.Login("check1234", "321exm321");
-                if (check.Rank == 2)
+                if (check.Rank == -1)
                     succ = true;
             }
             catch

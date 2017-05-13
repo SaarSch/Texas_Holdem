@@ -105,7 +105,7 @@ public class Room
         Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+rank );
     }
 
-    public void AddPlayer(Player p)
+    public Room AddPlayer(Player p)
     {
         foreach(Player p1 in players)
         {
@@ -153,6 +153,7 @@ public class Room
         }
         players.Add(p);
         Logger.Log(Severity.Action, "new player joined the room: room name=" + name + "player name=" + p.Name);
+        return this;
     }
   
     public void Spectate(User user)

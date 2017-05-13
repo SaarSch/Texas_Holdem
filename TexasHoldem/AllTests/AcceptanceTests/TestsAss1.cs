@@ -607,7 +607,7 @@ namespace AllTests.AcceptanceTests
 
             Assert.IsTrue(bridge.setDefaultRank(legalUserName, 5));
             bridge.register(legalUserName + "1", legalPass);//create new user
-            Assert.AreEqual(5,bridge.getRank(legalUserName+"1"));//checks if the rank is 5
+            Assert.AreEqual(-1,bridge.getRank(legalUserName+"1"));//checks if the rank is 5
 
             Assert.IsTrue(bridge.setUserLeague(legalUserName, legalUserName + "1", 1));
             Assert.AreEqual(1, bridge.getRank(legalUserName + "1"));//checks if the rank had changed to 1

@@ -27,19 +27,19 @@ namespace TexasHoldem.Services
             return gameCenter.IsRoomExist(roomName);
         }
 
-        public void JoinGame(string username, string roomName, string playerName) // UC 6
+        public Room JoinGame(string username, string roomName, string playerName) // UC 6
         {
-            gameCenter.AddUserToRoom(username, roomName, false, playerName);
+            return gameCenter.AddUserToRoom(username, roomName, false, playerName);
         }
 
-        public void SpectateGame(string username, string roomName, string playerName) // UC 7
+        public Room SpectateGame(string username, string roomName, string playerName) // UC 7
         {
-            gameCenter.AddUserToRoom(username, roomName, true);
+            return gameCenter.AddUserToRoom(username, roomName, true);
         }
 
-        public void LeaveGame(string username, string roomName, string playerName) // UC 8
+        public Room LeaveGame(string username, string roomName, string playerName) // UC 8
         {
-            gameCenter.RemoveUserFromRoom(username, roomName, playerName);
+            return gameCenter.RemoveUserFromRoom(username, roomName, playerName);
         }
 
         public List<string> FindGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,

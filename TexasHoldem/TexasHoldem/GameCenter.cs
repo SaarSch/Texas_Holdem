@@ -326,7 +326,7 @@ namespace TexasHoldem
             return true;
         }
 
-        public void AddUserToRoom(string username, string roomName, bool isSpectator, string playerName = "")
+        public Room AddUserToRoom(string username, string roomName, bool isSpectator, string playerName = "")
         {
             Room room = null;
             User user = null;
@@ -349,7 +349,7 @@ namespace TexasHoldem
                 else
                 { 
                     
-                room.AddPlayer(new Player(playerName, user));
+                return room.AddPlayer(new Player(playerName, user));
                 }
             }
             else
@@ -357,9 +357,10 @@ namespace TexasHoldem
                 Logger.Log(Severity.Error, "Error in AddUserToRoom: Room " + roomName + " doesn't exist!");
                 throw new Exception("Room " + roomName + " doesn't exist!");
             }
+            return room;
         }
 
-        public void RemoveUserFromRoom(string username, string roomName, string playerName)
+        public Room RemoveUserFromRoom(string username, string roomName, string playerName)
         {
             Room room = null;
             User user = null;
@@ -389,6 +390,7 @@ namespace TexasHoldem
                 Logger.Log(Severity.Error, "Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
                 throw new Exception("Room " + roomName + " doesn't exist!");
             }
+            return room;
         }
 
         public void SetDefaultRank(string username, int rank)
