@@ -68,6 +68,11 @@ namespace TexasHoldem.Services
             return true;
         }
 
+        public void IsUserLoggedInn(string userName)
+        {
+                gameCenter.GetLoggedInUser(userName);
+        }
+
         public int GetRank(string userName)
         {
            return _gameCenter.GetUser(userName).League;
