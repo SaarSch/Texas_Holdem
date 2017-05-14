@@ -48,35 +48,38 @@ namespace TexasHoldem
 
         public void SetLeagues()
         {
-                double size = Users.Count / 10;
-                int leagueSize =(int)Math.Ceiling(size);
-                if (leagueSize == 0) leagueSize = 1;
-                int currentSize = 0;
-                int league = 10;
-                int users = 0;
-                List<User> done = new List<User>();
-                User current = null;
-                int maxWins = -1;
-            for (int i = 0; i < Users.Count; i++)
+            double size = _users.Count / 10;
+            var leagueSize =(int)Math.Ceiling(size);
+            if (leagueSize == 0) leagueSize = 1;
+            var currentSize = 0;
+            var league = 10;
+            var users = 0;
+            var done = new List<User>();
+            User current = null;
+            var maxWins = -1;
+            for (var i = 0; i < _users.Count; i++)
             {
-                foreach (Pair<User, bool> u in Users)
+                foreach (var u in _users)
                 {
-                    if (u.First.wins > maxWins && !done.Contains(u.First))
+                    if (u.First.Wins > maxWins && !done.Contains(u.First))
                     {
-                        maxWins = u.First.wins;
+                        maxWins = u.First.Wins;
                         current = u.First;
                     }
                 }
-                current.league = league;
-                currentSize++;
-                done.Add(current);
+                if (current != null)
+                {
+                    current.League = league;
+                    currentSize++;
+                    done.Add(current);
+                }
                 users++;
                 if ((currentSize == leagueSize && leagueSize >= 2) || (currentSize > leagueSize))
                 {
                     currentSize = 0;
                     league--;
                 }
-                if (Users.Count == users + 1&&Users.Count%2==1)
+                if (_users.Count == users + 1&& _users.Count%2==1)
                 {
                     league++;
                 }
@@ -379,7 +382,7 @@ namespace TexasHoldem
         {
             var context = GetLoggedInUser(username);
 
-            if (context.league != MaxRank)
+            if (context.League != MaxRank)
             {
                 Logger.Log(Severity.Error, "ERROR in SetDefaultRank: Only highest rank users can update the default rank!");
                 throw new Exception("Only highest rank users can update the default rank!");
@@ -397,7 +400,7 @@ namespace TexasHoldem
         {
             var context = GetLoggedInUser(username);
 
-            if (context.league != MaxRank)
+            if (context.League != MaxRank)
             {
                 Logger.Log(Severity.Error, "ERROR in SetEXPCriteria: Only highest rank users can update the EXP criteria!");
                 throw new Exception("Only highest rank users can update the EXP criteria!");
@@ -413,10 +416,9 @@ namespace TexasHoldem
 
         public void SetUserRank(string username, string usernameToSet, int rank)
         {
-            User toSetRank;
             var context = GetLoggedInUser(username);
 
-            if (context.league != MaxRank)
+            if (context.League != MaxRank)
             {
                 Logger.Log(Severity.Error, "ERROR in SetUserRank: Only highest rank users can set other users' rank!");
                 throw new Exception("Only highest rank users can set other users' rank!");
@@ -426,17 +428,10 @@ namespace TexasHoldem
                 Logger.Log(Severity.Error, "ERROR in SetUserRank: Default rank must be an integer in [0,10]!");
                 throw new Exception("Default rank must be an integer in [0,10]!");
             }
-            try
-            {
-                toSetRank = GetUser(usernameToSet);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            toSetRank.league = rank;
+            var toSetRank = GetUser(usernameToSet);
+            toSetRank.League = rank;
             toSetRank = GetUser(usernameToSet);
-            toSetRank.Rank = rank;
+            toSetRank.League = rank;
             Logger.Log(Severity.Action, username + " changed the rank of " + usernameToSet + " to " + rank + "!");
         }
 
@@ -504,7 +499,7 @@ namespace TexasHoldem
 
                 if (leagueFlag)
                 {
-                    if (Rooms[i].league != context.league)
+                    if (Rooms[i].League != context.League)
                     {
                         passed = false;
                     }
