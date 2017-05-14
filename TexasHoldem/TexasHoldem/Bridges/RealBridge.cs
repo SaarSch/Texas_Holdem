@@ -23,7 +23,7 @@ namespace TexasHoldem.Bridges
             replayManager = new ReplayManager();
         }
 
-        public bool register(string userName, string pass)
+        public bool Register(string userName, string pass)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool isUserExist(string userName)
+        public bool IsUserExist(string userName)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool deleteUser(string username, string password)
+        public bool DeleteUser(string username, string password)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool login(string userName, string pass)
+        public bool Login(string userName, string pass)
         {
             try
             {
@@ -77,12 +77,12 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool isLoggedIn(string userName, string pass)
+        public bool IsLoggedIn(string userName, string pass)
         {
             return userManager.IsUserLoggedIn(userName, pass);
         }
 
-        public bool logOut(string userName)
+        public bool LogOut(string userName)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editUsername(string username, string newUsername)
+        public bool EditUsername(string username, string newUsername)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editPassword(string username, string newPass)
+        public bool EditPassword(string username, string newPass)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool editAvatar(string username, string newPath)
+        public bool EditAvatar(string username, string newPath)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName)
+        public bool CreateNewGame(string gameName, string username, string creatorName)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool createNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
+        public bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
             int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
         {
             try
@@ -162,7 +162,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool isGameExist(string gameName)
+        public bool IsGameExist(string gameName)
         {
             return gameManager.IsRoomExist(gameName);
         }
@@ -196,7 +196,7 @@ namespace TexasHoldem.Bridges
             }
         }
 
-        public bool joinGame(string username, string roomName, string playerName)
+        public bool JoinGame(string username, string roomName, string playerName)
         {
             try
             {
@@ -209,7 +209,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool spectateGame(string username, string roomName, string playerName)
+        public bool SpectateGame(string username, string roomName, string playerName)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool leaveGame(string username, string roomName, string playerName)
+        public bool LeaveGame(string username, string roomName, string playerName)
         {
             try
             {
@@ -235,12 +235,12 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public int getRank(string userName)
+        public int GetRank(string userName)
         {
             return userManager.GetRank(userName);
         }
 
-        public bool raiseInGame(int raiseamount, string gamename, string playername)
+        public bool RaiseInGame(int raiseamount, string gamename, string playername)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool callInGame(string gamename, string playername)
+        public bool CallInGame(string gamename, string playername)
         {
             try
             {
@@ -266,7 +266,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool foldInGame(string gameName, string playerName)
+        public bool FoldInGame(string gameName, string playerName)
         {
             try
             {
@@ -279,7 +279,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool setExpCriteria(string username, int exp)
+        public bool SetExpCriteria(string username, int exp)
         {
             try
             {
@@ -292,7 +292,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool setDefaultRank(string username, int rank)
+        public bool SetDefaultRank(string username, int rank)
         {
             try
             {
@@ -305,7 +305,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool setUserLeague(string username, string usernameToSet, int rank)
+        public bool SetUserLeague(string username, string usernameToSet, int rank)
         {
             try
             {
@@ -318,7 +318,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool saveTurn(string roomName, int turnNum)
+        public bool SaveTurn(string roomName, int turnNum)
         {
             try
             {
@@ -331,12 +331,12 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool restartGameCenter()
+        public bool RestartGameCenter()
         {
             return gameManager.RestartGameCenter();
         }
 
-        public bool startGame(string roomName)
+        public bool StartGame(string roomName)
         {
             try
             {
@@ -349,7 +349,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool setBet(string roomName, string PlayerName, int bet)
+        public bool SetBet(string roomName, string PlayerName, int bet)
         {
             try
             {
@@ -362,7 +362,7 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public void setUserRank(string legalUserName, int newrank)
+        public void SetUserRank(string legalUserName, int newrank)
         {
             userManager.ChangeRank(legalUserName, newrank);
         }

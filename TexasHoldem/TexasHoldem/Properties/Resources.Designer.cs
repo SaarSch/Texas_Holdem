@@ -77,5 +77,24 @@ namespace TexasHoldem.Properties {
                 return ResourceManager.GetString("errorLog", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to aaaa.
+        /// </summary>
+        internal static string GameCenter_Main_aaaa {
+            get {
+                return ResourceManager.GetString("GameCenter_Main_aaaa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to turn no., seat0, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8, pot, community,,,.
+        /// </summary>
+        internal static string Replayer_CreateReplay_turn_no___seat0__seat1__seat2__seat3__seat4__seat5__seat6__seat7__seat8__pot__community___ {
+            get {
+                return ResourceManager.GetString("Replayer_CreateReplay_turn_no___seat0__seat1__seat2__seat3__seat4__seat5__seat6__" +
+                        "seat7__seat8__pot__community___", resourceCulture);
+            }
+        }
     }
 }

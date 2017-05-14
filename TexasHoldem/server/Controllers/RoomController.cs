@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TexasHoldem.GamePrefrences;
+using Player = TexasHoldem.Game.Player;
+using Room = TexasHoldem.Game.Room;
 
 namespace server.Controllers
 {
@@ -123,19 +125,19 @@ namespace server.Controllers
         {
             try
             {
-                ans.room_name = r.name;
+                ans.room_name = r.Name;
                 ans.is_on = r.IsOn;
-                ans.pot = r.pot;
-                ans.game_status = r.gameStatus.ToString();
+                ans.pot = r.Pot;
+                ans.game_status = r.GameStatus.ToString();
                 ans.community_cards = new string[5];
-                ans.all_players = new Models.Player[r.players.Count];
+                ans.all_players = new Models.Player[r.Players.Count];
                 for (int i = 0; i < 5; i++)
                 {
-                    if (r.communityCards[i] == null) break;
-                    ans.community_cards[i] = r.communityCards[i].ToString();
+                    if (r.CommunityCards[i] == null) break;
+                    ans.community_cards[i] = r.CommunityCards[i].ToString();
                 }
                 int j = 0;
-                foreach (Player p in r.players)
+                foreach (Player p in r.Players)
                 {
                     Models.Player p1 = new Models.Player();
                     p1.player_name = p.Name;

@@ -1,4 +1,5 @@
 ﻿using System;
+using TexasHoldem.Loggers;
 
 namespace TexasHoldem.GamePrefrences
 {
@@ -95,7 +96,6 @@ namespace TexasHoldem.GamePrefrences
         }
         public bool Spectating { get; set; }
 
-        //REMOVE CONSTRUCTOR LATER
         public GamePreferences()
         {
             SetGameType(Gametype.NoLimit);
@@ -109,12 +109,12 @@ namespace TexasHoldem.GamePrefrences
 
         public void SetBuyInPolicy(int bp)
         {
-            _buyInPolicy = bp;
+            BuyInPolicy = bp;
         }
 
         public void SetChipPolicy(int cp)
         {
-            _chipPolicy = cp;
+            ChipPolicy = cp;
         }
 
         public void SetGameType(Gametype gt)

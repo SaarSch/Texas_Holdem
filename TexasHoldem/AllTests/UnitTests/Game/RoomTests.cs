@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
 using TexasHoldem.GamePrefrences;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.Game
 {
@@ -18,10 +20,10 @@ namespace AllTests.UnitTests.Game
         {
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp);
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
             var p1 = new Player("shachar1", u1);
             r.AddPlayer(p1);
-            Assert.IsTrue(r.players.Count == 2);
+            Assert.IsTrue(r.Players.Count == 2);
         }
 
         [TestMethod]
@@ -99,12 +101,12 @@ namespace AllTests.UnitTests.Game
         {
             var p = new Player("shachar1", u);
             var r = new Room("aaaa", p, gp);
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
             var p1 = new Player("shachar", u1);
             r.AddPlayer(p1);
-            Assert.IsTrue(r.players.Count == 2);
+            Assert.IsTrue(r.Players.Count == 2);
             r.ExitRoom("shachar");
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
         }
 
         [TestMethod]
@@ -112,7 +114,7 @@ namespace AllTests.UnitTests.Game
         {
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp);
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
             var p1 = new Player("shachar3", u1);
             var p3 = new Player("shachar2", new User("tom12345f", "12345678", "gggg.png", "hello@gmail.com", 50000));
             var p4 = new Player("shachar14", new User("tom12345g", "12345678", "eeee.png", "hello@gmail.com", 50000));
@@ -121,9 +123,9 @@ namespace AllTests.UnitTests.Game
             r.AddPlayer(p3);
             r.AddPlayer(p4);
             r.AddPlayer(p5);
-            Assert.IsTrue(r.players.Count == 5);
+            Assert.IsTrue(r.Players.Count == 5);
             r.DealTwo();
-            foreach (var p2 in r.players)
+            foreach (var p2 in r.Players)
                 Assert.IsTrue(p.Hand.Length == 2);
         }
 
@@ -132,13 +134,13 @@ namespace AllTests.UnitTests.Game
         {
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp);
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
             r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
-            Assert.IsTrue(r.Deck.cards.Count == 47);
-            Assert.IsNotNull(r.communityCards[0]);
-            Assert.IsNotNull(r.communityCards[1]);
+            Assert.IsTrue(r.Deck.Cards.Count == 47);
+            Assert.IsNotNull(r.CommunityCards[0]);
+            Assert.IsNotNull(r.CommunityCards[1]);
         }
 
         [TestMethod]
@@ -146,16 +148,16 @@ namespace AllTests.UnitTests.Game
         {
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp);
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
             r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
-            Assert.IsTrue(r.Deck.cards.Count == 47);
-            Assert.IsNotNull(r.communityCards[0]);
-            Assert.IsNotNull(r.communityCards[1]);
+            Assert.IsTrue(r.Deck.Cards.Count == 47);
+            Assert.IsNotNull(r.CommunityCards[0]);
+            Assert.IsNotNull(r.CommunityCards[1]);
             r.DealCommunitySecond();
-            Assert.IsTrue(r.Deck.cards.Count == 46);
-            Assert.IsNotNull(r.communityCards[2]);
+            Assert.IsTrue(r.Deck.Cards.Count == 46);
+            Assert.IsNotNull(r.CommunityCards[2]);
         }
 
         [TestMethod]
@@ -163,20 +165,20 @@ namespace AllTests.UnitTests.Game
         {
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp);
-            Assert.IsTrue(r.players.Count == 1);
+            Assert.IsTrue(r.Players.Count == 1);
             r.IsOn = true;
             r.DealTwo();
             r.DealCommunityFirst();
-            Assert.IsTrue(r.Deck.cards.Count == 47);
-            Assert.IsNotNull(r.communityCards[0]);
-            Assert.IsNotNull(r.communityCards[1]);
-            Assert.IsNotNull(r.communityCards[2]);
+            Assert.IsTrue(r.Deck.Cards.Count == 47);
+            Assert.IsNotNull(r.CommunityCards[0]);
+            Assert.IsNotNull(r.CommunityCards[1]);
+            Assert.IsNotNull(r.CommunityCards[2]);
             r.DealCommunitySecond();
-            Assert.IsTrue(r.Deck.cards.Count == 46);
-            Assert.IsNotNull(r.communityCards[3]);
+            Assert.IsTrue(r.Deck.Cards.Count == 46);
+            Assert.IsNotNull(r.CommunityCards[3]);
             r.DealCommunityThird();
-            Assert.IsTrue(r.Deck.cards.Count == 45);
-            Assert.IsNotNull(r.communityCards[4]);
+            Assert.IsTrue(r.Deck.Cards.Count == 45);
+            Assert.IsNotNull(r.CommunityCards[4]);
         }
 
         [TestMethod]
@@ -202,7 +204,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(8, CardType.Clubs));
             loss.Add(new Card(9, CardType.Clubs));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -228,7 +230,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(10, CardType.Hearts));
             loss.Add(new Card(10, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -254,7 +256,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(10, CardType.Hearts));
             loss.Add(new Card(8, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -281,7 +283,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(13, CardType.Diamonds));
             loss.Add(new Card(4, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -308,7 +310,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(6, CardType.Hearts));
             loss.Add(new Card(7, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -335,7 +337,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(14, CardType.Hearts));
             loss.Add(new Card(7, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -362,7 +364,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(7, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -389,7 +391,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -417,7 +419,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -445,7 +447,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -473,7 +475,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -501,7 +503,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -531,7 +533,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -577,8 +579,8 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, gp1);
             try
             {
-                p.previousRaise = 30;
-                p.betInThisRound = true;
+                p.PreviousRaise = 30;
+                p.BetInThisRound = true;
                 r.SetBet(p, 10, false);
             }
             catch (Exception e)
@@ -611,10 +613,10 @@ namespace AllTests.UnitTests.Game
             var gp1 = new GamePreferences();
             var p = new Player("shachar", u);
             var r = new Room("aaaa", p, gp1);
-            r.communityCards[0] = new Card(5, CardType.Clubs);
-            r.communityCards[1] = new Card(5, CardType.Clubs);
-            r.communityCards[2] = new Card(5, CardType.Clubs);
-            r.communityCards[3] = new Card(5, CardType.Clubs);
+            r.CommunityCards[0] = new Card(5, CardType.Clubs);
+            r.CommunityCards[1] = new Card(5, CardType.Clubs);
+            r.CommunityCards[2] = new Card(5, CardType.Clubs);
+            r.CommunityCards[3] = new Card(5, CardType.Clubs);
             try
             {
                 r.SetBet(p, 120, false);
@@ -693,7 +695,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(3, CardType.Clubs));
             loss.Add(new Card(2, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -721,7 +723,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(3, CardType.Diamonds));
             loss.Add(new Card(2, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -749,7 +751,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(3, CardType.Diamonds));
             loss.Add(new Card(2, CardType.Diamonds));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -777,7 +779,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(3, CardType.Diamonds));
             loss.Add(new Card(3, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -804,7 +806,7 @@ namespace AllTests.UnitTests.Game
             loss.Add(new Card(4, CardType.Clubs));
             loss.Add(new Card(9, CardType.Hearts));
 
-            Assert.IsTrue(r.HandCalculator(win).handStrongessValue > r.HandCalculator(loss).handStrongessValue);
+            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -815,11 +817,11 @@ namespace AllTests.UnitTests.Game
             var p1 = new Player("shachar1", u1);
 
             r.AddPlayer(p1);
-            r.communityCards[0] = new Card(13, CardType.Diamonds);
-            r.communityCards[1] = new Card(13, CardType.Spades);
-            r.communityCards[2] = new Card(14, CardType.Hearts);
-            r.communityCards[3] = new Card(3, CardType.Clubs);
-            r.communityCards[4] = new Card(4, CardType.Diamonds);
+            r.CommunityCards[0] = new Card(13, CardType.Diamonds);
+            r.CommunityCards[1] = new Card(13, CardType.Spades);
+            r.CommunityCards[2] = new Card(14, CardType.Hearts);
+            r.CommunityCards[3] = new Card(3, CardType.Clubs);
+            r.CommunityCards[4] = new Card(4, CardType.Diamonds);
 
             p.Hand[0] = new Card(13, CardType.Clubs);
             p.Hand[1] = new Card(13, CardType.Hearts);
@@ -838,11 +840,11 @@ namespace AllTests.UnitTests.Game
             var p1 = new Player("shachar2", u1);
             var p2 = new Player("shachar1", u2);
             r.AddPlayer(p1);
-            r.communityCards[0] = new Card(13, CardType.Diamonds);
-            r.communityCards[1] = new Card(11, CardType.Spades);
-            r.communityCards[2] = new Card(14, CardType.Hearts);
-            r.communityCards[3] = new Card(3, CardType.Clubs);
-            r.communityCards[4] = new Card(4, CardType.Diamonds);
+            r.CommunityCards[0] = new Card(13, CardType.Diamonds);
+            r.CommunityCards[1] = new Card(11, CardType.Spades);
+            r.CommunityCards[2] = new Card(14, CardType.Hearts);
+            r.CommunityCards[3] = new Card(3, CardType.Clubs);
+            r.CommunityCards[4] = new Card(4, CardType.Diamonds);
 
             p.Hand[0] = new Card(2, CardType.Diamonds);
             p.Hand[1] = new Card(13, CardType.Spades);
@@ -866,11 +868,11 @@ namespace AllTests.UnitTests.Game
             var p1 = new Player("shachar2", u1);
             var p2 = new Player("shachar3", u2);
             r.AddPlayer(p1);
-            r.communityCards[0] = new Card(13, CardType.Diamonds);
-            r.communityCards[1] = new Card(11, CardType.Spades);
-            r.communityCards[2] = new Card(14, CardType.Hearts);
-            r.communityCards[3] = new Card(3, CardType.Clubs);
-            r.communityCards[4] = new Card(4, CardType.Diamonds);
+            r.CommunityCards[0] = new Card(13, CardType.Diamonds);
+            r.CommunityCards[1] = new Card(11, CardType.Spades);
+            r.CommunityCards[2] = new Card(14, CardType.Hearts);
+            r.CommunityCards[3] = new Card(3, CardType.Clubs);
+            r.CommunityCards[4] = new Card(4, CardType.Diamonds);
 
             p.Hand[0] = new Card(5, CardType.Diamonds);
             p.Hand[1] = new Card(13, CardType.Spades);
@@ -895,11 +897,11 @@ namespace AllTests.UnitTests.Game
             var p2 = new Player("shachar3", u2);
             r.AddPlayer(p1);
             r.AddPlayer(p2);
-            r.communityCards[0] = new Card(13, CardType.Diamonds);
-            r.communityCards[1] = new Card(11, CardType.Spades);
-            r.communityCards[2] = new Card(14, CardType.Hearts);
-            r.communityCards[3] = new Card(3, CardType.Clubs);
-            r.communityCards[4] = new Card(4, CardType.Diamonds);
+            r.CommunityCards[0] = new Card(13, CardType.Diamonds);
+            r.CommunityCards[1] = new Card(11, CardType.Spades);
+            r.CommunityCards[2] = new Card(14, CardType.Hearts);
+            r.CommunityCards[3] = new Card(3, CardType.Clubs);
+            r.CommunityCards[4] = new Card(4, CardType.Diamonds);
 
             p.Hand[0] = new Card(5, CardType.Diamonds);
             p.Hand[1] = new Card(13, CardType.Spades);
@@ -913,7 +915,7 @@ namespace AllTests.UnitTests.Game
             p.SetBet(300);
             p1.SetBet(300);
             p2.SetBet(300);
-            var temp1 = r.players[0];
+            var temp1 = r.Players[0];
             r.IsOn = true;
             r.CalcWinnersChips();
 
@@ -929,11 +931,11 @@ namespace AllTests.UnitTests.Game
             var p2 = new Player("shachar3", u2);
             r.AddPlayer(p1);
             r.AddPlayer(p2);
-            r.communityCards[0] = new Card(13, CardType.Diamonds);
-            r.communityCards[1] = new Card(11, CardType.Spades);
-            r.communityCards[2] = new Card(14, CardType.Hearts);
-            r.communityCards[3] = new Card(3, CardType.Clubs);
-            r.communityCards[4] = new Card(4, CardType.Diamonds);
+            r.CommunityCards[0] = new Card(13, CardType.Diamonds);
+            r.CommunityCards[1] = new Card(11, CardType.Spades);
+            r.CommunityCards[2] = new Card(14, CardType.Hearts);
+            r.CommunityCards[3] = new Card(3, CardType.Clubs);
+            r.CommunityCards[4] = new Card(4, CardType.Diamonds);
 
             p.Hand[0] = new Card(5, CardType.Diamonds);
             p.Hand[1] = new Card(13, CardType.Spades);
@@ -951,7 +953,7 @@ namespace AllTests.UnitTests.Game
 
             r.CalcWinnersChips();
 
-            Assert.IsTrue(r.players[0] == p1 && r.players[1] == p2 && r.players[2] == p);
+            Assert.IsTrue(r.Players[0] == p1 && r.Players[1] == p2 && r.Players[2] == p);
         }
 
         [TestMethod]
@@ -966,7 +968,7 @@ namespace AllTests.UnitTests.Game
             r.StartGame();
 
 
-            Assert.IsTrue(r.players[0].CurrentBet == 0 && r.players[1].CurrentBet == 2 && r.players[2].CurrentBet == 4);
+            Assert.IsTrue(r.Players[0].CurrentBet == 0 && r.Players[1].CurrentBet == 2 && r.Players[2].CurrentBet == 4);
         }
 
         [TestMethod]
@@ -980,7 +982,7 @@ namespace AllTests.UnitTests.Game
             r.StartGame();
 
 
-            Assert.IsTrue(r.players[0].CurrentBet == 2 && r.players[1].CurrentBet == 4);
+            Assert.IsTrue(r.Players[0].CurrentBet == 2 && r.Players[1].CurrentBet == 4);
         }
 
         [TestMethod]
@@ -989,7 +991,7 @@ namespace AllTests.UnitTests.Game
             var p = new Player("shachar1", u);
             var r = new Room("aaaa", p, gp);
             r.Spectate(u);
-            Assert.IsTrue(r.spectateUsers.Contains(u));
+            Assert.IsTrue(r.SpectateUsers.Contains(u));
         }
 
         [TestMethod]
@@ -1004,7 +1006,7 @@ namespace AllTests.UnitTests.Game
             r.AddPlayer(p1);
             r.NotifyRoom(message);
 
-            foreach (var p2 in r.players)
+            foreach (var p2 in r.Players)
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
                     p2.User.Notifications[0]);
