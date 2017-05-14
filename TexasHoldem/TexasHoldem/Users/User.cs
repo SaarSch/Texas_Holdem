@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 
 namespace TexasHoldem.Users
@@ -57,8 +58,9 @@ namespace TexasHoldem.Users
         {
             if (password.Length > PasswordLengthMax || password.Length < PasswordLengthMin)
             {
-                Logger.Log(Severity.Error, "ERROR: Illegal password! Length must be between 8 and 12.");
-                throw new Exception("Illegal password! Length must be between 8 and 12.");
+                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
 
             var hasNonLetterChar = false;
@@ -68,8 +70,9 @@ namespace TexasHoldem.Users
             {
                 if (password[i] == ' ')
                 {
-                    Logger.Log(Severity.Error, "ERROR in Register: Illegal password! Space is not allowed.");
-                    throw new Exception("Illegal password! Space is not allowed.");
+                    Exception e = new IllegalPasswordException("Illegal password! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
                 }
                 if (!char.IsLetter(password[i]))
                 {
@@ -79,8 +82,9 @@ namespace TexasHoldem.Users
 
             if (!hasNonLetterChar)
             {
-                Logger.Log(Severity.Error, "ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.");
-                throw new Exception("Illegal password! Must contain at least 1 non-letter character.");
+                Exception e = new IllegalPasswordException("Illegal password! Must contain at least 1 non-letter character.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
 
             _password = password;
@@ -95,16 +99,18 @@ namespace TexasHoldem.Users
         {
             if (username.Length > PasswordLengthMax || username.Length < PasswordLengthMin)
             {
-                Logger.Log(Severity.Error, "ERROR: Illegal username!Length must be between 8 and 12.");
-                throw new Exception("Illegal username! Length must be between 8 and 12.");
+                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
 
             for (var i = 0; i < username.Length; i++)
             {
                 if (username[i] == ' ')
                 {
-                    Logger.Log(Severity.Error, "ERROR: Illegal username! Space is not allowed.");
-                    throw new Exception("Illegal username! Space is not allowed.");
+                    Exception e = new IllegalUsernameException("Illegal username! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
                 }
             }
 
@@ -123,8 +129,9 @@ namespace TexasHoldem.Users
                 || avatarPath.Contains("virus")
                 ||  avatarPath.Contains("VIRUS")) // TODO: add more?
             {
-                Logger.Log(Severity.Error, "ERROR: Illegal avatar file! Must be a legal image");
-                throw new Exception("Illegal avatar file! Must be a legal image");
+                Exception e = new IllegalAvatarException("Illegal avatar file! Must be a legal image.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             _avatarPath = avatarPath;
         }
@@ -143,8 +150,9 @@ namespace TexasHoldem.Users
             }
             else
             {
-                Logger.Log(Severity.Error, "ERROR: Illegal email! must be in format: aaa@bbb.ccc");
-                throw new Exception("Illegal email! must be in format: aaa@bbb.ccc.");
+                Exception e = new IllegalAvatarException("Illegal email! must be in format: aaa@bbb.ccc.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
         
         }

@@ -28,7 +28,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("can't put null cards"));
+                Assert.IsTrue(e.Message.Equals("can't put null cards in player hand"));
             }
         }
 
@@ -55,7 +55,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("illegael bet"));
+                Assert.IsTrue(e.Message.Equals("bet must be greater then zero and less - equal to player chips"));
             }
         }
 

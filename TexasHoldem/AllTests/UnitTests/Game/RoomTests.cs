@@ -618,7 +618,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("cant bet less then min bet"));
+                Assert.IsTrue(e.Message.Equals("can't bet less then min bet"));
             }
         }
 
@@ -637,7 +637,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("cant bet less then previous raise in no limit mode"));
+                Assert.IsTrue(e.Message.Equals("can't bet less then previous raise in no limit mode"));
             }
         }
 

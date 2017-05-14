@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
     public class RealBridge:IBridge
     {
-        private UserManager userManager;
-        private GameManager gameManager;
-        private ReplayManager replayManager;
+        private readonly UserManager _userManager;
+        private readonly GameManager _gameManager;
+        private readonly ReplayManager _replayManager;
 
         public RealBridge()
         {
-            userManager = new UserManager();
-            gameManager = new GameManager();
-            replayManager = new ReplayManager();
+            _userManager = new UserManager();
+            _gameManager = new GameManager();
+            _replayManager = new ReplayManager();
         }
 
         public bool Register(string userName, string pass)
         {
             try
             {
-                userManager.Register(userName, pass);
+                _userManager.Register(userName, pass);
             }
             catch (Exception e)
             {
@@ -41,7 +36,7 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                userManager.Login(userName, userName);
+                _userManager.Login(userName, userName);
             }
             catch (Exception e)
             {
@@ -55,9 +50,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                userManager.DeleteUser(username, password);
+                _userManager.DeleteUser(username, password);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                return false;
             }
@@ -68,9 +63,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                userManager.Login(userName, pass);
+                _userManager.Login(userName, pass);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -79,16 +74,16 @@ namespace TexasHoldem.Bridges
 
         public bool IsLoggedIn(string userName, string pass)
         {
-            return userManager.IsUserLoggedIn(userName, pass);
+            return _userManager.IsUserLoggedIn(userName, pass);
         }
 
         public bool LogOut(string userName)
         {
             try
             {
-                userManager.Logout(userName);
+                _userManager.Logout(userName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -99,9 +94,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                userManager.EditProfileUsername(username, newUsername);
+                _userManager.EditProfileUsername(username, newUsername);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -112,9 +107,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                userManager.EditProfilePassword(username, newPass);
+                _userManager.EditProfilePassword(username, newPass);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -125,9 +120,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                userManager.EditProfileAvatarPath(username, newPath);
+                _userManager.EditProfileAvatarPath(username, newPath);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -138,9 +133,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.CreateGame(gameName, username, creatorName);
+                _gameManager.CreateGame(gameName, username, creatorName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -152,10 +147,10 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.CreateGameWithPreferences(gameName, username, creatorName, gameType, buyInPolicy,
+                _gameManager.CreateGameWithPreferences(gameName, username, creatorName, gameType, buyInPolicy,
                     chipPolicy, minBet, minPlayers, maxPlayer, spectating);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -164,7 +159,7 @@ namespace TexasHoldem.Bridges
 
         public bool IsGameExist(string gameName)
         {
-            return gameManager.IsRoomExist(gameName);
+            return _gameManager.IsRoomExist(gameName);
         }
 
         public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
@@ -173,11 +168,11 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                return gameManager.FindGames(username, playerName, playerFlag, potSize, potFlag,
+                return _gameManager.FindGames(username, playerName, playerFlag, potSize, potFlag,
                     gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
                     spectating, prefFlag, leagueFlag);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new List<string>();
             }
@@ -188,9 +183,9 @@ namespace TexasHoldem.Bridges
         {
             try
             { 
-                return gameManager.FindGames(username);
+                return _gameManager.FindGames(username);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new List<string>();
             }
@@ -200,9 +195,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.JoinGame(username, roomName, playerName);
+                _gameManager.JoinGame(username, roomName, playerName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -213,9 +208,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.SpectateGame(username, roomName, playerName);
+                _gameManager.SpectateGame(username, roomName, playerName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -226,9 +221,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.LeaveGame(username, roomName, playerName);
+                _gameManager.LeaveGame(username, roomName, playerName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -237,16 +232,16 @@ namespace TexasHoldem.Bridges
 
         public int GetRank(string userName)
         {
-            return userManager.GetRank(userName);
+            return _userManager.GetRank(userName);
         }
 
         public bool RaiseInGame(int raiseamount, string gamename, string playername)
         {
             try
             {
-                gameManager.PlaceBet(gamename, playername, raiseamount);
+                _gameManager.PlaceBet(gamename, playername, raiseamount);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -257,9 +252,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.Call(gamename, playername);
+                _gameManager.Call(gamename, playername);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -270,9 +265,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.Fold(gameName, playerName);
+                _gameManager.Fold(gameName, playerName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -283,9 +278,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.SetExpCriteria(username, exp);
+                _gameManager.SetExpCriteria(username, exp);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -296,9 +291,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.SetDefaultRank(username, rank);
+                _gameManager.SetDefaultRank(username, rank);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -309,9 +304,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                gameManager.SetUserLeague(username, usernameToSet, rank);
+                _gameManager.SetUserLeague(username, usernameToSet, rank);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -322,9 +317,9 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                replayManager.SaveTurn(roomName, turnNum);
+                _replayManager.SaveTurn(roomName, turnNum);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -333,29 +328,29 @@ namespace TexasHoldem.Bridges
 
         public bool RestartGameCenter()
         {
-            return gameManager.RestartGameCenter();
+            return _gameManager.RestartGameCenter();
         }
 
         public bool StartGame(string roomName)
         {
             try
             {
-                gameManager.StartGame(roomName);
+                _gameManager.StartGame(roomName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
             return true;
         }
 
-        public bool SetBet(string roomName, string PlayerName, int bet)
+        public bool SetBet(string roomName, string playerName, int bet)
         {
             try
             {
-                gameManager.PlaceBet(roomName,PlayerName,bet);
+                _gameManager.PlaceBet(roomName,playerName,bet);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -364,7 +359,7 @@ namespace TexasHoldem.Bridges
 
         public void SetUserRank(string legalUserName, int newrank)
         {
-            userManager.ChangeRank(legalUserName, newrank);
+            _userManager.ChangeRank(legalUserName, newrank);
         }
     }
 }
