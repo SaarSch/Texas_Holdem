@@ -48,7 +48,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcceptanceTests\TestsAss1.cs" />
+    <Compile Include="AcceptanceTests\AcceptanceTests.cs" />
     <Compile Include="UnitTests\GameCenter\GameCenterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\GameReplay\TestReplayer.cs" />

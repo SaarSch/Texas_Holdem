@@ -14,7 +14,7 @@ namespace Client
         {
             InitializeComponent();
             loggedUser = user;
-            UpdateUserLabels(loggedUser.username, loggedUser.chips);
+            UpdateUserLabels(loggedUser.Username, loggedUser.Chips);
         }
 
         //TODO: add avatar update

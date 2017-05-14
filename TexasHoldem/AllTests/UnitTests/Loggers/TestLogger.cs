@@ -46,6 +46,7 @@ namespace AllTests.UnitTests.Loggers
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -59,6 +60,7 @@ namespace AllTests.UnitTests.Loggers
             }
             catch (Exception)
             {
+                // ignored
             }
         }
     }

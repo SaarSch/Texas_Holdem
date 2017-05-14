@@ -1,9 +1,5 @@
 ﻿using server.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace server.Controllers
@@ -15,7 +11,7 @@ namespace server.Controllers
         {
             try
             {
-                WebApiConfig.userManger.Register(value.username, value.password);
+                WebApiConfig.UserManger.Register(value.Username, value.Password);
             }
             catch (Exception e)
             {
