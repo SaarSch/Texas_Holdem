@@ -13,7 +13,7 @@ namespace TexasHoldem.Users
         private string _email;
 
         public List<string> Notifications { get; set; }
-        public int Rank=-1;
+        public int league=-1;
         public int Wins;
         public int ChipsAmount;
         public int NumOfGames;

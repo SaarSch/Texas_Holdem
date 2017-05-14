@@ -46,6 +46,44 @@ namespace TexasHoldem
             return _instance;
         }
 
+        public void SetLeagues()
+        {
+                double size = Users.Count / 10;
+                int leagueSize =(int)Math.Ceiling(size);
+                if (leagueSize == 0) leagueSize = 1;
+                int currentSize = 0;
+                int league = 10;
+                int users = 0;
+                List<User> done = new List<User>();
+                User current = null;
+                int maxWins = -1;
+            for (int i = 0; i < Users.Count; i++)
+            {
+                foreach (Pair<User, bool> u in Users)
+                {
+                    if (u.First.wins > maxWins && !done.Contains(u.First))
+                    {
+                        maxWins = u.First.wins;
+                        current = u.First;
+                    }
+                }
+                current.league = league;
+                currentSize++;
+                done.Add(current);
+                users++;
+                if ((currentSize == leagueSize && leagueSize >= 2) || (currentSize > leagueSize))
+                {
+                    currentSize = 0;
+                    league--;
+                }
+                if (Users.Count == users + 1&&Users.Count%2==1)
+                {
+                    league++;
+                }
+                maxWins = -1; 
+            }
+        }
+
         public void Register(string username, string password)
         {
             for (var i = 0; i < _users.Count; i++)
@@ -341,7 +379,7 @@ namespace TexasHoldem
         {
             var context = GetLoggedInUser(username);
 
-            if (context.Rank != MaxRank)
+            if (context.league != MaxRank)
             {
                 Logger.Log(Severity.Error, "ERROR in SetDefaultRank: Only highest rank users can update the default rank!");
                 throw new Exception("Only highest rank users can update the default rank!");
@@ -359,7 +397,7 @@ namespace TexasHoldem
         {
             var context = GetLoggedInUser(username);
 
-            if (context.Rank != MaxRank)
+            if (context.league != MaxRank)
             {
                 Logger.Log(Severity.Error, "ERROR in SetEXPCriteria: Only highest rank users can update the EXP criteria!");
                 throw new Exception("Only highest rank users can update the EXP criteria!");
@@ -378,7 +416,7 @@ namespace TexasHoldem
             User toSetRank;
             var context = GetLoggedInUser(username);
 
-            if (context.Rank != MaxRank)
+            if (context.league != MaxRank)
             {
                 Logger.Log(Severity.Error, "ERROR in SetUserRank: Only highest rank users can set other users' rank!");
                 throw new Exception("Only highest rank users can set other users' rank!");
@@ -388,6 +426,15 @@ namespace TexasHoldem
                 Logger.Log(Severity.Error, "ERROR in SetUserRank: Default rank must be an integer in [0,10]!");
                 throw new Exception("Default rank must be an integer in [0,10]!");
             }
+            try
+            {
+                toSetRank = GetUser(usernameToSet);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            toSetRank.league = rank;
             toSetRank = GetUser(usernameToSet);
             toSetRank.Rank = rank;
             Logger.Log(Severity.Action, username + " changed the rank of " + usernameToSet + " to " + rank + "!");
@@ -457,7 +504,7 @@ namespace TexasHoldem
 
                 if (leagueFlag)
                 {
-                    if (Rooms[i].Rank != context.Rank)
+                    if (Rooms[i].league != context.league)
                     {
                         passed = false;
                     }

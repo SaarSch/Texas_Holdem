@@ -41,7 +41,7 @@ namespace TexasHoldem.Game
         public Deck Deck = new Deck();
         public Card[] CommunityCards = new Card[5];
         public string Name;
-        public int Rank;
+        public int league;
         public IPreferences GamePreferences;
         public bool Flop;
         public int Pot = 0;
@@ -107,10 +107,10 @@ namespace TexasHoldem.Game
                 throw new Exception("room name too short / long");
             }
             Name = name;
-            Rank = creator.User.Rank;
+            league = creator.User.league;
 
             GameReplay = Replayer.CreateReplay();
-            Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+Rank );
+            Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+league );
         }
 
         public Room AddPlayer(Player p)
@@ -138,11 +138,11 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Exception, "room is full, cant add the player");
                 throw new Exception("room is full");
             }
-            if (p.User.Rank < Rank)
-            {
-                Logger.Log(Severity.Error, "player rank is too low to join");
-                throw new Exception("player rank is too low to join");
-            }
+            if (p.User.league != league     && p.User.league!=-1)
+        {
+            Logger.Log(Severity.Error, "player is in diffrent league join");
+            throw new Exception("player is in diffrent league join");
+        }
             if (p.User.ChipsAmount < GamePreferences.GetMinBet() || (p.User.ChipsAmount < GamePreferences.GetChipPolicy() && GamePreferences.GetChipPolicy() > 0)|| p.User.ChipsAmount<GamePreferences.GetBuyInPolicy())
             {
                 Logger.Log(Severity.Error, "player chips amount is too low to join");
@@ -284,6 +284,7 @@ namespace TexasHoldem.Game
         {
             if (Players.Count < GamePreferences.GetMinPlayers())
             {
+                p.User.league = p.User.wins;
                 Logger.Log(Severity.Error, "cant play with less then min players");
                 throw new Exception("cant play with less then min players");
             }
@@ -298,7 +299,7 @@ namespace TexasHoldem.Game
                 p.User.NumOfGames++;
                 if (p.User.NumOfGames == 11)
                 {
-                    p.User.Rank = p.User.Wins;
+                    p.User.league = p.User.Wins;
                 }
             }
 
@@ -547,6 +548,7 @@ namespace TexasHoldem.Game
 
         public void NotifyRoom(string message)
         {
+            p.User.wins++;
             if (message is null)
             {
                 Logger.Log(Severity.Error, "cant send null mesege");

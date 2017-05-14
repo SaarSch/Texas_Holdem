@@ -17,7 +17,7 @@ namespace server.Controllers
                 ret.Chips = u.ChipsAmount;
                 ret.Email = u.GetEmail();
                 ret.Password = u.GetPassword();
-                ret.Rank = u.Rank;
+                ret.Rank = u.league;
                 ret.Username = u.GetUsername();
                 ret.Wins = u.Wins;
             }

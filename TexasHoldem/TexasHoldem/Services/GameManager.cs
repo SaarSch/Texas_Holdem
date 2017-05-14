@@ -14,6 +14,13 @@ namespace TexasHoldem.Services
             _gameCenter = GameCenter.GetGameCenter();
         }
 
+        public void SetLeagues()
+        {
+            gameCenter.SetLeagues();
+        }
+
+        public Room CreateGame(string roomName, string creatorUserName, string creatorName, Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            bool spectating) // UC 5
         public Room CreateGame(string gameName, string username, string creatorName) // UC 5
         {
             return _gameCenter.CreateRoom(gameName, username, creatorName, new GamePreferences());
