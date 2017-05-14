@@ -603,6 +603,125 @@ namespace TexasHoldem.Game
             Notifier.Instance.Notify(roomUsers, message);
         }
 
+        public void PlayerSendMessege(string message, Player sender)
+        {
+            if (message is null)
+            {
+                Logger.Log(Severity.Error, "cant send null mesege");
+                throw new Exception("cant send null message");
+            }
+            if (sender is null)
+            {
+                Logger.Log(Severity.Error, "sender cant be null");
+                throw new Exception("sender cant be null");
+            }
+            if (!Players.Contains(sender))
+            {
+                Logger.Log(Severity.Error, "sender dose not exist");
+                throw new Exception("sender dose not exist");
+            }
+            var roomUsers = new List<User>();
+            foreach (var p in Players) roomUsers.Add(p.User);
+            roomUsers.AddRange(SpectateUsers);
+            Notifier.Instance.Notify(roomUsers, sender.Name + ": "+message);
+        }
+
+        public void SpectatorsSendMessege(string message, User sender)
+        {
+            if (message is null)
+            {
+                Logger.Log(Severity.Error, "cant send null mesege");
+                throw new Exception("cant send null message");
+            }
+            if (sender is null)
+            {
+                Logger.Log(Severity.Error, "sender cant be null");
+                throw new Exception("sender cant be null");
+            }
+            if (!SpectateUsers.Contains(sender))
+            {
+                Logger.Log(Severity.Error, "sender dose not exist");
+                throw new Exception("sender dose not exist");
+            }
+            var roomUsers = new List<User>();
+            roomUsers.AddRange(SpectateUsers);
+            Notifier.Instance.Notify(roomUsers, sender.GetUsername()+": "+message);
+        }
+
+
+        public void SpectatorWisper(string message, User sender, User reciver)
+        {
+            if (message is null)
+            {
+                Logger.Log(Severity.Error, "cant send null mesege");
+                throw new Exception("cant send null message");
+            }
+            if (sender is null)
+            {
+                Logger.Log(Severity.Error, "sender cant be null");
+                throw new Exception("sender cant be null");
+            }
+            if (reciver is null)
+            {
+                Logger.Log(Severity.Error, "reciver cant be null");
+                throw new Exception("reciver cant be null");
+            }
+            if (!SpectateUsers.Contains(sender))
+            {
+                Logger.Log(Severity.Error, "sender dose not exist");
+                throw new Exception("sender dose not exist");
+            }
+            if (!SpectateUsers.Contains(reciver))
+            {
+                Logger.Log(Severity.Error, "reciver dose not exist");
+                throw new Exception("reciver dose not exist");
+            }
+            var roomUsers = new List<User>();
+            roomUsers.Add(reciver);
+            Notifier.Instance.Notify(roomUsers, sender.GetUsername() + ": "+message);
+        }
+
+        public void PlayerWisper(string message, Player sender, User reciver)
+        {
+            if (message is null)
+            {
+                Logger.Log(Severity.Error, "cant send null mesege");
+                throw new Exception("cant send null message");
+            }
+            if (sender is null)
+            {
+                Logger.Log(Severity.Error, "sender cant be null");
+                throw new Exception("sender cant be null");
+            }
+            if (reciver is null)
+            {
+                Logger.Log(Severity.Error, "reciver cant be null");
+                throw new Exception("reciver cant be null");
+            }
+            if (!Players.Contains(sender))
+            {
+                Logger.Log(Severity.Error, "sender dose not exist");
+                throw new Exception("sender dose not exist");
+            }
+            if (!SpectateUsers.Contains(reciver)&& !IsUserIsPlayer(reciver))
+            {
+                Logger.Log(Severity.Error, "reciver dose not exist");
+                throw new Exception("reciver dose not exist");
+            }
+            var roomUsers = new List<User>();
+            roomUsers.Add(reciver);
+            Notifier.Instance.Notify(roomUsers, sender.Name+": "+message);
+        }
+
+        private bool IsUserIsPlayer(User u)
+        {
+            foreach(Player p in Players)
+            {
+                if (p.User == u) return true;
+            }
+            return false;
+        }
+
         public void CleanGame()
         {
             foreach (var p in Players) { p.Hand[0] = null; p.Hand[1] = null; p.UndoFold();}
