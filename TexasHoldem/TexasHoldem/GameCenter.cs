@@ -31,7 +31,6 @@ namespace TexasHoldem
             if (instance == null)
             {
                 instance = new GameCenter();
-                return instance;
             }
 
             return instance;
@@ -533,6 +532,7 @@ namespace TexasHoldem
             else
             {
                 Logger.Log(Severity.Error, "ERROR in FindGames: No game rooms found.");
+                Console.WriteLine("kkkkkkkkkkkkk");
                 throw new Exception("No game rooms found.");
             }
 

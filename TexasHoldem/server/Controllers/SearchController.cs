@@ -1,17 +1,16 @@
-﻿using server.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using server.Models;
 
 namespace server.Controllers
 {
     public class SearchController : ApiController
     {
-        // POST: api/Login
-        public RoomList Post([FromBody]RoomFilter value)
+        public RoomList Post([FromBody] RoomFilter value)
         {
             List<Room> rooms;
             RoomList ret = new RoomList();
@@ -19,7 +18,8 @@ namespace server.Controllers
             {
                 rooms = WebApiConfig.gameManger.FindGames(value.user, new TexasHoldem.Services.RoomFilter(
                     value.player_name, value.pot_size, value.league_only, value.game_type, value.buy_in_policy,
-                    value.chip_policy, value.min_players, value.max_players, value.sepctating_allowed));
+                    value.chip_policy, value.min_bet, value.min_players, value.max_players,
+                    value.sepctating_allowed));
                 ret.rooms = new server.Models.Room[rooms.Count];
                 for (int i = 0; i < rooms.Count; i++)
                 {
@@ -32,11 +32,11 @@ namespace server.Controllers
                     ret.rooms[i].min_players = rooms.ElementAt(i).gamePreferences.minPlayers;
                     ret.rooms[i].max_players = rooms.ElementAt(i).gamePreferences.maxPlayers;
                     ret.rooms[i].sepctating_allowed = rooms.ElementAt(i).gamePreferences.spectating;
-    }
+                }
             }
             catch (Exception e)
             {
-                ret.message= e.Message;
+                ret.message = e.Message;
             }
 
             return ret;

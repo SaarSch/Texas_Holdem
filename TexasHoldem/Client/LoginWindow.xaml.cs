@@ -34,7 +34,7 @@ namespace Client
             string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"}");
             JObject json = JObject.Parse(ans);
             UserData loggedUser = json.ToObject<UserData>();
-            if (loggedUser != null)
+            if (loggedUser.message == null)
             {
                 MainWindow main = new MainWindow(loggedUser);
                 App.Current.MainWindow = main;
@@ -43,7 +43,7 @@ namespace Client
             }
             else
             {
-                MessageBox.Show(ans, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(loggedUser.message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

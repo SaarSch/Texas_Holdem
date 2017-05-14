@@ -72,6 +72,10 @@ namespace TexasHoldem.Services
             {
                 predicates.Add(room => room.gamePreferences.chipPolicy == r.ChipPolicy.Value);
             }
+            if (r.MinBet != null)
+            {
+                predicates.Add(room => room.gamePreferences.minBet == r.MinBet.Value);
+            }
             if (r.MinPlayers != null)
             {
                 predicates.Add(room => room.gamePreferences.minPlayers == r.MinPlayers.Value);

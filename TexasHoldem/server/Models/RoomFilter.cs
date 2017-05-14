@@ -14,6 +14,7 @@ namespace server.Models
         public string game_type;
         public int? buy_in_policy;
         public int? chip_policy;
+        public int? min_bet;
         public int? min_players;
         public int? max_players;
         public bool? sepctating_allowed;

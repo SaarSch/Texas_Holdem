@@ -15,10 +15,16 @@
         <Image HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="pack://siteoforigin:,,,/Resources/profilePicture.png" Stretch="Fill"/>
         <Label Name="usernameLabel"  Content="Username" HorizontalAlignment="Left" Margin="47,134,0,0" VerticalAlignment="Top"/>
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
-        <DataGrid Name="RoomsGrid" HorizontalAlignment="Left" Height="362" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="2">
+        <DataGrid Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="362" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="2" AutoGenerateColumns="False" ItemsSource ="{Binding}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Room Name"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Players"/>
+                <DataGridTextColumn Binding="{Binding room_name}" Header="Name"/>
+                <DataGridTextColumn Binding="{Binding game_type}" Header="Type"/>
+                <DataGridTextColumn Binding="{Binding rank}"  Header="Rank"/>
+                <DataGridTextColumn Binding="{Binding buy_in_policy}"  Header="Buy In Policy"/>
+                <DataGridTextColumn Binding="{Binding min_bet}"  Header="Min. Bet"/>
+                <DataGridTextColumn Binding="{Binding min_players}"  Header="Min. Players"/>
+                <DataGridTextColumn Binding="{Binding max_players}"  Header="Max. Players"/>
+                <DataGridTextColumn Binding="{Binding sepctating_allowed}"  Header="Spectating?"/>
             </DataGrid.Columns>
         </DataGrid>
         <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="126" Margin="403,34,0,0" VerticalAlignment="Top" Width="455" BorderBrush="Black" BorderThickness="2"/>
@@ -32,9 +38,9 @@
         <Frame Content="" HorizontalAlignment="Left" Height="126" Margin="403,34,0,0" VerticalAlignment="Top" Width="455" BorderBrush="Black" BorderThickness="1"/>
         <CheckBox Content="Game Type" HorizontalAlignment="Left" Margin="412,61,0,0" VerticalAlignment="Top" x:Name="GameTypeCheckbox" Checked="GameTypeCheckbox_Checked" Unchecked="GameTypeCheckbox_Checked"/>
         <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="519,56,0,0" VerticalAlignment="Top" Width="125" Height="25" RenderTransformOrigin="0.7,-0.36" x:Name="GameTypeCombobox" SelectedIndex="0">
-            <ComboBoxItem Content="Limit" />
-            <ComboBoxItem Content="No-Limit"/>
-            <ComboBoxItem Content="Pot-Limit"/>
+            <ComboBoxItem Content="limit" />
+            <ComboBoxItem Content="NoLimit"/>
+            <ComboBoxItem Content="PotLimit"/>
         </ComboBox>
         <CheckBox Content="Buy-in Policy" HorizontalAlignment="Left" Margin="412,91,0,0" VerticalAlignment="Top" x:Name="BuyinPolicyCheckbox" Checked="BuyInPolicyChecked" Unchecked="BuyInPolicyChecked"/>
         <TextBox x:Name ="BuyinPolicyTxt" HorizontalAlignment="Left" Height="23" Margin="519,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" IsEnabled="False"/>

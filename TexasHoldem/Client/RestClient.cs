@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows;
 
 namespace Client
 {
@@ -83,6 +84,11 @@ namespace Client
         public static void SetController(string suffix)
         {
             _endPoint = _endPoint + suffix;
+        }
+
+        public static string GetEndPoint()
+        {
+            return _endPoint;
         }
 
     }
