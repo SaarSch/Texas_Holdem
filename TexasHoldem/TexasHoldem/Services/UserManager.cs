@@ -73,7 +73,7 @@ namespace TexasHoldem.Services
             return true;
         }
 
-        public void IsUserLoggedInn(string userName, string pass)
+        public void IsUserLoggedInn(string userName)
         {
                 gameCenter.GetLoggedInUser(userName);
         }

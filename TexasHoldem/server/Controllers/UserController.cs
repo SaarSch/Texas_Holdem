@@ -14,13 +14,37 @@ namespace server.Controllers
         {
             return new string[] { "value1", "value2" };
         }
-
-        // logout -->GET: api/User/username
-        public string Get(string username)
+        // GetRank -->GET: api/User/elad
+        public int Get(string username)
         {
             try
             {
-                WebApiConfig.UserManger.Logout(username);
+                return WebApiConfig.UserManger.GetRank(username);
+            }
+            catch
+            {
+                return -1;
+            }
+             
+        }
+        // logout -->GET: api/User?username=elad&mode=logout
+        //mode: logout | isloggedin
+        public string Get(string username, string mode)
+        {
+            try
+            {
+                switch (mode)
+                {
+                    case "logout":
+                        WebApiConfig.UserManger.Logout(username);
+                        break;
+                    case "isloggedin":
+                        WebApiConfig.UserManger.IsUserLoggedInn(username);
+                        break;
+                    default:
+                        throw new Exception("comunication error: unkown mode");
+                }
+                
             }
             catch (Exception e)
             {
@@ -29,7 +53,7 @@ namespace server.Controllers
             return "";
         }
         // DeleteUser -->GET: api/User?username=elad&passwordOrRank=123456&mod=delete
-        //mod: delete | isloggedin | changerank
+        //mode: delete | changerank
         public string Get(string username,string passwordOrRank ,string mode)
         {
             try
@@ -38,9 +62,6 @@ namespace server.Controllers
                 {
                     case "delete":
                         WebApiConfig.UserManger.DeleteUser(username, passwordOrRank);
-                        break;
-                    case "isloggedin":
-                        WebApiConfig.UserManger.IsUserLoggedInn(username, passwordOrRank);
                         break;
                     case "changerank":
                         WebApiConfig.UserManger.ChangeRank(username,Int32.Parse(passwordOrRank) );
