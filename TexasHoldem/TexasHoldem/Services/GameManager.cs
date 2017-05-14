@@ -97,7 +97,8 @@ namespace TexasHoldem.Services
         {
             _gameCenter.SetDefaultRank(username, rank);
         }
-      
+
+
         public void SetExpCriteria(string username, int exp) // UC 14
         {
             _gameCenter.SetExpCriteria(username, exp);
@@ -106,6 +107,31 @@ namespace TexasHoldem.Services
         public void SetUserLeague(string username, string usernameToSet, int rank) // UC 14
         {
             _gameCenter.SetUserRank(username, usernameToSet, rank);
+        }
+
+        public void CalcLeague()
+        {
+            _gameCenter.SetLeagues();
+        }
+
+        public void PlayerWisper(string room, string username_sender, string username_reciver, string message)
+        {
+            _gameCenter.GetRoom(room).PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(username_sender), _gameCenter.GetUser(username_reciver));
+        }
+
+        public void SpectatorWisper(string room, string username_sender, string username_reciver, string message)
+        {
+            _gameCenter.GetRoom(room).SpectatorWisper(message, _gameCenter.GetUser(username_sender), _gameCenter.GetUser(username_reciver));
+        }
+
+        public void PlayerSendMessege(string room, string username_sender, string username_reciver, string message)
+        {
+            _gameCenter.GetRoom(room).PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(username_sender));
+        }
+
+        public void SpectatorsSendMessege(string room, string username_sender, string username_reciver, string message)
+        {
+            _gameCenter.GetRoom(room).SpectatorsSendMessege(message, _gameCenter.GetUser(username_sender));
         }
 
         public bool RestartGameCenter()
