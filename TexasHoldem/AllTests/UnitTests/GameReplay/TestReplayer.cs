@@ -100,6 +100,7 @@ namespace AllTests.UnitTests.GameReplay
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -125,6 +126,7 @@ namespace AllTests.UnitTests.GameReplay
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -274,7 +276,10 @@ namespace AllTests.UnitTests.GameReplay
                 Replayer.SaveTurn("gkhj.txt", 2);
                 Assert.Fail(); // If it gets to this line, no exception was thrown
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         [TestMethod]

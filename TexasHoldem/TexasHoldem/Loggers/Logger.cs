@@ -13,23 +13,16 @@ namespace TexasHoldem.Loggers
     
   public class Logger
   {
-      public static string app_data_path, errorPath, actionPath;
+      public static string AppDataPath, ErrorPath, ActionPath;
 
           private Logger() { }
 
       public static void Log(Severity s, string msg)
       {
           // if 'log' was called from the server project
-          if (AppDomain.CurrentDomain.GetData("DataDirectory") != null)
-          {
-              app_data_path = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();// the server's App_Data directory
-          }
-          else
-          {
-              app_data_path = AppDomain.CurrentDomain.BaseDirectory; // current directory
-          }
-          errorPath = app_data_path + "\\errorLog.txt";
-          actionPath = app_data_path + "\\actionLog.txt";
+          AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory;
+          ErrorPath = AppDataPath + "\\errorLog.txt";
+          ActionPath = AppDataPath + "\\actionLog.txt";
 
           if (msg == "")
           {

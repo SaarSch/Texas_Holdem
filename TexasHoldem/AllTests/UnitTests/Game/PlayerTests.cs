@@ -49,7 +49,6 @@ namespace AllTests.UnitTests.Game
             var p = new Player("shachar", new User("tom12346", "12345678", "aaa.png", "hello@gmail.com", 50000));
             p.SetCards(new Card(14, CardType.Clubs), new Card(2, CardType.Clubs));
             p.ChipsAmount = 50000;
-            var chip = p.ChipsAmount;
             try
             {
                 p.SetBet(-500);
