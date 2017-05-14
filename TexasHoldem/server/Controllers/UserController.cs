@@ -28,12 +28,26 @@ namespace server.Controllers
             }
             return "";
         }
-        // DeleteUser -->GET: api/User?username=elad&&password=123456
-        public string Get(string username,string password)
+        // DeleteUser -->GET: api/User?username=elad&passwordOrRank=123456&mod=delete
+        //mod: delete | isloggedin | changerank
+        public string Get(string username,string passwordOrRank ,string mode)
         {
             try
             {
-                WebApiConfig.UserManger.DeleteUser(username, password);
+                switch (mode)
+                {
+                    case "delete":
+                        WebApiConfig.UserManger.DeleteUser(username, passwordOrRank);
+                        break;
+                    case "isloggedin":
+                        WebApiConfig.UserManger.IsUserLoggedInn(username, passwordOrRank);
+                        break;
+                    case "changerank":
+                        WebApiConfig.UserManger.ChangeRank(username,Int32.Parse(passwordOrRank) );
+                        break;
+                    default:
+                        throw new Exception("comunication error: unkown mode");
+                }
             }
             catch (Exception e)
             {
