@@ -70,7 +70,7 @@ namespace TexasHoldem.Services
 
         public void IsUserLoggedInn(string userName)
         {
-                gameCenter.GetLoggedInUser(userName);
+                _gameCenter.GetLoggedInUser(userName);
         }
 
         public int GetRank(string userName)

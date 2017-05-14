@@ -47,6 +47,7 @@
     <Compile Include="Bridges\IBridge.cs" />
     <Compile Include="Bridges\ProxyBridge.cs" />
     <Compile Include="Bridges\RealBridge.cs" />
+    <Compile Include="Exceptions\IllegalLeagueException.cs" />
     <Compile Include="GameCenterHelpers\Pair.cs" />
     <Compile Include="GamePrefrences\IPreferences.cs" />
     <Compile Include="GamePrefrences\ModifiedBuyInPolicy.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Exceptions\IllegalCardValueException.cs" />
     <Compile Include="Exceptions\IllegalBetException.cs" />
     <Compile Include="Exceptions\IllegalRoomNameException.cs" />
+    <Compile Include="Exceptions\IllegalCriteriaException.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />

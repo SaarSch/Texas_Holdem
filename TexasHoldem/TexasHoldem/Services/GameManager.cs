@@ -128,12 +128,6 @@ namespace TexasHoldem.Services
             return _gameCenter.GetRoom(room).Call(_gameCenter.GetRoom(room).GetPlayer(userName));
         }
 
-        public void SetDefaultRank(string username, int rank) // UC 14
-        {
-            _gameCenter.SetDefaultRank(username, rank);
-        }
-
-
         public void SetExpCriteria(string username, int exp) // UC 14
         {
             _gameCenter.SetExpCriteria(username, exp);
