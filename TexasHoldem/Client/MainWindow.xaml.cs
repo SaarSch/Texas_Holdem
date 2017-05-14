@@ -51,7 +51,7 @@ namespace Client
 
         private string SetFilter()
         {
-            string filter = "{\"user\":\"" + loggedUser.username+"\"";
+            string filter = "{\"user\":\"" + loggedUser.Username+"\"";
             if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value == true)
             {
                 filter += ",\"player_name\":\"" + PlayerNameTxt.Text+"\"";

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
@@ -8,13 +9,17 @@ namespace TexasHoldem.Bridges
         private readonly IBridge _real;
         public ProxyBridge()
         {
-            //real = null;
             _real = new RealBridge();
         }
         public bool Register(string username, string pass)
         {
             return  _real==null || _real.Register(username, pass);
             
+        }
+
+        public bool IsGameExist(string gameName)
+        {
+            return _real == null || _real.IsGameExist(gameName);
         }
 
         public bool IsUserExist(string username)
@@ -70,16 +75,9 @@ namespace TexasHoldem.Bridges
         }
 
 
-        public IList findGames(string username, RoomFilter filter)
+        public IList FindGames(string username, RoomFilter filter)
         {
-            IList s;
-            if (real != null)
-                s = real.findGames(username, filter);
-            else
-            {
-                s = new List<string>();
-                s.Add("Good Game Name");
-            }
+            var s = _real != null ? _real.FindGames(username, filter) : new List<string> {"Good Game Name"};
             return s;
         }
 

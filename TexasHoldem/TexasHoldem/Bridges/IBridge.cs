@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
@@ -19,11 +20,7 @@ namespace TexasHoldem.Bridges
         bool JoinGame(string username, string roomName, string playerName);
         bool SpectateGame(string username, string roomName, string playerName);
         bool LeaveGame(string username, string roomName, string playerName);
-
-        IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag);
-        IList findGames(string username);
+        IList FindGames(string username, RoomFilter filter);
         int GetRank(string username);
         bool RaiseInGame(int raiseamount, string gamename, string playername);
         bool CallInGame(string gamename, string playername);

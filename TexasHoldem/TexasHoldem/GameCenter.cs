@@ -37,13 +37,7 @@ namespace TexasHoldem
 
         public static GameCenter GetGameCenter()
         {
-            if (_instance == null)
-            {
-                _instance = new GameCenter();
-                return _instance;
-            }
-
-            return _instance;
+            return _instance ?? (_instance = new GameCenter());
         }
 
         public void SetLeagues()
@@ -469,51 +463,18 @@ namespace TexasHoldem
                     ans.Add(r);
                 }
             }
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType((Gametype)Enum.Parse(typeof(Gametype), gameType), gp);
-            gp = new ModifiedBuyInPolicy(buyInPolicy, gp);
-            gp = new ModifiedChipPolicy(chipPolicy, gp);
-            gp = new ModifiedMinBet(minBet, gp);
-            gp = new ModifiedMinPlayers(minPlayers, gp);
-            gp = new ModifiedMaxPlayers(maxPlayers, gp);
-            gp = new ModifiedSpectating(spectating, gp);
-
-            var ans = new List<Room>();
-            var roomsFound = "";
-            var context = GetLoggedInUser(contextUser);
-
-            for (var i = 0; i < Rooms.Count; i++)
-            {
-                var passed = true;
-
-                if (playerFlag)
-                {
-                    var found = false;
-                    for (var j = 0; j < Rooms[i].Players.Count; j++)
-                    {
-                        if (Rooms[i].Players[j].Name == playerName)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        passed = false;
-                    }
-                }
 
             if (ans.Count > 0)
             {
-                for (int i = 0; i < ans.Count; i++)
+                for (var i = 0; i < ans.Count; i++)
                 {
                     if (i < ans.Count - 1)
                     {
-                        roomsFound = roomsFound + ans[i].name + ", ";
+                        roomsFound = roomsFound + ans[i].Name + ", ";
                     }
                     else
                     {
-                        roomsFound = roomsFound + ans[i].name + ".";
+                        roomsFound = roomsFound + ans[i].Name + ".";
                     }
 
                 }
@@ -523,7 +484,6 @@ namespace TexasHoldem
             else
             {
                 Logger.Log(Severity.Error, "ERROR in FindGames: No game rooms found.");
-                Console.WriteLine("kkkkkkkkkkkkk");
                 throw new Exception("No game rooms found.");
             }
 

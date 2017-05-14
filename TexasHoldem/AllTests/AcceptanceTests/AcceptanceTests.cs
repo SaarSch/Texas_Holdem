@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
+using TexasHoldem.Services;
 
 namespace AllTests.AcceptanceTests
 {
@@ -309,8 +310,6 @@ namespace AllTests.AcceptanceTests
 
             _bridge.Login("GoodName", LegalPass);
 
-            _bridge.findGames("GoodName", "", false, 0, false, "NoLimit", 0, 0, 5, 3, 4, false, false, true);
-
             Assert.IsTrue(_bridge.JoinGame("GoodName", "Good Game Name1568", "imaplayer"));
 
             _bridge.DeleteUser(LegalUserName, LegalPass);
@@ -387,8 +386,6 @@ namespace AllTests.AcceptanceTests
 
             _bridge.Login("GoodName", LegalPass);
 
-            _bridge.findGames(LegalUserName);
-
             Assert.IsTrue(_bridge.SpectateGame("GoodName", "Good Game Name", "SEAN1234"));
 
             _bridge.DeleteUser(LegalUserName, LegalPass);
@@ -462,7 +459,8 @@ namespace AllTests.AcceptanceTests
             _bridge.CreateNewGame("Good Game Name564", LegalUserName, LegalPlayer);
             _bridge.CreateNewGame("Game Not In Rank", LegalUserName, LegalPlayer);
 
-            var activeGames = _bridge.findGames(LegalUserName, "", false, 0, false, "NoLimit", 0, 0, 5, 3, 4, false, false, true);
+            var rf = new RoomFilter {LeagueOnly = true};
+            var activeGames = _bridge.FindGames(LegalUserName, rf);
 
             Assert.IsTrue(activeGames.Contains("Good Game Name564"));
             Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
@@ -476,37 +474,8 @@ namespace AllTests.AcceptanceTests
             _bridge.Register(LegalUserName, LegalPass);
             _bridge.Login(LegalUserName, LegalPass);
 
-            var activeGames = _bridge.findGames(LegalUserName, "", false, 0, false, "NoLimit", 0, 0, 5, 3, 4, false, false, true);
-
-            Assert.IsTrue(activeGames.Count == 0);
-
-            _bridge.DeleteUser(LegalUserName, LegalPass);
-        }
-
-        [TestMethod]
-        public void TestListActiveGames_Good()
-        {
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName, LegalPass);
-
-            _bridge.CreateNewGameWithPrefrences("Good Game Name777", LegalUserName, LegalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
-            _bridge.CreateNewGameWithPrefrences("Game Not In Rank777", LegalUserName, LegalPlayer, "NoLimit", 1, 10, 4, 2, 8, true);
-
-            var activeGames = _bridge.findGames(LegalUserName);
-
-            Assert.IsTrue(activeGames.Contains("Good Game Name777"));
-            Assert.IsTrue(activeGames.Contains("Game Not In Rank777"));
-
-            _bridge.DeleteUser(LegalUserName, LegalPass);
-        }
-
-        [TestMethod]
-        public void TestListActiveGames_Sad_NoGamesFound()
-        {
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName, LegalPass);
-
-            var activeGames = _bridge.findGames(LegalUserName);
+            var rf = new RoomFilter { LeagueOnly = true };
+            var activeGames = _bridge.FindGames(LegalUserName, rf);
 
             Assert.IsTrue(activeGames.Count == 0);
 
