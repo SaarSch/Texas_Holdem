@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.Game
 {
@@ -12,8 +14,8 @@ namespace AllTests.UnitTests.Game
             var p = new Player("shachar", new User("tom1234555", "12345678", "aaa.png", "hello@gmail.com", 50000));
             p.SetCards(new Card(14, CardType.Clubs), new Card(2, CardType.Clubs));
             Assert.IsTrue(p.Hand.Length == 2);
-            Assert.IsTrue(p.Hand[0].value == 14 && p.Hand[0].type == CardType.Clubs && p.Hand[1].value == 2 &&
-                          p.Hand[1].type == CardType.Clubs);
+            Assert.IsTrue(p.Hand[0].Value == 14 && p.Hand[0].Type == CardType.Clubs && p.Hand[1].Value == 2 &&
+                          p.Hand[1].Type == CardType.Clubs);
         }
 
         [TestMethod]
@@ -47,7 +49,6 @@ namespace AllTests.UnitTests.Game
             var p = new Player("shachar", new User("tom12346", "12345678", "aaa.png", "hello@gmail.com", 50000));
             p.SetCards(new Card(14, CardType.Clubs), new Card(2, CardType.Clubs));
             p.ChipsAmount = 50000;
-            var chip = p.ChipsAmount;
             try
             {
                 p.SetBet(-500);

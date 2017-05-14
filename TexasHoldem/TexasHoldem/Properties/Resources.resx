@@ -122,6 +122,12 @@
     <value>..\Resources\actionLog.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1255</value>
   </data>
   <data name="errorLog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\errorLog.txt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1255</value>
+    <value>..\Resources\errorLog.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1255</value>
+  </data>
+  <data name="GameCenter_Main_aaaa" xml:space="preserve">
+    <value>aaaa</value>
+  </data>
+  <data name="Replayer_CreateReplay_turn_no___seat0__seat1__seat2__seat3__seat4__seat5__seat6__seat7__seat8__pot__community___" xml:space="preserve">
+    <value>turn no., seat0, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8, pot, community,,,</value>
   </data>
 </root>

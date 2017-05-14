@@ -20,9 +20,9 @@ namespace Client
             InitializeComponent();
             this.user = user;
             this.mainWindow = mainWindow;
-            UsernameTxt.Text = user.username;
-            PasswordTxt.Text = user.password;
-            EmailTxt.Text = user.email;
+            UsernameTxt.Text = user.Username;
+            PasswordTxt.Text = user.Password;
+            EmailTxt.Text = user.Email;
         }
 
         private void AvatarButton_Click(object sender, RoutedEventArgs e)
@@ -57,7 +57,7 @@ namespace Client
         // POST: api/Login?username=elad
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("Login?username=" + user.username);
+            RestClient.SetController("Login?username=" + user.Username);
             string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\"," +
                                                     "\"password\":\"" + PasswordTxt.Text + "\"," +
                                                     "\"email\":\"" + EmailTxt.Text + "\"}" /*"\"," +
@@ -65,7 +65,7 @@ namespace Client
             if (ans == "\"\"")
             {
                 MessageBox.Show("User edited succesfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                mainWindow.UpdateUserLabels(UsernameTxt.Text, user.chips); //TODO: add avatar update
+                mainWindow.UpdateUserLabels(UsernameTxt.Text, user.Chips); //TODO: add avatar update
             }
             else
             {

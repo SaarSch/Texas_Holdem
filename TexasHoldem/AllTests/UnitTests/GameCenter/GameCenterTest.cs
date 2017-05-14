@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.GamePrefrences;
 
 namespace AllTests.UnitTests.GameCenter
 {
     [TestClass]
     public class GameCenterTest
     {
-        private readonly TexasHoldem.GameCenter gc = TexasHoldem.GameCenter.GetGameCenter();
+        private readonly TexasHoldem.GameCenter _gc = TexasHoldem.GameCenter.GetGameCenter();
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full()
@@ -77,13 +76,13 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("1234 5", "ssssssss");
+                _gc.Register("1234 5", "ssssssss");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -93,13 +92,13 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("seanocheri", "sssssssss");
+                _gc.Register("seanocheri", "sssssssss");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -109,13 +108,13 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("seanocheri", "123sean123");
+                _gc.Register("seanocheri", "123sean123");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -125,20 +124,21 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("example123", "123exm123");
+                _gc.Register("example123", "123exm123");
             }
             catch
             {
+                // ignored
             }
             try
             {
-                gc.Register("example123", "123exm123");
+                _gc.Register("example123", "123exm123");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -148,14 +148,14 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("seanocheri", "123sean123");
-                gc.Login("seanocheri", "123sean143");
+                _gc.Register("seanocheri", "123sean123");
+                _gc.Login("seanocheri", "123sean143");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -165,14 +165,14 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("login123", "123exm123");
-                gc.Login("login123", "123exm123");
+                _gc.Register("login123", "123exm123");
+                _gc.Login("login123", "123exm123");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -182,15 +182,15 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Logout("login1234");
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Logout("login1234");
             }
             catch
             {
                 succ = false;
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -198,23 +198,22 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetDefaultRank_OK()
         {
             var succ = false;
-            User context = null;
-            User check = null;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
+                _gc.Register("login1234", "123exm1234");
+                var context = _gc.Login("login1234", "123exm1234");
                 context.league = 10;
-                gc.SetDefaultRank("login1234", 2);
-                gc.Register("check1234", "321exm321");
-                check = gc.Login("check1234", "321exm321");
+                _gc.SetDefaultRank("login1234", 2);
+                _gc.Register("check1234", "321exm321");
+                var check = _gc.Login("check1234", "321exm321");
                 if (check.league == -1)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -222,22 +221,21 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetDefaultRank_PermissionDenied()
         {
             var succ = false;
-            User context = null;
-            User check = null;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
-                gc.SetDefaultRank("login1234", 3);
-                gc.Register("check1234", "321exm321");
-                check = gc.Login("check1234", "321exm321");
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.SetDefaultRank("login1234", 3);
+                _gc.Register("check1234", "321exm321");
+                var check = _gc.Login("check1234", "321exm321");
                 if (check.league == 3)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -245,19 +243,19 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetDefaultRank_IllegalContext()
         {
             var succ = false;
-            User check = null;
             try
             {
-                gc.SetDefaultRank("login1234", 3);
-                gc.Register("check1234", "321exm321");
-                check = gc.Login("check1234", "321exm321");
+                _gc.SetDefaultRank("login1234", 3);
+                _gc.Register("check1234", "321exm321");
+                var check = gc.Login("check1234", "321exm321");
                 if (check.league == 2)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -265,23 +263,22 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetDefaultRank_IllegalRank()
         {
             var succ = false;
-            User context = null;
-            User check = null;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
+                _gc.Register("login1234", "123exm1234");
+                var context = _gc.Login("login1234", "123exm1234");
                 context.league = 10;
-                gc.SetDefaultRank("login1234", -2);
-                gc.Register("check1234", "321exm321");
-                check = gc.Login("check1234", "321exm321");
+                _gc.SetDefaultRank("login1234", -2);
+                _gc.Register("check1234", "321exm321");
+                var check = _gc.Login("check1234", "321exm321");
                 if (check.league == -2)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -289,21 +286,21 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetEXP_OK()
         {
             var succ = false;
-            User context = null;
 
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
+                _gc.Register("login1234", "123exm1234");
+                var context = _gc.Login("login1234", "123exm1234");
                 context.league = 10;
-                gc.SetExpCriteria("login1234", 6);
-                if (gc.EXPCriteria == 6)
+                _gc.SetExpCriteria("login1234", 6);
+                if (_gc.ExpCriteria == 6)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -311,20 +308,20 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetEXP_PermissionDenied()
         {
             var succ = false;
-            User context = null;
 
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
-                gc.SetExpCriteria("login1234", 6);
-                if (gc.EXPCriteria == 6)
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.SetExpCriteria("login1234", 6);
+                if (_gc.ExpCriteria == 6)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -332,21 +329,21 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetEXP_IllegalEXP()
         {
             var succ = false;
-            User context = null;
 
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
+                _gc.Register("login1234", "123exm1234");
+                context = _gc.Login("login1234", "123exm1234");
                 context.league = 10;
-                gc.SetExpCriteria("login1234", 4);
-                if (gc.EXPCriteria == 4)
+                _gc.SetExpCriteria("login1234", 4);
+                if (_gc.ExpCriteria == 4)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -357,14 +354,15 @@ namespace AllTests.UnitTests.GameCenter
 
             try
             {
-                gc.SetExpCriteria("login1234", 6);
-                if (gc.EXPCriteria == 6)
+                _gc.SetExpCriteria("login1234", 6);
+                if (_gc.ExpCriteria == 6)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -372,23 +370,22 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetUserRank_OK()
         {
             var succ = false;
-            User context = null;
-            User user_to_set = null;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
+                _gc.Register("login1234", "123exm1234");
+                var context = _gc.Login("login1234", "123exm1234");
                 context.league = 10;
                 gc.Register("test9876", "123exm9876");
-                user_to_set = gc.Login("test9876", "123exm9876");
-                gc.SetUserRank("login1234", "test9876", 6);
-                if (user_to_set.league == 6)
+                var userToSet = _gc.Login("test9876", "123exm9876");
+                _gc.SetUserRank("login1234", "test9876", 6);
+                if (userToSet.league == 6)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -396,20 +393,19 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetUserRank_IllegalContext()
         {
             var succ = false;
-            User context = null;
-            User user_to_set = null;
             try
             {
-                gc.Register("test9876", "123exm9876");
-                user_to_set = gc.Login("test9876", "123exm9876");
-                gc.SetUserRank("login1234", "test9876", 6);
-                if (user_to_set.league == 6)
+                _gc.Register("test9876", "123exm9876");
+                userToSet = _gc.Login("test9876", "123exm9876");
+                _gc.SetUserRank("login1234", "test9876", 6);
+                if (userToSet.league == 6)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -417,22 +413,21 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetUserRank_PermissionDenied()
         {
             var succ = false;
-            User context = null;
-            User user_to_set = null;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
-                gc.Register("test9876", "123exm9876");
-                user_to_set = gc.Login("test9876", "123exm9876");
-                gc.SetUserRank("login1234", "test9876", 6);
-                if (user_to_set.league == 6)
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("test9876", "123exm9876");
+                var userToSet = _gc.Login("test9876", "123exm9876");
+                _gc.SetUserRank("login1234", "test9876", 6);
+                if (userToSet.league == 6)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -440,23 +435,22 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetUserRank_IllegalRank()
         {
             var succ = false;
-            User context = null;
-            User user_to_set = null;
             try
             {
-                gc.Register("login1234", "123exm1234");
-                context = gc.Login("login1234", "123exm1234");
+                _gc.Register("login1234", "123exm1234");
+                var context = _gc.Login("login1234", "123exm1234");
                 context.league = 10;
-                gc.Register("test9876", "123exm9876");
-                user_to_set = gc.Login("test9876", "123exm9876");
-                gc.SetUserRank("login1234", "test9876", 11);
-                if (user_to_set.league == 11)
+                _gc.Register("test9876", "123exm9876");
+                userToSet = _gc.Login("test9876", "123exm9876");
+                _gc.SetUserRank("login1234", "test9876", 11);
+                if (userToSet.league == 11)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllUsers();
+            _gc.DeleteAllUsers();
             Assert.IsFalse(succ);
         }
 
@@ -464,26 +458,29 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_SearchPlayer()
         {
             var succ = false;
-            List<string> ans = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                ans = gc.FindGames("login1234", "player1", true, 0, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                _gc.Login("seanoch123", "seanoch123");
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                var gp = new GamePreferences();
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                var ans = _gc.FindGames("login1234", "player1", true, 0, false, "NoLimit", 0, 0, 5, 3, 4, true, false,
+                    false);
                 if (ans.Count == 1 && ans[0] == "MyRoom1")
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -491,28 +488,30 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_SearchPot()
         {
             var succ = false;
-            List<string> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, true, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                _gc.Login("seanoch123", "seanoch123");
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                var gp = new GamePreferences();
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                r.Pot = 5;
+                var ans = _gc.FindGames("login1234", "player1", false, 5, true, "NoLimit", 0, 0, 5, 3, 4, true, false,
+                    false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -520,28 +519,30 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_NoFilter()
         {
             var succ = false;
-            List<string> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, false);
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                _gc.Login("seanoch123", "seanoch123");
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                r.Pot = 5;
+                var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true,
+                    false, false);
                 if (ans.Count == 2)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -549,56 +550,74 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_DeleteRoom()
         {
             var succ = false;
-            List<Room> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
                 var before = false;
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.CreateRoom("MyRoom1", "login1234", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                if (gc.Rooms.Count == 1)
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                GamePreferences gp = new GamePreferences();
+                _gc.CreateRoom("MyRoom1", "login1234", "player1", gp);
+                if (_gc.Rooms.Count == 1)
                     before = true;
-                gc.DeleteRoom("MyRoom1");
-                if (gc.Rooms.Count == 0 && before)
+                _gc.DeleteRoom("MyRoom1");
+                if (_gc.Rooms.Count == 0 && before)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
         [TestMethod]
         public void GameCenter_FindGames_Preferences()
-        {
+        { 
+
             var succ = false;
-            List<string> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 2, 10, false);
-                r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, true, false);
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                _gc.Login("seanoch123", "seanoch123");
+
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                IPreferences gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMinPlayers(3, gp);
+                gp = new ModifiedMaxPlayers(4, gp);
+
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+
+                //Gametype.NoLimit, 0, 0, 5, 2, 10, false
+                //Gametype.NoLimit, 1, 0, 4, 2, 8, true
+                gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMaxPlayers(10, gp);
+                gp = new ModifiedSpectating(false, gp);
+
+                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                r.Pot = 5;
+                var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, true, false);
                 if (ans.Count == 1)
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -606,30 +625,28 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_InLeague()
         {
             var succ = false;
-            User user = null;
-            List<string> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                user = gc.Login("seanoch123", "seanoch123");
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                var user = _gc.Login("seanoch123", "seanoch123");
                 user.league = 5;
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 0, 5, 3, 4, true);
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.pot = 5;
-                ans = gc.FindGames("login1234", "player1", false, 5, false, Gametype.NoLimit, 0, 0, 5, 3, 4, true, false, true);
+                var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, false, true);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
 
@@ -637,29 +654,36 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_FindGames_PotAndPlayer()
         {
             var succ = false;
-            List<string> ans = null;
-            Room r = null;
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             try
             {
-                gc.Register("login1234", "123exm1234");
-                gc.Login("login1234", "123exm1234");
-                gc.Register("seanoch123", "seanoch123");
-                gc.Login("seanoch123", "seanoch123");
-                gc.CreateRoom("MyRoom1", "seanoch123", "player1", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
-                r = gc.CreateRoom("MyRoom2", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
-                r.pot = 5;
-                gc.CreateRoom("MyRoom3", "login1234", "player2", Gametype.NoLimit, 0, 10, 5, 3, 4, true);
-                ans = gc.FindGames("login1234", "player2", true, 5, true, Gametype.NoLimit, 0, 10, 5, 3, 4, true, false, false);
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                _gc.Login("seanoch123", "seanoch123");
+
+                IPreferences gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedChipPolicy(10, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMinPlayers(3, gp);
+                gp = new ModifiedMaxPlayers(4, gp);
+
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                r.Pot = 5;
+                _gc.CreateRoom("MyRoom3", "login1234", "player2", gp);
+                var ans = _gc.FindGames("login1234", "player2", true, 5, true, "NoLimit", 0, 10, 5, 3, 4, true, false, false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
             }
             catch
             {
+                // ignored
             }
-            gc.DeleteAllRooms();
-            gc.DeleteAllUsers();
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
             Assert.IsTrue(succ);
         }
     }

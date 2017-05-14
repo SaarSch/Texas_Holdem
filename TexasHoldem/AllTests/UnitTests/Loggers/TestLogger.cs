@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Loggers;
 
 namespace AllTests.UnitTests.Loggers
 {
@@ -16,20 +17,20 @@ namespace AllTests.UnitTests.Loggers
             long errorLengthAfter = 0;
             long actionLengthAfter = 0;
 
-            if (File.Exists(Logger.errorPath))
-                errorLength = new FileInfo(Logger.errorPath).Length;
-            if (File.Exists(Logger.actionPath))
-                actionLength = new FileInfo(Logger.actionPath).Length;
+            if (File.Exists(Logger.ErrorPath))
+                errorLength = new FileInfo(Logger.ErrorPath).Length;
+            if (File.Exists(Logger.ActionPath))
+                actionLength = new FileInfo(Logger.ActionPath).Length;
 
             Logger.Log(Severity.Error, "This is an error message.");
             Logger.Log(Severity.Warning, "This is a warning message.");
             Logger.Log(Severity.Action, "This is an action message.");
             Logger.Log(Severity.Exception, "This is an exception message.");
 
-            if (File.Exists(Logger.errorPath))
-                errorLengthAfter = new FileInfo(Logger.errorPath).Length;
-            if (File.Exists(Logger.actionPath))
-                actionLengthAfter = new FileInfo(Logger.actionPath).Length;
+            if (File.Exists(Logger.ErrorPath))
+                errorLengthAfter = new FileInfo(Logger.ErrorPath).Length;
+            if (File.Exists(Logger.ActionPath))
+                actionLengthAfter = new FileInfo(Logger.ActionPath).Length;
 
             Assert.AreNotEqual(actionLength, actionLengthAfter);
             Assert.AreNotEqual(errorLength, errorLengthAfter);
@@ -45,6 +46,7 @@ namespace AllTests.UnitTests.Loggers
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -58,6 +60,7 @@ namespace AllTests.UnitTests.Loggers
             }
             catch (Exception)
             {
+                // ignored
             }
         }
     }

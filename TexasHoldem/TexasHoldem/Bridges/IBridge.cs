@@ -1,45 +1,44 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace TexasHoldem.Bridges
 {
     public interface IBridge
     {
-        bool register(string username, string pass);
-        bool isUserExist(string username);
-        bool deleteUser(string username, string password);
-        bool login(string username, string pass);
-        bool isLoggedIn(string username, string pass);
-        bool logOut(string username);
-        bool editUsername(string username, string newName);
-        bool editPassword(string username, string newPass);
-        bool editAvatar(string username, string newPath);
-        bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating);
-        bool isGameExist(string gameName);
-        bool joinGame(string username, string roomName, string playerName);
-        bool spectateGame(string username, string roomName, string playerName);
-        bool leaveGame(string username, string roomName, string playerName);
+        bool Register(string username, string pass);
+        bool IsUserExist(string username);
+        bool DeleteUser(string username, string password);
+        bool Login(string username, string pass);
+        bool IsLoggedIn(string username, string pass);
+        bool LogOut(string username);
+        bool EditUsername(string username, string newName);
+        bool EditPassword(string username, string newPass);
+        bool EditAvatar(string username, string newPath);
+        bool CreateNewGame(string gameName, string username, string creatorName);
+        bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating);
+        bool IsGameExist(string gameName);
+        bool JoinGame(string username, string roomName, string playerName);
+        bool SpectateGame(string username, string roomName, string playerName);
+        bool LeaveGame(string username, string roomName, string playerName);
 
         IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            Gametype gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
+            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
             bool spectating, bool prefFlag, bool leagueFlag);
         IList findGames(string username);
-        int getRank(string username);
-        bool raiseInGame(int raiseamount, string gamename, string playername);
-        bool callInGame(string gamename, string playername);
-        bool foldInGame(string goodGameName, string legalPlayer);
+        int GetRank(string username);
+        bool RaiseInGame(int raiseamount, string gamename, string playername);
+        bool CallInGame(string gamename, string playername);
+        bool FoldInGame(string goodGameName, string legalPlayer);
 
-        bool setExpCriteria(string username, int exp);
-        bool setDefaultRank(string username, int rank);
-        bool setUserLeague(string username, string usernameToSet, int rank);
+        bool SetExpCriteria(string username, int exp);
+        bool SetDefaultRank(string username, int rank);
+        bool SetUserLeague(string username, string usernameToSet, int rank);
 
-        bool saveTurn(string roomName, int turnNum);
+        bool SaveTurn(string roomName, int turnNum);
 
-        bool restartGameCenter();
+        bool RestartGameCenter();
 
-        bool startGame(string roomName);
-        bool setBet(string roomName, string PlayerName, int bet);
-        void setUserRank(string legalUserName, int newrank);
+        bool StartGame(string roomName);
+        bool SetBet(string roomName, string PlayerName, int bet);
+        void SetUserRank(string legalUserName, int newrank);
     }
 }

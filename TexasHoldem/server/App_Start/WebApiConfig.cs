@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 using TexasHoldem.Services;
 
 namespace server
 {
     public static class WebApiConfig
     {
-        public static GameManager gameManger= new GameManager();
-        public static UserManager userManger = new UserManager();
-        public static ReplayManager replayManger = new ReplayManager();
+        public static GameManager GameManger= new GameManager();
+        public static UserManager UserManger = new UserManager();
+        public static ReplayManager ReplayManger = new ReplayManager();
 
         public static void Register(HttpConfiguration config)
         {
@@ -20,9 +17,9 @@ namespace server
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                "DefaultApi",
+                "api/{controller}/{id}",
+                new { id = RouteParameter.Optional }
             );
         }
     }

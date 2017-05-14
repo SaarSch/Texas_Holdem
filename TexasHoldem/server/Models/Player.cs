@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace server.Models
+﻿namespace server.Models
 {
     public class Player
     {
-        public string player_name;
-        public int current_bet;
-        public int chips_amount;
-        public string avatar;
-        public string[] player_hand;
+        public string PlayerName;
+        public int CurrentBet;
+        public int ChipsAmount;
+        public string Avatar;
+        public string[] PlayerHand;
     }
 }

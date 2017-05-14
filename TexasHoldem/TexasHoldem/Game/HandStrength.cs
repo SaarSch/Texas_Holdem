@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 
-public class HandStrength
+namespace TexasHoldem.Game
 {
-    public int handStrongessValue;
-    public HandRank handrank;
-    public List<Card> handCards;
+    public class HandStrength
+    {
+        public int HandStrongessValue;
+        public HandRank Handrank;
+        public List<Card> HandCards;
 
-    public HandStrength(int handValue, HandRank handRank, List<Card> cards)
-	{
-        handStrongessValue = handValue;
-        handCards = cards;
-        handrank = handRank;
+        public HandStrength(int handValue, HandRank handRank, List<Card> cards)
+        {
+            HandStrongessValue = handValue;
+            HandCards = cards;
+            Handrank = handRank;
+        }
+
+
     }
-
-
 }
