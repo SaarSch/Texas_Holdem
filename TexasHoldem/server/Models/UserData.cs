@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace server.Models
+﻿namespace server.Models
 {
     public class UserData
     {
-        public string username;
-        public string password;
-        public string avatarPath;
-        public string email;
+        public string Username;
+        public string Password;
+        public string AvatarPath;
+        public string Email;
         public int Rank;
-        public int wins;
-        public int chips;
-        public string message;
+        public int Wins;
+        public int Chips;
+        public string Message;
     }
 }

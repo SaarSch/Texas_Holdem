@@ -1,159 +1,165 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using TexasHoldem;
+using TexasHoldem.Exceptions;
+using TexasHoldem.Loggers;
 
-public class User
+namespace TexasHoldem.Users
 {
-    private string username;
-    private string password;
-    private string avatarPath;
-    private string email;
- //   public bool Online { get; set; }
-    public List<string> Notifications { get; set; }
-    public int Rank=-1;
-    public int wins;
-    public int chipsAmount;
-    public int numOfGames;
-
-    private List<Player> players; //change to list of Games?
-    private List<Room> rooms; //do we need this?
-
-    public User(string username, string password, string avatarPath, string email, int chipsAmount)
+    public class User
     {
-        numOfGames = 0;
-        wins = 0;
-        SetUsername(username);
-        SetPassword(password);
-        SetAvatar(avatarPath);
-        SetEmail(email);
-        Notifications = new List<string>();
-        players = new List<Player>();
-        rooms = new List<Room>();
-        this.chipsAmount = chipsAmount;
-    }
+        private string _username;
+        private string _password;
+        private string _avatarPath;
+        private string _email;
 
-    public void AddNotification(string notif)
-    {
-        if (notif == "")
+        public List<string> Notifications { get; set; }
+        public int League=-1;
+        public int Wins;
+        public int ChipsAmount;
+        public int NumOfGames;
+
+        public const int PasswordLengthMin = 8;
+        public const int PasswordLengthMax = 12;
+
+        public User(string username, string password, string avatarPath, string email, int chipsAmount)
         {
-            throw new Exception("notification is empty.");
+            NumOfGames = 0;
+            Wins = 0;
+            SetUsername(username);
+            SetPassword(password);
+            SetAvatar(avatarPath);
+            SetEmail(email);
+            Notifications = new List<string>();
+            ChipsAmount = chipsAmount;
         }
 
-        Notifications.Add(notif);
-    }
-
-    public void RemoveNotification(string notif)
-    {
-        if (notif == "")
+        public void AddNotification(string notif)
         {
-            throw new Exception("notification is empty.");
-        }
-
-        Notifications.Remove(notif);
-    }
-
-    public void SetPassword(string password)
-    {
-        if (password.Length > 12 || password.Length < 8)
-        {
-            Logger.Log(Severity.Error, "ERROR: Illegal password! Length must be between 8 and 12.");
-            throw new Exception("Illegal password! Length must be between 8 and 12.");
-        }
-
-        bool hasNonLetterChar = false;
-        int i;
-
-        for (i = 0; i < password.Length && !hasNonLetterChar; i++)
-        {
-            if (password[i] == ' ')
+            if (notif == "")
             {
-                Logger.Log(Severity.Error, "ERROR in Register: Illegal password! Space is not allowed.");
-                throw new Exception("Illegal password! Space is not allowed.");
+                throw new Exception("notification is empty.");
             }
-            if (!Char.IsLetter(password[i]))
+
+            Notifications.Add(notif);
+        }
+
+        public void RemoveNotification(string notif)
+        {
+            if (notif == "")
             {
-                hasNonLetterChar = true;
+                throw new Exception("notification is empty.");
             }
+
+            Notifications.Remove(notif);
         }
 
-        if (!hasNonLetterChar)
+        public void SetPassword(string password)
         {
-            Logger.Log(Severity.Error, "ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.");
-            throw new Exception("Illegal password! Must contain at least 1 non-letter character.");
-        }
-
-        this.password = password;
-    }
-
-    public string GetPassword()
-    {
-        return password;
-    }
-
-    public void SetUsername(string username)
-    {
-        if (username.Length > 12 || username.Length < 8)
-        {
-            Logger.Log(Severity.Error, "ERROR: Illegal username!Length must be between 8 and 12.");
-            throw new Exception("Illegal username! Length must be between 8 and 12.");
-        }
-
-        for (int i = 0; i < username.Length; i++)
-        {
-            if (username[i] == ' ')
+            if (password.Length > PasswordLengthMax || password.Length < PasswordLengthMin)
             {
-                Logger.Log(Severity.Error, "ERROR: Illegal username! Space is not allowed.");
-                throw new Exception("Illegal username! Space is not allowed.");
+                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
+
+            var hasNonLetterChar = false;
+            int i;
+
+            for (i = 0; i < password.Length && !hasNonLetterChar; i++)
+            {
+                if (password[i] == ' ')
+                {
+                    Exception e = new IllegalPasswordException("Illegal password! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
+                }
+                if (!char.IsLetter(password[i]))
+                {
+                    hasNonLetterChar = true;
+                }
+            }
+
+            if (!hasNonLetterChar)
+            {
+                Exception e = new IllegalPasswordException("Illegal password! Must contain at least 1 non-letter character.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            _password = password;
         }
 
-        this.username = username;
-    }
-
-    public string GetUsername()
-    {
-        return username;
-    }
-
-    public void SetAvatar(string avatarPath)
-    {
-        if (avatarPath.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1
-            || (!avatarPath.EndsWith(".png") && !avatarPath.EndsWith(".jpg") && !avatarPath.EndsWith(".jpeg"))
-            || avatarPath.Contains("virus")
-            ||  avatarPath.Contains("VIRUS")) // TODO: add more?
+        public string GetPassword()
         {
-            Logger.Log(Severity.Error, "ERROR: Illegal avatar file! Must be a legal image");
-            throw new Exception("Illegal avatar file! Must be a legal image");
+            return _password;
         }
-        else
-        {
-            this.avatarPath = avatarPath;
-        }
-    }
 
-    public string GetAvatar()
-    {
-        return avatarPath;
-    }
+        public void SetUsername(string username)
+        {
+            if (username.Length > PasswordLengthMax || username.Length < PasswordLengthMin)
+            {
+                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
 
-    public void SetEmail(string email)
-    {
-        if (Regex.IsMatch(email, @"\A[a-z0-9]+([-._][a-z0-9]+)*@([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,4}\z")
-               && Regex.IsMatch(email, @"^(?=.{1,64}@.{4,64}$)(?=.{6,100}$).*"))
-        {
-            this.email = email;
+            for (var i = 0; i < username.Length; i++)
+            {
+                if (username[i] == ' ')
+                {
+                    Exception e = new IllegalUsernameException("Illegal username! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
+                }
+            }
+
+            _username = username;
         }
-        else
+
+        public string GetUsername()
         {
-            Logger.Log(Severity.Error, "ERROR: Illegal email! must be in format: aaa@bbb.ccc");
-            throw new Exception("Illegal email! must be in format: aaa@bbb.ccc.");
+            return _username;
         }
+
+        public void SetAvatar(string avatarPath)
+        {
+            if (avatarPath.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1
+                || (!avatarPath.EndsWith(".png") && !avatarPath.EndsWith(".jpg") && !avatarPath.EndsWith(".jpeg"))
+                || avatarPath.Contains("virus")
+                ||  avatarPath.Contains("VIRUS")) // TODO: add more?
+            {
+                Exception e = new IllegalAvatarException("Illegal avatar file! Must be a legal image.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+            _avatarPath = avatarPath;
+        }
+
+        public string GetAvatar()
+        {
+            return _avatarPath;
+        }
+
+        public void SetEmail(string email)
+        {
+            if (Regex.IsMatch(email, @"\A[a-z0-9]+([-._][a-z0-9]+)*@([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,4}\z")
+                && Regex.IsMatch(email, @"^(?=.{1,64}@.{4,64}$)(?=.{6,100}$).*"))
+            {
+                _email = email;
+            }
+            else
+            {
+                Exception e = new IllegalAvatarException("Illegal email! must be in format: aaa@bbb.ccc.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
         
-    }
+        }
 
-    public string GetEmail()
-    {
-        return email;
+        public string GetEmail()
+        {
+            return _email;
+        }
     }
 }

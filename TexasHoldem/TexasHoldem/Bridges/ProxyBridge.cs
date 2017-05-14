@@ -1,75 +1,72 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
     public class ProxyBridge : IBridge
     {
-        private IBridge real;
+        private readonly IBridge _real;
         public ProxyBridge()
         {
             //real = null;
-            real = new RealBridge();
+            _real = new RealBridge();
         }
-        public bool register(string username, string pass)
+        public bool Register(string username, string pass)
         {
-            return  real==null || real.register(username, pass);
+            return  _real==null || _real.Register(username, pass);
             
         }
 
-        public bool isUserExist(string username)
+        public bool IsUserExist(string username)
         {
-            return real == null || real.isUserExist(username);
+            return _real == null || _real.IsUserExist(username);
         }
 
-        public bool deleteUser(string username, string password)
+        public bool DeleteUser(string username, string password)
         {
-            return real == null || real.deleteUser(username, password);
+            return _real == null || _real.DeleteUser(username, password);
         }
 
-        public bool login(string username, string pass)
+        public bool Login(string username, string pass)
         {
-            return real == null || real.login(username, pass);
+            return _real == null || _real.Login(username, pass);
         }
 
-        public bool isLoggedIn(string username, string pass)
+        public bool IsLoggedIn(string username, string pass)
         {
-            return real == null || real.isLoggedIn(username, pass);
+            return _real == null || _real.IsLoggedIn(username, pass);
         }
 
-        public bool logOut(string username)
+        public bool LogOut(string username)
         {
-            return real == null || real.logOut(username);
+            return _real == null || _real.LogOut(username);
         }
 
-        public bool editUsername(string username, string newusername)
+        public bool EditUsername(string username, string newusername)
         {
-            return real == null || real.editUsername(username, newusername);
+            return _real == null || _real.EditUsername(username, newusername);
         }
 
-        public bool editPassword(string username, string newPass)
+        public bool EditPassword(string username, string newPass)
         {
-            return real == null || real.editPassword(username, newPass);
+            return _real == null || _real.EditPassword(username, newPass);
         }
 
-        public bool editAvatar(string username, string newPath)
+        public bool EditAvatar(string username, string newPath)
         {
-            return real == null || real.editAvatar(username, newPath);
+            return _real == null || _real.EditAvatar(username, newPath);
         }
 
-        public bool createNewGame(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, Boolean spectating)
+        public bool CreateNewGame(string gameName, string username, string creatorName)
         {
-            return real == null || real.createNewGame(gameName, username, creatorName, gameType, buyInPolicy,  chipPolicy,  minBet,  minPlayers,  maxPlayer,  spectating);
+            return _real == null || _real.CreateNewGame(gameName, username, creatorName);
         }
 
-        public bool isGameExist(string gameName)
+        public bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
+            int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
         {
-            return real == null || real.isGameExist(gameName);
+            return _real == null || _real.CreateNewGameWithPrefrences(gameName, username, creatorName, gameType, buyInPolicy,
+            chipPolicy, minBet, minPlayers, maxPlayer, spectating);
         }
 
 
@@ -86,80 +83,80 @@ namespace TexasHoldem.Bridges
             return s;
         }
 
-        public bool joinGame(string username, string roomName, string playerName)
+        public bool JoinGame(string username, string roomName, string playerName)
         {
-            return real == null || real.joinGame(username, roomName, playerName);
+            return _real == null || _real.JoinGame(username, roomName, playerName);
         }
 
-        public bool spectateGame(string username, string roomName, string playerName)
+        public bool SpectateGame(string username, string roomName, string playerName)
         {
-            return real == null || real.spectateGame(username, roomName, playerName);
+            return _real == null || _real.SpectateGame(username, roomName, playerName);
         }
 
-        public bool leaveGame(string username, string roomName, string playerName)
+        public bool LeaveGame(string username, string roomName, string playerName)
         {
-            return real == null || real.leaveGame(username, roomName, playerName);
+            return _real == null || _real.LeaveGame(username, roomName, playerName);
         }
 
-        public int getRank(string username)
+        public int GetRank(string username)
         {
-            return real?.getRank(username) ?? 0;
+            return _real?.GetRank(username) ?? 0;
         }
        
 
-        public bool raiseInGame(int raiseamount, string gamename, string playername)
+        public bool RaiseInGame(int raiseamount, string gamename, string playername)
         {
-            return real == null || real.raiseInGame(raiseamount, gamename, playername);
+            return _real == null || _real.RaiseInGame(raiseamount, gamename, playername);
         }
 
-        public bool callInGame(string gamename, string playername)
+        public bool CallInGame(string gamename, string playername)
         {
-            return real == null || real.callInGame(gamename, playername);
+            return _real == null || _real.CallInGame(gamename, playername);
         }
 
-        public bool foldInGame(string gameName, string playerName)
+        public bool FoldInGame(string gameName, string playerName)
         {
-            return real == null || real.foldInGame(gameName, playerName);
+            return _real == null || _real.FoldInGame(gameName, playerName);
         }
 
-        public bool setExpCriteria(string username, int exp)
+        public bool SetExpCriteria(string username, int exp)
         {
-            return real == null || real.setExpCriteria(username, exp);
+            return _real == null || _real.SetExpCriteria(username, exp);
         }
 
-        public bool setDefaultRank(string username, int rank)
+        public bool SetDefaultRank(string username, int rank)
         {
-            return real == null || real.setDefaultRank(username, rank);
+            return _real == null || _real.SetDefaultRank(username, rank);
         }
 
-        public bool setUserLeague(string username, string usernameToSet, int rank)
+        public bool SetUserLeague(string username, string usernameToSet, int rank)
         {
-            return real == null || real.setUserLeague(username, usernameToSet, rank);
+            return _real == null || _real.SetUserLeague(username, usernameToSet, rank);
         }
 
-        public bool saveTurn(string roomName, int turnNum)
+        public bool SaveTurn(string roomName, int turnNum)
         {
-            return real == null || real.saveTurn(roomName, turnNum);
+            return _real == null || _real.SaveTurn(roomName, turnNum);
         }
 
-        public bool restartGameCenter()
+        public bool RestartGameCenter()
         {
-            return real == null || real.restartGameCenter();
+            return _real == null || _real.RestartGameCenter();
         }
 
-        public bool startGame(string roomName)
+        public bool StartGame(string roomName)
         {
-            return real == null || real.startGame(roomName);
+            return _real == null || _real.StartGame(roomName);
         }
 
-        public bool setBet(string roomName, string PlayerName, int bet)
+        public bool SetBet(string roomName, string playerName, int bet)
         {
-            return real == null || real.setBet(roomName, PlayerName, bet);
+            return _real == null || _real.SetBet(roomName, playerName, bet);
         }
 
-        public void setUserRank(string legalUserName, int newrank)
+        public void SetUserRank(string legalUserName, int newrank)
         {
-            real?.setUserRank(legalUserName, newrank);
+            _real?.SetUserRank(legalUserName, newrank);
         }
     }
 }

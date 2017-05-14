@@ -1,9 +1,5 @@
 ﻿using server.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace server.Controllers
@@ -13,22 +9,21 @@ namespace server.Controllers
         // POST: api/Login
         public UserData Post([FromBody]UserData value)
         {
-            User u;
-            UserData ret = new UserData();
+            var ret = new UserData();
             try
             {
-                u=WebApiConfig.userManger.Login(value.username, value.password);
-                ret.avatarPath = u.GetAvatar();
-                ret.chips = u.chipsAmount;
-                ret.email = u.GetEmail();
-                ret.password = u.GetPassword();
-                ret.Rank = u.Rank;
-                ret.username = u.GetUsername();
-                ret.wins = u.wins;
+                var u = WebApiConfig.UserManger.Login(value.Username, value.Password);
+                ret.AvatarPath = u.GetAvatar();
+                ret.Chips = u.ChipsAmount;
+                ret.Email = u.GetEmail();
+                ret.Password = u.GetPassword();
+                ret.Rank = u.League;
+                ret.Username = u.GetUsername();
+                ret.Wins = u.Wins;
             }
             catch (Exception e)
             {
-                ret.message= e.Message;
+                ret.Message= e.Message;
             }
 
             return ret;
@@ -38,7 +33,7 @@ namespace server.Controllers
         {
             try
             {
-                WebApiConfig.userManger.EditUser(username, value.username,value.password,value.avatarPath,value.email);
+                WebApiConfig.UserManger.EditUser(username, value.Username,value.Password,value.AvatarPath,value.Email);
             }
             catch (Exception e)
             {

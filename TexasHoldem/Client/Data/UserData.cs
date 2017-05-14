@@ -4,25 +4,25 @@ namespace Client
 {
     public class UserData
     {
-        public string username;
-        public string password;
-        public string avatarPath;
-        public string email;
+        public string Username;
+        public string Password;
+        public string AvatarPath;
+        public string Email;
         public int Rank;
-        public int wins;
-        public int chips;
-        public string message;
+        public int Wins;
+        public int Chips;
+        public string Message;
 
         public UserData(string username, string password, string avatarPath, string email, int rank, int wins, int chips, string message)
         {
-            this.username = username;
-            this.password = password;
-            this.avatarPath = avatarPath;
-            this.email = email;
+            Username = username;
+            Password = password;
+            AvatarPath = avatarPath;
+            Email = email;
             Rank = rank;
-            this.wins = wins;
-            this.chips = chips;
-            this.message = message;
+            Wins = wins;
+            Chips = chips;
+            Message = message;
         }
     }
 }

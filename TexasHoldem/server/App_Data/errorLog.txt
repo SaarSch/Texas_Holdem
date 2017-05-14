@@ -1,0 +1,3 @@
+12-May-17 18:04: Error: ERROR: Illegal username!Length must be between 8 and 12.
+12-May-17 18:04: Error: ERROR: Illegal password! Length must be between 8 and 12.
+12-May-17 18:04: Error: ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.

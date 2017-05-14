@@ -1,64 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
+using TexasHoldem.Game;
+using TexasHoldem.Loggers;
+using TexasHoldem.Properties;
 
 namespace TexasHoldem.GameReplay
 {
     public class Replayer
     {
-        private static readonly string counterPath = Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt";
+        private static readonly string CounterPath = Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt";
 
         private Replayer() { }
 
         public static string CreateReplay()
         {
-            int counter = 1;
-            if (File.Exists(counterPath))
+            var counter = 1;
+            if (File.Exists(CounterPath))
             {
-                counter = int.Parse(File.ReadAllText(counterPath));
+                counter = int.Parse(File.ReadAllText(CounterPath));
             }
 
             var filename = "gameReplay#" + counter + ".csv";
-            File.AppendAllText(filename, "turn no., seat0, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8, pot, community,,," + Environment.NewLine);
-            File.WriteAllText(counterPath, "" + ++counter);
+            File.AppendAllText(filename, Resources.Replayer_CreateReplay_turn_no___seat0__seat1__seat2__seat3__seat4__seat5__seat6__seat7__seat8__pot__community___ + Environment.NewLine);
+            File.WriteAllText(CounterPath, "" + ++counter);
 
             return filename;
         }
 
         public static void Save(string filename, int round, List<Player> players, int pot, Card[] community, string comment)
         {
-            string path = Directory.GetCurrentDirectory() + "\\" + filename;
+            var path = Directory.GetCurrentDirectory() + "\\" + filename;
             if (!File.Exists(path))
             {
-                Logger.Log(Severity.Exception, "gameReplay file does not exists");
-                throw new Exception("gameReplay file does not exists");
+                var e = new Exception("gameReplay file does not exists");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             if (round < 1)
             {
-                Logger.Log(Severity.Exception, "round no. is invalid");
-                throw new Exception("round no. is invalid" +
-                    "");
+                var e = new Exception("round no. is invalid");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             if (players == null)
             {
-                Logger.Log(Severity.Exception, "player list is invalid");
-                throw new Exception("player list is invalid");
+                var e = new Exception("player list is invalid");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             if (players.Count == 0)
             {
-                Logger.Log(Severity.Exception, "player list is empty");
-                throw new Exception("player list is empty");
+                var e = new Exception("player list is empty");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             if (pot < 0)
             {
-                Logger.Log(Severity.Exception, "pot value is invalid");
-                throw new Exception("pot value is invalid");
+                var e = new Exception("pot value is invalid");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
 
-            string entry = round + ",";
-            foreach (Player p in players)
+            var entry = round + ",";
+            foreach (var p in players)
             {
                 if (!p.Folded)
                 {
@@ -69,18 +74,18 @@ namespace TexasHoldem.GameReplay
                     entry += "fold,";
                 }
             }
-            for (int i = 0; i <= 8-players.Count; i++)
+            for (var i = 0; i <= 8-players.Count; i++)
             {
                 entry += "undef,";
             }
             entry += pot + ",";
             if (community != null)
             {
-                for (int i = 0; i < community.Length; i++)
+                for (var i = 0; i < community.Length; i++)
                 {
                     if (community[i] != null)
                     {
-                        entry += community[i].value + community[i].type.ToString().Substring(0, 1) + ";";
+                        entry += community[i].Value + community[i].Type.ToString().Substring(0, 1) + ";";
                     }
                 }
             }
@@ -95,11 +100,11 @@ namespace TexasHoldem.GameReplay
 
         public static string SaveTurn(string replay, int turnNum)
         {
-            string path = Directory.GetCurrentDirectory() + "\\" + replay;
-            string turn = "";
+            var path = Directory.GetCurrentDirectory() + "\\" + replay;
+            var turn = "";
             if (File.Exists(path))
             {
-                StreamReader file = new StreamReader(path);
+                var file = new StreamReader(path);
                 string line;
                 while ((line = file.ReadLine()) != null)
                 {
@@ -113,13 +118,15 @@ namespace TexasHoldem.GameReplay
             }
             else
             {
-                Logger.Log(Severity.Exception, "game replay not found");
-                throw new Exception("game replay not found");
+                var e = new Exception("game replay not found");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             if (turn == "")
             {
-                Logger.Log(Severity.Exception, "turn not found in game replay");
-                throw new Exception("turn not found in game replay");
+                var e = new Exception("turn not found in game replay");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             return turn;
         }

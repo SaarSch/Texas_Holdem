@@ -24,7 +24,7 @@ namespace Client
             InitializeComponent();
             RoomsGrid.ItemsSource = roomResults;
             loggedUser = user;
-            UpdateUserLabels(loggedUser.username, loggedUser.chips);
+            UpdateUserLabels(loggedUser.Username, loggedUser.Chips);
         }
 
         //TODO: add avatar update

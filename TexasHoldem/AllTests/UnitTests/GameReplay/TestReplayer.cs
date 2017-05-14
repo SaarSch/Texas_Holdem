@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
 using TexasHoldem.GameReplay;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.GameReplay
 {
@@ -98,6 +100,7 @@ namespace AllTests.UnitTests.GameReplay
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -123,6 +126,7 @@ namespace AllTests.UnitTests.GameReplay
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -272,7 +276,10 @@ namespace AllTests.UnitTests.GameReplay
                 Replayer.SaveTurn("gkhj.txt", 2);
                 Assert.Fail(); // If it gets to this line, no exception was thrown
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         [TestMethod]

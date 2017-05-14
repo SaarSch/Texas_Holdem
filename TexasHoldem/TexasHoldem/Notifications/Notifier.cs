@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.Loggers;
+using TexasHoldem.Users;
 
-public class Notifier
+namespace TexasHoldem.Notifications
 {
-    private static Notifier instance;
-    private Notifier() { }
-    public static Notifier Instance
+    public class Notifier
     {
-        get
+        private static Notifier _instance;
+        private Notifier() { }
+        public static Notifier Instance => _instance ?? (_instance = new Notifier());
+
+        public void Notify(List<User> users, string msg)
         {
-            if (instance == null)
+            if(msg == "")
             {
-                instance = new Notifier();
+                var e = new Exception("message is empty.");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
-            return instance;
-        }
-    }
 
-    public void Notify(List<User> users, string msg)
-    {
-        if(msg == "")
-        {
-            Logger.Log(Severity.Exception, "message is empty.");
-            throw new Exception("message is empty.");
-        }
+            var notif = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + msg;
 
-        string notif = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + msg;
-
-        foreach (User u in users)
-        {
-            u.AddNotification(notif);
+            foreach (var u in users)
+            {
+                u.AddNotification(notif);
+            }
         }
     }
 }
