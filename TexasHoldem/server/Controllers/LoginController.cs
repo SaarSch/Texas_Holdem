@@ -22,7 +22,7 @@ namespace server.Controllers
                 ret.chips = u.chipsAmount;
                 ret.email = u.GetEmail();
                 ret.password = u.GetPassword();
-                ret.Rank = u.Rank;
+                ret.Rank = u.league;
                 ret.username = u.GetUsername();
                 ret.wins = u.wins;
             }

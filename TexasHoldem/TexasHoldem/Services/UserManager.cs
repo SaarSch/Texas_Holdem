@@ -74,12 +74,12 @@ namespace TexasHoldem.Services
 
         public int GetRank(string userName)
         {
-           return gameCenter.GetUser(userName).Rank;
+           return gameCenter.GetUser(userName).league;
         }
 
         public void ChangeRank(string userName, int rank)
         {
-            gameCenter.GetUser(userName).Rank = rank;
+            gameCenter.GetUser(userName).league = rank;
         }
     }
 }

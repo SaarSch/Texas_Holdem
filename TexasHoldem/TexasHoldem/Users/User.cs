@@ -11,7 +11,7 @@ public class User
     private string email;
  //   public bool Online { get; set; }
     public List<string> Notifications { get; set; }
-    public int Rank=-1;
+    public int league=-1;
     public int wins;
     public int chipsAmount;
     public int numOfGames;

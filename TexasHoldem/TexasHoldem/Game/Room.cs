@@ -36,7 +36,7 @@ public class Room
     public Deck Deck = new Deck();
     public Card[] communityCards = new Card[5];
     public string name;
-    public int rank;
+    public int league;
     public GamePreferences gamePreferences;
     public Boolean flop;
     public int pot = 0;
@@ -99,10 +99,10 @@ public class Room
             throw new Exception("room name too short / long");
         }
         this.name = name;
-        rank = creator.User.Rank;
+        league = creator.User.league;
 
         gameReplay = Replayer.CreateReplay();
-        Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+rank );
+        Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+league );
     }
 
     public Room AddPlayer(Player p)
@@ -130,10 +130,10 @@ public class Room
             Logger.Log(Severity.Exception, "room is full, cant add the player");
             throw new Exception("room is full");
         }
-        if (p.User.Rank < rank)
+        if (p.User.league != league     && p.User.league!=-1)
         {
-            Logger.Log(Severity.Error, "player rank is too low to join");
-            throw new Exception("player rank is too low to join");
+            Logger.Log(Severity.Error, "player is in diffrent league join");
+            throw new Exception("player is in diffrent league join");
         }
         if (p.User.chipsAmount < gamePreferences.minBet || (p.User.chipsAmount < gamePreferences.chipPolicy && gamePreferences.chipPolicy > 0)|| p.User.chipsAmount<gamePreferences.buyInPolicy)
         {
@@ -291,7 +291,7 @@ public class Room
             p.User.numOfGames++;
             if (p.User.numOfGames == 11)
             {
-                p.User.Rank = p.User.wins;
+                p.User.league = p.User.wins;
             }
         }
 
@@ -512,11 +512,6 @@ public class Room
         foreach(Player p in winners)
         {
             p.User.wins++;
-            if (p.User.wins == GameCenter.GetGameCenter().EXPCriteria && p.User.Rank < 10) // change to game center field
-            {
-                p.User.Rank++;
-                p.User.wins = 0;   
-            }
         }
         int totalChips = 0;
         foreach (Player p in players) totalChips += p.CurrentBet;
