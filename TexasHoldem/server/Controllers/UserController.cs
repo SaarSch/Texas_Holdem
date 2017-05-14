@@ -28,7 +28,19 @@ namespace server.Controllers
             }
             return "";
         }
-
+        // DeleteUser -->GET: api/User?username=elad&&password=123456
+        public string Get(string username,string password)
+        {
+            try
+            {
+                WebApiConfig.UserManger.DeleteUser(username, password);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            return "";
+        }
         // POST: api/User
         public void Post([FromBody]string value)
         {
