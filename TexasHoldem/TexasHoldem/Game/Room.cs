@@ -120,6 +120,16 @@ namespace TexasHoldem.Game
             Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+League );
         }
 
+        public bool HasPlayer(string name)
+        {
+            foreach (var p in Players)
+            {
+                if (p.Name == name)
+                    return true;
+            }
+            return false;
+        }
+
         public Room AddPlayer(Player p)
         {
             foreach(var p1 in Players)

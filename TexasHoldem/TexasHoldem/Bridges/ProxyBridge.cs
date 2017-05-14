@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
@@ -8,13 +9,17 @@ namespace TexasHoldem.Bridges
         private readonly IBridge _real;
         public ProxyBridge()
         {
-            //real = null;
             _real = new RealBridge();
         }
         public bool Register(string username, string pass)
         {
             return  _real==null || _real.Register(username, pass);
             
+        }
+
+        public bool IsGameExist(string gameName)
+        {
+            return _real == null || _real.IsGameExist(gameName);
         }
 
         public bool IsUserExist(string username)
@@ -69,30 +74,10 @@ namespace TexasHoldem.Bridges
             chipPolicy, minBet, minPlayers, maxPlayer, spectating);
         }
 
-        public bool IsGameExist(string gameName)
-        {
-            return _real == null || _real.IsGameExist(gameName);
-        }
 
-        public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag)
+        public IList FindGames(string username, RoomFilter filter)
         {
-            IList s;
-            if (_real != null)
-                s = _real.findGames(username, playerName, playerFlag, potSize, potFlag,
-                gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-            spectating, prefFlag, leagueFlag);
-            else
-            {
-                s = new List<string> {"Good Game Name"};
-            }
-            return s;
-        }
-
-        public IList findGames(string username)
-        {
-            var s = _real != null ? _real.findGames(username) : new List<string> {"Good Game Name"};
+            var s = _real != null ? _real.FindGames(username, filter) : new List<string> {"Good Game Name"};
             return s;
         }
 

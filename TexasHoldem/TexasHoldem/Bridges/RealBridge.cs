@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TexasHoldem.Game;
 using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
@@ -162,28 +163,18 @@ namespace TexasHoldem.Bridges
             return _gameManager.IsRoomExist(gameName);
         }
 
-        public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag)
-        {
-            try
-            {
-                return _gameManager.FindGames(username, playerName, playerFlag, potSize, potFlag,
-                    gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-                    spectating, prefFlag, leagueFlag);
-            }
-            catch (Exception)
-            {
-                return new List<string>();
-            }
-            
-        }
 
-        public IList findGames(string username)
+        public IList FindGames(string username, RoomFilter filter)
         {
             try
             { 
-                return _gameManager.FindGames(username);
+                List<Room> tmp = _gameManager.FindGames(username, filter);
+                var ans = new List<string>();
+                foreach (var r in tmp)
+                {
+                    ans.Add(r.Name);
+                }
+                return ans;
             }
             catch (Exception)
             {

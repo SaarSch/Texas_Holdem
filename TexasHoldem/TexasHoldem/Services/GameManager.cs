@@ -58,19 +58,54 @@ namespace TexasHoldem.Services
             return _gameCenter.RemoveUserFromRoom(username, roomName, playerName);
         }
 
-        public List<string> FindGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag) // UC 11
+        public List<Room> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
         {
-            return _gameCenter.FindGames(username, playerName, playerFlag, potSize, potFlag,
-                gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-                spectating, prefFlag, leagueFlag);
-        }
+            var context = _gameCenter.GetUser(username);
 
-        public List<string> FindGames(string username) // UC 11 (Finds any available game)
-        {
-            return _gameCenter.FindGames(username, "", false, 0, false, "NoLimit", 0, 10, 4, 3, 7, false, false,
-                false);
+            var predicates = new List<Predicate<Room>>();
+
+            if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
+            {
+                predicates.Add(room => room.League == context.League);
+            }
+            if (r.PlayerName != null)
+            {
+                predicates.Add(room => room.HasPlayer(r.PlayerName));
+            }
+            if (r.PotSize != null)
+            {
+                predicates.Add(room => room.Pot == r.PotSize.Value);
+            }
+            if (r.GameType != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetGameType().ToString() == r.GameType);
+            }
+            if (r.BuyInPolicy != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetBuyInPolicy() == r.BuyInPolicy.Value);
+            }
+            if (r.ChipPolicy != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetChipPolicy() == r.ChipPolicy.Value);
+            }
+            if (r.MinBet != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetMinBet() == r.MinBet.Value);
+            }
+            if (r.MinPlayers != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetMinPlayers() == r.MinPlayers.Value);
+            }
+            if (r.MaxPlayers != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetMaxPlayers() == r.MaxPlayers.Value);
+            }
+            if (r.SepctatingAllowed != null)
+            {
+                predicates.Add(room => room.GamePreferences.GetSpectating() == r.SepctatingAllowed.Value);
+            }
+
+            return _gameCenter.FindGames(predicates);
         }
 
         public Room StartGame(string gameName) // UC 12

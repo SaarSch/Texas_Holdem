@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
 using TexasHoldem.GamePrefrences;
 
 namespace AllTests.UnitTests.GameCenter
@@ -472,17 +474,49 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Register("seanoch123", "seanoch123");
                 _gc.Login("seanoch123", "seanoch123");
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                var gp = new GamePreferences();
+                IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                var ans = _gc.FindGames("login1234", "player1", true, 0, false, "NoLimit", 0, 0, 5, 3, 4, true, false,
-                    false);
-                if (ans.Count == 1 && ans[0] == "MyRoom1")
+                var p = new List<Predicate<Room>> {room => room.HasPlayer("player1")};
+                var ans = _gc.FindGames(p);
+                if (ans.Count == 1 && ans[0].Name == "MyRoom1")
                     succ = true;
             }
             catch
             {
                 // ignored
+            }
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
+            Assert.IsTrue(succ);
+        }
+
+        [TestMethod]
+        public void GameCenter_FindGames_SearchPlayer_Null()
+        {
+            var succ = false;
+            _gc.DeleteAllRooms();
+            _gc.DeleteAllUsers();
+            try
+            {
+                _gc.Register("login1234", "123exm1234");
+                _gc.Login("login1234", "123exm1234");
+                _gc.Register("seanoch123", "seanoch123");
+                _gc.Login("seanoch123", "seanoch123");
+                //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                IPreferences gp = new GamePreferences();
+                gp = new ModifiedBuyInPolicy(0, gp);
+                gp = new ModifiedMinBet(5, gp);
+                gp = new ModifiedMinPlayers(3, gp);
+                gp = new ModifiedMaxPlayers(4, gp);
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
+                _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                var p = new List<Predicate<Room>> {room => room.HasPlayer(null)};
+                _gc.FindGames(p);
+            }
+            catch
+            {
+                succ = true;
             }
             _gc.DeleteAllRooms();
             _gc.DeleteAllUsers();
@@ -502,13 +536,13 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Register("seanoch123", "seanoch123");
                 _gc.Login("seanoch123", "seanoch123");
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                var gp = new GamePreferences();
+                IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
-                var ans = _gc.FindGames("login1234", "player1", false, 5, true, "NoLimit", 0, 0, 5, 3, 4, true, false,
-                    false);
-                if (ans.Count == 1 && ans[0] == "MyRoom2")
+                var p = new List<Predicate<Room>> {room => room.Pot == 5};
+                var ans = _gc.FindGames(p);
+                if (ans.Count == 1 && ans[0].Name == "MyRoom2")
                     succ = true;
             }
             catch
@@ -533,12 +567,12 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Register("seanoch123", "seanoch123");
                 _gc.Login("seanoch123", "seanoch123");
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                GamePreferences gp = new GamePreferences();
+                IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
-                var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true,
-                    false, false);
+                var p = new List<Predicate<Room>>();
+                var ans = _gc.FindGames(p);
                 if (ans.Count == 2)
                     succ = true;
             }
@@ -563,7 +597,7 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Register("login1234", "123exm1234");
                 _gc.Login("login1234", "123exm1234");
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                GamePreferences gp = new GamePreferences();
+                IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "login1234", "player1", gp);
                 if (_gc.Rooms.Count == 1)
                     before = true;
@@ -581,9 +615,8 @@ namespace AllTests.UnitTests.GameCenter
         }
 
         [TestMethod]
-        public void GameCenter_FindGames_Preferences()
-        { 
-
+        public void GameCenter_FindGames_GameType()
+        {
             var succ = false;
             _gc.DeleteAllRooms();
             _gc.DeleteAllUsers();
@@ -593,27 +626,25 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Login("login1234", "123exm1234");
                 _gc.Register("seanoch123", "seanoch123");
                 _gc.Login("seanoch123", "seanoch123");
-
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
+                //1 0 4 2 8
                 IPreferences gp = new GamePreferences();
-                gp = new ModifiedBuyInPolicy(0, gp);
-                gp = new ModifiedMinBet(5, gp);
-                gp = new ModifiedMinPlayers(3, gp);
-                gp = new ModifiedMaxPlayers(4, gp);
-
+                gp = new ModifiedBuyInPolicy(0,gp);
+                gp = new ModifiedMinBet(5,gp);
+                gp = new ModifiedMinPlayers(3,gp);
+                gp = new ModifiedMaxPlayers(4,gp);
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
-
-                //Gametype.NoLimit, 0, 0, 5, 2, 10, false
-                //Gametype.NoLimit, 1, 0, 4, 2, 8, true
+                //Gametype.PotLimit, 0, 0, 5, 2, 10, false
                 gp = new GamePreferences();
+                gp = new ModifiedGameType(Gametype.PotLimit, gp);
                 gp = new ModifiedBuyInPolicy(0, gp);
                 gp = new ModifiedMinBet(5, gp);
-                gp = new ModifiedMaxPlayers(10, gp);
+                gp = new ModifiedMinPlayers(2,gp);
+                gp = new ModifiedMaxPlayers(10,gp);
                 gp = new ModifiedSpectating(false, gp);
-
-                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.Pot = 5;
-                var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, true, false);
+                _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
+                var p = new List<Predicate<Room>> {room => room.GamePreferences.GetGameType() == Gametype.PotLimit};
+                var ans = _gc.FindGames(p);
                 if (ans.Count == 1)
                     succ = true;
             }
@@ -626,34 +657,6 @@ namespace AllTests.UnitTests.GameCenter
             Assert.IsTrue(succ);
         }
 
-        [TestMethod]
-        public void GameCenter_FindGames_InLeague()
-        {
-            var succ = false;
-            _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
-            try
-            {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                var user = _gc.Login("seanoch123", "seanoch123");
-                user.League = 5;
-                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", new GamePreferences());
-                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", new GamePreferences());
-                r.Pot = 5;
-                var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, false, true);
-                if (ans.Count == 1 && ans[0] == "MyRoom2")
-                    succ = true;
-            }
-            catch
-            {
-                // ignored
-            }
-            _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
-            Assert.IsTrue(succ);
-        }
 
         [TestMethod]
         public void GameCenter_FindGames_PotAndPlayer()
@@ -667,20 +670,21 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Login("login1234", "123exm1234");
                 _gc.Register("seanoch123", "seanoch123");
                 _gc.Login("seanoch123", "seanoch123");
-
+                //Gametype.NoLimit, 0, 10, 5, 3, 4, true
+                //1 0 4 2 8
                 IPreferences gp = new GamePreferences();
                 gp = new ModifiedBuyInPolicy(0, gp);
                 gp = new ModifiedChipPolicy(10, gp);
                 gp = new ModifiedMinBet(5, gp);
                 gp = new ModifiedMinPlayers(3, gp);
                 gp = new ModifiedMaxPlayers(4, gp);
-
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
                 _gc.CreateRoom("MyRoom3", "login1234", "player2", gp);
-                var ans = _gc.FindGames("login1234", "player2", true, 5, true, "NoLimit", 0, 10, 5, 3, 4, true, false, false);
-                if (ans.Count == 1 && ans[0] == "MyRoom2")
+                var p = new List<Predicate<Room>> {room => room.HasPlayer("player2"), room => room.Pot == 5};
+                var ans = _gc.FindGames(p);
+                if (ans.Count == 1 && ans[0].Name == "MyRoom2")
                     succ = true;
             }
             catch
