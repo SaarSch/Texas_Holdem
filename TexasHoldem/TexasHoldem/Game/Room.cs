@@ -574,7 +574,7 @@ namespace TexasHoldem.Game
             var roomUsers = new List<User>();
             foreach (var p in Players) roomUsers.Add(p.User);
             roomUsers.AddRange(SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, message);
+            Notifier.Instance.Notify(roomUsers, sender.Name + ": "+message);
         }
 
         public void SpectatorsSendMessege(string message, User sender)
@@ -596,7 +596,7 @@ namespace TexasHoldem.Game
             }
             var roomUsers = new List<User>();
             roomUsers.AddRange(SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, message);
+            Notifier.Instance.Notify(roomUsers, sender.GetUsername()+": "+message);
         }
 
 
@@ -629,7 +629,7 @@ namespace TexasHoldem.Game
             }
             var roomUsers = new List<User>();
             roomUsers.Add(reciver);
-            Notifier.Instance.Notify(roomUsers, message);
+            Notifier.Instance.Notify(roomUsers, sender.GetUsername() + ": "+message);
         }
 
         public void PlayerWisper(string message, Player sender, User reciver)
@@ -661,7 +661,7 @@ namespace TexasHoldem.Game
             }
             var roomUsers = new List<User>();
             roomUsers.Add(reciver);
-            Notifier.Instance.Notify(roomUsers, message);
+            Notifier.Instance.Notify(roomUsers, sender.Name+": "+message);
         }
 
         private bool IsUserIsPlayer(User u)
