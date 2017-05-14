@@ -28,7 +28,7 @@ namespace server.Controllers
 
             return ret;
         }
-        // POST: api/Login?username=elad
+        //edit user POST: api/Login?username=elad
         public string Post([FromBody]UserData value,string username)
         {
             try
