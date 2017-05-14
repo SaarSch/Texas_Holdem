@@ -41,7 +41,7 @@ namespace TexasHoldem.Game
         public Deck Deck = new Deck();
         public Card[] CommunityCards = new Card[5];
         public string Name;
-        public int league;
+        public int League;
         public IPreferences GamePreferences;
         public bool Flop;
         public int Pot = 0;
@@ -107,10 +107,10 @@ namespace TexasHoldem.Game
                 throw new Exception("room name too short / long");
             }
             Name = name;
-            league = creator.User.league;
+            League = creator.User.League;
 
             GameReplay = Replayer.CreateReplay();
-            Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+league );
+            Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+League );
         }
 
         public Room AddPlayer(Player p)
@@ -138,7 +138,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Exception, "room is full, cant add the player");
                 throw new Exception("room is full");
             }
-            if (p.User.league != league     && p.User.league!=-1)
+            if (p.User.League != League     && p.User.League!=-1)
         {
             Logger.Log(Severity.Error, "player is in diffrent league join");
             throw new Exception("player is in diffrent league join");
@@ -284,7 +284,6 @@ namespace TexasHoldem.Game
         {
             if (Players.Count < GamePreferences.GetMinPlayers())
             {
-                p.User.league = p.User.wins;
                 Logger.Log(Severity.Error, "cant play with less then min players");
                 throw new Exception("cant play with less then min players");
             }
@@ -299,7 +298,7 @@ namespace TexasHoldem.Game
                 p.User.NumOfGames++;
                 if (p.User.NumOfGames == 11)
                 {
-                    p.User.league = p.User.Wins;
+                    p.User.League = p.User.Wins;
                 }
             }
 
@@ -529,11 +528,6 @@ namespace TexasHoldem.Game
             foreach(var p in winners)
             {
                 p.User.Wins++;
-                if (p.User.Wins == GameCenter.GetGameCenter().ExpCriteria && p.User.Rank < GameCenter.MaxRank)
-                {
-                    p.User.Rank++;
-                    p.User.Wins = 0;   
-                }
             }
             var totalChips = 0;
             foreach (var p in Players) totalChips += p.CurrentBet;
@@ -548,7 +542,6 @@ namespace TexasHoldem.Game
 
         public void NotifyRoom(string message)
         {
-            p.User.wins++;
             if (message is null)
             {
                 Logger.Log(Severity.Error, "cant send null mesege");
@@ -643,7 +636,7 @@ namespace TexasHoldem.Game
             }
 
             //Decide Hand
-            var temp = IsStraightFlush(@ascending, sameShapeList);
+            var temp = IsStraightFlush(ascending, sameShapeList);
             if (temp != null)
             {
                 hand = temp;
@@ -723,7 +716,7 @@ namespace TexasHoldem.Game
         private List<Card> IsStraightFlush(List<Card> ascending, List<Card> similarShape)
         {
             if (ascending.Count < 5 || similarShape.Count < 5) return null;
-            return @ascending.Count == 5 ? IsStrightFlushHelper(@ascending, similarShape) : null;
+            return ascending.Count == 5 ? IsStrightFlushHelper(ascending, similarShape) : null;
         }
 
         private List<Card> IsStrightFlushHelper(List<Card> ascending, List<Card> similarShape)
@@ -731,8 +724,7 @@ namespace TexasHoldem.Game
             var hand = new List<Card>();
             hand.AddRange(ascending);
             ascending.RemoveAll(similarShape.Contains);
-            if (ascending.Count == 0) return hand;
-            return null;
+            return @ascending.Count == 0 ? hand : null;
         }
 
         private int SumListCard(List<Card> cards)

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.GamePrefrences;
 
 namespace AllTests.UnitTests.GameCenter
@@ -11,62 +12,66 @@ namespace AllTests.UnitTests.GameCenter
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full()
         {
-            for(int i = 0; i < 20; i++)
+            for(var i = 0; i < 20; i++)
             {
-                gc.Register("aaaaaaa" + i, "12345678");
-                gc.GetUser("aaaaaaa" + i).wins = i;
+                _gc.Register("aaaaaaa" + i, "12345678");
+                _gc.GetUser("aaaaaaa" + i).Wins = i;
             }
-            gc.SetLeagues();
-            for(int i = 0; i < 20; i++)
+            _gc.SetLeagues();
+            for(var i = 0; i < 20; i++)
             {
-                Assert.IsTrue(gc.GetUser("aaaaaaa" + i).league == Math.Floor((double)i / 2) + 1);
+                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Floor((double)i / 2) + 1);
             }
+            _gc.DeleteAllUsers();
         }
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full1()
         {
-            for (int i = 0; i < 60; i++)
+            for (var i = 0; i < 60; i++)
             {
-                gc.Register("aaaaaaa" + i, "12345678");
-                gc.GetUser("aaaaaaa" + i).wins = i;
+                _gc.Register("aaaaaaa" + i, "12345678");
+                _gc.GetUser("aaaaaaa" + i).Wins = i;
             }
-            gc.SetLeagues();
-            for (int i = 0; i < 60; i++)
+            _gc.SetLeagues();
+            for (var i = 0; i < 60; i++)
             {
-                Assert.IsTrue(gc.GetUser("aaaaaaa" + i).league == Math.Floor((double)i / 6) + 1);
+                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Floor((double)i / 6) + 1);
             }
+            _gc.DeleteAllUsers();
         }
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_not_Full()
         {
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
-                gc.Register("aaaaaaa" + i, "12345678");
-                gc.GetUser("aaaaaaa" + i).wins = i;
+                _gc.Register("aaaaaaa" + i, "12345678");
+                _gc.GetUser("aaaaaaa" + i).Wins = i;
             }
-            gc.SetLeagues();
-            for (int i = 0; i < 8; i++)
+            _gc.SetLeagues();
+            for (var i = 0; i < 8; i++)
             {
-                Assert.IsTrue(gc.GetUser("aaaaaaa" + i).league == Math.Floor((double)i / 2) + 7);
+                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Floor((double)i / 2) + 7);
             }
+            _gc.DeleteAllUsers();
         }
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_Od()
         {
-            for (int i = 0; i < 21; i++)
+            for (var i = 0; i < 21; i++)
             {
-                gc.Register("aaaaaaa" + i, "12345678");
-                gc.GetUser("aaaaaaa" + i).wins = i;
+                _gc.Register("aaaaaaa" + i, "12345678");
+                _gc.GetUser("aaaaaaa" + i).Wins = i;
             }
-            gc.SetLeagues();
-            for (int i = 1; i < 21; i++)
+            _gc.SetLeagues();
+            for (var i = 1; i < 21; i++)
             {
-                Assert.IsTrue(gc.GetUser("aaaaaaa" + i).league == Math.Ceiling((double)i / 2));
+                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Ceiling((double)i / 2));
             }
-            Assert.IsTrue(gc.GetUser("aaaaaaa" + 0).league == 1);
+            Assert.IsTrue(_gc.GetUser("aaaaaaa" + 0).League == 1);
+            _gc.DeleteAllUsers();
         }
 
 
@@ -202,11 +207,11 @@ namespace AllTests.UnitTests.GameCenter
             {
                 _gc.Register("login1234", "123exm1234");
                 var context = _gc.Login("login1234", "123exm1234");
-                context.league = 10;
+                context.League = 10;
                 _gc.SetDefaultRank("login1234", 2);
                 _gc.Register("check1234", "321exm321");
                 var check = _gc.Login("check1234", "321exm321");
-                if (check.league == -1)
+                if (check.League == -1)
                     succ = true;
             }
             catch
@@ -228,7 +233,7 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.SetDefaultRank("login1234", 3);
                 _gc.Register("check1234", "321exm321");
                 var check = _gc.Login("check1234", "321exm321");
-                if (check.league == 3)
+                if (check.League == 3)
                     succ = true;
             }
             catch
@@ -247,8 +252,8 @@ namespace AllTests.UnitTests.GameCenter
             {
                 _gc.SetDefaultRank("login1234", 3);
                 _gc.Register("check1234", "321exm321");
-                var check = gc.Login("check1234", "321exm321");
-                if (check.league == 2)
+                var check = _gc.Login("check1234", "321exm321");
+                if (check.League == 2)
                     succ = true;
             }
             catch
@@ -267,11 +272,11 @@ namespace AllTests.UnitTests.GameCenter
             {
                 _gc.Register("login1234", "123exm1234");
                 var context = _gc.Login("login1234", "123exm1234");
-                context.league = 10;
+                context.League = 10;
                 _gc.SetDefaultRank("login1234", -2);
                 _gc.Register("check1234", "321exm321");
                 var check = _gc.Login("check1234", "321exm321");
-                if (check.league == -2)
+                if (check.League == -2)
                     succ = true;
             }
             catch
@@ -291,7 +296,7 @@ namespace AllTests.UnitTests.GameCenter
             {
                 _gc.Register("login1234", "123exm1234");
                 var context = _gc.Login("login1234", "123exm1234");
-                context.league = 10;
+                context.League = 10;
                 _gc.SetExpCriteria("login1234", 6);
                 if (_gc.ExpCriteria == 6)
                     succ = true;
@@ -333,8 +338,8 @@ namespace AllTests.UnitTests.GameCenter
             try
             {
                 _gc.Register("login1234", "123exm1234");
-                context = _gc.Login("login1234", "123exm1234");
-                context.league = 10;
+                var context = _gc.Login("login1234", "123exm1234");
+                context.League = 10;
                 _gc.SetExpCriteria("login1234", 4);
                 if (_gc.ExpCriteria == 4)
                     succ = true;
@@ -374,11 +379,11 @@ namespace AllTests.UnitTests.GameCenter
             {
                 _gc.Register("login1234", "123exm1234");
                 var context = _gc.Login("login1234", "123exm1234");
-                context.league = 10;
-                gc.Register("test9876", "123exm9876");
+                context.League = 10;
+                _gc.Register("test9876", "123exm9876");
                 var userToSet = _gc.Login("test9876", "123exm9876");
                 _gc.SetUserRank("login1234", "test9876", 6);
-                if (userToSet.league == 6)
+                if (userToSet.League == 6)
                     succ = true;
             }
             catch
@@ -396,9 +401,9 @@ namespace AllTests.UnitTests.GameCenter
             try
             {
                 _gc.Register("test9876", "123exm9876");
-                userToSet = _gc.Login("test9876", "123exm9876");
+                var userToSet = _gc.Login("test9876", "123exm9876");
                 _gc.SetUserRank("login1234", "test9876", 6);
-                if (userToSet.league == 6)
+                if (userToSet.League == 6)
                     succ = true;
             }
             catch
@@ -420,7 +425,7 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Register("test9876", "123exm9876");
                 var userToSet = _gc.Login("test9876", "123exm9876");
                 _gc.SetUserRank("login1234", "test9876", 6);
-                if (userToSet.league == 6)
+                if (userToSet.League == 6)
                     succ = true;
             }
             catch
@@ -439,11 +444,11 @@ namespace AllTests.UnitTests.GameCenter
             {
                 _gc.Register("login1234", "123exm1234");
                 var context = _gc.Login("login1234", "123exm1234");
-                context.league = 10;
+                context.League = 10;
                 _gc.Register("test9876", "123exm9876");
-                userToSet = _gc.Login("test9876", "123exm9876");
+                var userToSet = _gc.Login("test9876", "123exm9876");
                 _gc.SetUserRank("login1234", "test9876", 11);
-                if (userToSet.league == 11)
+                if (userToSet.League == 11)
                     succ = true;
             }
             catch
@@ -633,10 +638,10 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.Login("login1234", "123exm1234");
                 _gc.Register("seanoch123", "seanoch123");
                 var user = _gc.Login("seanoch123", "seanoch123");
-                user.league = 5;
-                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
-                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.pot = 5;
+                user.League = 5;
+                _gc.CreateRoom("MyRoom1", "seanoch123", "player1", new GamePreferences());
+                var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", new GamePreferences());
+                r.Pot = 5;
                 var ans = _gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, false, true);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
