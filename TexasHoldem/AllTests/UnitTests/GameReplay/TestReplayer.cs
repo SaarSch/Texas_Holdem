@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
 using TexasHoldem.GameReplay;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.GameReplay
 {

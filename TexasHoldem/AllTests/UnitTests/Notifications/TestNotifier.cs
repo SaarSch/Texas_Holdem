@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Notifications;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.Notifications
 {

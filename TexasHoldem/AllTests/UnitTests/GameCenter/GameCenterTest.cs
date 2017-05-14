@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
 using TexasHoldem.GamePrefrences;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.GameCenter
 {
@@ -235,7 +237,7 @@ namespace AllTests.UnitTests.GameCenter
                 context = gc.Login("login1234", "123exm1234");
                 context.Rank = 10;
                 gc.SetExpCriteria("login1234", 6);
-                if (gc.EXPCriteria == 6)
+                if (gc.ExpCriteria == 6)
                     succ = true;
             }
             catch
@@ -256,7 +258,7 @@ namespace AllTests.UnitTests.GameCenter
                 gc.Register("login1234", "123exm1234");
                 context = gc.Login("login1234", "123exm1234");
                 gc.SetExpCriteria("login1234", 6);
-                if (gc.EXPCriteria == 6)
+                if (gc.ExpCriteria == 6)
                     succ = true;
             }
             catch
@@ -278,7 +280,7 @@ namespace AllTests.UnitTests.GameCenter
                 context = gc.Login("login1234", "123exm1234");
                 context.Rank = 10;
                 gc.SetExpCriteria("login1234", 4);
-                if (gc.EXPCriteria == 4)
+                if (gc.ExpCriteria == 4)
                     succ = true;
             }
             catch
@@ -296,7 +298,7 @@ namespace AllTests.UnitTests.GameCenter
             try
             {
                 gc.SetExpCriteria("login1234", 6);
-                if (gc.EXPCriteria == 6)
+                if (gc.ExpCriteria == 6)
                     succ = true;
             }
             catch
@@ -446,7 +448,7 @@ namespace AllTests.UnitTests.GameCenter
                 GamePreferences gp = new GamePreferences();
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.pot = 5;
+                r.Pot = 5;
                 ans = gc.FindGames("login1234", "player1", false, 5, true, "NoLimit", 0, 0, 5, 3, 4, true, false,
                     false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
@@ -478,7 +480,7 @@ namespace AllTests.UnitTests.GameCenter
                 GamePreferences gp = new GamePreferences();
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.pot = 5;
+                r.Pot = 5;
                 ans = gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true,
                     false, false);
                 if (ans.Count == 2)
@@ -556,7 +558,7 @@ namespace AllTests.UnitTests.GameCenter
                 gp = new ModifiedSpectating(false, gp);
 
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.pot = 5;
+                r.Pot = 5;
                 ans = gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, true, false);
                 if (ans.Count == 1)
                     succ = true;
@@ -589,7 +591,7 @@ namespace AllTests.UnitTests.GameCenter
                 GamePreferences gp = new GamePreferences();
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.pot = 5;
+                r.Pot = 5;
                 ans = gc.FindGames("login1234", "player1", false, 5, false, "NoLimit", 0, 0, 5, 3, 4, true, false, true);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")
                     succ = true;
@@ -626,7 +628,7 @@ namespace AllTests.UnitTests.GameCenter
 
                 gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 r = gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                r.pot = 5;
+                r.Pot = 5;
                 gc.CreateRoom("MyRoom3", "login1234", "player2", gp);
                 ans = gc.FindGames("login1234", "player2", true, 5, true, "NoLimit", 0, 10, 5, 3, 4, true, false, false);
                 if (ans.Count == 1 && ans[0] == "MyRoom2")

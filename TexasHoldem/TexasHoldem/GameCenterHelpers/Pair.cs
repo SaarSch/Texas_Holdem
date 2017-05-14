@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldem.GameCenterHelpers
+﻿namespace TexasHoldem.GameCenterHelpers
 {
     public class Pair<T, U>
     {
@@ -12,10 +6,10 @@ namespace TexasHoldem.GameCenterHelpers
         {
         }
 
-        public Pair(T First, U Second)
+        public Pair(T first, U second)
         {
-            this.First = First;
-            this.Second = Second;
+            First = first;
+            Second = second;
         }
 
         public T First { get; set; }

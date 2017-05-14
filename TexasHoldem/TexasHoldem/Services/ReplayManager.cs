@@ -4,21 +4,21 @@ namespace TexasHoldem.Services
 {
     public class ReplayManager
     {
-        private readonly GameCenter gameCenter;
+        private readonly GameCenter _gameCenter;
 
         public ReplayManager()
         {
-            gameCenter = GameCenter.GetGameCenter();
+            _gameCenter = GameCenter.GetGameCenter();
         }
 
         public string ReplayGame(string roomName) // UC 9
         {
-            return gameCenter.GetReplayFilename(roomName);
+            return _gameCenter.GetReplayFilename(roomName);
         }
 
         public string SaveTurn(string roomName, int turnNum) // UC 10
         {
-            return Replayer.SaveTurn(gameCenter.GetReplayFilename(roomName), turnNum);
+            return Replayer.SaveTurn(_gameCenter.GetReplayFilename(roomName), turnNum);
         }
     }
 }

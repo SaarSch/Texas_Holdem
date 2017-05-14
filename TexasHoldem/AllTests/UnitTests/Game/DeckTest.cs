@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Game;
 
 namespace AllTests.UnitTests.Game
 {
@@ -19,9 +20,9 @@ namespace AllTests.UnitTests.Game
         public void ShuffleTest()
         {
             var d = new Deck();
-            var testA = d.cards.ToArray();
+            var testA = d.Cards.ToArray();
             d.Shuffle();
-            var testB = d.cards.ToArray();
+            var testB = d.Cards.ToArray();
 
             var ans = false;
             for (var i = 0; i < 52; i++) if (testA[i] != testB[i]) ans = true;
@@ -34,8 +35,8 @@ namespace AllTests.UnitTests.Game
         {
             var d = new Deck();
             var test = d.Draw();
-            Assert.IsTrue(d.cards.Count == 51);
-            Assert.IsTrue(!d.Contains(test.value, test.type));
+            Assert.IsTrue(d.Cards.Count == 51);
+            Assert.IsTrue(!d.Contains(test.Value, test.Type));
         }
 
         [TestMethod]

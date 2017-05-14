@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.Loggers;
 
-public class Deck
+namespace TexasHoldem.Game
 {
-	
-       public List<Card> cards = new List<Card>(52);
+    public class Deck
+    {
+        public List<Card> Cards { get; } = new List<Card>(52);
 
         public Deck()
         {
-            for (int i = 2; i < 15; i++) // init deck
+            for (var i = Card.MinValue; i <= Card.MaxValue; i++) // init deck
             {
-                for (int j = 1; j < 5; j++)
+                for (var j = 1; j < 5; j++)
                 {
-                    cards.Add(new Card(i, (CardType)j-1));
+                    Cards.Add(new Card(i, (CardType)j-1));
                 }
             }
-        Shuffle();
+            Shuffle();
         }
 
         public void Shuffle()
         {
-            Random rnd = new Random();
-            for (var i = 0; i < cards.Count; i++)
+            var rnd = new Random();
+            for (var i = 0; i < Cards.Count; i++)
             {
-                Swap(cards, i, rnd.Next(i, cards.Count));
+                Swap(Cards, i, rnd.Next(i, Cards.Count));
             }
         }
 
@@ -36,25 +38,26 @@ public class Deck
 
         public Card Draw()
         {
-        if (cards.Count < 1)
-        {
-            Logger.Log(Severity.Exception, "Deck is empty cant draw card");
-            throw new Exception("Deck is empty");
-        }
-            Card Temp = cards[0];
-            cards.RemoveAt(0);
-            return Temp;
+            if (Cards.Count < 1)
+            {
+                Logger.Log(Severity.Exception, "Deck is empty cant draw card");
+                throw new Exception("Deck is empty");
+            }
+            Card temp = Cards[0];
+            Cards.RemoveAt(0);
+            return temp;
         }
 
         public Boolean Contains(int value, CardType type)
         {
            
-            for(int i = 0; i < this.cards.Count; i++)
+            for(int i = 0; i < Cards.Count; i++)
             {
-                if (cards[i].value == value && cards[i].type == type) return true;
+                if (Cards[i].Value == value && Cards[i].Type == type) return true;
             }
             return false;
    
         }
-	}
+    }
+}
 

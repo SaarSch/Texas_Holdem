@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TexasHoldem.Users;
 
 namespace server.Controllers
 {
@@ -19,12 +20,12 @@ namespace server.Controllers
             {
                 u=WebApiConfig.userManger.Login(value.username, value.password);
                 ret.avatarPath = u.GetAvatar();
-                ret.chips = u.chipsAmount;
+                ret.chips = u.ChipsAmount;
                 ret.email = u.GetEmail();
                 ret.password = u.GetPassword();
                 ret.Rank = u.Rank;
                 ret.username = u.GetUsername();
-                ret.wins = u.wins;
+                ret.wins = u.Wins;
             }
             catch (Exception e)
             {
