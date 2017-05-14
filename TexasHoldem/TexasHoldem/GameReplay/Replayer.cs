@@ -97,38 +97,5 @@ namespace TexasHoldem.GameReplay
 
             File.AppendAllText(path, entry + Environment.NewLine);
         }
-
-        public static string SaveTurn(string replay, int turnNum)
-        {
-            var path = Directory.GetCurrentDirectory() + "\\" + replay;
-            var turn = "";
-            if (File.Exists(path))
-            {
-                var file = new StreamReader(path);
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    if (Char.GetNumericValue(line[0]) == turnNum)
-                    { 
-                        turn += line + "\n";
-                    }
-                }
-
-                file.Close();
-            }
-            else
-            {
-                var e = new Exception("game replay not found");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-            if (turn == "")
-            {
-                var e = new Exception("turn not found in game replay");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-            return turn;
-        }
     }
 }

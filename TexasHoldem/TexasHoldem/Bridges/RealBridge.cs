@@ -41,7 +41,7 @@ namespace TexasHoldem.Bridges
             }
             catch (Exception e)
             {
-                if (e.Message.Equals("Username does not exist!"))
+                if (e.Message.Equals("ERROR in Login: Username does not exist!"))
                     return false;
             }
             return true;
@@ -168,7 +168,7 @@ namespace TexasHoldem.Bridges
         {
             try
             { 
-                List<Room> tmp = _gameManager.FindGames(username, filter);
+                var tmp = _gameManager.FindGames(username, filter);
                 var ans = new List<string>();
                 foreach (var r in tmp)
                 {
@@ -278,37 +278,11 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool SetDefaultRank(string username, int rank)
-        {
-            try
-            {
-                _gameManager.SetDefaultRank(username, rank);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public bool SetUserLeague(string username, string usernameToSet, int rank)
         {
             try
             {
                 _gameManager.SetUserLeague(username, usernameToSet, rank);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool SaveTurn(string roomName, int turnNum)
-        {
-            try
-            {
-                _replayManager.SaveTurn(roomName, turnNum);
             }
             catch (Exception)
             {

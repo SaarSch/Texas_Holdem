@@ -122,19 +122,9 @@ namespace TexasHoldem.Bridges
             return _real == null || _real.SetExpCriteria(username, exp);
         }
 
-        public bool SetDefaultRank(string username, int rank)
-        {
-            return _real == null || _real.SetDefaultRank(username, rank);
-        }
-
         public bool SetUserLeague(string username, string usernameToSet, int rank)
         {
             return _real == null || _real.SetUserLeague(username, usernameToSet, rank);
-        }
-
-        public bool SaveTurn(string roomName, int turnNum)
-        {
-            return _real == null || _real.SaveTurn(roomName, turnNum);
         }
 
         public bool RestartGameCenter()

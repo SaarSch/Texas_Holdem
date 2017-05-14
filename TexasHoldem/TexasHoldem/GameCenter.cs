@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.Exceptions;
 using TexasHoldem.Game;
 using TexasHoldem.GameCenterHelpers;
 using TexasHoldem.GamePrefrences;
@@ -87,8 +88,9 @@ namespace TexasHoldem
             {
                 if (_users[i].First.GetUsername() == username)
                 {
-                    Logger.Log(Severity.Error, "ERROR in Register: Username already exists!");
-                    throw new Exception("Username already exists!");
+                    var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
                 }
             }
 
@@ -109,24 +111,27 @@ namespace TexasHoldem
                     {
                         if (_users[i].Second)
                         {
-                            Logger.Log(Severity.Error, "ERROR in Login: This User is already logged in.");
-                            throw new Exception("This User is already logged in.");
+                            var e = new IllegalUsernameException("ERROR in Login: This User is already logged in.");
+                            Logger.Log(Severity.Error, e.Message);
+                            throw e;
                         }
                         user = _users[i].First;
                         _users[i].Second = true;
                     }
                     else
                     {
-                        Logger.Log(Severity.Error, "ERROR in Login: Wrong password!");
-                        throw new Exception("Wrong password!");
+                        var e = new IllegalPasswordException("ERROR in Login: Wrong password!");
+                        Logger.Log(Severity.Error, e.Message);
+                        throw e;
                     }
                 }
             }
 
             if (user == null)
             {
-                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
-                throw new Exception("Username does not exist!");
+                var e = new IllegalUsernameException("ERROR in Login: Username does not exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             Logger.Log(Severity.Action, username + " logged in successfully!");
 
@@ -145,8 +150,9 @@ namespace TexasHoldem
                 {
                     if (!_users[i].Second)
                     {
-                        Logger.Log(Severity.Action, "ERROR in Logout: User is already logged off.");
-                        throw new Exception("User is already logged off.");
+                        var e = new IllegalUsernameException("ERROR in Logout: User is already logged off.");
+                        Logger.Log(Severity.Error, e.Message);
+                        throw e;
                     }
                     exist = true;
                     _users[i].Second = false;
@@ -155,8 +161,9 @@ namespace TexasHoldem
 
             if (!exist)
             {
-                Logger.Log(Severity.Action, "ERROR in Logout: Username does not exist!");
-                throw new Exception("Username does not exist!");
+                var e = new IllegalUsernameException("ERROR in Logout: Username does not exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             Logger.Log(Severity.Action, username + " logged out successfully!");
         } 
@@ -181,8 +188,9 @@ namespace TexasHoldem
                     userExists = true;
                     if (!_users[i].Second)
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: This User is not logged in.");
-                        throw new Exception("This User is not logged in.");
+                        var e = new IllegalUsernameException("ERROR in Edit Profile: This User is not logged in.");
+                        Logger.Log(Severity.Error, e.Message);
+                        throw e;
                     }
                     try
                     {
@@ -192,8 +200,9 @@ namespace TexasHoldem
                             {
                                 if (_users[j].First.GetUsername() == newUserName)
                                 {
-                                    Logger.Log(Severity.Error, "ERROR in Edit Profile: New username already exists!");
-                                    throw new Exception("New username already exists!");
+                                    var e = new IllegalUsernameException("ERROR in Edit Profile: New username already exists!");
+                                    Logger.Log(Severity.Error, e.Message);
+                                    throw e;
                                 }
                             }
                             _users[i].First.SetUsername(newUserName);
@@ -207,16 +216,18 @@ namespace TexasHoldem
                     }
                     catch (Exception)
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Invalid new user details!"); // TODO specific?
-                        throw;
+                        var e = new Exception("ERROR in Edit Profile: Invalid new user details!");
+                        Logger.Log(Severity.Error, e.Message);
+                        throw e;
                     }
                 }
             }
 
             if (!userExists)
             {
-                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
-                throw new Exception("Username does not exist!");
+                var e = new IllegalUsernameException("ERROR in Login: Username does not exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             Logger.Log(Severity.Action, username + "'s profile edited successfully!");
         }
@@ -229,14 +240,16 @@ namespace TexasHoldem
                 {
                     if (!_users[i].Second)
                     {
-                        Logger.Log(Severity.Error, "ERROR in GetLoggedInUser: This User is not logged in.");
-                        throw new Exception("This User is not logged in.");
+                        var err = new IllegalUsernameException("ERROR in GetLoggedInUser: This User is not logged in.");
+                        Logger.Log(Severity.Error, err.Message);
+                        throw err;
                     }
                     return _users[i].First;
                 }
             }
-            Logger.Log(Severity.Error, "ERROR in Edit Profile: This user doesn't exist.");
-            throw new Exception("This user doesn't exist.");
+            var e = new IllegalUsernameException("ERROR in Edit Profile: This user doesn't exist.");
+            Logger.Log(Severity.Error, e.Message);
+            throw e;
         }
 
         public User GetUser(string username)
@@ -249,8 +262,9 @@ namespace TexasHoldem
                         return _users[i].First;
                 }
             }
-            Logger.Log(Severity.Error, "ERROR in GetUser: This User doesn't exist.");
-            throw new Exception("This User doesn't exist.");
+            var e = new IllegalUsernameException("ERROR in GetUser: This User doesn't exist.");
+            Logger.Log(Severity.Error, e.Message);
+            throw e;
         }
 
         public void DeleteUser(string username, string password)
@@ -266,16 +280,18 @@ namespace TexasHoldem
                     }
                     else
                     {
-                        Logger.Log(Severity.Error, "ERROR in Edit Profile: Wrong password!");
-                        throw new Exception("Wrong password!");
+                        var e = new IllegalPasswordException("ERROR in Edit Profile: Wrong password!");
+                        Logger.Log(Severity.Error, e.Message);
+                        throw e;
                     }
                 }
             }
 
             if (userToDelete == null)
             {
-                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
-                throw new Exception("Username does not exist!");
+                var e = new IllegalUsernameException("ERROR in Login: Username does not exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             _users.Remove(userToDelete);
             Logger.Log(Severity.Action, "User: " + username + " deleted successfully!");
@@ -289,16 +305,18 @@ namespace TexasHoldem
                 var p = new Player(creator, user);
                 if (IsRoomExist(roomName))
                 {
-                    Logger.Log(Severity.Error, "ERROR in CreateRoom: room name already taken!");
-                    throw new Exception("Room name already taken!");
+                    var err = new IllegalRoomNameException("ERROR in CreateRoom: room name already taken!");
+                    Logger.Log(Severity.Error, err.Message);
+                    throw err;
                 }
                 var newRoom = new Room(roomName, p, gp);
                 Rooms.Add(newRoom);
                 Logger.Log(Severity.Action, "Room " + newRoom.Name + " created successfully by " + creator + "!");
                 return newRoom;
             }
-            Logger.Log(Severity.Error, "ERROR in CreateRoom: Username does not exist!");
-            throw new Exception("Username does not exist!");
+            var e = new IllegalUsernameException("ERROR in CreateRoom: Username does not exist!");
+            Logger.Log(Severity.Error, e.Message);
+            throw e;
         }
 
         public Room GetRoom(string roomName)
@@ -313,8 +331,9 @@ namespace TexasHoldem
             {
                 return roomFound;
             }
-            Logger.Log(Severity.Error, "Error in GetRoom: Room " + roomName + " doesn't exist!");
-            throw new Exception("Room " + roomName + " doesn't exist!");
+            var e = new IllegalRoomNameException("Error in GetRoom: Room " + roomName + " doesn't exist!");
+            Logger.Log(Severity.Error, e.Message);
+            throw e;
         }
 
         public bool IsRoomExist(string roomName)
@@ -349,8 +368,9 @@ namespace TexasHoldem
             }
             else
             {
-                Logger.Log(Severity.Error, "Error in AddUserToRoom: Room " + roomName + " doesn't exist!");
-                throw new Exception("Room " + roomName + " doesn't exist!");
+                var e = new IllegalRoomNameException("Error in AddUserToRoom: Room " + roomName + " doesn't exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             return room;
         }
@@ -366,28 +386,11 @@ namespace TexasHoldem
             }
             else
             {
-                Logger.Log(Severity.Error, "Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
-                throw new Exception("Room " + roomName + " doesn't exist!");
+                var e = new IllegalRoomNameException("Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             return room;
-        }
-
-        public void SetDefaultRank(string username, int rank)
-        {
-            var context = GetLoggedInUser(username);
-
-            if (context.League != MaxRank)
-            {
-                Logger.Log(Severity.Error, "ERROR in SetDefaultRank: Only highest rank users can update the default rank!");
-                throw new Exception("Only highest rank users can update the default rank!");
-            }
-            if (rank < MinRank || rank > MaxRank)
-            {
-                Logger.Log(Severity.Error, "ERROR in SetDefaultRank: Default rank must be an integer in [0,10]!");
-                throw new Exception("Default rank must be an integer in [0,10]!");
-            }
-            DefaultRank = rank;
-            Logger.Log(Severity.Action, username + " changed the default rank to " + rank + "!");
         }
 
         public void SetExpCriteria(string username, int exp)
@@ -396,13 +399,15 @@ namespace TexasHoldem
 
             if (context.League != MaxRank)
             {
-                Logger.Log(Severity.Error, "ERROR in SetEXPCriteria: Only highest rank users can update the EXP criteria!");
-                throw new Exception("Only highest rank users can update the EXP criteria!");
+                Exception e = new IllegalCriteriaException("ERROR in SetExpCriteria: Only highest rank users can update the EXP criteria!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             if (exp < MinCriteria || exp > MaxCriteria)
             {
-                Logger.Log(Severity.Error, "ERROR in SetDefaultRank: EXP criteria must be an integer in [5,20]!");
-                throw new Exception("EXP criteria must be an integer in [5, 20]!");
+                var e = new IllegalCriteriaException("ERROR in SetDefaultRank: EXP criteria must be an integer in [5,20]!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             ExpCriteria = exp;
             Logger.Log(Severity.Action, username + " changed the EXP criteria to " + exp + "!");
@@ -414,13 +419,15 @@ namespace TexasHoldem
 
             if (context.League != MaxRank)
             {
-                Logger.Log(Severity.Error, "ERROR in SetUserRank: Only highest rank users can set other users' rank!");
-                throw new Exception("Only highest rank users can set other users' rank!");
+                var e = new Exception("ERROR in SetUserRank: Only highest rank users can set other users' rank!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             if (rank < MinRank || rank > MaxRank)
             {
-                Logger.Log(Severity.Error, "ERROR in SetUserRank: Default rank must be an integer in [0,10]!");
-                throw new Exception("Default rank must be an integer in [0,10]!");
+                var e = new Exception("ERROR in SetUserRank: Default rank must be an integer in [0,10]!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             var toSetRank = GetUser(usernameToSet);
             toSetRank.League = rank;
@@ -440,18 +447,19 @@ namespace TexasHoldem
                     return;
                 }
             }
-            Logger.Log(Severity.Error, "Room " + roomName + " does not exist!");
-            throw new Exception("ERROR in DeleteRoom: Room "+ roomName + " does not exist!");
+            var e = new IllegalRoomNameException("Room " + roomName + " does not exist!");
+            Logger.Log(Severity.Error, e.Message);
+            throw e;
         }
 
         public List<Room> FindGames(List<Predicate<Room>> predicates)
         {
-            List<Room> ans = new List<Room>();
+            var ans = new List<Room>();
             string roomsFound = "";
-            foreach (Room r in Rooms)
+            foreach (var r in Rooms)
             {
-                bool toAdd = true;
-                foreach (Predicate<Room> p in predicates)
+                var toAdd = true;
+                foreach (var p in predicates)
                 {
                     if (!p.Invoke(r))
                     {
@@ -483,8 +491,9 @@ namespace TexasHoldem
             }
             else
             {
-                Logger.Log(Severity.Error, "ERROR in FindGames: No game rooms found.");
-                throw new Exception("No game rooms found.");
+                var e = new Exception("ERROR in FindGames: No game rooms found.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
 
             return ans;

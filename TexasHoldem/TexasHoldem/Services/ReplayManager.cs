@@ -15,10 +15,5 @@ namespace TexasHoldem.Services
         {
             return _gameCenter.GetReplayFilename(roomName);
         }
-
-        public string SaveTurn(string roomName, int turnNum) // UC 10
-        {
-            return Replayer.SaveTurn(_gameCenter.GetReplayFilename(roomName), turnNum);
-        }
     }
 }

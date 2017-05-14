@@ -428,30 +428,6 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestSaveTurn_Good()
-        {
-            //login and register 2 pleyers
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Register(LegalUserName + "1", LegalPass);
-
-            _bridge.Login(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName + "1", LegalPass);
-            //create and join to players to a game
-            _bridge.CreateNewGame("Good Game Name", LegalUserName, LegalPlayer);
-            _bridge.JoinGame(LegalUserName + "1", "Good Game Name", LegalPlayer + "1");
-            //play the game-round 1
-            _bridge.StartGame("Good Game Name");
-
-            Assert.IsTrue(_bridge.SaveTurn("Good Game Name", 1));
-            Assert.IsFalse(_bridge.SaveTurn("Good Game Name", 7));
-
-            _bridge.LeaveGame(LegalUserName, "Good Game Name", LegalPlayer);
-            _bridge.LeaveGame(LegalUserName + "1", "Good Game Name", LegalPlayer + "1");
-
-            _bridge.RestartGameCenter();
-        }
-
-        [TestMethod]
         public void TestFindGames_Good()
         {
             _bridge.Register(LegalUserName, LegalPass);
@@ -572,7 +548,7 @@ namespace AllTests.AcceptanceTests
 
             _bridge.SetUserRank(LegalUserName,10);//max rank-can manage the league
 
-            Assert.IsTrue(_bridge.SetDefaultRank(LegalUserName, 5));
+            //Assert.IsTrue(_bridge.SetDefaultRank(LegalUserName, 5));
             _bridge.Register(LegalUserName + "1", LegalPass);//create new user
             Assert.AreEqual(-1,_bridge.GetRank(LegalUserName+"1"));//checks if the rank is 5
 
@@ -593,7 +569,7 @@ namespace AllTests.AcceptanceTests
 
             _bridge.SetUserRank(LegalUserName, 10);//max rank-can manage the league
 
-            Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName, 300));//the rank is not in range [0,10]
+            //Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName, 300));//the rank is not in range [0,10]
 
             _bridge.Register(LegalUserName + "1", LegalPass);//create new user
             Assert.AreNotEqual(300, _bridge.GetRank(LegalUserName + "1"));//checks if the rank is not 300
@@ -628,7 +604,7 @@ namespace AllTests.AcceptanceTests
 
             _bridge.SetUserRank(LegalUserName, 0);//min rank-can not manage the league
 
-            Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName, 10));
+            //Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName, 10));
             _bridge.Register(LegalUserName + "1", LegalPass);//create new user
             Assert.AreNotEqual(10, _bridge.GetRank(LegalUserName + "1"));//checks if the rank is not 10
 
@@ -650,7 +626,7 @@ namespace AllTests.AcceptanceTests
 
             _bridge.SetUserRank(LegalUserName, 10);//max rank-can manage the league
             var i = 'e';
-            Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName,i));
+            //Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName,i));
 
             Assert.IsFalse(_bridge.SetUserLeague(LegalUserName, LegalUserName + "1", i));
 
