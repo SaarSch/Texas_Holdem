@@ -161,6 +161,51 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+    public bool hasPlayer(string name)
+    {
+        foreach (Player p in players)
+        {
+            if (p.Name == name)
+                return true;
+        }
+        return false;
+    }
+
+    public void AddPlayer(Player p)
+    {
+        foreach(Player p1 in players)
+        {
+            if (p1.Name.Equals(p.Name))
+            {
+                Logger.Log(Severity.Exception, "cant join, player name is already exist");
+                throw new Exception("cant join, player name is already exist");
+            }
+        }
+        if (IsOn)
+        {
+            Logger.Log(Severity.Exception, "cant join, game is on");
+            throw new Exception("cant join, game is on");
+        }
+        if (p == null)
+        {
+            Logger.Log(Severity.Exception, "cant add a null player to the room");
+            throw new Exception("illegal Player");
+        }
+        if (players.Count > gamePreferences.maxPlayers)
+        {
+            Logger.Log(Severity.Exception, "room is full, cant add the player");
+            throw new Exception("room is full");
+        }
+        if (p.User.Rank < rank)
+        {
+            Logger.Log(Severity.Error, "player rank is too low to join");
+            throw new Exception("player rank is too low to join");
+        }
+        if (p.User.chipsAmount < gamePreferences.minBet || (p.User.chipsAmount < gamePreferences.chipPolicy && gamePreferences.chipPolicy > 0)|| p.User.chipsAmount<gamePreferences.buyInPolicy)
+        {
+            Logger.Log(Severity.Error, "player chips amount is too low to join");
+            throw new Exception("player chips amount is too low to join");
+        }
 
             if (GamePreferences.GetChipPolicy() == 0)
             {

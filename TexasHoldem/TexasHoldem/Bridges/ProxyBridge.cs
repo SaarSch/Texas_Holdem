@@ -69,30 +69,17 @@ namespace TexasHoldem.Bridges
             chipPolicy, minBet, minPlayers, maxPlayer, spectating);
         }
 
-        public bool IsGameExist(string gameName)
-        {
-            return _real == null || _real.IsGameExist(gameName);
-        }
 
-        public IList findGames(string username, string playerName, bool playerFlag, int potSize, bool potFlag,
-            string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers,
-            bool spectating, bool prefFlag, bool leagueFlag)
+        public IList findGames(string username, RoomFilter filter)
         {
             IList s;
-            if (_real != null)
-                s = _real.findGames(username, playerName, playerFlag, potSize, potFlag,
-                gameType, buyInPolicy, chipPolicy, minBet, minPlayers, maxPlayers,
-            spectating, prefFlag, leagueFlag);
+            if (real != null)
+                s = real.findGames(username, filter);
             else
             {
-                s = new List<string> {"Good Game Name"};
+                s = new List<string>();
+                s.Add("Good Game Name");
             }
-            return s;
-        }
-
-        public IList findGames(string username)
-        {
-            var s = _real != null ? _real.findGames(username) : new List<string> {"Good Game Name"};
             return s;
         }
 
