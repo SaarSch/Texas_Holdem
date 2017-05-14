@@ -40,18 +40,19 @@ namespace TexasHoldem.Game
         {
             if (Cards.Count < 1)
             {
-                Logger.Log(Severity.Exception, "Deck is empty cant draw card");
-                throw new Exception("Deck is empty");
+                var e = new Exception("Deck is empty, can't draw card");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
-            Card temp = Cards[0];
+            var temp = Cards[0];
             Cards.RemoveAt(0);
             return temp;
         }
 
-        public Boolean Contains(int value, CardType type)
+        public bool Contains(int value, CardType type)
         {
            
-            for(int i = 0; i < Cards.Count; i++)
+            for(var i = 0; i < Cards.Count; i++)
             {
                 if (Cards[i].Value == value && Cards[i].Type == type) return true;
             }

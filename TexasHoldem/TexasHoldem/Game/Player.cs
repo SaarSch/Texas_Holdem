@@ -1,4 +1,5 @@
 ﻿using System;
+using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
 
@@ -18,18 +19,8 @@ namespace TexasHoldem.Game
 
         public Player(string name, User user)
         {
-            if (name == null)
-            {
-                Logger.Log(Severity.Exception, "cant create player with null name");
-                throw new Exception("illegal player name");
-            }
-            if(user == null)
-            {
-                Logger.Log(Severity.Exception, "cant create player with null User");
-                throw new Exception("illegal User");
-            }
-            this.User = user;
-            this.Name = name;
+            User = user ?? throw new Exception("illegal User");
+            Name = name ?? throw new Exception("illegal player name");
             Logger.Log(Severity.Action, "new player created for user:"+User.GetUsername());
         }
 
@@ -37,8 +28,9 @@ namespace TexasHoldem.Game
         {
             if (first == null || second == null)
             {
-                Logger.Log(Severity.Exception, "cant put null cards int player hand");
-                throw new Exception("can't put null cards");
+                var e = new Exception("can't put null cards in player hand");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
             Hand[0] = first;
             Hand[1] = second;
@@ -49,8 +41,9 @@ namespace TexasHoldem.Game
         {
             if (amount < 0 || amount > ChipsAmount)
             {
-                Logger.Log(Severity.Error, "bet must be greater then zero and less-equal to player chips");
-                throw new Exception("illegael bet");
+                Exception e = new IllegalBetException("bet must be greater then zero and less - equal to player chips");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
             CurrentBet +=amount;
             ChipsAmount -= amount;

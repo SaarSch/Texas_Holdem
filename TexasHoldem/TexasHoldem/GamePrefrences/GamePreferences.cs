@@ -18,6 +18,10 @@ namespace TexasHoldem.GamePrefrences
         private int _minPlayers;
         private int _maxPlayers;
 
+        public const int MinBetValue = 2;
+        public const int MinPlayersValue = 2;
+        public const int MaxPlayersValue = 10;
+
         public Gametype GameType { get; set; }
         public int BuyInPolicy
         {
@@ -26,8 +30,9 @@ namespace TexasHoldem.GamePrefrences
             {
                 if (value < 0)
                 {
-                    Logger.Log(Severity.Error, "buy in policy can't be negative");
-                    throw new Exception("buy in policy can't be negative");
+                    var e = new Exception("buy in policy can't be negative");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 _buyInPolicy = value;
             }
@@ -39,13 +44,15 @@ namespace TexasHoldem.GamePrefrences
             {
                 if (value < 0)
                 {
-                    Logger.Log(Severity.Error, "Chip policy can't be negative");
-                    throw new Exception("Chip policy can't be negative");
+                    var e = new Exception("Chip policy can't be negative");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 if (_minBet > value && value > 0)
                 {
-                    Logger.Log(Severity.Error, "min bet can't be higher then chip policy");
-                    throw new Exception("min bet can't be higher then chip policy");
+                    var e = new Exception("min bet can't be higher then chip policy");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 _chipPolicy = value;
             }
@@ -55,15 +62,17 @@ namespace TexasHoldem.GamePrefrences
             get => _minBet;
             set
             {
-                if (value < 2)
+                if (value < MinBetValue)
                 {
-                    Logger.Log(Severity.Error, "Minimum bet can't be less then 2");
-                    throw new Exception("Minimum bet can't be less then 2");
+                    var e = new Exception("Minimum bet can't be less then 2");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 if (value > _chipPolicy && _chipPolicy > 0)
                 {
-                    Logger.Log(Severity.Error, "min bet can't be higher then chip policy");
-                    throw new Exception("min bet can't be higher then chip policy");
+                    var e = new Exception("min bet can't be higher then chip policy");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 _minBet = value;
             }
@@ -73,10 +82,11 @@ namespace TexasHoldem.GamePrefrences
             get => _minPlayers;
             set
             {
-                if (value < 2)
+                if (value < MinPlayersValue)
                 {
-                    Logger.Log(Severity.Error, "Minimum players can't be less then 2");
-                    throw new Exception("Minimum players can't be less then 2");
+                    var e = new Exception("Minimum players can't be less then 2");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 _minPlayers = value;
             }
@@ -86,10 +96,11 @@ namespace TexasHoldem.GamePrefrences
             get => _maxPlayers;
             set
             {
-                if (value > 10)
+                if (value > MaxPlayersValue)
                 {
-                    Logger.Log(Severity.Error, "Maximum players can't be more then 10");
-                    throw new Exception("Maximum players can't be more then 10");
+                    var e = new Exception("Maximum players can't be more then 10");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
                 }
                 _maxPlayers = value;
             }

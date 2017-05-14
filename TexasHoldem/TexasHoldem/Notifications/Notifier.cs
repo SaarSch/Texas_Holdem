@@ -15,8 +15,9 @@ namespace TexasHoldem.Notifications
         {
             if(msg == "")
             {
-                Logger.Log(Severity.Exception, "message is empty.");
-                throw new Exception("message is empty.");
+                var e = new Exception("message is empty.");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
             }
 
             var notif = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + msg;

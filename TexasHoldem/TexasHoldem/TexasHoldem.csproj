@@ -63,6 +63,9 @@
     <Compile Include="GameCenter.cs" />
     <Compile Include="GamePrefrences\GamePreferences.cs" />
     <Compile Include="Game\HandStrength.cs" />
+    <Compile Include="Exceptions\IllegalCardValueException.cs" />
+    <Compile Include="Exceptions\IllegalBetException.cs" />
+    <Compile Include="Exceptions\IllegalRoomNameException.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />
@@ -76,6 +79,9 @@
     <Compile Include="Services\GameManager.cs" />
     <Compile Include="Services\UserManager.cs" />
     <Compile Include="Services\ReplayManager.cs" />
+    <Compile Include="Exceptions\IllegalPasswordException.cs" />
+    <Compile Include="Exceptions\IllegalUsernameException.cs" />
+    <Compile Include="Exceptions\IllegalAvatarException.cs" />
     <Compile Include="Users\User.cs" />
   </ItemGroup>
   <ItemGroup>

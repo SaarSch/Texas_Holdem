@@ -1,4 +1,5 @@
 ﻿using System;
+using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 
 namespace TexasHoldem.Game
@@ -21,8 +22,9 @@ namespace TexasHoldem.Game
         {
             if (value < MinValue || value > MaxValue)
             {
-                Logger.Log(Severity.Error, "card value is illegal");
-                throw new Exception("card value is illegal");
+                Exception e = new IllegalCardValueException("card value is illegal");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
             }
 
             Value = value;

@@ -26,9 +26,10 @@ namespace TexasHoldem.Loggers
 
           if (msg == "")
           {
-              Log(Severity.Exception, "message is empty.");
-              throw new Exception("message is empty.");
-          }
+              var exception = new Exception("message is empty.");
+              Log(Severity.Exception, exception.Message);
+              throw exception;
+            }
 
           var a = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + msg;
           var e = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " +
