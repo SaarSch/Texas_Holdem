@@ -581,7 +581,7 @@ namespace AllTests.AcceptanceTests
             _bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer);
             _bridge.JoinGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
 
-            _bridge.SendWhisper(LegalRoomName, false, LegalPlayer, LegalPlayer + "1", "Hiiii!");
+            _bridge.SendWhisper(LegalRoomName, false, LegalPlayer, LegalUserName + "1", "Hiiii!");
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(1, messages.Count);
 
@@ -604,7 +604,7 @@ namespace AllTests.AcceptanceTests
             _bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer);
             _bridge.SpectateGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
 
-            _bridge.SendWhisper(LegalRoomName, false, LegalPlayer, LegalPlayer + "1", "Hiiii!");
+            _bridge.SendWhisper(LegalRoomName, false, LegalPlayer, LegalUserName + "1", "Hiiii!");
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(1, messages.Count);
 
@@ -650,15 +650,17 @@ namespace AllTests.AcceptanceTests
             //login and register 2 players
             _bridge.Register(LegalUserName, LegalPass);
             _bridge.Register(LegalUserName + "1", LegalPass);
+            _bridge.Register(LegalUserName + "2", LegalPass);
 
             _bridge.Login(LegalUserName, LegalPass);
             _bridge.Login(LegalUserName + "1", LegalPass);
+            _bridge.Login(LegalUserName + "2", LegalPass);
             //create and join to players to a game
             _bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer);
             _bridge.SpectateGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
             _bridge.SpectateGame(LegalUserName + "2", LegalRoomName, LegalPlayer + "2");
 
-            _bridge.SendWhisper(LegalRoomName, false, LegalUserName + "1", LegalUserName + "2", "Hiiii!");
+            _bridge.SendWhisper(LegalRoomName, true, LegalUserName + "1", LegalUserName + "2", "Hiiii!");
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "2");
             Assert.AreEqual(1, messages.Count);
 
@@ -738,7 +740,7 @@ namespace AllTests.AcceptanceTests
             _bridge.JoinGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
             _bridge.SpectateGame(LegalUserName + "2", LegalRoomName, LegalPlayer + "2");
 
-            _bridge.SendMessageToEveryone(LegalRoomName, false, LegalPlayer, "FUCK SHIT ^%^%#^$wegw^%et$");
+            _bridge.SendMessageToEveryone(LegalRoomName, false, LegalPlayer, "fuck SHIT ^%^%#^$wegw^%et$");
 
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(0, messages.Count);
