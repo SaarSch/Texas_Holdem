@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TexasHoldem.Game;
 using TexasHoldem.GamePrefrences;
+using TexasHoldem.Users;
 
 namespace TexasHoldem.Services
 {
@@ -9,11 +10,13 @@ namespace TexasHoldem.Services
     {
         private readonly GameCenter _gameCenter;
         private readonly MessageLogic _messageLogic;
+        private readonly UserLogic _userLogic;
 
         public GameManager()
         {
             _gameCenter = GameCenter.GetGameCenter();
             _messageLogic = new MessageLogic();
+            _userLogic = new UserLogic();
         }
 
         public Room RoomStatus(string roomName)
@@ -23,7 +26,7 @@ namespace TexasHoldem.Services
 
         public void SetLeagues()
         {
-            _gameCenter.SetLeagues();
+            _userLogic.SetLeagues(_gameCenter.Users);
         }
 
         public Room CreateGame(string gameName, string username, string creatorName) // UC 5
@@ -67,7 +70,7 @@ namespace TexasHoldem.Services
 
         public List<Room> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
         {
-            var context = _gameCenter.GetUser(username);
+            var context = _userLogic.GetUser(username, _gameCenter.Users);
 
             var predicates = new List<Predicate<Room>>();
 
@@ -137,17 +140,17 @@ namespace TexasHoldem.Services
 
         public void CalcLeague()
         {
-            _gameCenter.SetLeagues();
+            _userLogic.SetLeagues(_gameCenter.Users);
         }
 
         public Room PlayerWisper(string room, string playernameSender, string usernameReceiver, string message)
         {
-            return _messageLogic.PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _gameCenter.GetUser(usernameReceiver), _gameCenter.GetRoom(room));
+            return _messageLogic.PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
         public Room SpectatorWisper(string room, string usernameSender, string usernameReceiver, string message)
         {
-            return _messageLogic.SpectatorWisper(message, _gameCenter.GetUser(usernameSender), _gameCenter.GetUser(usernameReceiver), _gameCenter.GetRoom(room));
+            return _messageLogic.SpectatorWisper(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
         public Room PlayerSendMessege(string room, string playerNameSender, string message)
@@ -157,7 +160,7 @@ namespace TexasHoldem.Services
 
         public Room SpectatorsSendMessege(string room, string usernameSender, string message)
         {
-            return _messageLogic.SpectatorsSendMessege(message, _gameCenter.GetUser(usernameSender), _gameCenter.GetRoom(room));
+            return _messageLogic.SpectatorsSendMessege(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
         public bool RestartGameCenter()
@@ -165,7 +168,7 @@ namespace TexasHoldem.Services
             try
             {
                 _gameCenter.DeleteAllRooms();
-                _gameCenter.DeleteAllUsers();
+                _userLogic.DeleteAllUsers(_gameCenter.Users);
             }
             catch (Exception)
             {

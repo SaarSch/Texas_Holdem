@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Game;
 using TexasHoldem.GamePrefrences;
+using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.GameCenter
 {
@@ -10,21 +11,22 @@ namespace AllTests.UnitTests.GameCenter
     public class GameCenterTest
     {
         private readonly TexasHoldem.GameCenter _gc = TexasHoldem.GameCenter.GetGameCenter();
+        private readonly UserLogic _ul = new UserLogic();
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full()
         {
             for(var i = 0; i < 20; i++)
             {
-                _gc.Register("aaaaaaa" + i, "12345678");
-                _gc.GetUser("aaaaaaa" + i).Wins = i;
+                _ul.Register("aaaaaaa" + i, "12345678",_gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
-            _gc.SetLeagues();
+            _ul.SetLeagues(_gc.Users);
             for(var i = 0; i < 20; i++)
             {
-                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Floor((double)i / 2) + 1);
+                Assert.IsTrue(_ul.GetUser("aaaaaaa" + i, _gc.Users).League == Math.Floor((double)i / 2) + 1);
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
         }
 
         [TestMethod]
@@ -32,15 +34,15 @@ namespace AllTests.UnitTests.GameCenter
         {
             for (var i = 0; i < 60; i++)
             {
-                _gc.Register("aaaaaaa" + i, "12345678");
-                _gc.GetUser("aaaaaaa" + i).Wins = i;
+                _ul.Register("aaaaaaa" + i, "12345678", _gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
-            _gc.SetLeagues();
+            _ul.SetLeagues(_gc.Users);
             for (var i = 0; i < 60; i++)
             {
-                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Floor((double)i / 6) + 1);
+                Assert.IsTrue(_ul.GetUser("aaaaaaa" + i, _gc.Users).League == Math.Floor((double)i / 6) + 1);
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
         }
 
         [TestMethod]
@@ -48,15 +50,15 @@ namespace AllTests.UnitTests.GameCenter
         {
             for (var i = 0; i < 8; i++)
             {
-                _gc.Register("aaaaaaa" + i, "12345678");
-                _gc.GetUser("aaaaaaa" + i).Wins = i;
+                _ul.Register("aaaaaaa" + i, "12345678", _gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
-            _gc.SetLeagues();
+            _ul.SetLeagues(_gc.Users);
             for (var i = 0; i < 8; i++)
             {
-                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Floor((double)i / 2) + 7);
+                Assert.IsTrue(_ul.GetUser("aaaaaaa" + i, _gc.Users).League == Math.Floor((double)i / 2) + 7);
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
         }
 
         [TestMethod]
@@ -64,16 +66,16 @@ namespace AllTests.UnitTests.GameCenter
         {
             for (var i = 0; i < 21; i++)
             {
-                _gc.Register("aaaaaaa" + i, "12345678");
-                _gc.GetUser("aaaaaaa" + i).Wins = i;
+                _ul.Register("aaaaaaa" + i, "12345678", _gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
-            _gc.SetLeagues();
+            _ul.SetLeagues(_gc.Users);
             for (var i = 1; i < 21; i++)
             {
-                Assert.IsTrue(_gc.GetUser("aaaaaaa" + i).League == Math.Ceiling((double)i / 2));
+                Assert.IsTrue(_ul.GetUser("aaaaaaa" + i, _gc.Users).League == Math.Ceiling((double)i / 2));
             }
-            Assert.IsTrue(_gc.GetUser("aaaaaaa" + 0).League == 1);
-            _gc.DeleteAllUsers();
+            Assert.IsTrue(_ul.GetUser("aaaaaaa" + 0, _gc.Users).League == 1);
+            _ul.DeleteAllUsers(_gc.Users);
         }
 
 
@@ -83,13 +85,13 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("1234 5", "ssssssss");
+                _ul.Register("1234 5", "ssssssss", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsFalse(succ);
         }
 
@@ -99,13 +101,13 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("seanocheri", "sssssssss");
+                _ul.Register("seanocheri", "sssssssss", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsFalse(succ);
         }
 
@@ -115,13 +117,13 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("seanocheri", "123sean123");
+                _ul.Register("seanocheri", "123sean123", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -131,7 +133,7 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("example123", "123exm123");
+                _ul.Register("example123", "123exm123", _gc.Users);
             }
             catch
             {
@@ -139,13 +141,13 @@ namespace AllTests.UnitTests.GameCenter
             }
             try
             {
-                _gc.Register("example123", "123exm123");
+                _ul.Register("example123", "123exm123", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsFalse(succ);
         }
 
@@ -155,14 +157,14 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("seanocheri", "123sean123");
-                _gc.Login("seanocheri", "123sean143");
+                _ul.Register("seanocheri", "123sean123", _gc.Users);
+                _ul.Login("seanocheri", "123sean143", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsFalse(succ);
         }
 
@@ -172,14 +174,14 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("login123", "123exm123");
-                _gc.Login("login123", "123exm123");
+                _ul.Register("login123", "123exm123", _gc.Users);
+                _ul.Login("login123", "123exm123", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -189,15 +191,15 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Logout("login1234");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Logout("login1234", _gc.Users);
             }
             catch
             {
                 succ = false;
             }
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -206,13 +208,13 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                _gc.Login("seanoch123", "seanoch123");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Register("seanoch123", "seanoch123", _gc.Users);
+                _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
@@ -227,7 +229,7 @@ namespace AllTests.UnitTests.GameCenter
                 // ignored
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -236,13 +238,13 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                _gc.Login("seanoch123", "seanoch123");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Register("seanoch123", "seanoch123", _gc.Users);
+                _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 IPreferences gp = new GamePreferences();
                 gp = new ModifiedBuyInPolicy(0, gp);
@@ -259,7 +261,7 @@ namespace AllTests.UnitTests.GameCenter
                 succ = true;
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -268,13 +270,13 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                _gc.Login("seanoch123", "seanoch123");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Register("seanoch123", "seanoch123", _gc.Users);
+                _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
@@ -290,7 +292,7 @@ namespace AllTests.UnitTests.GameCenter
                 // ignored
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -299,13 +301,13 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                _gc.Login("seanoch123", "seanoch123");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Register("seanoch123", "seanoch123", _gc.Users);
+                _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
@@ -321,7 +323,7 @@ namespace AllTests.UnitTests.GameCenter
                 // ignored
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -330,12 +332,12 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
                 var before = false;
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 IPreferences gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "login1234", "player1", gp);
@@ -350,7 +352,7 @@ namespace AllTests.UnitTests.GameCenter
                 // ignored
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -359,13 +361,13 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                _gc.Login("seanoch123", "seanoch123");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Register("seanoch123", "seanoch123", _gc.Users);
+                _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 //1 0 4 2 8
                 IPreferences gp = new GamePreferences();
@@ -393,7 +395,7 @@ namespace AllTests.UnitTests.GameCenter
                 // ignored
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
 
@@ -403,13 +405,13 @@ namespace AllTests.UnitTests.GameCenter
         {
             var succ = false;
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             try
             {
-                _gc.Register("login1234", "123exm1234");
-                _gc.Login("login1234", "123exm1234");
-                _gc.Register("seanoch123", "seanoch123");
-                _gc.Login("seanoch123", "seanoch123");
+                _ul.Register("login1234", "123exm1234", _gc.Users);
+                _ul.Login("login1234", "123exm1234", _gc.Users);
+                _ul.Register("seanoch123", "seanoch123", _gc.Users);
+                _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 10, 5, 3, 4, true
                 //1 0 4 2 8
                 IPreferences gp = new GamePreferences();
@@ -432,7 +434,7 @@ namespace AllTests.UnitTests.GameCenter
                 // ignored
             }
             _gc.DeleteAllRooms();
-            _gc.DeleteAllUsers();
+            _ul.DeleteAllUsers(_gc.Users);
             Assert.IsTrue(succ);
         }
     }
