@@ -219,5 +219,10 @@ namespace Client
         {
             GameTypeCombobox.IsEnabled = !GameTypeCombobox.IsEnabled;
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
