@@ -63,9 +63,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\Player.cs" />
     <Compile Include="Data\Room.cs" />
     <Compile Include="Data\RoomFilter.cs" />
     <Compile Include="Data\RoomList.cs" />
+    <Compile Include="Data\RoomState.cs" />
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>

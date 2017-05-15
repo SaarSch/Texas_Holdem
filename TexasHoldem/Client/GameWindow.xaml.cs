@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.Data;
 
 namespace Client
 {
@@ -19,9 +20,12 @@ namespace Client
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow()
+        private RoomState State;
+
+        public GameWindow(RoomState state)
         {
             InitializeComponent();
+            this.State = state;
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

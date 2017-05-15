@@ -223,9 +223,101 @@ namespace Client
             GameTypeCombobox.IsEnabled = !GameTypeCombobox.IsEnabled;
         }
 
+        private Room SetRoom()
+        {
+            Room room = new Room();
+            room.CreatorUserName = loggedUser.Username;
+            room.CreatorPlayerName = PlayerNameTxt_Copy.Text;
+            room.GameType = GameTypeCombobox_Copy.Text;
+            try
+            {
+                int buy = Int32.Parse(BuyinPolicyTxt_Copy.Text);
+                room.BuyInPolicy = buy;
+            }
+            catch
+            {
+                MessageBox.Show("Buy in policy must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int chip = Int32.Parse(ChipPolicyTxt_Copy.Text);
+                room.ChipPolicy = chip;
+            }
+            catch
+            {
+                MessageBox.Show("Chip policy must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int minB = Int32.Parse(MinBetTxt_Copy.Text);
+                room.MinBet = minB;
+            }
+            catch
+            {
+                MessageBox.Show("Minimum bet must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int minP = Int32.Parse(MinPlayersTxt_Copy.Text);
+                room.MinPlayers = minP;
+            }
+            catch
+            {
+                MessageBox.Show("Minimum number of players must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int maxP = Int32.Parse(MaxPlayersTxt_Copy.Text);
+                room.MaxPlayers = maxP;
+            }
+            catch
+            {
+                MessageBox.Show("Maximum number of players must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+
+            bool cond = SpectatingCombobox_Copy.Text == "Yes";
+            room.SpectatingAllowed = cond;
+
+            room.RoomName = RoomNameTxt.Text;
+
+            return room;
+        }
+
         private void newRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            Room room = SetRoom();
 
+            if (room == null)
+                return;
+
+            string controller = "Room";
+            string data = new JavaScriptSerializer().Serialize(room);
+
+            string ans = RestClient.MakePostRequest(controller, data);
+            JObject json = JObject.Parse(ans);
+            RoomState roomState = json.ToObject<RoomState>();
+            if (roomState.Messege == null)
+            {
+                MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                GameWindow gameWindow = new GameWindow(roomState);
+                App.Current.MainWindow = gameWindow;
+                //this.Close();
+                gameWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show(roomState.Messege, "Error in creation", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
