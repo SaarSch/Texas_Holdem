@@ -435,7 +435,7 @@ namespace AllTests.AcceptanceTests
             _bridge.CreateNewGame("Good Game Name564", LegalUserName, LegalPlayer);
             _bridge.CreateNewGame("Game Not In Rank", LegalUserName, LegalPlayer);
 
-            var rf = new RoomFilter {LeagueOnly = true};
+            var rf = new RoomFilter {LeagueOnly = true , GameType = "NoLimit", BuyInPolicy = 1, ChipPolicy = 0, MinBet = 4, MinPlayers = 2, SepctatingAllowed = true};
             var activeGames = _bridge.FindGames(LegalUserName, rf);
 
             Assert.IsTrue(activeGames.Contains("Good Game Name564"));

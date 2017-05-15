@@ -87,6 +87,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -94,6 +95,7 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\RoomFilter.cs" />
+    <Compile Include="Models\RoomList.cs" />
     <Compile Include="Models\RoomState.cs" />
     <Compile Include="Models\Spectator.cs" />
     <Compile Include="Models\UserData.cs" />

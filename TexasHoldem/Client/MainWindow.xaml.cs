@@ -48,20 +48,20 @@ namespace Client
         {
             PotSizeTxt.IsEnabled = !PotSizeTxt.IsEnabled;
         }
-
+        //Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
         private string SetFilter()
         {
-            string filter = "{\"user\":\"" + loggedUser.Username+"\"";
+            string filter = "{\"User\":\"" + loggedUser.Username+"\"";
             if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value == true)
             {
-                filter += ",\"player_name\":\"" + PlayerNameTxt.Text+"\"";
+                filter += ",\"PlayerName\":\"" + PlayerNameTxt.Text+"\"";
             }
             if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value == true)
             {
                 try
                 {
                     int pot = Int32.Parse(PotSizeTxt.Text);
-                    filter += ",\"player_name\":" + pot + "";
+                    filter += ",\"PlayerName\":" + pot + "";
                 }
                 catch
                 {
@@ -71,18 +71,18 @@ namespace Client
             }
             if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value == true)
             {
-                filter += ",\"league_only\":" + 1;
+                filter += ",\"LeagueOnly\":" + 1;
             }
             if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value == true)
             {
-                filter += ",\"game_type\":\"" + GameTypeCombobox.Text + "\"";
+                filter += ",\"GameType\":\"" + GameTypeCombobox.Text + "\"";
             }
             if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value == true)
             {
                 try
                 {
                     int buy = Int32.Parse(BuyinPolicyTxt.Text);
-                    filter += ",\"buy_in_policy\":" + buy + "";
+                    filter += ",\"BuyInPolicy\":" + buy + "";
                 }
                 catch
                 {
@@ -95,7 +95,7 @@ namespace Client
                 try
                 {
                     int chip = Int32.Parse(ChipPolicyTxt.Text);
-                    filter += ",\"chip_policy\":" + chip + "";
+                    filter += ",\"ChipPolicy\":" + chip + "";
                 }
                 catch
                 {
@@ -108,7 +108,7 @@ namespace Client
                 try
                 {
                     int minB = Int32.Parse(MinBetTxt.Text);
-                    filter += ",\"min_bet\":" + minB + "";
+                    filter += ",\"MinBet\":" + minB + "";
                 }
                 catch
                 {
@@ -121,7 +121,7 @@ namespace Client
                 try
                 {
                     int minP = Int32.Parse(MinPlayersTxt.Text);
-                    filter += ",\"min_players\":" + minP + "";
+                    filter += ",\"MinPlayers\":" + minP + "";
                 }
                 catch
                 {
@@ -134,7 +134,7 @@ namespace Client
                 try
                 {
                     int maxP = Int32.Parse(MaxPlayersTxt.Text);
-                    filter += ",\"max_players\":" + maxP + "";
+                    filter += ",\"MaxPlayers\":" + maxP + "";
                 }
                 catch
                 {
@@ -147,7 +147,7 @@ namespace Client
                 int cond = 0;
                 if (SpectatingCombobox.Text == "Yes")
                     cond = 1;
-                filter += ",\"sepctating_allowed\":" + cond + "";
+                filter += ",\"SepctatingAllowed\":" + cond + "";
             }
             filter += "}";
             return filter;
@@ -163,14 +163,15 @@ namespace Client
             string ans = RestClient.MakePostRequest(filter);
             JObject json = JObject.Parse(ans);
             RoomList roomList = json.ToObject<RoomList>();
-            if (roomList.message == null)
+            if (roomList.Message == null)
             {
-                roomResults = roomList.rooms.ToList();
+                roomResults = roomList.Rooms.ToList();
                 RoomsGrid.ItemsSource = roomResults;
                 RoomsGrid.Items.Refresh();
             }
             else
             {
+                MessageBox.Show("No rooms to show", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
                 roomResults.Clear();
                 RoomsGrid.ItemsSource = roomResults;
                 RoomsGrid.Items.Refresh();
@@ -218,6 +219,11 @@ namespace Client
         private void GameTypeCheckbox_Checked(object sender, RoutedEventArgs e)
         {
             GameTypeCombobox.IsEnabled = !GameTypeCombobox.IsEnabled;
+        }
+
+        private void newRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
