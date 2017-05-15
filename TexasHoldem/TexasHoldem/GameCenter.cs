@@ -393,49 +393,6 @@ namespace TexasHoldem
             return room;
         }
 
-        public void SetExpCriteria(string username, int exp)
-        {
-            var context = GetLoggedInUser(username);
-
-            if (context.League != MaxRank)
-            {
-                Exception e = new IllegalCriteriaException("ERROR in SetExpCriteria: Only highest rank users can update the EXP criteria!");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            if (exp < MinCriteria || exp > MaxCriteria)
-            {
-                var e = new IllegalCriteriaException("ERROR in SetDefaultRank: EXP criteria must be an integer in [5,20]!");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            ExpCriteria = exp;
-            Logger.Log(Severity.Action, username + " changed the EXP criteria to " + exp + "!");
-        }
-
-        public void SetUserRank(string username, string usernameToSet, int rank)
-        {
-            var context = GetLoggedInUser(username);
-
-            if (context.League != MaxRank)
-            {
-                var e = new Exception("ERROR in SetUserRank: Only highest rank users can set other users' rank!");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            if (rank < MinRank || rank > MaxRank)
-            {
-                var e = new Exception("ERROR in SetUserRank: Default rank must be an integer in [0,10]!");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            var toSetRank = GetUser(usernameToSet);
-            toSetRank.League = rank;
-            toSetRank = GetUser(usernameToSet);
-            toSetRank.League = rank;
-            Logger.Log(Severity.Action, username + " changed the rank of " + usernameToSet + " to " + rank + "!");
-        }
-
         public void DeleteRoom(string roomName)
         {
             for (var i = 0; i < Rooms.Count; i++)
