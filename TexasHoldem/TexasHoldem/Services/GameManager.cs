@@ -138,24 +138,24 @@ namespace TexasHoldem.Services
             _gameCenter.SetLeagues();
         }
 
-        public Room PlayerWisper(string room, string username_sender, string username_reciver, string message)
+        public Room PlayerWisper(string room, string playernameSender, string usernameReceiver, string message)
         {
-            return _gameCenter.GetRoom(room).PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(username_sender), _gameCenter.GetUser(username_reciver));
+            return _gameCenter.GetRoom(room).PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _gameCenter.GetUser(usernameReceiver));
         }
 
-        public Room SpectatorWisper(string room, string username_sender, string username_reciver, string message)
+        public Room SpectatorWisper(string room, string usernameSender, string usernameReceiver, string message)
         {
-            return _gameCenter.GetRoom(room).SpectatorWisper(message, _gameCenter.GetUser(username_sender), _gameCenter.GetUser(username_reciver));
+            return _gameCenter.GetRoom(room).SpectatorWisper(message, _gameCenter.GetUser(usernameSender), _gameCenter.GetUser(usernameReceiver));
         }
 
-        public Room PlayerSendMessege(string room, string username_sender, string message)
+        public Room PlayerSendMessege(string room, string playerNameSender, string message)
         {
-            return _gameCenter.GetRoom(room).PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(username_sender));
+            return _gameCenter.GetRoom(room).PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender));
         }
 
-        public Room SpectatorsSendMessege(string room, string username_sender, string message)
+        public Room SpectatorsSendMessege(string room, string usernameSender, string message)
         {
-            return _gameCenter.GetRoom(room).SpectatorsSendMessege(message, _gameCenter.GetUser(username_sender));
+            return _gameCenter.GetRoom(room).SpectatorsSendMessege(message, _gameCenter.GetUser(usernameSender));
         }
 
         public bool RestartGameCenter()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.Users;
 
 namespace TexasHoldem.Services
@@ -76,6 +77,11 @@ namespace TexasHoldem.Services
         public int GetRank(string userName)
         {
            return _gameCenter.GetUser(userName).League;
+        }
+
+        public List<string> GetMessages(string username, string roomName)
+        {
+            return _gameCenter.GetMessages(username, roomName);
         }
     }
 }

@@ -598,6 +598,11 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, "cant send null mesege");
                 throw new Exception("cant send null message");
             }
+            if (!checkMessageValidity(message))
+            {
+                Logger.Log(Severity.Error, "cant send empty message / curses");
+                throw new Exception("cant send empty message / curses");
+            }
             if (sender is null)
             {
                 Logger.Log(Severity.Error, "sender cant be null");
@@ -615,12 +620,23 @@ namespace TexasHoldem.Game
             return this;
         }
 
+        private bool checkMessageValidity(string message)
+        {
+            Regex wordFilter = new Regex("(fuck|shit|pussy)");
+            return message != "" && !wordFilter.IsMatch(message);
+        }
+
         public Room SpectatorsSendMessege(string message, User sender)
         {
             if (message is null)
             {
                 Logger.Log(Severity.Error, "cant send null mesege");
                 throw new Exception("cant send null message");
+            }
+            if (!checkMessageValidity(message))
+            {
+                Logger.Log(Severity.Error, "cant send empty message / curses");
+                throw new Exception("cant send empty message / curses");
             }
             if (sender is null)
             {
@@ -645,6 +661,11 @@ namespace TexasHoldem.Game
             {
                 Logger.Log(Severity.Error, "cant send null mesege");
                 throw new Exception("cant send null message");
+            }
+            if (!checkMessageValidity(message))
+            {
+                Logger.Log(Severity.Error, "cant send empty message / curses");
+                throw new Exception("cant send empty message / curses");
             }
             if (sender is null)
             {
@@ -678,6 +699,11 @@ namespace TexasHoldem.Game
             {
                 Logger.Log(Severity.Error, "cant send null mesege");
                 throw new Exception("cant send null message");
+            }
+            if (!checkMessageValidity(message))
+            {
+                Logger.Log(Severity.Error, "cant send empty message / curses");
+                throw new Exception("cant send empty message / curses");
             }
             if (sender is null)
             {

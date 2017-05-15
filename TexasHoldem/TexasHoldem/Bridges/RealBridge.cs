@@ -271,11 +271,11 @@ namespace TexasHoldem.Bridges
             {
                 if (isSpectator)
                 {
-                    _gameManager.SpectatorsSendMessege(roomName, senderPlayerName, senderPlayerName, message); // TODO: remove second sender, just for compiling
+                    _gameManager.SpectatorsSendMessege(roomName, senderPlayerName, message);
                 }
                 else
                 {
-                    _gameManager.PlayerSendMessege(roomName, senderPlayerName, senderPlayerName, message); // TODO: remove second sender, just for compiling
+                    _gameManager.PlayerSendMessege(roomName, senderPlayerName, message);
                 }
             }
             catch (Exception)
@@ -303,6 +303,11 @@ namespace TexasHoldem.Bridges
                 return false;
             }
             return true;
+        }
+
+        public IList GetMessages(string roomName, string username)
+        {
+            return _userManager.GetMessages(username, roomName);
         }
 
         public bool RestartGameCenter()

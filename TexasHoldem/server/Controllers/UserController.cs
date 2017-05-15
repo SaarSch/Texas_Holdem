@@ -59,9 +59,6 @@ namespace server.Controllers
                     case "delete":
                         WebApiConfig.UserManger.DeleteUser(username, passwordOrRank);
                         break;
-                    case "changerank":
-                        WebApiConfig.UserManger.ChangeRank(username,Int32.Parse(passwordOrRank) );
-                        break;
                     case "register":
                         WebApiConfig.UserManger.Register(username, passwordOrRank);
                         break;

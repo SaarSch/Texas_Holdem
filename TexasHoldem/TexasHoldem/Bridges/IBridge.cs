@@ -28,6 +28,7 @@ namespace TexasHoldem.Bridges
 
         bool SendMessageToEveryone(string roomName, bool isSpectator, string senderPlayerName, string message);
         bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message);
+        IList GetMessages(string roomName, string username);
 
         bool RestartGameCenter();
 
