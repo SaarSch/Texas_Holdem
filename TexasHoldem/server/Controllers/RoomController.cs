@@ -1,12 +1,32 @@
 ﻿using server.Models;
 using System;
 using System.Web.Http;
+using TexasHoldem.GameCenterHelpers;
+using TexasHoldem.Users;
 using Room = TexasHoldem.Game.Room;
 
 namespace server.Controllers
 {
     public class RoomController : ApiController
     {
+        // Put: /api/Room?game_name=moshe&player_name=kaki
+        public RoomState PUT(String gameName, String playerName) //get current status
+        {
+            Room r = null;
+            var ans = new RoomState();
+            try
+            {
+                r = WebApiConfig.GameManger.RoomStatus(gameName);
+            }
+            catch (Exception e)
+            {
+                ans.Messege = e.Message;
+            }
+            if (r != null) CreateRoomState(playerName, r, ans);
+            return ans;
+        }
+
+
         // GET: /api/Room?game_name=moshe&player_name=kaki
         public RoomState GET(String gameName, String playerName) //start game
         {
@@ -116,10 +136,16 @@ namespace server.Controllers
 
         }
 
-        private void CreateRoomState(string player, Room r, RoomState ans)
+        static public void CreateRoomState(string player, Room r, RoomState ans)
         {
             try
             {
+                bool spectator = false;
+                foreach (User u in r.SpectateUsers)
+                {
+                    if (u.GetUsername() == player) spectator = true;
+                }
+
                 ans.RoomName = r.Name;
                 ans.IsOn = r.IsOn;
                 ans.Pot = r.Pot;
@@ -142,15 +168,56 @@ namespace server.Controllers
                         Avatar = p.User.GetAvatar(),
                         PlayerHand = new string[2]
                     };
-                    if (player == p.Name)
+                    if (player == p.Name&&r.IsOn)
                     {
                         if (p.Hand[0] != null) p1.PlayerHand[0] = p.Hand[0].ToString();
                         if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
+                        foreach (Pair<string, string> pa in p.User.Notifications)
+                        {
+                            if (pa.First == r.Name)
+                            {
+                                p1.messages.Add(pa.Second);
+                            }
+                        }
+                    }
+                    else if(!r.IsOn)
+                    {
+                        if (p.Hand[0] != null) p1.PlayerHand[0] = p.Hand[0].ToString();
+                        if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
+                        if(player == p.Name)
+                        {
+                            foreach (Pair<string, string> pa in p.User.Notifications)
+                            {
+                                if (pa.First == r.Name)
+                                {
+                                    p1.messages.Add(pa.Second);
+                                }
+                            }
+                        }
                     }
                     ans.AllPlayers[j] = p1;
                     j++;
+                }   
+                
+                ans.spectators = new UserData[r.SpectateUsers.Count];
+                var u1 = new UserData();
+                foreach(User u in r.SpectateUsers)
+                {
+                    u1.Username = u.GetUsername();
+                    if (spectator&& player==u.GetUsername())
+                    {     
+                        foreach (Pair<string, string> pa in u.Notifications)
+                        {
+                            if (pa.First == r.Name)
+                            {
+                                u1.messages.Add(pa.Second);
+                            }
+                        }
+                    }
                 }
+
             }
+
 
             catch (Exception e)
             {

@@ -19,12 +19,12 @@ namespace AllTests.UnitTests.Notifications
             var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
             var users = new List<User> {yossi, kobi};
 
-            _notifier.Notify(users, message);
+            _notifier.Notify(users,"a", message);
 
             foreach (var u in users)
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
-                    u.Notifications[0]);
+                    u.Notifications[0].Second);
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace AllTests.UnitTests.Notifications
 
             try
             {
-                _notifier.Notify(users, message2);
+                _notifier.Notify(users,"a", message2);
                 Assert.Fail(); // If it gets to this line, no exception was thrown
             }
             catch (Exception)

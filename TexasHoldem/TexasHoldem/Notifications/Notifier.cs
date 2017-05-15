@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.GameCenterHelpers;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
 
@@ -11,7 +12,7 @@ namespace TexasHoldem.Notifications
         private Notifier() { }
         public static Notifier Instance => _instance ?? (_instance = new Notifier());
 
-        public void Notify(List<User> users, string msg)
+        public void Notify(List<User> users, string room, string msg)
         {
             if(msg == "")
             {
@@ -24,7 +25,7 @@ namespace TexasHoldem.Notifications
 
             foreach (var u in users)
             {
-                u.AddNotification(notif);
+                u.AddNotification(room ,notif);
             }
         }
     }

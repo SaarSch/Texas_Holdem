@@ -1,31 +1,21 @@
 12-May-17 18:04: Error: ERROR: Illegal username!Length must be between 8 and 12.
 12-May-17 18:04: Error: ERROR: Illegal password! Length must be between 8 and 12.
 12-May-17 18:04: Error: ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.
-5/15/2017 16:18: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:22: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:27: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:27: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!
-5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:32: Error: ERROR in Register: Username already exists!
-5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:34: Error: ERROR in Login: Username does not exist!
+15/05/2017 14:35: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:04: Exception: min bet can't be higher then chip policy
+15/05/2017 18:04: Error: ERROR in Edit Profile: This user doesn't exist.
+15/05/2017 18:24: Error: ERROR in GetUser: This User doesn't exist.
+15/05/2017 18:28: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:28: Error: ERROR in GetUser: This User doesn't exist.
+15/05/2017 18:28: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:28: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:29: Error: ERROR in GetUser: This User doesn't exist.
+15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
+15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
+15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
+15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
+15/05/2017 18:31: Error: Illegal password! Length must be between 8 and 12.
+15/05/2017 18:32: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:34: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+15/05/2017 18:39: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:40: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
