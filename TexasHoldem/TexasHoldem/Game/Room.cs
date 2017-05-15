@@ -556,19 +556,7 @@ namespace TexasHoldem.Game
 
         public void CalcWinnersChips()
         {
-            if (CommunityCards[4] == null)
-            {
-                var e = new Exception("game is not over");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-            if (!IsOn)
-            {
-                var e = new Exception("The game has not yet started");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-
+ 
             var winners = Winners();
 
             Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
@@ -600,10 +588,10 @@ namespace TexasHoldem.Game
 
             foreach (var p in Players) roomUsers.Add(p.User);
             roomUsers.AddRange(SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, message);
+            Notifier.Instance.Notify(roomUsers, this.Name, message);
         }
 
-        public void PlayerSendMessege(string message, Player sender)
+        public Room PlayerSendMessege(string message, Player sender)
         {
             if (message is null)
             {
@@ -623,10 +611,11 @@ namespace TexasHoldem.Game
             var roomUsers = new List<User>();
             foreach (var p in Players) roomUsers.Add(p.User);
             roomUsers.AddRange(SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, sender.Name + ": "+message);
+            Notifier.Instance.Notify(roomUsers, Name," "+sender.Name + ": "+message);
+            return this;
         }
 
-        public void SpectatorsSendMessege(string message, User sender)
+        public Room SpectatorsSendMessege(string message, User sender)
         {
             if (message is null)
             {
@@ -645,11 +634,12 @@ namespace TexasHoldem.Game
             }
             var roomUsers = new List<User>();
             roomUsers.AddRange(SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, sender.GetUsername()+": "+message);
+            Notifier.Instance.Notify(roomUsers, Name, sender.GetUsername()+": "+message);
+            return this;
         }
 
 
-        public void SpectatorWisper(string message, User sender, User reciver)
+        public Room SpectatorWisper(string message, User sender, User reciver)
         {
             if (message is null)
             {
@@ -678,10 +668,11 @@ namespace TexasHoldem.Game
             }
             var roomUsers = new List<User>();
             roomUsers.Add(reciver);
-            Notifier.Instance.Notify(roomUsers, sender.GetUsername() + ": "+message);
+            Notifier.Instance.Notify(roomUsers, Name, sender.GetUsername() + ": "+message);
+            return this;
         }
 
-        public void PlayerWisper(string message, Player sender, User reciver)
+        public Room PlayerWisper(string message, Player sender, User reciver)
         {
             if (message is null)
             {
@@ -710,7 +701,8 @@ namespace TexasHoldem.Game
             }
             var roomUsers = new List<User>();
             roomUsers.Add(reciver);
-            Notifier.Instance.Notify(roomUsers, sender.Name+": "+message);
+            Notifier.Instance.Notify(roomUsers, Name, sender.Name+": "+message);
+            return this;
         }
 
         private bool IsUserIsPlayer(User u)

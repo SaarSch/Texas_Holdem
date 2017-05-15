@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
+using TexasHoldem.GameCenterHelpers;
 using TexasHoldem.Loggers;
 
 namespace TexasHoldem.Users
@@ -13,7 +14,7 @@ namespace TexasHoldem.Users
         private string _avatarPath;
         private string _email;
 
-        public List<string> Notifications { get; set; }
+        public List<Pair<string,string>> Notifications { get; set; }
         public int League=-1;
         public int Wins;
         public int ChipsAmount;
@@ -30,28 +31,34 @@ namespace TexasHoldem.Users
             SetPassword(password);
             SetAvatar(avatarPath);
             SetEmail(email);
-            Notifications = new List<string>();
+            Notifications = new List<Pair<string, string>>();
             ChipsAmount = chipsAmount;
         }
 
-        public void AddNotification(string notif)
+        public void AddNotification(string Room, string notif)
         {
             if (notif == "")
             {
                 throw new Exception("notification is empty.");
             }
 
-            Notifications.Add(notif);
+            Notifications.Add(new Pair<string, string>(Room,notif));
         }
 
-        public void RemoveNotification(string notif)
+        public void RemoveNotification(string Room, string notif)
         {
             if (notif == "")
             {
                 throw new Exception("notification is empty.");
             }
+            Pair<string, string> p = null;
+            foreach (Pair<string, string> p1 in Notifications)
+            {
+                if (p1.First == Room && p1.Second == notif)
+                    p = p1;
+            }
 
-            Notifications.Remove(notif);
+            Notifications.Remove(p);
         }
 
         public void SetPassword(string password)
@@ -99,7 +106,7 @@ namespace TexasHoldem.Users
         {
             if (username.Length > PasswordLengthMax || username.Length < PasswordLengthMin)
             {
-                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Exception e = new IllegalPasswordException("Illegal UserName! Length must be between 8 and 12.");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }

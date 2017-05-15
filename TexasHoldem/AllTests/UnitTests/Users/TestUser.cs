@@ -15,9 +15,9 @@ namespace AllTests.UnitTests.Users
         [TestMethod]
         public void AddNotification_AddOneNotification_QueueGotBigger()
         {
-            _yossi.AddNotification(Notif);
+            _yossi.AddNotification("aa",Notif);
             Assert.AreEqual(1, _yossi.Notifications.Count);
-            _yossi.RemoveNotification(Notif);
+            _yossi.RemoveNotification("aa",Notif);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace AllTests.UnitTests.Users
         {
             try
             {
-                _yossi.AddNotification(Notif2);
+                _yossi.AddNotification("a",Notif2);
                 Assert.Fail(); // If it gets to this line, no exception was thrown
             }
             catch (Exception)
@@ -37,8 +37,8 @@ namespace AllTests.UnitTests.Users
         [TestMethod]
         public void RemoveNotification_DeleteOneNotification_QueueGotSmaller()
         {
-            _kobi.AddNotification(Notif);
-            _kobi.RemoveNotification(Notif);
+            _kobi.AddNotification("a",Notif);
+            _kobi.RemoveNotification("a",Notif);
             Assert.AreEqual(0, _yossi.Notifications.Count);
         }
 
@@ -47,7 +47,7 @@ namespace AllTests.UnitTests.Users
         {
             try
             {
-                _yossi.RemoveNotification(Notif2);
+                _yossi.RemoveNotification("a",Notif2);
                 Assert.Fail(); // If it gets to this line, no exception was thrown
             }
             catch (Exception)

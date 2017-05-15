@@ -75,7 +75,7 @@ namespace server.Controllers
             }
             return "";
         }
-        // login -->POST: api/Login
+        // login -->POST: api/User
         public UserData Post([FromBody]UserData value)
         {
             var ret = new UserData();
@@ -97,7 +97,7 @@ namespace server.Controllers
 
             return ret;
         }
-        //editUser --> POST: api/Login?username=elad
+        //editUser --> POST: api/User?username=elad
         public string Post([FromBody]UserData value, string username)
         {
             try
