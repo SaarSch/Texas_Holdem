@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Game;
 using TexasHoldem.GameCenterHelpers;
@@ -461,5 +462,15 @@ namespace TexasHoldem
             return GetRoom(roomName).GameReplay;
         }
 
+        public List<string> GetMessages(string username, string roomName)
+        {
+            List<Pair<string, string>> list = GetUser(username).Notifications.FindAll(pair => pair.First == roomName);
+            List<string> ans = new List<string>();
+            foreach (var pair in list)
+            {
+                ans.Add(pair.Second);
+            }
+            return ans;
+        }
     }
 }

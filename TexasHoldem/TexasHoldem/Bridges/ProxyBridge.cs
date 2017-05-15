@@ -127,6 +127,12 @@ namespace TexasHoldem.Bridges
             return _real == null || _real.SendWhisper(roomName, isSpectator, senderPlayerName, receiverPlayerName, message);
         }
 
+        public IList GetMessages(string roomName, string username)
+        {
+            var s = _real != null ? _real.GetMessages(roomName, username) : new List<string>();
+            return s;
+        }
+
         public bool RestartGameCenter()
         {
             return _real == null || _real.RestartGameCenter();
