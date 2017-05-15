@@ -493,6 +493,16 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap background_of_playing_cards {
+            get {
+                object obj = ResourceManager.GetObject("background_of_playing_cards", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap black_joker {
             get {
                 object obj = ResourceManager.GetObject("black_joker", resourceCulture);
