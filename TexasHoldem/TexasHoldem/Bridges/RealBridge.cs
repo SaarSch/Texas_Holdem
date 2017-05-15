@@ -265,32 +265,6 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool SetExpCriteria(string username, int exp)
-        {
-            try
-            {
-                _gameManager.SetExpCriteria(username, exp);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool SetUserLeague(string username, string usernameToSet, int rank)
-        {
-            try
-            {
-                _gameManager.SetUserLeague(username, usernameToSet, rank);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public bool RestartGameCenter()
         {
             return _gameManager.RestartGameCenter();
@@ -320,11 +294,6 @@ namespace TexasHoldem.Bridges
                 return false;
             }
             return true;
-        }
-
-        public void SetUserRank(string legalUserName, int newrank)
-        {
-            _userManager.ChangeRank(legalUserName, newrank);
         }
     }
 }
