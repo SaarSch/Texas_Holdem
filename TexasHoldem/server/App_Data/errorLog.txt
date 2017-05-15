@@ -17,3 +17,5 @@
 15/05/2017 18:31: Error: Illegal password! Length must be between 8 and 12.
 15/05/2017 18:32: Error: ERROR in Login: Username does not exist!
 15/05/2017 18:34: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+15/05/2017 18:39: Error: ERROR in Login: Username does not exist!
+15/05/2017 18:40: Error: Error in GetRoom: Room aaaaa11 doesn't exist!

@@ -3,3 +3,8 @@
 15/05/2017 18:32: Registration completed successfully!
 15/05/2017 18:32: shacahr3210 logged in successfully!
 15/05/2017 18:34: new player created for user:shacahr3210
+15/05/2017 18:39: Registration completed successfully!
+15/05/2017 18:39: shacahr3210 logged in successfully!
+15/05/2017 18:40: new player created for user:shacahr3210
+15/05/2017 18:40: new room was created room  name=aaaaa11 rank=-1
+15/05/2017 18:40: Room aaaaa11 created successfully by shacahr3210!
