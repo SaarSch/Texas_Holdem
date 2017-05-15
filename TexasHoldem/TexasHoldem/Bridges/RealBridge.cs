@@ -265,6 +265,46 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
+        public bool SendMessageToEveryone(string roomName, bool isSpectator, string senderPlayerName, string message)
+        {
+            try
+            {
+                if (isSpectator)
+                {
+                    _gameManager.SpectatorsSendMessege(roomName, senderPlayerName, senderPlayerName, message); // TODO: remove second sender, just for compiling
+                }
+                else
+                {
+                    _gameManager.PlayerSendMessege(roomName, senderPlayerName, senderPlayerName, message); // TODO: remove second sender, just for compiling
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message)
+        {
+            try
+            {
+                if (isSpectator)
+                {
+                    _gameManager.SpectatorWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                }
+                else
+                {
+                    _gameManager.PlayerWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public bool RestartGameCenter()
         {
             return _gameManager.RestartGameCenter();

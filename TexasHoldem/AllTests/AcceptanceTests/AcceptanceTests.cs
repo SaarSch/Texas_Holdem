@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 using TexasHoldem.Services;
@@ -535,5 +536,73 @@ namespace AllTests.AcceptanceTests
 
             _bridge.RestartGameCenter();
         }
+
+        [TestMethod]
+        public void TestMessageStream_Good_PlayerToEveryone()
+        {
+            //login and register 2 players
+            _bridge.Register(LegalUserName, LegalPass);
+            _bridge.Register(LegalUserName + "1", LegalPass);
+
+            _bridge.Login(LegalUserName, LegalPass);
+            _bridge.Login(LegalUserName + "1", LegalPass);
+            //create and join to players to a game
+            _bridge.CreateNewGame("Good Game Name", LegalUserName, LegalPlayer);
+            _bridge.JoinGame(LegalUserName + "1", "Good Game Name", LegalPlayer + "1");
+
+            _bridge.SendMessageToEveryone("Good Game Name", false, LegalPlayer, "Hiiii!");
+            List<string> messages = new List<string>();
+            //_bridge.GetMessages(LegalPlayer);
+            Assert.AreEqual(messages[0], "Hiiii!");
+
+            _bridge.DeleteUser(LegalUserName, LegalPass);
+            _bridge.DeleteUser(LegalUserName + "1", LegalPass);
+
+            _bridge.RestartGameCenter();
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Good_PlayerToPlayer()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Good_PlayerToSpectator()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Good_SpectatorToEveryone()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Good_SpectatorToSpectator()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Bad_SpectatorToPlayer()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Sad_EmptyMessage()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Sad_MaliciousMessage()
+        {
+
+        }
+
+
     }
 }

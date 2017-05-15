@@ -26,6 +26,9 @@ namespace TexasHoldem.Bridges
         bool CallInGame(string gamename, string playername);
         bool FoldInGame(string goodGameName, string legalPlayer);
 
+        bool SendMessageToEveryone(string roomName, bool isSpectator, string senderPlayerName, string message);
+        bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message);
+
         bool RestartGameCenter();
 
         bool StartGame(string roomName);
