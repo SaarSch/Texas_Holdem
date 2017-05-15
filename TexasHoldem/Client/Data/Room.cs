@@ -4,13 +4,13 @@ namespace Client
 {
     public class Room
     {
-        public string room_name { get; set; }
-        public string game_type { get; set; }
-        public int rank { get; set; }
-        public int buy_in_policy { get; set; }
-        public int min_bet { get; set; }
-        public int min_players { get; set; }
-        public int max_players { get; set; }
-        public bool sepctating_allowed { get; set; }
+        public string RoomName { get; set; }
+        public string GameType { get; set; }
+        public int League { get; set; }
+        public int BuyInPolicy { get; set; }
+        public int MinBet { get; set; }
+        public int MinPlayers { get; set; }
+        public int MaxPlayers { get; set; }
+        public bool SpectatingAllowed { get; set; }
     }
 }
