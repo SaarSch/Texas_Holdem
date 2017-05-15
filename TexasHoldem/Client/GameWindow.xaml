@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="GameWindow" Height="639.576" Width="1122.479" WindowStartupLocation="CenterScreen">
+        Title="GameWindow" Height="700.576" Width="1122.479" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.jpg"></ImageBrush>
     </Window.Background>
@@ -14,10 +14,10 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Ellipse Fill="#2D8A26" HorizontalAlignment="Left" Height="251" Margin="193,196,0,0" Stroke="#594112" StrokeThickness="5" VerticalAlignment="Top" Width="767"/>
-        <Slider HorizontalAlignment="Left" Margin="978,488,0,0" VerticalAlignment="Top" Width="121" Minimum="1" Maximum="100" Value="1" ValueChanged="Slider_ValueChanged"/>
-        <Button Content="Bet" HorizontalAlignment="Left" Margin="1002,506,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Check" HorizontalAlignment="Left" Margin="1002,531,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
-        <Button Content="Fold" HorizontalAlignment="Left" Margin="1002,580,0,0" VerticalAlignment="Top" Width="75"/>
+        <Slider HorizontalAlignment="Left" Margin="978,544,0,0" VerticalAlignment="Top" Width="121" Minimum="1" Maximum="100" Value="1" ValueChanged="Slider_ValueChanged"/>
+        <Button Content="Bet" HorizontalAlignment="Left" Margin="1002,562,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Check" HorizontalAlignment="Left" Margin="1002,587,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False"/>
+        <Button Content="Fold" HorizontalAlignment="Left" Margin="1002,636,0,0" VerticalAlignment="Top" Width="75"/>
         <Image HorizontalAlignment="Left" Height="76" Margin="641,416,0,0" VerticalAlignment="Top" Width="73" Source="Resources/eladk.jpg"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="680,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/4_of_diamonds.png"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="641,361,0,0" VerticalAlignment="Top" Width="43" Source="Resources/ace_of_diamonds.png"/>
@@ -80,8 +80,17 @@
         <Separator HorizontalAlignment="Left" Height="27" Margin="0,62,-0.2,0" VerticalAlignment="Top" Width="1353"/>
         <Label Content="Room Name" HorizontalAlignment="Left" Margin="41,22,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" BorderBrush="White" Background="Silver"/>
         <Label Content="Players: 9/9" HorizontalAlignment="Left" Margin="171,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" BorderBrush="White" Background="Silver"/>
-        <Label Name="CurrentBet_Label" Content="1" HorizontalAlignment="Left" Margin="1029,470,0,0" VerticalAlignment="Top"/>
-        <Button Content="Call" HorizontalAlignment="Left" Margin="1002,555,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Name="CurrentBet_Label" Content="1" HorizontalAlignment="Left" Margin="1029,526,0,0" VerticalAlignment="Top"/>
+        <Button Content="Call" HorizontalAlignment="Left" Margin="1002,611,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="76" Margin="10,544,0,0" TextWrapping="Wrap" Text="ChatChatChat" VerticalAlignment="Top" Width="950" Background="#FFD4D4D4"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="33" Margin="145,625,0,0" TextWrapping="Wrap" Text="Type your message here" VerticalAlignment="Top" Width="742"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="892,625,0,0" VerticalAlignment="Top" Width="68" Height="33"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,625,0,0" VerticalAlignment="Top" Width="130" Height="33" SelectedIndex="0">
+            <ComboBoxItem Content="To: Room"/>
+            <ComboBoxItem Content="To: Player1"/>
+            <ComboBoxItem Content="To: Player2"/>
+            <ComboBoxItem Content="To: Player3"/>
+        </ComboBox>
 
     </Grid>
 </Window>

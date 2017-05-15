@@ -50,7 +50,7 @@
             </TabItem>
             <TabItem Header="Create a room">
                 <Grid Background="#FFE5E5E5">
-                    <Button x:Name="newRoomButton" Content="Create a new room" HorizontalAlignment="Left" Margin="424,46,0,0" VerticalAlignment="Top" Width="109" Click="button_Click" Height="31"/>
+                    <Button x:Name="newRoomButton" Content="Create a new room" HorizontalAlignment="Left" Margin="631,53,0,0" VerticalAlignment="Top" Width="120" Click="newRoomButton_Click" Height="31"/>
                     <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="122" VerticalAlignment="Top" Width="405" BorderBrush="Black" BorderThickness="1"/>
                     <Label Content="Game Type" HorizontalAlignment="Left" Margin="12,29,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name ="BuyinPolicyTxt_Copy" Text="1" HorizontalAlignment="Left" Height="21" Margin="101,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
@@ -73,6 +73,10 @@
                     <TextBox x:Name ="MaxPlayersTxt_Copy" Text="8" HorizontalAlignment="Left" Height="15" Margin="305,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
                     <TextBox x:Name ="MinPlayersTxt_Copy" Text="2" HorizontalAlignment="Left" Height="16" Margin="305,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
                     <TextBox x:Name ="MinBetTxt_Copy" Text="4" HorizontalAlignment="Left" Height="17" Margin="305,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
+                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="509,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+                    <Label Content="Room Name" HorizontalAlignment="Left" Margin="427,39,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="PlayerNameTxt_Copy" HorizontalAlignment="Left" Height="19" Margin="509,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+                    <Label Content="Player Name" HorizontalAlignment="Left" Margin="427,74,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
         </TabControl>

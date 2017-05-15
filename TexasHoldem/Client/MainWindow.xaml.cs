@@ -48,7 +48,7 @@ namespace Client
         {
             PotSizeTxt.IsEnabled = !PotSizeTxt.IsEnabled;
         }
-
+        //Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
         private string SetFilter()
         {
             string filter = "{\"user\":\"" + loggedUser.Username+"\"";
@@ -220,7 +220,7 @@ namespace Client
             GameTypeCombobox.IsEnabled = !GameTypeCombobox.IsEnabled;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void newRoomButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
