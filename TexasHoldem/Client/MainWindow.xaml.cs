@@ -171,6 +171,7 @@ namespace Client
             }
             else
             {
+                MessageBox.Show("No rooms to show", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
                 roomResults.Clear();
                 RoomsGrid.ItemsSource = roomResults;
                 RoomsGrid.Items.Refresh();

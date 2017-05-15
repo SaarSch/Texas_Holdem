@@ -15,8 +15,8 @@ namespace Client
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("Registration");
-            string ans = RestClient.MakePostRequest("{\"username\":\""+UsernameTxt.Text+"\",\"password\":\""+ PasswordTxt.Password+"\"}");
+            RestClient.SetController("User?username="+ UsernameTxt.Text+"&passwordOrRank="+ PasswordTxt.Password + "&mode=register");
+            string ans = RestClient.MakeGetRequest();
             if (ans != "\"\"")
             {
                 MessageBox.Show(ans, "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -30,7 +30,7 @@ namespace Client
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("Login");
+            RestClient.SetController("User");
             string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"}");
             JObject json = JObject.Parse(ans);
             UserData loggedUser = json.ToObject<UserData>();

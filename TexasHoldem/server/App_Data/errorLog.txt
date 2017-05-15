@@ -1,3 +1,31 @@
 12-May-17 18:04: Error: ERROR: Illegal username!Length must be between 8 and 12.
 12-May-17 18:04: Error: ERROR: Illegal password! Length must be between 8 and 12.
 12-May-17 18:04: Error: ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.
+5/15/2017 16:18: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:22: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:27: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:27: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!
+5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:34: Error: ERROR in Login: Username does not exist!
