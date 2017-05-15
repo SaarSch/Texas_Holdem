@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Game;
-using TexasHoldem.GameCenterHelpers;
 using TexasHoldem.GamePrefrences;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
@@ -20,7 +18,7 @@ namespace TexasHoldem
 
         // Implementation according to the Singleton Pattern
         private static GameCenter _instance;
-        private readonly List<Pair<User, bool>> _users;
+        private readonly List<Tuple<User, bool>> _users;
         public List<Room> Rooms;
         public int ExpCriteria { get; private set; }
         public int DefaultRank { get; private set; }
@@ -32,7 +30,7 @@ namespace TexasHoldem
 
         private GameCenter()
         {
-            _users = new List<Pair<User, bool>>();
+            _users = new List<Tuple<User, bool>>();
             Rooms = new List<Room>();
             ExpCriteria = 10;
         }
@@ -57,10 +55,10 @@ namespace TexasHoldem
             {
                 foreach (var u in _users)
                 {
-                    if (u.First.Wins > maxWins && !done.Contains(u.First))
+                    if (u.Item1.Wins > maxWins && !done.Contains(u.Item1))
                     {
-                        maxWins = u.First.Wins;
-                        current = u.First;
+                        maxWins = u.Item1.Wins;
+                        current = u.Item1;
                     }
                 }
                 if (current != null)
@@ -87,7 +85,7 @@ namespace TexasHoldem
         {
             for (var i = 0; i < _users.Count; i++)
             {
-                if (_users[i].First.GetUsername() == username)
+                if (_users[i].Item1.GetUsername() == username)
                 {
                     var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
                     Logger.Log(Severity.Error, e.Message);
@@ -95,7 +93,7 @@ namespace TexasHoldem
                 }
             }
 
-            _users.Add(new Pair<User, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
+            _users.Add(new Tuple<User, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
         }
@@ -106,18 +104,18 @@ namespace TexasHoldem
             User user = null;
             for (i = 0; i < _users.Count; i++)
             {
-                if(_users[i].First.GetUsername() == username)
+                if(_users[i].Item1.GetUsername() == username)
                 {
-                    if(_users[i].First.GetPassword() == password)
+                    if(_users[i].Item1.GetPassword() == password)
                     {
-                        if (_users[i].Second)
+                        if (_users[i].Item2)
                         {
                             var e = new IllegalUsernameException("ERROR in Login: This User is already logged in.");
                             Logger.Log(Severity.Error, e.Message);
                             throw e;
                         }
-                        user = _users[i].First;
-                        _users[i].Second = true;
+                        user = _users[i].Item1;
+                        _users[i] = new Tuple<User, bool>(_users[i].Item1, true);
                     }
                     else
                     {
@@ -147,16 +145,16 @@ namespace TexasHoldem
 
             for (i = 0; i < _users.Count; i++)
             {
-                if (_users[i].First.GetUsername() == username)
+                if (_users[i].Item1.GetUsername() == username)
                 {
-                    if (!_users[i].Second)
+                    if (!_users[i].Item2)
                     {
                         var e = new IllegalUsernameException("ERROR in Logout: User is already logged off.");
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
                     exist = true;
-                    _users[i].Second = false;
+                    _users[i] = new Tuple<User, bool>(_users[i].Item1,false);
                 }
             }
 
@@ -184,10 +182,10 @@ namespace TexasHoldem
             var userExists = false;
             for (var i = 0; i < _users.Count; i++)
             {
-                if (_users[i].First.GetUsername() == username)
+                if (_users[i].Item1.GetUsername() == username)
                 {
                     userExists = true;
-                    if (!_users[i].Second)
+                    if (!_users[i].Item2)
                     {
                         var e = new IllegalUsernameException("ERROR in Edit Profile: This User is not logged in.");
                         Logger.Log(Severity.Error, e.Message);
@@ -199,21 +197,21 @@ namespace TexasHoldem
                         {
                             for (var j = 0; j < _users.Count; j++)
                             {
-                                if (_users[j].First.GetUsername() == newUserName)
+                                if (_users[j].Item1.GetUsername() == newUserName)
                                 {
                                     var e = new IllegalUsernameException("ERROR in Edit Profile: New username already exists!");
                                     Logger.Log(Severity.Error, e.Message);
                                     throw e;
                                 }
                             }
-                            _users[i].First.SetUsername(newUserName);
+                            _users[i].Item1.SetUsername(newUserName);
                         }
                         if (newPassword != null)
-                            _users[i].First.SetPassword(newPassword);
+                            _users[i].Item1.SetPassword(newPassword);
                         if (newAvatarPath != null)
-                            _users[i].First.SetAvatar(newAvatarPath);
+                            _users[i].Item1.SetAvatar(newAvatarPath);
                         if (newEmail != null)
-                            _users[i].First.SetEmail(newEmail);
+                            _users[i].Item1.SetEmail(newEmail);
                     }
                     catch (Exception)
                     {
@@ -237,15 +235,15 @@ namespace TexasHoldem
         {
             for (var i = 0; i < _users.Count; i++)
             {
-                if (_users[i].First.GetUsername() == username)
+                if (_users[i].Item1.GetUsername() == username)
                 {
-                    if (!_users[i].Second)
+                    if (!_users[i].Item2)
                     {
                         var err = new IllegalUsernameException("ERROR in GetLoggedInUser: This User is not logged in.");
                         Logger.Log(Severity.Error, err.Message);
                         throw err;
                     }
-                    return _users[i].First;
+                    return _users[i].Item1;
                 }
             }
             var e = new IllegalUsernameException("ERROR in Edit Profile: This user doesn't exist.");
@@ -257,10 +255,10 @@ namespace TexasHoldem
         {
             for (var i = 0; i < _users.Count; i++)
             {
-                if (_users[i].First.GetUsername() == username)
+                if (_users[i].Item1.GetUsername() == username)
                 {
 
-                        return _users[i].First;
+                        return _users[i].Item1;
                 }
             }
             var e = new IllegalUsernameException("ERROR in GetUser: This User doesn't exist.");
@@ -270,12 +268,12 @@ namespace TexasHoldem
 
         public void DeleteUser(string username, string password)
         {
-            Pair<User, bool> userToDelete = null;
+            Tuple<User, bool> userToDelete = null;
             for (var i = 0; i < _users.Count; i++)
             {
-                if (_users[i].First.GetUsername() == username)
+                if (_users[i].Item1.GetUsername() == username)
                 {
-                    if (_users[i].First.GetPassword() == password)
+                    if (_users[i].Item1.GetPassword() == password)
                     {
                         userToDelete = _users[i];
                     }
@@ -464,11 +462,11 @@ namespace TexasHoldem
 
         public List<string> GetMessages(string username, string roomName)
         {
-            List<Pair<string, string>> list = GetUser(username).Notifications.FindAll(pair => pair.First == roomName);
-            List<string> ans = new List<string>();
+            var list = GetUser(username).Notifications.FindAll(pair => pair.Item1 == roomName);
+            var ans = new List<string>();
             foreach (var pair in list)
             {
-                ans.Add(pair.Second);
+                ans.Add(pair.Item2);
             }
             return ans;
         }

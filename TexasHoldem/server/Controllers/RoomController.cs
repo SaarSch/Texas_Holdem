@@ -1,8 +1,6 @@
 ﻿using server.Models;
 using System;
 using System.Web.Http;
-using TexasHoldem.GameCenterHelpers;
-using TexasHoldem.Users;
 using Room = TexasHoldem.Game.Room;
 
 namespace server.Controllers
@@ -10,7 +8,7 @@ namespace server.Controllers
     public class RoomController : ApiController
     {
         // Put: /api/Room?game_name=moshe&player_name=kaki
-        public RoomState PUT(String gameName, String playerName) //get current status
+        public RoomState Put(string gameName, string playerName) //get current status
         {
             Room r = null;
             var ans = new RoomState();
@@ -28,7 +26,7 @@ namespace server.Controllers
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki
-        public RoomState GET(String gameName, String playerName) //start game
+        public RoomState GET(string gameName, string playerName) //start game
         {
             Room r = null;
             var ans = new RoomState();
@@ -51,17 +49,17 @@ namespace server.Controllers
             var ans = new RoomState();
             try
             {
-                if (option == "join")
+                switch (option)
                 {
-                    r = WebApiConfig.GameManger.JoinGame(userName, gameName, playerName);
-                }
-                else if(option == "spectate")
-                {
-                    r = WebApiConfig.GameManger.SpectateGame(userName, gameName, playerName);    
-                }
-                else if (option == "leave")
-                {
-                    r = WebApiConfig.GameManger.LeaveGame(userName, gameName, playerName);
+                    case "join":
+                        r = WebApiConfig.GameManger.JoinGame(userName, gameName, playerName);
+                        break;
+                    case "spectate":
+                        r = WebApiConfig.GameManger.SpectateGame(userName, gameName, playerName);
+                        break;
+                    case "leave":
+                        r = WebApiConfig.GameManger.LeaveGame(userName, gameName, playerName);
+                        break;
                 }
             }
             catch (Exception e)
@@ -136,12 +134,12 @@ namespace server.Controllers
 
         }
 
-        static public void CreateRoomState(string player, Room r, RoomState ans)
+        public static void CreateRoomState(string player, Room r, RoomState ans)
         {
             try
             {
-                bool spectator = false;
-                foreach (User u in r.SpectateUsers)
+                var spectator = false;
+                foreach (var u in r.SpectateUsers)
                 {
                     if (u.GetUsername() == player) spectator = true;
                 }
@@ -151,7 +149,7 @@ namespace server.Controllers
                 ans.Pot = r.Pot;
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
-                ans.AllPlayers = new Models.Player[r.Players.Count];
+                ans.AllPlayers = new Player[r.Players.Count];
                 for (var i = 0; i < 5; i++)
                 {
                     if (r.CommunityCards[i] == null) break;
@@ -160,7 +158,7 @@ namespace server.Controllers
                 var j = 0;
                 foreach (var p in r.Players)
                 {
-                    var p1 = new Models.Player
+                    var p1 = new Player
                     {
                         PlayerName = p.Name,
                         CurrentBet = p.CurrentBet,
@@ -172,11 +170,11 @@ namespace server.Controllers
                     {
                         if (p.Hand[0] != null) p1.PlayerHand[0] = p.Hand[0].ToString();
                         if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
-                        foreach (Pair<string, string> pa in p.User.Notifications)
+                        foreach (var pa in p.User.Notifications)
                         {
-                            if (pa.First == r.Name)
+                            if (pa.Item1 == r.Name)
                             {
-                                p1.messages.Add(pa.Second);
+                                p1.messages.Add(pa.Item2);
                             }
                         }
                     }
@@ -186,11 +184,11 @@ namespace server.Controllers
                         if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
                         if(player == p.Name)
                         {
-                            foreach (Pair<string, string> pa in p.User.Notifications)
+                            foreach (var pa in p.User.Notifications)
                             {
-                                if (pa.First == r.Name)
+                                if (pa.Item1 == r.Name)
                                 {
-                                    p1.messages.Add(pa.Second);
+                                    p1.messages.Add(pa.Item2);
                                 }
                             }
                         }
@@ -201,16 +199,16 @@ namespace server.Controllers
                 
                 ans.spectators = new UserData[r.SpectateUsers.Count];
                 var u1 = new UserData();
-                foreach(User u in r.SpectateUsers)
+                foreach(var u in r.SpectateUsers)
                 {
                     u1.Username = u.GetUsername();
                     if (spectator&& player==u.GetUsername())
                     {     
-                        foreach (Pair<string, string> pa in u.Notifications)
+                        foreach (var pa in u.Notifications)
                         {
-                            if (pa.First == r.Name)
+                            if (pa.Item1 == r.Name)
                             {
-                                u1.messages.Add(pa.Second);
+                                u1.messages.Add(pa.Item2);
                             }
                         }
                     }

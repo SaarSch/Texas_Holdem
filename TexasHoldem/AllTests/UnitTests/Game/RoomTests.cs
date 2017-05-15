@@ -1085,7 +1085,7 @@ namespace AllTests.UnitTests.Game
             foreach (var p2 in r.Players)
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
-                    p2.User.Notifications[0].Second);
+                    p2.User.Notifications[0].Item2);
         }
     }
 }

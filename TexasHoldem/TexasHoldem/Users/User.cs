@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
-using TexasHoldem.GameCenterHelpers;
 using TexasHoldem.Loggers;
 
 namespace TexasHoldem.Users
@@ -14,7 +13,7 @@ namespace TexasHoldem.Users
         private string _avatarPath;
         private string _email;
 
-        public List<Pair<string,string>> Notifications { get; set; }
+        public List<Tuple<string,string>> Notifications { get; set; }
         public int League=-1;
         public int Wins;
         public int ChipsAmount;
@@ -31,7 +30,7 @@ namespace TexasHoldem.Users
             SetPassword(password);
             SetAvatar(avatarPath);
             SetEmail(email);
-            Notifications = new List<Pair<string, string>>();
+            Notifications = new List<Tuple<string, string>>();
             ChipsAmount = chipsAmount;
         }
 
@@ -42,7 +41,7 @@ namespace TexasHoldem.Users
                 throw new Exception("notification is empty.");
             }
 
-            Notifications.Add(new Pair<string, string>(Room,notif));
+            Notifications.Add(new Tuple<string, string>(Room,notif));
         }
 
         public void RemoveNotification(string Room, string notif)
@@ -51,10 +50,10 @@ namespace TexasHoldem.Users
             {
                 throw new Exception("notification is empty.");
             }
-            Pair<string, string> p = null;
-            foreach (Pair<string, string> p1 in Notifications)
+            Tuple<string, string> p = null;
+            foreach (var p1 in Notifications)
             {
-                if (p1.First == Room && p1.Second == notif)
+                if (p1.Item1 == Room && p1.Item2 == notif)
                     p = p1;
             }
 

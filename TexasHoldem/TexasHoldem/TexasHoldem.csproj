@@ -48,7 +48,6 @@
     <Compile Include="Bridges\ProxyBridge.cs" />
     <Compile Include="Bridges\RealBridge.cs" />
     <Compile Include="Exceptions\IllegalLeagueException.cs" />
-    <Compile Include="GameCenterHelpers\Pair.cs" />
     <Compile Include="GamePrefrences\IPreferences.cs" />
     <Compile Include="GamePrefrences\ModifiedBuyInPolicy.cs" />
     <Compile Include="GamePrefrences\ModifiedChipPolicy.cs" />
