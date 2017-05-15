@@ -8,10 +8,12 @@ namespace TexasHoldem.Services
     public class GameManager
     {
         private readonly GameCenter _gameCenter;
+        private readonly MessageLogic _messageLogic;
 
         public GameManager()
         {
             _gameCenter = GameCenter.GetGameCenter();
+            _messageLogic = new MessageLogic();
         }
 
         public Room RoomStatus(string roomName)
@@ -140,22 +142,22 @@ namespace TexasHoldem.Services
 
         public Room PlayerWisper(string room, string playernameSender, string usernameReceiver, string message)
         {
-            return _gameCenter.GetRoom(room).PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _gameCenter.GetUser(usernameReceiver));
+            return _messageLogic.PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _gameCenter.GetUser(usernameReceiver), _gameCenter.GetRoom(room));
         }
 
         public Room SpectatorWisper(string room, string usernameSender, string usernameReceiver, string message)
         {
-            return _gameCenter.GetRoom(room).SpectatorWisper(message, _gameCenter.GetUser(usernameSender), _gameCenter.GetUser(usernameReceiver));
+            return _messageLogic.SpectatorWisper(message, _gameCenter.GetUser(usernameSender), _gameCenter.GetUser(usernameReceiver), _gameCenter.GetRoom(room));
         }
 
         public Room PlayerSendMessege(string room, string playerNameSender, string message)
         {
-            return _gameCenter.GetRoom(room).PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender));
+            return _messageLogic.PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender),_gameCenter.GetRoom(room));
         }
 
         public Room SpectatorsSendMessege(string room, string usernameSender, string message)
         {
-            return _gameCenter.GetRoom(room).SpectatorsSendMessege(message, _gameCenter.GetUser(usernameSender));
+            return _messageLogic.SpectatorsSendMessege(message, _gameCenter.GetUser(usernameSender), _gameCenter.GetRoom(room));
         }
 
         public bool RestartGameCenter()

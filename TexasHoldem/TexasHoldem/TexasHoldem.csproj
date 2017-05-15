@@ -63,11 +63,13 @@
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
     <Compile Include="GamePrefrences\GamePreferences.cs" />
+    <Compile Include="Game\HandLogic.cs" />
     <Compile Include="Game\HandStrength.cs" />
     <Compile Include="Exceptions\IllegalCardValueException.cs" />
     <Compile Include="Exceptions\IllegalBetException.cs" />
     <Compile Include="Exceptions\IllegalRoomNameException.cs" />
     <Compile Include="Exceptions\IllegalCriteriaException.cs" />
+    <Compile Include="Game\MessageLogic.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />

@@ -2,6 +2,21 @@
 
 namespace TexasHoldem.Game
 {
+    public enum HandRank
+    {
+        RoyalFlush,
+        StraightFlush,
+        FourOfAKind,
+        FullHouse,
+        Flush,
+        Straight,
+        ThreeOfAKind,
+        TwoPair,
+        Pair,
+        HighCard,
+        Fold
+    }
+
     public class HandStrength
     {
         public int HandStrongessValue;
