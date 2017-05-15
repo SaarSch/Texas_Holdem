@@ -46,7 +46,7 @@ namespace Client
                 avatarStream = dlg.OpenFile();
                 var content = new StreamContent(avatarStream);
                 content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); // TODO: change jpeg
-                RestClient.MakePostRequest(content.ToString());
+          //      RestClient.MakePostRequest("somecontroller", content.ToString());
             }
             else
             {
@@ -54,14 +54,15 @@ namespace Client
             }
         }
 
-        // POST: api/Login?username=elad
+        // POST: api/User?username=elad
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("Login?username=" + user.Username);
-            string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\"," +
-                                                    "\"password\":\"" + PasswordTxt.Text + "\"," +
-                                                    "\"email\":\"" + EmailTxt.Text + "\"}" /*"\"," +
-                                                    "\"avatar\":\"" + EmailTxt.Text + "\"}"*/);
+            string controller = "User?username=" + user.Username;
+            string data = "{\"username\":\"" + UsernameTxt.Text + "\"," +
+                          "\"password\":\"" + PasswordTxt.Text + "\"," +
+                          "\"email\":\"" + EmailTxt.Text + "\"}" /*"\"," +
+                                                    "\"avatar\":\"" + EmailTxt.Text + "\"}"*/;
+            string ans = RestClient.MakePostRequest(controller, data);
             if (ans == "\"\"")
             {
                 MessageBox.Show("User edited succesfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
