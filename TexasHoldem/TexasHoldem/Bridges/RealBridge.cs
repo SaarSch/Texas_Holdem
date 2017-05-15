@@ -265,11 +265,18 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool SetExpCriteria(string username, int exp)
+        public bool SendMessageToEveryone(string roomName, bool isSpectator, string senderPlayerName, string message)
         {
             try
             {
-                _gameManager.SetExpCriteria(username, exp);
+                if (isSpectator)
+                {
+                    _gameManager.SpectatorsSendMessege(roomName, senderPlayerName, senderPlayerName, message); // TODO: remove second sender, just for compiling
+                }
+                else
+                {
+                    _gameManager.PlayerSendMessege(roomName, senderPlayerName, senderPlayerName, message); // TODO: remove second sender, just for compiling
+                }
             }
             catch (Exception)
             {
@@ -278,11 +285,18 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool SetUserLeague(string username, string usernameToSet, int rank)
+        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message)
         {
             try
             {
-                _gameManager.SetUserLeague(username, usernameToSet, rank);
+                if (isSpectator)
+                {
+                    _gameManager.SpectatorWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                }
+                else
+                {
+                    _gameManager.PlayerWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                }
             }
             catch (Exception)
             {
@@ -320,11 +334,6 @@ namespace TexasHoldem.Bridges
                 return false;
             }
             return true;
-        }
-
-        public void SetUserRank(string legalUserName, int newrank)
-        {
-            _userManager.ChangeRank(legalUserName, newrank);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 using TexasHoldem.Services;
@@ -535,105 +536,73 @@ namespace AllTests.AcceptanceTests
 
             _bridge.RestartGameCenter();
         }
-       
-
 
         [TestMethod]
-        public void TestLeagueManagement_Good_changeDefultLeague_changeLeagueOfUser_changeXP()
+        public void TestMessageStream_Good_PlayerToEveryone()
         {
+            //login and register 2 players
             _bridge.Register(LegalUserName, LegalPass);
-            
+            _bridge.Register(LegalUserName + "1", LegalPass);
 
             _bridge.Login(LegalUserName, LegalPass);
+            _bridge.Login(LegalUserName + "1", LegalPass);
+            //create and join to players to a game
+            _bridge.CreateNewGame("Good Game Name", LegalUserName, LegalPlayer);
+            _bridge.JoinGame(LegalUserName + "1", "Good Game Name", LegalPlayer + "1");
 
-            _bridge.SetUserRank(LegalUserName,10);//max rank-can manage the league
-
-            //Assert.IsTrue(_bridge.SetDefaultRank(LegalUserName, 5));
-            _bridge.Register(LegalUserName + "1", LegalPass);//create new user
-            Assert.AreEqual(-1,_bridge.GetRank(LegalUserName+"1"));//checks if the rank is 5
-
-            Assert.IsTrue(_bridge.SetUserLeague(LegalUserName, LegalUserName + "1", 1));
-            Assert.AreEqual(1, _bridge.GetRank(LegalUserName + "1"));//checks if the rank had changed to 1
-
-            Assert.IsTrue(_bridge.SetExpCriteria(LegalUserName,19));
-
-            _bridge.DeleteUser(LegalUserName, LegalPass);
-            _bridge.DeleteUser(LegalUserName+"1", LegalPass);
-        }
-
-        [TestMethod]
-        public void TestLeagueManagement_sad_illegalRankLeagueOrExp()
-        {
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName, LegalPass);
-
-            _bridge.SetUserRank(LegalUserName, 10);//max rank-can manage the league
-
-            //Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName, 300));//the rank is not in range [0,10]
-
-            _bridge.Register(LegalUserName + "1", LegalPass);//create new user
-            Assert.AreNotEqual(300, _bridge.GetRank(LegalUserName + "1"));//checks if the rank is not 300
-
-            Assert.IsFalse(_bridge.SetUserLeague(LegalUserName, LegalUserName + "1", 300));//the rank is not in range [0,10]
-            Assert.AreNotEqual(300, _bridge.GetRank(LegalUserName + "1"));//checks if the rank had not changed to 300
-
-            Assert.IsFalse(_bridge.SetExpCriteria(LegalUserName, 40));//the exp is not in range [5,20]
+            _bridge.SendMessageToEveryone("Good Game Name", false, LegalPlayer, "Hiiii!");
+            List<string> messages = new List<string>();
+            //_bridge.GetMessages(LegalPlayer);
+            Assert.AreEqual(messages[0], "Hiiii!");
 
             _bridge.DeleteUser(LegalUserName, LegalPass);
             _bridge.DeleteUser(LegalUserName + "1", LegalPass);
+
+            _bridge.RestartGameCenter();
         }
 
         [TestMethod]
-        public void TestLeagueManagement_sad_userDoesnotexist()
+        public void TestMessageStream_Good_PlayerToPlayer()
         {
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName, LegalPass);
 
-            _bridge.SetUserRank(LegalUserName, 10);//max rank-can manage the league
-
-            Assert.IsFalse(_bridge.SetUserLeague(LegalUserName, LegalUserName + "1", 1));
-
-            _bridge.DeleteUser(LegalUserName, LegalPass);
         }
 
         [TestMethod]
-        public void TestLeagueManagement_sad_PermissionDenied()
+        public void TestMessageStream_Good_PlayerToSpectator()
         {
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName, LegalPass);
 
-            _bridge.SetUserRank(LegalUserName, 0);//min rank-can not manage the league
-
-            //Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName, 10));
-            _bridge.Register(LegalUserName + "1", LegalPass);//create new user
-            Assert.AreNotEqual(10, _bridge.GetRank(LegalUserName + "1"));//checks if the rank is not 10
-
-            Assert.IsFalse(_bridge.SetUserLeague(LegalUserName, LegalUserName + "1", 1));
-            Assert.AreNotEqual(1, _bridge.GetRank(LegalUserName + "1"));//checks if the rank had not changed to 1
-
-            Assert.IsFalse(_bridge.SetExpCriteria(LegalUserName, 18));
-
-            _bridge.DeleteUser(LegalUserName, LegalPass);
-            _bridge.DeleteUser(LegalUserName + "1", LegalPass);
         }
-
 
         [TestMethod]
-        public void TestLeagueManagement_Bad()
+        public void TestMessageStream_Good_SpectatorToEveryone()
         {
-            _bridge.Register(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName, LegalPass);
 
-            _bridge.SetUserRank(LegalUserName, 10);//max rank-can manage the league
-            var i = 'e';
-            //Assert.IsFalse(_bridge.SetDefaultRank(LegalUserName,i));
-
-            Assert.IsFalse(_bridge.SetUserLeague(LegalUserName, LegalUserName + "1", i));
-
-            Assert.IsFalse(_bridge.SetExpCriteria(LegalUserName, i));
-
-            _bridge.DeleteUser(LegalUserName, LegalPass);
-            _bridge.DeleteUser(LegalUserName + "1", LegalPass);
         }
+
+        [TestMethod]
+        public void TestMessageStream_Good_SpectatorToSpectator()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Bad_SpectatorToPlayer()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Sad_EmptyMessage()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Sad_MaliciousMessage()
+        {
+
+        }
+
+
     }
 }

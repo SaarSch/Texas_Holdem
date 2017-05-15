@@ -117,14 +117,14 @@ namespace TexasHoldem.Bridges
             return _real == null || _real.FoldInGame(gameName, playerName);
         }
 
-        public bool SetExpCriteria(string username, int exp)
+        public bool SendMessageToEveryone(string roomName, bool isSpectator, string senderPlayerName, string message)
         {
-            return _real == null || _real.SetExpCriteria(username, exp);
+            return _real == null || _real.SendMessageToEveryone(roomName, isSpectator, senderPlayerName, message);
         }
 
-        public bool SetUserLeague(string username, string usernameToSet, int rank)
+        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message)
         {
-            return _real == null || _real.SetUserLeague(username, usernameToSet, rank);
+            return _real == null || _real.SendWhisper(roomName, isSpectator, senderPlayerName, receiverPlayerName, message);
         }
 
         public bool RestartGameCenter()
@@ -140,11 +140,6 @@ namespace TexasHoldem.Bridges
         public bool SetBet(string roomName, string playerName, int bet)
         {
             return _real == null || _real.SetBet(roomName, playerName, bet);
-        }
-
-        public void SetUserRank(string legalUserName, int newrank)
-        {
-            _real?.SetUserRank(legalUserName, newrank);
         }
     }
 }
