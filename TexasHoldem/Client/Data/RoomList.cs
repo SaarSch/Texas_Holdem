@@ -8,7 +8,7 @@ namespace Client.Data
 {
     class RoomList
     {
-        public Room[] rooms;
-        public string message;
+        public Room[] Rooms;
+        public string Message;
     }
 }

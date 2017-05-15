@@ -10,6 +10,7 @@ namespace Client
     {
         const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
         private static string _endPoint = AZURE_ADDRESS;
+    //    private static string _endPoint = "http://localhost:57856/api/";
 
         private static void WriteData(HttpWebRequest request, string data)
         {

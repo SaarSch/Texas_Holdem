@@ -85,14 +85,14 @@
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
         <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="362" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding room_name}" Header="Name"/>
-                <DataGridTextColumn Binding="{Binding game_type}" Header="Type"/>
-                <DataGridTextColumn Binding="{Binding rank}"  Header="Rank"/>
-                <DataGridTextColumn Binding="{Binding buy_in_policy}"  Header="Buy In Policy"/>
-                <DataGridTextColumn Binding="{Binding min_bet}"  Header="Min. Bet"/>
-                <DataGridTextColumn Binding="{Binding min_players}"  Header="Min. Players"/>
-                <DataGridTextColumn Binding="{Binding max_players}"  Header="Max. Players"/>
-                <DataGridTextColumn Binding="{Binding sepctating_allowed}"  Header="Spectating?"/>
+                <DataGridTextColumn Binding="{Binding RoomName}" Header="Name"/>
+                <DataGridTextColumn Binding="{Binding GameType}" Header="Type"/>
+                <DataGridTextColumn Binding="{Binding League}"  Header="Rank"/>
+                <DataGridTextColumn Binding="{Binding BuyInPolicy}"  Header="Buy In Policy"/>
+                <DataGridTextColumn Binding="{Binding MinBet}"  Header="Min. Bet"/>
+                <DataGridTextColumn Binding="{Binding MinPlayers}"  Header="Min. Players"/>
+                <DataGridTextColumn Binding="{Binding MaxPlayers}"  Header="Max. Players"/>
+                <DataGridTextColumn Binding="{Binding SepctatingAllowed}"  Header="Spectating?"/>
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Chips: " HorizontalAlignment="Left" Margin="47,160,0,0" VerticalAlignment="Top" Background="#FFB3B3B3"/>

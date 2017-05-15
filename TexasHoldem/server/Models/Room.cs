@@ -6,6 +6,7 @@
         public string CreatorUserName;
         public string CreatorPlayerName;
         public string GameType;
+        public int League;
         public int ChipPolicy;
         public int BuyInPolicy;
         public int MinBet;
