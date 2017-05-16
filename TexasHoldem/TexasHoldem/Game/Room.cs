@@ -32,6 +32,7 @@ namespace TexasHoldem.Game
         public readonly string GameReplay;
         private int _turn = 1;
         public GameStatus GameStatus;
+        public int CurrentTurn;
 
         public HandLogic HandLogic { get; }
 
@@ -343,6 +344,7 @@ namespace TexasHoldem.Game
 
             GameStatus = GameStatus.PreFlop;
             IsOn = true;
+            CurrentTurn = 0;
             var smallBlind = GamePreferences.MinBet / 2;
             Deck = new Deck();
 
@@ -362,6 +364,18 @@ namespace TexasHoldem.Game
             }
             DealTwo();
             return this;
+        }
+
+        private void NextPlayer()
+        {
+           for(int i = CurrentTurn; i < Players.Count; i++)
+            {
+                if (!Players[i].Folded)
+                {
+                    CurrentTurn = i;
+                    break;
+                }
+            }
         }
 
         public Room Call(Player p)
@@ -418,6 +432,7 @@ namespace TexasHoldem.Game
                         throw new ArgumentOutOfRangeException();
                 }
             }
+            NextPlayer();
             return this;
         }
 
@@ -487,6 +502,7 @@ namespace TexasHoldem.Game
 
             p.SetBet(bet);
             Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+            NextPlayer();
             return this;
         }
 
@@ -596,19 +612,7 @@ namespace TexasHoldem.Game
 
         public Room Fold(Player p)
         {
-            var allFolded = true;
-            foreach(var p1 in Players)
-                if (!p1.Folded)
-                {
-                    allFolded = false;
-                    break;
-                }
-            if (allFolded)
-            {
-                var e = new Exception("player can't fold, all players have folded");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
+            
             if (p == null)
             {
                 var e = new Exception("player can't be null");
@@ -622,7 +626,6 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
-
             if (p.Folded)
             {
                 var e = new Exception("player already folded");
@@ -630,9 +633,27 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
+            int folded = 0;
+            foreach (var p1 in Players)
+            {
+                if (p1.Folded)
+                {
+                    folded++;
+                }
+            }
+            if (Players.Count - 2 == folded) 
+            {
+                p.Fold();
+                Logger.Log(Severity.Action, "player " + p.Name + " folded");
+                Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+                CalcWinnersChips();
+                return this;
+            }
+
             p.Fold();
             Logger.Log(Severity.Action, "player "+p.Name+" folded");
             Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+            NextPlayer();
             return this;
         }
 

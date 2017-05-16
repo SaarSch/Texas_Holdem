@@ -12,6 +12,7 @@
         public int MaxPlayers;
         public bool SepctatingAllowed;
         public string Messege;
+        public string CurrentPlayer;
         public UserData[] spectators;
     }
 }

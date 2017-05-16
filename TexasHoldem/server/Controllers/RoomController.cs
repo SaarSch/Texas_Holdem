@@ -150,6 +150,7 @@ namespace server.Controllers
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
                 ans.AllPlayers = new Player[r.Players.Count];
+                ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
                 for (var i = 0; i < 5; i++)
                 {
                     if (r.CommunityCards[i] == null) break;
@@ -180,8 +181,9 @@ namespace server.Controllers
                     }
                     else if(!r.IsOn)
                     {
-                        if (p.Hand[0] != null) p1.PlayerHand[0] = p.Hand[0].ToString();
-                        if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
+
+                        if (p.Hand[0] != null&&!p.Folded) p1.PlayerHand[0] = p.Hand[0].ToString();
+                        if (p.Hand[1] != null&&!p.Folded) p1.PlayerHand[1] = p.Hand[1].ToString();
                         if(player == p.Name)
                         {
                             foreach (var pa in p.User.Notifications)
