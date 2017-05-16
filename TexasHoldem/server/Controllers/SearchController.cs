@@ -22,13 +22,13 @@ namespace server.Controllers
                     ret.Rooms[i] = new Room
                     {
                         RoomName = rooms.ElementAt(i).Name,
-                        GameType = rooms.ElementAt(i).GamePreferences.GetGameType().ToString(),
+                        GameType = rooms.ElementAt(i).GamePreferences.GameType.ToString(),
                         League = rooms.ElementAt(i).League,
-                        BuyInPolicy = rooms.ElementAt(i).GamePreferences.GetBuyInPolicy(),
-                        MinBet = rooms.ElementAt(i).GamePreferences.GetMinBet(),
-                        MinPlayers = rooms.ElementAt(i).GamePreferences.GetMinPlayers(),
-                        MaxPlayers = rooms.ElementAt(i).GamePreferences.GetMaxPlayers(),
-                        SepctatingAllowed = rooms.ElementAt(i).GamePreferences.GetSpectating()
+                        BuyInPolicy = rooms.ElementAt(i).GamePreferences.BuyInPolicy,
+                        MinBet = rooms.ElementAt(i).GamePreferences.MinBet,
+                        MinPlayers = rooms.ElementAt(i).GamePreferences.MinPlayers,
+                        MaxPlayers = rooms.ElementAt(i).GamePreferences.MaxPlayers,
+                        SepctatingAllowed = rooms.ElementAt(i).GamePreferences.Spectating
                     };
                 }
             }

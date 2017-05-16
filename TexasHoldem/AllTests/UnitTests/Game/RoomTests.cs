@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Game;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.Game
@@ -32,7 +31,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, -8, 0, 4, 2, 8, true
-                new GamePreferences();
+                new GamePreferences {BuyInPolicy = -8};
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -47,7 +47,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, -8, 4, 2, 8, true
-                new GamePreferences();
+                new GamePreferences { ChipPolicy = -8 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -57,7 +58,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 2, 1, 2, 8, true
-                new GamePreferences();
+                new GamePreferences { MinBet = 1 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -67,7 +69,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 4, 4, 1, 8, true
-                new GamePreferences();
+                new GamePreferences { MinPlayers = 1 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -77,7 +80,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 4, 4, 2, 15, true
-                new GamePreferences();
+                new GamePreferences { MaxPlayers = 15 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -87,7 +91,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 2, 4, 2, 8, true
-                new GamePreferences();
+                new GamePreferences { ChipPolicy = 2, MinBet = 4 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -687,11 +692,13 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest6()
         {
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType(Gametype.PotLimit, gp);
-            gp = new ModifiedChipPolicy(30, gp);
-            gp = new ModifiedMinBet(10, gp);
-            gp = new ModifiedMinPlayers(3, gp);
+            var gp = new GamePreferences
+            {
+                GameType = Gametype.PotLimit,
+                ChipPolicy = 30,
+                MinBet = 10,
+                MinPlayers = 3
+            };
 
             var p = new Player("shachar", _u);
             var p2 = new Player("shachar1", _u);
@@ -711,11 +718,13 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest7()
         {
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType(Gametype.PotLimit, gp);
-            gp = new ModifiedChipPolicy(30, gp);
-            gp = new ModifiedMinBet(10, gp);
-            gp = new ModifiedMinPlayers(3, gp);
+            var gp = new GamePreferences
+            {
+                GameType = Gametype.PotLimit,
+                ChipPolicy = 30,
+                MinBet = 10,
+                MinPlayers = 3
+            };
 
             var p = new Player("shachar", _u);
             var p2 = new Player("shachar2", _u);

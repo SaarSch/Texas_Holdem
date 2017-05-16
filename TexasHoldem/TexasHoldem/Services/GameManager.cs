@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.Game;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.Users;
 
 namespace TexasHoldem.Services
@@ -36,14 +35,14 @@ namespace TexasHoldem.Services
 
         public Room CreateGameWithPreferences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating)
         {
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType((Gametype)Enum.Parse(typeof(Gametype), gameType), gp);
-            gp = new ModifiedBuyInPolicy(buyInPolicy, gp);
-            gp = new ModifiedChipPolicy(chipPolicy, gp);
-            gp = new ModifiedMinBet(minBet, gp);
-            gp = new ModifiedMinPlayers(minPlayers, gp);
-            gp = new ModifiedMaxPlayers(maxPlayers, gp);
-            gp = new ModifiedSpectating(spectating, gp);
+            var gp = new GamePreferences();
+            gp.GameType = (Gametype) Enum.Parse(typeof(Gametype),gameType);
+            gp.BuyInPolicy = buyInPolicy;
+            gp.ChipPolicy = chipPolicy;
+            gp.MinBet = minBet;
+            gp.MinPlayers = minPlayers;
+            gp.MaxPlayers = maxPlayers;
+            gp.Spectating = spectating;
 
             return _gameCenter.CreateRoom(gameName, username, creatorName, gp);
         }
@@ -88,31 +87,31 @@ namespace TexasHoldem.Services
             }
             if (r.GameType != null)
             {
-                predicates.Add(room => room.GamePreferences.GetGameType().ToString() == r.GameType);
+                predicates.Add(room => room.GamePreferences.GameType.ToString() == r.GameType);
             }
             if (r.BuyInPolicy != null)
             {
-                predicates.Add(room => room.GamePreferences.GetBuyInPolicy() == r.BuyInPolicy.Value);
+                predicates.Add(room => room.GamePreferences.BuyInPolicy == r.BuyInPolicy.Value);
             }
             if (r.ChipPolicy != null)
             {
-                predicates.Add(room => room.GamePreferences.GetChipPolicy() == r.ChipPolicy.Value);
+                predicates.Add(room => room.GamePreferences.ChipPolicy == r.ChipPolicy.Value);
             }
             if (r.MinBet != null)
             {
-                predicates.Add(room => room.GamePreferences.GetMinBet() == r.MinBet.Value);
+                predicates.Add(room => room.GamePreferences.MinBet == r.MinBet.Value);
             }
             if (r.MinPlayers != null)
             {
-                predicates.Add(room => room.GamePreferences.GetMinPlayers() == r.MinPlayers.Value);
+                predicates.Add(room => room.GamePreferences.MinPlayers == r.MinPlayers.Value);
             }
             if (r.MaxPlayers != null)
             {
-                predicates.Add(room => room.GamePreferences.GetMaxPlayers() == r.MaxPlayers.Value);
+                predicates.Add(room => room.GamePreferences.MaxPlayers == r.MaxPlayers.Value);
             }
             if (r.SepctatingAllowed != null)
             {
-                predicates.Add(room => room.GamePreferences.GetSpectating() == r.SepctatingAllowed.Value);
+                predicates.Add(room => room.GamePreferences.Spectating == r.SepctatingAllowed.Value);
             }
 
             return _gameCenter.FindGames(predicates);

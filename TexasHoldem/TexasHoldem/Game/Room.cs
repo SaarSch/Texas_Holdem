@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.GameReplay;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
@@ -27,7 +26,7 @@ namespace TexasHoldem.Game
         public Card[] CommunityCards = new Card[5];
         public string Name;
         public int League;
-        public IPreferences GamePreferences;
+        public GamePreferences GamePreferences;
         public bool Flop;
         public int Pot = 0;
         public readonly string GameReplay;
@@ -39,7 +38,7 @@ namespace TexasHoldem.Game
         public const int MinNameLength = 4;
         public const int MaxNameLength = 30;
 
-        public Room(string name, Player creator, IPreferences gamePreferences)
+        public Room(string name, Player creator, GamePreferences gamePreferences)
         {
 
             if (name == null)
@@ -66,14 +65,14 @@ namespace TexasHoldem.Game
             //minBet- the minimum bet
             //buy-in- the minimum chip to join the game
 
-            if (creator.User.ChipsAmount < gamePreferences.GetMinBet() || (creator.User.ChipsAmount < gamePreferences.GetChipPolicy() && gamePreferences.GetChipPolicy() > 0) || creator.User.ChipsAmount < gamePreferences.GetBuyInPolicy())
+            if (creator.User.ChipsAmount < gamePreferences.MinBet || (creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0) || creator.User.ChipsAmount < gamePreferences.BuyInPolicy)
             {
                 var e = new Exception("player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
-            if (gamePreferences.GetChipPolicy() == 0)
+            if (gamePreferences.ChipPolicy == 0)
             {
                 creator.ChipsAmount = creator.User.ChipsAmount;
                 creator.User.ChipsAmount = 0;
@@ -81,8 +80,8 @@ namespace TexasHoldem.Game
 
             else
             {
-                creator.ChipsAmount = gamePreferences.GetChipPolicy();
-                creator.User.ChipsAmount -= gamePreferences.GetChipPolicy();
+                creator.ChipsAmount = gamePreferences.ChipPolicy;
+                creator.User.ChipsAmount -= gamePreferences.ChipPolicy;
             }
 
             GamePreferences = gamePreferences;
@@ -140,7 +139,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
-            if (Players.Count > GamePreferences.GetMaxPlayers())
+            if (Players.Count > GamePreferences.MaxPlayers)
             {
                 var e = new Exception("room is full, can't add the player");
                 Logger.Log(Severity.Exception, e.Message);
@@ -152,22 +151,22 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            if (p.User.ChipsAmount < GamePreferences.GetMinBet() || (p.User.ChipsAmount < GamePreferences.GetChipPolicy() && GamePreferences.GetChipPolicy() > 0)|| p.User.ChipsAmount<GamePreferences.GetBuyInPolicy())
+            if (p.User.ChipsAmount < GamePreferences.MinBet || (p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)|| p.User.ChipsAmount<GamePreferences.BuyInPolicy)
             {
                 var e = new Exception("player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
-            if (GamePreferences.GetChipPolicy() == 0)
+            if (GamePreferences.ChipPolicy == 0)
             {
                 p.ChipsAmount = p.User.ChipsAmount;
                 p.User.ChipsAmount = 0;
             }
             else
             {
-                p.ChipsAmount = GamePreferences.GetChipPolicy();
-                p.User.ChipsAmount -= GamePreferences.GetChipPolicy();
+                p.ChipsAmount = GamePreferences.ChipPolicy;
+                p.User.ChipsAmount -= GamePreferences.ChipPolicy;
             }
             Players.Add(p);
             Logger.Log(Severity.Action, "new player joined the room: room name=" + Name + "player name=" + p.Name);
@@ -176,7 +175,7 @@ namespace TexasHoldem.Game
   
         public void Spectate(User user)
         {
-            if (!GamePreferences.GetSpectating())
+            if (!GamePreferences.Spectating)
             {
                 var e = new Exception("can't spectate at this room");
                 Logger.Log(Severity.Exception, e.Message);
@@ -302,7 +301,7 @@ namespace TexasHoldem.Game
 
         public Room StartGame()
         {
-            if (Players.Count < GamePreferences.GetMinPlayers())
+            if (Players.Count < GamePreferences.MinPlayers)
             {
                 var e = new Exception("can't play with less then min players");
                 Logger.Log(Severity.Error, e.Message);
@@ -326,7 +325,7 @@ namespace TexasHoldem.Game
 
             GameStatus = GameStatus.PreFlop;
             IsOn = true;
-            var smallBlind = GamePreferences.GetMinBet() / 2;
+            var smallBlind = GamePreferences.MinBet / 2;
             Deck = new Deck();
 
             // 0 = dealer 1=small blind 2=big blind
@@ -335,13 +334,13 @@ namespace TexasHoldem.Game
             {
                 Logger.Log(Severity.Action, "new game started in room " + Name + " dealer and small blind-" + Players[0]+ "big blind-"+Players[1]);
                 SetBet(Players[0], smallBlind,true);
-                SetBet(Players[1], GamePreferences.GetMinBet(),false);
+                SetBet(Players[1], GamePreferences.MinBet,false);
             }
             else
             {
                 Logger.Log(Severity.Action, "new game started in room"+Name+" dealer" + Players[0]+ "small blind-" + Players[1] + "big blind-" + Players[2] +PlayersToString(Players));
                 SetBet(Players[1], smallBlind,true);
-                SetBet(Players[2], GamePreferences.GetMinBet(),false);
+                SetBet(Players[2], GamePreferences.MinBet,false);
             }
             DealTwo();
             return this;
@@ -419,25 +418,25 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            if ((bet < GamePreferences.GetMinBet()&&!smallBlind)||(smallBlind&&bet!=GamePreferences.GetMinBet()/2))
+            if ((bet < GamePreferences.MinBet&&!smallBlind)||(smallBlind&&bet!=GamePreferences.MinBet/2))
             {
                 var e = new IllegalBetException("can't bet less then min bet");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
-            if (GamePreferences.GetGameType() == Gametype.NoLimit && p.BetInThisRound && p.PreviousRaise > bet) // no limit mode
+            if (GamePreferences.GameType == Gametype.NoLimit && p.BetInThisRound && p.PreviousRaise > bet) // no limit mode
             {
                 var e = new IllegalBetException("can't bet less then previous raise in no limit mode");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
-            if (GamePreferences.GetGameType() == Gametype.Limit) // limit mode
+            if (GamePreferences.GameType == Gametype.Limit) // limit mode
             {
                 if (GameStatus==GameStatus.PreFlop || GameStatus==GameStatus.Flop)  //pre flop & flop
                 {
-                    if(bet!= GamePreferences.GetMinBet())
+                    if(bet!= GamePreferences.MinBet)
                     {
                         var e = new IllegalBetException("in pre flop/flop in limit mode bet must be equal to big blind");
                         Logger.Log(Severity.Error, e.Message);
@@ -447,7 +446,7 @@ namespace TexasHoldem.Game
 
                 if (GameStatus==GameStatus.Turn||GameStatus==GameStatus.River)  //turn & river
                 {
-                    if (bet*2 != GamePreferences.GetMinBet())
+                    if (bet*2 != GamePreferences.MinBet)
                     {
                         var e = new IllegalBetException("in pre turn/river in limit mode bet must be equal to 2*big blind");
                         Logger.Log(Severity.Error, e.Message);
@@ -456,7 +455,7 @@ namespace TexasHoldem.Game
                 }
             }
 
-            if (GamePreferences.GetGameType() == Gametype.PotLimit)// limit pot
+            if (GamePreferences.GameType == Gametype.PotLimit)// limit pot
             {
                 var pot = 0;
                 foreach (var p1 in Players) pot += p1.CurrentBet;

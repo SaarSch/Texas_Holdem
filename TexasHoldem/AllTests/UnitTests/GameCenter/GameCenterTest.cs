@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Game;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.GameCenter
@@ -216,7 +215,7 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Register("seanoch123", "seanoch123", _gc.Users);
                 _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                IPreferences gp = new GamePreferences();
+                var gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 var p = new List<Predicate<Room>> {room => room.HasPlayer("player1")};
@@ -246,11 +245,13 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Register("seanoch123", "seanoch123", _gc.Users);
                 _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                IPreferences gp = new GamePreferences();
-                gp = new ModifiedBuyInPolicy(0, gp);
-                gp = new ModifiedMinBet(5, gp);
-                gp = new ModifiedMinPlayers(3, gp);
-                gp = new ModifiedMaxPlayers(4, gp);
+                var gp = new GamePreferences
+                {
+                    BuyInPolicy = 0,
+                    MinBet = 5,
+                    MinPlayers = 3,
+                    MaxPlayers = 4
+                };
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 var p = new List<Predicate<Room>> {room => room.HasPlayer(null)};
@@ -278,7 +279,7 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Register("seanoch123", "seanoch123", _gc.Users);
                 _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                IPreferences gp = new GamePreferences();
+                var gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
@@ -309,7 +310,7 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Register("seanoch123", "seanoch123", _gc.Users);
                 _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                IPreferences gp = new GamePreferences();
+                var gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
@@ -339,7 +340,7 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Register("login1234", "123exm1234", _gc.Users);
                 _ul.Login("login1234", "123exm1234", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
-                IPreferences gp = new GamePreferences();
+                var gp = new GamePreferences();
                 _gc.CreateRoom("MyRoom1", "login1234", "player1", gp);
                 if (_gc.Rooms.Count == 1)
                     before = true;
@@ -370,22 +371,26 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 0, 5, 3, 4, true
                 //1 0 4 2 8
-                IPreferences gp = new GamePreferences();
-                gp = new ModifiedBuyInPolicy(0,gp);
-                gp = new ModifiedMinBet(5,gp);
-                gp = new ModifiedMinPlayers(3,gp);
-                gp = new ModifiedMaxPlayers(4,gp);
+                var gp = new GamePreferences
+                {
+                    BuyInPolicy = 0,
+                    MinBet = 5,
+                    MinPlayers = 3,
+                    MaxPlayers = 4
+                };
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 //Gametype.PotLimit, 0, 0, 5, 2, 10, false
-                gp = new GamePreferences();
-                gp = new ModifiedGameType(Gametype.PotLimit, gp);
-                gp = new ModifiedBuyInPolicy(0, gp);
-                gp = new ModifiedMinBet(5, gp);
-                gp = new ModifiedMinPlayers(2,gp);
-                gp = new ModifiedMaxPlayers(10,gp);
-                gp = new ModifiedSpectating(false, gp);
+                gp = new GamePreferences
+                {
+                    GameType = Gametype.PotLimit,
+                    BuyInPolicy = 0,
+                    MinBet = 5,
+                    MinPlayers = 2,
+                    MaxPlayers = 10,
+                    Spectating = false
+                };
                 _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                var p = new List<Predicate<Room>> {room => room.GamePreferences.GetGameType() == Gametype.PotLimit};
+                var p = new List<Predicate<Room>> {room => room.GamePreferences.GameType == Gametype.PotLimit};
                 var ans = _gc.FindGames(p);
                 if (ans.Count == 1)
                     succ = true;
@@ -414,12 +419,14 @@ namespace AllTests.UnitTests.GameCenter
                 _ul.Login("seanoch123", "seanoch123", _gc.Users);
                 //Gametype.NoLimit, 0, 10, 5, 3, 4, true
                 //1 0 4 2 8
-                IPreferences gp = new GamePreferences();
-                gp = new ModifiedBuyInPolicy(0, gp);
-                gp = new ModifiedChipPolicy(10, gp);
-                gp = new ModifiedMinBet(5, gp);
-                gp = new ModifiedMinPlayers(3, gp);
-                gp = new ModifiedMaxPlayers(4, gp);
+                var gp = new GamePreferences
+                {
+                    BuyInPolicy = 0,
+                    ChipPolicy = 10,
+                    MinBet = 5,
+                    MinPlayers = 3,
+                    MaxPlayers = 4
+                };
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;

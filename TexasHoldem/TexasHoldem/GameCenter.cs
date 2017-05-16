@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Game;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
 
@@ -48,7 +47,7 @@ namespace TexasHoldem
             Rooms.Clear();
         }
 
-        public Room CreateRoom(string roomName, string username, string creator, IPreferences gp)
+        public Room CreateRoom(string roomName, string username, string creator, GamePreferences gp)
         {
             var user = UserLogic.GetLoggedInUser(username, Users);
             if (user != null)
