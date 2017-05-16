@@ -29,3 +29,39 @@
 5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:34: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:14: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:15: Error: ERROR in FindGames: No game rooms found.
+5/16/2017 19:15: Error: Error in GetRoom: Room reerg4 doesn't exist!
+5/16/2017 19:15: Error: ERROR in CreateRoom: room name already taken!
+5/16/2017 19:16: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:16: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:16: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:17: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:20: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:23: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:24: Error: Illegal username! Length must be between 8 and 12.
+5/16/2017 19:24: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:24: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:24: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:24: Error: Error in GetRoom: Room jhjhjju76767 doesn't exist!
+5/16/2017 19:24: Error: player chips amount is too low to join
+5/16/2017 19:27: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:27: Error: player chips amount is too low to join
+5/16/2017 19:37: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:37: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:37: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:37: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:37: Error: Error in GetRoom: Room fffrfd doesn't exist!
+5/16/2017 19:37: Error: ERROR in CreateRoom: room name already taken!
+5/16/2017 19:45: Error: Error in GetRoom: Room kjkj doesn't exist!
+5/16/2017 19:46: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:46: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:46: Error: Error in GetRoom: Room hbhgh doesn't exist!
+5/16/2017 19:46: Error: player chips amount is too low to join
+5/16/2017 19:47: Error: Illegal username! Length must be between 8 and 12.
+5/16/2017 19:47: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:47: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:48: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:48: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:48: Error: Error in GetRoom: Room cccdf doesn't exist!
+5/16/2017 19:50: Error: Error in GetRoom: Room hihjh doesn't exist!

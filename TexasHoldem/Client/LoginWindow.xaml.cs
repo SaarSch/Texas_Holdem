@@ -15,6 +15,12 @@ namespace Client
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(UsernameTxt.Text) || string.IsNullOrEmpty(PasswordTxt.Password))
+            {
+                MessageBox.Show("Username and password cannot be empty!", "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             string controller = "User?username=" + UsernameTxt.Text + "&passwordOrRank=" + PasswordTxt.Password +
                                 "&mode=register";
             string ans = RestClient.MakeGetRequest(controller);

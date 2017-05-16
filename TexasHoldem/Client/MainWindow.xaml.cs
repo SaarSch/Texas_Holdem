@@ -308,6 +308,15 @@ namespace Client
             RoomState roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
+                    int chip = (int)chipsLabel.Content;
+                if (room.ChipPolicy != 0)
+                {
+                    chipsLabel.Content = chip - room.ChipPolicy;
+                }
+                else
+                {
+                    chipsLabel.Content = 0;
+                }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 GameWindow gameWindow = new GameWindow(roomState);
                 App.Current.MainWindow = gameWindow;

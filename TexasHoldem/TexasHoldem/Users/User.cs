@@ -99,7 +99,7 @@ namespace TexasHoldem.Users
         {
             if (username.Length > PasswordLengthMax || username.Length < PasswordLengthMin)
             {
-                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Exception e = new IllegalPasswordException("Illegal username! Length must be between 8 and 12.");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }

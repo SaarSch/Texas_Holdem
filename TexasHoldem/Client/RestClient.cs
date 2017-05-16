@@ -49,10 +49,9 @@ namespace Client
         private static string PerformRequest(WebRequest request)
         {
             string strResponseValue = "";
-            HttpWebResponse response;
             try
             {
-                response = (HttpWebResponse)request.GetResponse();
+                var response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new ApplicationException("Error code: " + response.StatusCode.ToString());
