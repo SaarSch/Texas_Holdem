@@ -127,6 +127,15 @@ namespace TexasHoldem.Game
                     throw e;
                 }
             }
+            foreach (var u in SpectateUsers)
+            {
+                if (u.GetUsername().Equals(p.Name))
+                {
+                    var e = new Exception("can't join, player name is already exist");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
+                }
+            }
             if (IsOn)
             {
                 var e = new Exception("can't join, game is on");
@@ -187,6 +196,15 @@ namespace TexasHoldem.Game
                 var e = new Exception("can't add a null user to the room");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
+            }
+            foreach (var p in Players)
+            {
+                if (p.Name == user.GetUsername())
+                {
+                    var e = new Exception("can't spectate at this room");
+                    Logger.Log(Severity.Exception, e.Message);
+                    throw e;
+                }
             }
             SpectateUsers.Add(user);
         }
