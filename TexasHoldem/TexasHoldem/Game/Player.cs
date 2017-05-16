@@ -7,24 +7,24 @@ namespace TexasHoldem.Game
 {
     public class Player
     {
-        public Card[] Hand  = new Card[2];
+        public ICard[] Hand  = new ICard[2];
         public string Name;
         public int ChipsAmount;
         public int CurrentBet;
         public bool Folded;
         public HandStrength StrongestHand;
-        public User User;
+        public IUser User;
         public int PreviousRaise;
         public bool BetInThisRound;
 
-        public Player(string name, User user)
+        public Player(string name, IUser user)
         {
             User = user ?? throw new Exception("illegal User");
             Name = name ?? throw new Exception("illegal player name");
             Logger.Log(Severity.Action, "new player created for user:"+User.GetUsername());
         }
 
-        public void SetCards(Card first, Card second)
+        public void SetCards(ICard first, ICard second)
         {
             if (first == null || second == null)
             {

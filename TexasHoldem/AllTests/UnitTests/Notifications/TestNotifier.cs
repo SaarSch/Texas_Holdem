@@ -17,7 +17,7 @@ namespace AllTests.UnitTests.Notifications
             const string message = "wow you are so cool!";
             var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
             var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
-            var users = new List<User> {yossi, kobi};
+            var users = new List<IUser> {yossi, kobi};
 
             _notifier.Notify(users,"a", message);
 
@@ -33,7 +33,7 @@ namespace AllTests.UnitTests.Notifications
             var message2 = "";
             var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
             var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
-            var users = new List<User> {yossi, kobi};
+            var users = new List<IUser> {yossi, kobi};
 
             try
             {

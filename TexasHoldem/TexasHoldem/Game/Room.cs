@@ -520,11 +520,26 @@ namespace TexasHoldem.Game
             {
                 if (!p.Folded)
                 {
-                    var hand = p.Hand.ToList();
-                    hand.AddRange(CommunityCards.ToList());
-                    p.StrongestHand = HandLogic.HandCalculator(hand);
+                   // var hand = p.Hand.ToList();
+                    List<Card> cardsmoq = new List<Card>();
+                    var formoq = p.Hand.ToList();
+                    foreach (ICard c in formoq)
+                    {
+                        cardsmoq.Add((Card)c);
+                    }
+                    cardsmoq.AddRange(CommunityCards.ToList());
+                    p.StrongestHand = HandLogic.HandCalculator(cardsmoq);
                 }
-                else p.StrongestHand = new HandStrength(0, HandRank.Fold, p.Hand.ToList());
+                else
+                {
+                    List<Card> cardsmoq = new List<Card>();
+                    var formoq = p.Hand.ToList();
+                    foreach (ICard c in formoq)
+                    {
+                        cardsmoq.Add((Card)c);
+                    }
+                    p.StrongestHand = new HandStrength(0, HandRank.Fold, cardsmoq);
+                }
 
             }
             var maxHand = 0;

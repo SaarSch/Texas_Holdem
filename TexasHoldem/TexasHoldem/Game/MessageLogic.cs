@@ -17,7 +17,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            var roomUsers = new List<User>();
+            var roomUsers = new List<IUser>();
 
             foreach (var p in r.Players) roomUsers.Add(p.User);
             roomUsers.AddRange(r.SpectateUsers);
@@ -46,7 +46,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, "sender dose not exist");
                 throw new Exception("sender dose not exist");
             }
-            var roomUsers = new List<User>();
+            var roomUsers = new List<IUser>();
             foreach (var p in r.Players) roomUsers.Add(p.User);
             roomUsers.AddRange(r.SpectateUsers);
             Notifier.Instance.Notify(roomUsers, r.Name, " " + sender.Name + ": " + message);
@@ -81,7 +81,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, "sender dose not exist");
                 throw new Exception("sender dose not exist");
             }
-            var roomUsers = new List<User>();
+            var roomUsers = new List<IUser>();
             roomUsers.AddRange(r.SpectateUsers);
             Notifier.Instance.Notify(roomUsers, r.Name, sender.GetUsername() + ": " + message);
             return r;
@@ -119,7 +119,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<User> { reciver };
+            var roomUsers = new List<IUser> { reciver };
             Notifier.Instance.Notify(roomUsers, r.Name, sender.GetUsername() + ": " + message);
             return r;
         }
@@ -156,7 +156,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<User> { reciver };
+            var roomUsers = new List<IUser> { reciver };
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Name + ": " + message);
             return r;
         }
