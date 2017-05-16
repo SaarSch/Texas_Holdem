@@ -368,8 +368,10 @@ namespace TexasHoldem.Game
 
         private void NextPlayer()
         {
-           for(int i = CurrentTurn; i < Players.Count; i++)
+         
+           for (int j= 0; j < Players.Count-1; j++)
             {
+                int i = (CurrentTurn+1+j) % Players.Count;
                 if (!Players[i].Folded)
                 {
                     CurrentTurn = i;
