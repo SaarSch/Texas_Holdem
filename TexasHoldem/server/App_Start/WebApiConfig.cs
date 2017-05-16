@@ -1,10 +1,12 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using TexasHoldem.Services;
 
 namespace server
 {
     public static class WebApiConfig
     {
+        public static DateTime ChangeLeagues;
         public static GameManager GameManger= new GameManager();
         public static UserManager UserManger = new UserManager();
         public static ReplayManager ReplayManger = new ReplayManager();

@@ -115,9 +115,14 @@ namespace server.Controllers
             return ans;
         }
 
-        // POST: api/Room  -------create room
+        // POST: api/Room   create room
         public RoomState Post([FromBody]Models.Room value)
         {
+            if(WebApiConfig.ChangeLeagues ==null || WebApiConfig.ChangeLeagues.AddDays(7)<= DateTime.Now)
+            {
+                WebApiConfig.GameManger.SetLeagues();
+                WebApiConfig.ChangeLeagues = DateTime.Now;
+            }
             var ans = new RoomState();
             try
             {
