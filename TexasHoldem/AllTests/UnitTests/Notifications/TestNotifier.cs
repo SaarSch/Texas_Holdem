@@ -24,7 +24,7 @@ namespace AllTests.UnitTests.Notifications
             foreach (var u in users)
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
-                    u.Notifications[0].Second);
+                    u.Notifications[0].Item2);
         }
 
         [TestMethod]

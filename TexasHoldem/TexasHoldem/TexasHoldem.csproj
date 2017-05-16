@@ -48,26 +48,18 @@
     <Compile Include="Bridges\ProxyBridge.cs" />
     <Compile Include="Bridges\RealBridge.cs" />
     <Compile Include="Exceptions\IllegalLeagueException.cs" />
-    <Compile Include="GameCenterHelpers\Pair.cs" />
-    <Compile Include="GamePrefrences\IPreferences.cs" />
-    <Compile Include="GamePrefrences\ModifiedBuyInPolicy.cs" />
-    <Compile Include="GamePrefrences\ModifiedChipPolicy.cs" />
-    <Compile Include="GamePrefrences\ModifiedGameType.cs" />
-    <Compile Include="GamePrefrences\ModifiedMaxPlayers.cs" />
-    <Compile Include="GamePrefrences\ModifiedMinBet.cs" />
-    <Compile Include="GamePrefrences\ModifiedMinPlayers.cs" />
-    <Compile Include="GamePrefrences\ModifiedSpectating.cs" />
-    <Compile Include="GamePrefrences\PrefrencesDecorator.cs" />
     <Compile Include="GameReplay\Replayer.cs" />
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
-    <Compile Include="GamePrefrences\GamePreferences.cs" />
+    <Compile Include="Game\GamePreferences.cs" />
+    <Compile Include="Game\HandLogic.cs" />
     <Compile Include="Game\HandStrength.cs" />
     <Compile Include="Exceptions\IllegalCardValueException.cs" />
     <Compile Include="Exceptions\IllegalBetException.cs" />
     <Compile Include="Exceptions\IllegalRoomNameException.cs" />
     <Compile Include="Exceptions\IllegalCriteriaException.cs" />
+    <Compile Include="Game\MessageLogic.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />
@@ -86,6 +78,7 @@
     <Compile Include="Exceptions\IllegalUsernameException.cs" />
     <Compile Include="Exceptions\IllegalAvatarException.cs" />
     <Compile Include="Users\User.cs" />
+    <Compile Include="Users\UserLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
