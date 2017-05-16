@@ -13,7 +13,7 @@ namespace TexasHoldem.Game
         {
             if (message is null)
             {
-                var e = new Exception("cant send null mesege");
+                var e = new Exception("cant send null message");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
