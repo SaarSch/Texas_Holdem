@@ -9,21 +9,6 @@ namespace TexasHoldem.Game
 {
     public class MessageLogic
     {
-        public void NotifyRoom(string message, Room r)
-        {
-            if (message is null)
-            {
-                var e = new Exception("can't send null message");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            var roomUsers = new List<User>();
-
-            foreach (var p in r.Players) roomUsers.Add(p.User);
-            roomUsers.AddRange(r.SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, r.Name, message);
-        }
-
         public void CheckMessage(string message, object sender)
         {
             if (message is null)
