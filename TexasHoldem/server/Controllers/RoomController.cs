@@ -8,7 +8,7 @@ namespace server.Controllers
 {
     public class RoomController : ApiController
     {
-        public static Dictionary<string,Dictionary<string,Queue<RoomState>>> Replays =new Dictionary<string, Dictionary<string, Queue<RoomState>>>();
+        public static Dictionary<string,Dictionary<string, List<RoomState>>> Replays =new Dictionary<string, Dictionary<string, List<RoomState>>>();
 
         // Put: /api/Room?game_name=moshe&player_name=kaki
         public RoomState Put(string gameName, string playerName) //get current status
@@ -56,6 +56,7 @@ namespace server.Controllers
                 {
                     case "join":
                         r = WebApiConfig.GameManger.JoinGame(userName, gameName, playerName);
+                        if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
                         r = WebApiConfig.GameManger.SpectateGame(userName, gameName, playerName);
@@ -130,7 +131,18 @@ namespace server.Controllers
             try
             {
                 Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
-                if (r != null) CreateRoomState(value.CreatorPlayerName, r, ans);
+                if (r != null)
+                {
+                    Dictionary<string, List<RoomState>> roomDic = new Dictionary<string, List<RoomState>>();
+                    List<RoomState> UserList = new List<RoomState>();
+                    if (Replays.ContainsKey(r.Name))
+                    {
+                        Replays.Remove(r.Name);
+                    }
+                    roomDic.Add(value.CreatorPlayerName, UserList);
+                    Replays.Add(r.Name,roomDic);
+                    CreateRoomState(value.CreatorPlayerName, r, ans);
+                }
                 return ans;
             }
 
@@ -224,9 +236,12 @@ namespace server.Controllers
                     }
                 }
 
+                if (!Replays[r.Name][player][Replays[r.Name][player].Count].Equals(ans))
+                {
+                    Replays[r.Name][player].Add(ans);
+                }
+
             }
-
-
             catch (Exception e)
             {
                 ans.Messege = e.Message;
