@@ -63,4 +63,10 @@
 5/16/2017 19:48: Error: Error in GetRoom: Room  doesn't exist!
 5/16/2017 19:48: Error: room name must be between 4 and 30 characters long
 5/16/2017 19:48: Error: Error in GetRoom: Room cccdf doesn't exist!
-5/16/2017 19:50: Error: Error in GetRoom: Room hihjh doesn't exist!
+5/16/2017 19:50: Error: Error in GetRoom: Room hihjh doesn't exist!5/18/2017 00:13: Error: Error in GetRoom: Room regesg doesn't exist!
+5/18/2017 00:14: Error: Error in GetRoom: Room fhhrhrdht doesn't exist!
+5/18/2017 00:19: Error: Error in GetRoom: Room wrw doesn't exist!
+5/18/2017 00:19: Error: room name must be between 4 and 30 characters long
+5/18/2017 00:19: Error: Error in GetRoom: Room wrwge doesn't exist!
+5/18/2017 00:22: Error: Error in GetRoom: Room rtert doesn't exist!
+5/18/2017 00:52: Error: Error in GetRoom: Room regrg doesn't exist!

@@ -35,5 +35,9 @@ namespace Client
                 CurrentBet_Label.Content = (int)e.NewValue;
             }
         }
+
+        private void Init_RoomState_GUI()
+        {
+        }
     }
 }

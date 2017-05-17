@@ -9,8 +9,8 @@ namespace Client
     public class RestClient
     {
         const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
-        private static string _endPoint = AZURE_ADDRESS;
-       // private static string _endPoint = "http://localhost:57856/api/";
+       // private static string _endPoint = AZURE_ADDRESS;
+        private static string _endPoint = "http://localhost:57856/api/";
 
         private static void WriteData(HttpWebRequest request, string data)
         {
@@ -31,7 +31,8 @@ namespace Client
             request.Method = "POST";
             WriteData(request, data);
             ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
+            _endPoint = "http://localhost:57856/api/";
+            //    _endPoint = AZURE_ADDRESS;
             return ans;
         }
 
@@ -42,7 +43,8 @@ namespace Client
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "GET";
             ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
+            _endPoint = "http://localhost:57856/api/";
+       //     _endPoint = AZURE_ADDRESS;
             return ans;
         }
 

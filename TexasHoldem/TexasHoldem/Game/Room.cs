@@ -29,7 +29,7 @@ namespace TexasHoldem.Game
         public GamePreferences GamePreferences;
         public bool Flop;
         public int Pot = 0;
-        public readonly string GameReplay;
+    //    public readonly string GameReplay;
         private int _turn = 1;
         public GameStatus GameStatus;
 
@@ -100,7 +100,7 @@ namespace TexasHoldem.Game
             Name = name;
             League = creator.User.League;
 
-            GameReplay = Replayer.CreateReplay();
+         //   GameReplay = Replayer.CreateReplay();
             HandLogic = new HandLogic();
             Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+League );
         }
@@ -237,7 +237,7 @@ namespace TexasHoldem.Game
             foreach (var p in Players) p.BetInThisRound = false;
             GameStatus = GameStatus.Flop;
 
-            Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "the flop");
+         //   Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "the flop");
             Logger.Log(Severity.Action, "3 community cards dealed room name=" + Name + "community cards:" + CommunityCards[0] + CommunityCards[1] + CommunityCards[2]);
         }
 
@@ -266,7 +266,7 @@ namespace TexasHoldem.Game
             foreach (var p in Players) p.BetInThisRound = false;
             GameStatus = GameStatus.Turn;
 
-            Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "the turn");
+        //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "the turn");
             Logger.Log(Severity.Action, "1 community card dealed room name=" + Name + "community cards:"+ CommunityCards[0] + CommunityCards[1] + CommunityCards[2]+ CommunityCards[3]);
         }
 
@@ -294,7 +294,7 @@ namespace TexasHoldem.Game
             foreach (var p in Players) p.BetInThisRound = false;
             GameStatus = GameStatus.River;
 
-            Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "the river");
+        //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "the river");
             Logger.Log(Severity.Action, "1 community card dealed room name=" + Name + "community cards:" + CommunityCards[0] + CommunityCards[1] + CommunityCards[2] + CommunityCards[3]+ CommunityCards[4]);
         }
 
@@ -328,7 +328,7 @@ namespace TexasHoldem.Game
             Deck = new Deck();
 
             // 0 = dealer 1=small blind 2=big blind
-            Replayer.Save(GameReplay, _turn, Players, Pot, null, "start of turn");
+         //   Replayer.Save(GameReplay, _turn, Players, Pot, null, "start of turn");
             if (Players.Count == 2)
             {
                 Logger.Log(Severity.Action, "new game started in room " + Name + " dealer and small blind-" + Players[0]+ "big blind-"+Players[1]);
@@ -467,7 +467,7 @@ namespace TexasHoldem.Game
             }
 
             p.SetBet(bet);
-            Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+        //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
             return this;
         }
 
@@ -544,7 +544,7 @@ namespace TexasHoldem.Game
  
             var winners = Winners();
 
-            Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
+        //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
             Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
             foreach(var p in winners)
             {
@@ -613,7 +613,7 @@ namespace TexasHoldem.Game
 
             p.Fold();
             Logger.Log(Severity.Action, "player "+p.Name+" folded");
-            Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+        //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
             return this;
         }
 
