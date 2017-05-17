@@ -10,7 +10,7 @@ namespace server.Controllers
 {
     public class ReplayController : ApiController
     {
-        // GET: api/Replay
+        // GET: api/Replay?RoomName=="KAKI"&&Player="moshe"
         public IEnumerable<RoomState> Get(string RoomName, string Player)
         {
             List<RoomState> ans = null;
