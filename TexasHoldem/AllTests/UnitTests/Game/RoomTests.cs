@@ -1080,7 +1080,7 @@ namespace AllTests.UnitTests.Game
         }
 
         [TestMethod]
-        public void NotifyTest()
+        public void NotifyTestPlayerToAllRoom()
         {
             var ml = new MessageLogic();
             const string message = "wow you are so cool!";
@@ -1090,12 +1090,120 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, _gp);
             var p1 = new Player("shachar2", kobi);
             r.AddPlayer(p1);
-            ml.NotifyRoom(message,r);
+            ml.PlayerSendMessege(message,p1,r);
 
             foreach (var p2 in r.Players)
                 Assert.AreEqual(
-                    DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
+                    DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ":  "+p1.Name+": " + message,
                     p2.User.Notifications[0].Item2);
         }
+        [TestMethod]
+        public void NotifyTestPlayerWisper()
+        {
+            var ml = new MessageLogic();
+            const string message = "wow you are so cool!";
+            var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+            var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+            var p = new Player("shachar1", yossi);
+            var r = new Room("aaaa", p, _gp);
+            var p1 = new Player("shachar2", kobi);
+            r.AddPlayer(p1);
+            ml.PlayerWisper(message, p1,p.User,r);
+                Assert.AreEqual(
+                    DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + p1.Name + ": " + message,
+                    p.User.Notifications[0].Item2);
+        }
+
+        [TestMethod]
+        public void NotifyTestPlayerWisperFail()
+        {
+            try
+            {
+                var ml = new MessageLogic();
+                const string message = null;
+                var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+                var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+                var p = new Player("shachar1", yossi);
+                var r = new Room("aaaa", p, _gp);
+                var p1 = new Player("shachar2", kobi);
+                r.AddPlayer(p1);
+                ml.PlayerWisper(message, p1, p.User, r);
+               
+            }
+            catch(Exception e)
+            {
+                Assert.AreEqual(
+                   e.Message, "cant send null message");
+            }
+        }
+
+        [TestMethod]
+        public void NotifyTestPlayerWisperFail2()
+        {
+            try
+            {
+                var ml = new MessageLogic();
+                const string message = null;
+                var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+                var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+                var p = new Player("shachar1", yossi);
+                var r = new Room("aaaa", p, _gp);
+                var p1 = new Player("shachar2", kobi);
+                r.AddPlayer(p1);
+                ml.PlayerWisper("aa", null, p.User, r);
+
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual(
+                   e.Message, "sender cant be null");
+            }
+        }
+
+        [TestMethod]
+        public void NotifyTestPlayerWisperFail3()
+        {
+            try
+            {
+                var ml = new MessageLogic();
+                const string message = null;
+                var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+                var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+                var p = new Player("shachar1", yossi);
+                var r = new Room("aaaa", p, _gp);
+                var p1 = new Player("shachar2", kobi);
+                r.AddPlayer(p1);
+                ml.PlayerWisper("", p1, p.User, r);
+
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual(
+                   e.Message, "cant send empty message / curses");
+            }
+        }
+
+        [TestMethod]
+        public void NotifyTestPlayerWisperFail4()
+        {
+            try
+            {
+                var ml = new MessageLogic();
+                const string message = null;
+                var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+                var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+                var p = new Player("shachar1", yossi);
+                var r = new Room("aaaa", p, _gp);
+                var p1 = new Player("shachar2", kobi);
+                r.AddPlayer(p1);
+                ml.PlayerWisper("fuck", p1, p.User, r);
+
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual(
+                   e.Message, "cant send empty message / curses");
+            }
+        }
     }
-}
+} 

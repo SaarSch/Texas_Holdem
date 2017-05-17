@@ -1,13 +1,15 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using TexasHoldem.Services;
 
 namespace server
 {
     public static class WebApiConfig
     {
-        public static GameFacade GameManger= new GameFacade();
-        public static UserFacade UserManger = new UserFacade();
-        public static ReplayFacade ReplayManger = new ReplayFacade();
+        public static DateTime ChangeLeagues;
+        public static GameFacade GameFacade= new GameFacade();
+        public static UserFacade UserFacade = new UserFacade();
+        public static ReplayFacade ReplayFacade = new ReplayFacade();
 
         public static void Register(HttpConfiguration config)
         {

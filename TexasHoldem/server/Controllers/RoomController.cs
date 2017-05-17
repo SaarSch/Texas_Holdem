@@ -1,5 +1,6 @@
 ﻿using server.Models;
 using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using Room = TexasHoldem.Game.Room;
 
@@ -7,6 +8,8 @@ namespace server.Controllers
 {
     public class RoomController : ApiController
     {
+        public static Dictionary<string,Dictionary<string, List<RoomState>>> Replays =new Dictionary<string, Dictionary<string, List<RoomState>>>();
+
         // Put: /api/Room?game_name=moshe&player_name=kaki
         public RoomState Put(string gameName, string playerName) //get current status
         {
@@ -53,6 +56,7 @@ namespace server.Controllers
                 {
                     case "join":
                         r = WebApiConfig.GameManger.JoinGame(userName, gameName, playerName);
+                        if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
                         r = WebApiConfig.GameManger.SpectateGame(userName, gameName, playerName);
@@ -115,14 +119,30 @@ namespace server.Controllers
             return ans;
         }
 
-        // POST: api/Room  -------create room
+        // POST: api/Room   create room
         public RoomState Post([FromBody]Models.Room value)
         {
+            if(WebApiConfig.ChangeLeagues ==null || WebApiConfig.ChangeLeagues.AddDays(7)<= DateTime.Now)
+            {
+                WebApiConfig.GameManger.SetLeagues();
+                WebApiConfig.ChangeLeagues = DateTime.Now;
+            }
             var ans = new RoomState();
             try
             {
                 Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
-                if (r != null) CreateRoomState(value.CreatorPlayerName, r, ans);
+                if (r != null)
+                {
+                    Dictionary<string, List<RoomState>> roomDic = new Dictionary<string, List<RoomState>>();
+                    List<RoomState> UserList = new List<RoomState>();
+                    if (Replays.ContainsKey(r.Name))
+                    {
+                        Replays.Remove(r.Name);
+                    }
+                    roomDic.Add(value.CreatorPlayerName, UserList);
+                    Replays.Add(r.Name,roomDic);
+                    CreateRoomState(value.CreatorPlayerName, r, ans);
+                }
                 return ans;
             }
 
@@ -150,6 +170,7 @@ namespace server.Controllers
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
                 ans.AllPlayers = new Player[r.Players.Count];
+                ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
                 for (var i = 0; i < 5; i++)
                 {
                     if (r.CommunityCards[i] == null) break;
@@ -180,8 +201,9 @@ namespace server.Controllers
                     }
                     else if(!r.IsOn)
                     {
-                        if (p.Hand[0] != null) p1.PlayerHand[0] = p.Hand[0].ToString();
-                        if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
+
+                        if (p.Hand[0] != null&&!p.Folded) p1.PlayerHand[0] = p.Hand[0].ToString();
+                        if (p.Hand[1] != null&&!p.Folded) p1.PlayerHand[1] = p.Hand[1].ToString();
                         if(player == p.Name)
                         {
                             foreach (var pa in p.User.Notifications)
@@ -214,9 +236,12 @@ namespace server.Controllers
                     }
                 }
 
+                if (!Replays[r.Name][player][Replays[r.Name][player].Count].Equals(ans))
+                {
+                    Replays[r.Name][player].Add(ans);
+                }
+
             }
-
-
             catch (Exception e)
             {
                 ans.Messege = e.Message;
