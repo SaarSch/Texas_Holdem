@@ -8,15 +8,15 @@ namespace TexasHoldem.Bridges
 {
     public class RealBridge:IBridge
     {
-        private readonly UserManager _userManager;
-        private readonly GameManager _gameManager;
-        private readonly ReplayManager _replayManager;
+        private readonly UserFacade _userManager;
+        private readonly GameFacade _gameManager;
+        private readonly ReplayFacade _replayManager;
 
         public RealBridge()
         {
-            _userManager = new UserManager();
-            _gameManager = new GameManager();
-            _replayManager = new ReplayManager();
+            _userManager = new UserFacade();
+            _gameManager = new GameFacade();
+            _replayManager = new ReplayFacade();
         }
 
         public bool Register(string userName, string pass)

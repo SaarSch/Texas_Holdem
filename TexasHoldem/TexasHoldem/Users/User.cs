@@ -34,17 +34,17 @@ namespace TexasHoldem.Users
             ChipsAmount = chipsAmount;
         }
 
-        public void AddNotification(string Room, string notif)
+        public void AddNotification(string room, string notif)
         {
             if (notif == "")
             {
                 throw new Exception("notification is empty.");
             }
 
-            Notifications.Add(new Tuple<string, string>(Room,notif));
+            Notifications.Add(new Tuple<string, string>(room,notif));
         }
 
-        public void RemoveNotification(string Room, string notif)
+        public void RemoveNotification(string room, string notif)
         {
             if (notif == "")
             {
@@ -53,7 +53,7 @@ namespace TexasHoldem.Users
             Tuple<string, string> p = null;
             foreach (var p1 in Notifications)
             {
-                if (p1.Item1 == Room && p1.Item2 == notif)
+                if (p1.Item1 == room && p1.Item2 == notif)
                     p = p1;
             }
 
@@ -135,7 +135,7 @@ namespace TexasHoldem.Users
             if (avatarPath.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1
                 || (!avatarPath.EndsWith(".png") && !avatarPath.EndsWith(".jpg") && !avatarPath.EndsWith(".jpeg"))
                 || avatarPath.Contains("virus")
-                ||  avatarPath.Contains("VIRUS")) // TODO: add more?
+                ||  avatarPath.Contains("VIRUS"))
             {
                 Exception e = new IllegalAvatarException("Illegal avatar file! Must be a legal image.");
                 Logger.Log(Severity.Error, e.Message);

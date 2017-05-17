@@ -1,12 +1,10 @@
-﻿using TexasHoldem.GameReplay;
-
-namespace TexasHoldem.Services
+﻿namespace TexasHoldem.Services
 {
-    public class ReplayManager
+    public class ReplayFacade
     {
         private readonly GameCenter _gameCenter;
 
-        public ReplayManager()
+        public ReplayFacade()
         {
             _gameCenter = GameCenter.GetGameCenter();
         }

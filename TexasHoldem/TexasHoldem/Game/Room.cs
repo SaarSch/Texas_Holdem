@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
 using TexasHoldem.GameReplay;
 using TexasHoldem.Loggers;
+using TexasHoldem.Logics;
 using TexasHoldem.Users;
 
 namespace TexasHoldem.Game

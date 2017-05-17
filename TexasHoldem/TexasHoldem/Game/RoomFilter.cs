@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldem.Services
+﻿namespace TexasHoldem.Game
 {
     public class RoomFilter
     {
@@ -20,20 +14,20 @@ namespace TexasHoldem.Services
         public bool? SepctatingAllowed;
 
 
-        public RoomFilter(string player_name, int? pot_size, bool? league_only, string game_type, int? buy_in_policy,
-            int? chip_policy, int? min_bet,
-            int? min_players, int? max_players, bool? sepctating_allowed)
+        public RoomFilter(string playerName, int? potSize, bool? leagueOnly, string gameType, int? buyInPolicy,
+            int? chipPolicy, int? minBet,
+            int? minPlayers, int? maxPlayers, bool? sepctatingAllowed)
         {
-            this.PlayerName = player_name;
-            this.PotSize = pot_size;
-            this.LeagueOnly = league_only;
-            this.GameType = game_type;
-            this.BuyInPolicy = buy_in_policy;
-            this.ChipPolicy = chip_policy;
-            this.MinBet = min_bet;
-            this.MinPlayers = min_players;
-            this.MaxPlayers = max_players;
-            this.SepctatingAllowed = sepctating_allowed;
+            PlayerName = playerName;
+            PotSize = potSize;
+            LeagueOnly = leagueOnly;
+            GameType = gameType;
+            BuyInPolicy = buyInPolicy;
+            ChipPolicy = chipPolicy;
+            MinBet = minBet;
+            MinPlayers = minPlayers;
+            MaxPlayers = maxPlayers;
+            SepctatingAllowed = sepctatingAllowed;
         }
 
         public RoomFilter()

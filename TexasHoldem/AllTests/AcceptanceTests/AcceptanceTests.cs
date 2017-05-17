@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
+using TexasHoldem.Game;
 using TexasHoldem.Services;
 
 namespace AllTests.AcceptanceTests

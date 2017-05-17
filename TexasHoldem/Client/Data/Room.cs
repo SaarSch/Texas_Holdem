@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Client
+﻿namespace Client.Data
 {
     public class Room
     {
