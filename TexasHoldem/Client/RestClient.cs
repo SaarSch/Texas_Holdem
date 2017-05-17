@@ -23,44 +23,35 @@ namespace Client
             reqStream.Close();
         }   
 
-        public static string MakePostRequest(string data)
+        public static string MakePostRequest(string controller, string data)
         {
-            string strResponseValue = "";
-
+            string ans = "";
+            SetController(controller);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "POST";
             WriteData(request, data);
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new ApplicationException("Error code: " + response.StatusCode.ToString());
-                }
-                //Process the response stream... (JSON/XML/HTML...)
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    if (responseStream != null)
-                    {
-                        using (StreamReader reader = new StreamReader(responseStream))
-                        {
-                            strResponseValue = reader.ReadToEnd();
-                        }//End of Stream Reader
-                    }
-                }//End of using ResponseStream
-
-            }//End of using ResponseStream
+            ans = PerformRequest(request);
             _endPoint = AZURE_ADDRESS;
-            return strResponseValue;
+            return ans;
         }
 
-        public static string MakeGetRequest()
+        public static string MakeGetRequest(string controller)
         {
-            string strResponseValue = "";
-
+            string ans = "";
+            SetController(controller);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "GET";
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            ans = PerformRequest(request);
+            _endPoint = AZURE_ADDRESS;
+            return ans;
+        }
+
+        private static string PerformRequest(WebRequest request)
+        {
+            string strResponseValue = "";
+            try
             {
+                var response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     throw new ApplicationException("Error code: " + response.StatusCode.ToString());
@@ -76,13 +67,15 @@ namespace Client
                         }//End of Stream Reader
                     }
                 }//End of using ResponseStream
-
-            }//End of using ResponseStream
-            _endPoint = AZURE_ADDRESS;
+            }
+            catch (Exception e)
+            {
+                return "Failed to connect to remote server";
+            }
             return strResponseValue;
         }
 
-        public static void SetController(string suffix)
+        private static void SetController(string suffix)
         {
             _endPoint = _endPoint + suffix;
         }

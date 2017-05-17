@@ -40,7 +40,6 @@ namespace TexasHoldem.Game
 
         public Room(string name, Player creator, GamePreferences gamePreferences)
         {
-
             if (name == null)
             {
                 Exception e = new ArgumentException("room name can't be null");
@@ -48,6 +47,18 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
+            if (!Regex.IsMatch(name, "^[a-zA-Z0-9 ]*$"))
+            {
+                Exception e = new IllegalRoomNameException("room name contains illegal characters");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+            if (name.Length > MaxNameLength || name.Length < MinNameLength)
+            {
+                Exception e = new IllegalRoomNameException("room name must be between 4 and 30 characters long");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
             if (creator == null)
             {
                 Exception e = new ArgumentException("creator player can't be null");
@@ -86,18 +97,6 @@ namespace TexasHoldem.Game
 
             GamePreferences = gamePreferences;
             Players.Add(creator);
-            if (!Regex.IsMatch(name, "^[a-zA-Z0-9 ]*$"))
-            {
-                Exception e = new IllegalRoomNameException("room name contains illegal characters");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            if (name.Length > MaxNameLength || name.Length < MinNameLength)
-            {
-                Exception e = new IllegalRoomNameException("room name must be between 4 and 30 characters long");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
             Name = name;
             League = creator.User.League;
 

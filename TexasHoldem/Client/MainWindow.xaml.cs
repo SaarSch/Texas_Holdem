@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using Client.Data;
+using System.Web.Script.Serialization;
 
 namespace Client
 {
@@ -48,20 +49,21 @@ namespace Client
         {
             PotSizeTxt.IsEnabled = !PotSizeTxt.IsEnabled;
         }
-        //Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
-        private string SetFilter()
+
+        private RoomFilter SetFilter()
         {
-            string filter = "{\"User\":\"" + loggedUser.Username+"\"";
+            RoomFilter filter = new RoomFilter();
+            filter.User = loggedUser.Username;
             if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value == true)
             {
-                filter += ",\"PlayerName\":\"" + PlayerNameTxt.Text+"\"";
+                filter.PlayerName = PlayerNameTxt.Text;
             }
             if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value == true)
             {
                 try
                 {
                     int pot = Int32.Parse(PotSizeTxt.Text);
-                    filter += ",\"PlayerName\":" + pot + "";
+                    filter.PotSize = pot;
                 }
                 catch
                 {
@@ -71,18 +73,18 @@ namespace Client
             }
             if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value == true)
             {
-                filter += ",\"LeagueOnly\":" + 1;
+                filter.LeagueOnly = true;
             }
             if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value == true)
             {
-                filter += ",\"GameType\":\"" + GameTypeCombobox.Text + "\"";
+                filter.GameType = GameTypeCombobox.Text;
             }
             if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value == true)
             {
                 try
                 {
                     int buy = Int32.Parse(BuyinPolicyTxt.Text);
-                    filter += ",\"BuyInPolicy\":" + buy + "";
+                    filter.BuyInPolicy = buy;
                 }
                 catch
                 {
@@ -95,7 +97,7 @@ namespace Client
                 try
                 {
                     int chip = Int32.Parse(ChipPolicyTxt.Text);
-                    filter += ",\"ChipPolicy\":" + chip + "";
+                    filter.ChipPolicy = chip;
                 }
                 catch
                 {
@@ -108,7 +110,7 @@ namespace Client
                 try
                 {
                     int minB = Int32.Parse(MinBetTxt.Text);
-                    filter += ",\"MinBet\":" + minB + "";
+                    filter.MinBet = minB;
                 }
                 catch
                 {
@@ -121,7 +123,7 @@ namespace Client
                 try
                 {
                     int minP = Int32.Parse(MinPlayersTxt.Text);
-                    filter += ",\"MinPlayers\":" + minP + "";
+                    filter.MinPlayers = minP;
                 }
                 catch
                 {
@@ -134,7 +136,7 @@ namespace Client
                 try
                 {
                     int maxP = Int32.Parse(MaxPlayersTxt.Text);
-                    filter += ",\"MaxPlayers\":" + maxP + "";
+                    filter.MaxPlayers = maxP;
                 }
                 catch
                 {
@@ -144,23 +146,23 @@ namespace Client
             }
             if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value == true)
             {
-                int cond = 0;
-                if (SpectatingCombobox.Text == "Yes")
-                    cond = 1;
-                filter += ",\"SepctatingAllowed\":" + cond + "";
+                bool cond = SpectatingCombobox.Text == "Yes";
+                filter.SpectatingAllowed = cond;
             }
-            filter += "}";
             return filter;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string filter = SetFilter();
+            RoomFilter filter = SetFilter();
 
             if (filter == null)
                 return;
-            RestClient.SetController("Search");
-            string ans = RestClient.MakePostRequest(filter);
+
+            string controller = "Search";
+            string data = new JavaScriptSerializer().Serialize(filter);
+
+            string ans = RestClient.MakePostRequest(controller, data);
             JObject json = JObject.Parse(ans);
             RoomList roomList = json.ToObject<RoomList>();
             if (roomList.Message == null)
@@ -171,7 +173,7 @@ namespace Client
             }
             else
             {
-                MessageBox.Show("No rooms to show", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("No rooms to show!", "No results", MessageBoxButton.OK, MessageBoxImage.Information);
                 roomResults.Clear();
                 RoomsGrid.ItemsSource = roomResults;
                 RoomsGrid.Items.Refresh();
@@ -221,9 +223,110 @@ namespace Client
             GameTypeCombobox.IsEnabled = !GameTypeCombobox.IsEnabled;
         }
 
+        private Room SetRoom()
+        {
+            Room room = new Room();
+            room.CreatorUserName = loggedUser.Username;
+            room.CreatorPlayerName = PlayerNameTxt_Copy.Text;
+            room.GameType = GameTypeCombobox_Copy.Text;
+            try
+            {
+                int buy = Int32.Parse(BuyinPolicyTxt_Copy.Text);
+                room.BuyInPolicy = buy;
+            }
+            catch
+            {
+                MessageBox.Show("Buy in policy must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int chip = Int32.Parse(ChipPolicyTxt_Copy.Text);
+                room.ChipPolicy = chip;
+            }
+            catch
+            {
+                MessageBox.Show("Chip policy must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int minB = Int32.Parse(MinBetTxt_Copy.Text);
+                room.MinBet = minB;
+            }
+            catch
+            {
+                MessageBox.Show("Minimum bet must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int minP = Int32.Parse(MinPlayersTxt_Copy.Text);
+                room.MinPlayers = minP;
+            }
+            catch
+            {
+                MessageBox.Show("Minimum number of players must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                int maxP = Int32.Parse(MaxPlayersTxt_Copy.Text);
+                room.MaxPlayers = maxP;
+            }
+            catch
+            {
+                MessageBox.Show("Maximum number of players must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+
+            bool cond = SpectatingCombobox_Copy.Text == "Yes";
+            room.SpectatingAllowed = cond;
+
+            room.RoomName = RoomNameTxt.Text;
+
+            return room;
+        }
+
         private void newRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            Room room = SetRoom();
 
+            if (room == null)
+                return;
+
+            string controller = "Room";
+            string data = new JavaScriptSerializer().Serialize(room);
+
+            string ans = RestClient.MakePostRequest(controller, data);
+            JObject json = JObject.Parse(ans);
+            RoomState roomState = json.ToObject<RoomState>();
+            if (roomState.Messege == null)
+            {
+                    int chip = (int)chipsLabel.Content;
+                if (room.ChipPolicy != 0)
+                {
+                    chipsLabel.Content = chip - room.ChipPolicy;
+                }
+                else
+                {
+                    chipsLabel.Content = 0;
+                }
+                MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                GameWindow gameWindow = new GameWindow(roomState);
+                App.Current.MainWindow = gameWindow;
+                //this.Close();
+                gameWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show(roomState.Messege, "Error in creation", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
