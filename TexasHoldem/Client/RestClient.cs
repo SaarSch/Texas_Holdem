@@ -51,7 +51,7 @@ namespace Client
                 var response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    throw new ApplicationException("Error code: " + response.StatusCode.ToString());
+                    throw new ApplicationException("Error code: " + response.StatusCode);
                 }
                 //Process the response stream... (JSON/XML/HTML...)
                 using (var responseStream = response.GetResponseStream())

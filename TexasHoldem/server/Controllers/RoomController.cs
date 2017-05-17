@@ -1,10 +1,10 @@
-﻿using server.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using Server.Models;
 using Room = TexasHoldem.Game.Room;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     public class RoomController : ApiController
     {
@@ -17,7 +17,7 @@ namespace server.Controllers
             var ans = new RoomState();
             try
             {
-                r = WebApiConfig.GameManger.RoomStatus(gameName);
+                r = WebApiConfig.GameFacade.RoomStatus(gameName);
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace server.Controllers
             var ans = new RoomState();
             try
             {
-                r = WebApiConfig.GameManger.StartGame(gameName);
+                r = WebApiConfig.GameFacade.StartGame(gameName);
             }
             catch (Exception e)
             {
@@ -55,14 +55,14 @@ namespace server.Controllers
                 switch (option)
                 {
                     case "join":
-                        r = WebApiConfig.GameManger.JoinGame(userName, gameName, playerName);
+                        r = WebApiConfig.GameFacade.JoinGame(userName, gameName, playerName);
                         if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
-                        r = WebApiConfig.GameManger.SpectateGame(userName, gameName, playerName);
+                        r = WebApiConfig.GameFacade.SpectateGame(userName, gameName, playerName);
                         break;
                     case "leave":
-                        r = WebApiConfig.GameManger.LeaveGame(userName, gameName, playerName);
+                        r = WebApiConfig.GameFacade.LeaveGame(userName, gameName, playerName);
                         break;
                 }
             }
@@ -82,7 +82,7 @@ namespace server.Controllers
             var ans = new RoomState();
             try
             {
-                r = WebApiConfig.GameManger.PlaceBet(gameName, playerName, bet);
+                r = WebApiConfig.GameFacade.PlaceBet(gameName, playerName, bet);
             }
             catch (Exception e)
             {
@@ -103,10 +103,10 @@ namespace server.Controllers
                 switch (option)
                 {
                     case "fold":
-                        r = WebApiConfig.GameManger.Fold(gameName, playerName);
+                        r = WebApiConfig.GameFacade.Fold(gameName, playerName);
                         break;
                     case "call":
-                        r = WebApiConfig.GameManger.Call(gameName, playerName);
+                        r = WebApiConfig.GameFacade.Call(gameName, playerName);
                         break;
                 }
                 if (r != null) CreateRoomState(playerName, r, ans);
@@ -122,24 +122,24 @@ namespace server.Controllers
         // POST: api/Room   create room
         public RoomState Post([FromBody]Models.Room value)
         {
-            if(WebApiConfig.ChangeLeagues ==null || WebApiConfig.ChangeLeagues.AddDays(7)<= DateTime.Now)
+            if(WebApiConfig.ChangeLeagues.AddDays(7)<= DateTime.Now)
             {
-                WebApiConfig.GameManger.SetLeagues();
+                WebApiConfig.GameFacade.SetLeagues();
                 WebApiConfig.ChangeLeagues = DateTime.Now;
             }
             var ans = new RoomState();
             try
             {
-                Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
+                Room r = WebApiConfig.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
                 if (r != null)
                 {
-                    Dictionary<string, List<RoomState>> roomDic = new Dictionary<string, List<RoomState>>();
-                    List<RoomState> UserList = new List<RoomState>();
+                    var roomDic = new Dictionary<string, List<RoomState>>();
+                    var userList = new List<RoomState>();
                     if (Replays.ContainsKey(r.Name))
                     {
                         Replays.Remove(r.Name);
                     }
-                    roomDic.Add(value.CreatorPlayerName, UserList);
+                    roomDic.Add(value.CreatorPlayerName, userList);
                     Replays.Add(r.Name,roomDic);
                     CreateRoomState(value.CreatorPlayerName, r, ans);
                 }
@@ -195,7 +195,7 @@ namespace server.Controllers
                         {
                             if (pa.Item1 == r.Name)
                             {
-                                p1.messages.Add(pa.Item2);
+                                p1.Messages.Add(pa.Item2);
                             }
                         }
                     }
@@ -210,7 +210,7 @@ namespace server.Controllers
                             {
                                 if (pa.Item1 == r.Name)
                                 {
-                                    p1.messages.Add(pa.Item2);
+                                    p1.Messages.Add(pa.Item2);
                                 }
                             }
                         }
@@ -219,7 +219,7 @@ namespace server.Controllers
                     j++;
                 }   
                 
-                ans.spectators = new UserData[r.SpectateUsers.Count];
+                ans.Spectators = new UserData[r.SpectateUsers.Count];
                 var u1 = new UserData();
                 foreach(var u in r.SpectateUsers)
                 {
@@ -230,7 +230,7 @@ namespace server.Controllers
                         {
                             if (pa.Item1 == r.Name)
                             {
-                                u1.messages.Add(pa.Item2);
+                                u1.Messages.Add(pa.Item2);
                             }
                         }
                     }

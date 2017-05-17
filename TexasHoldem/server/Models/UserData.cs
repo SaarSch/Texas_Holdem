@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace server.Models
+namespace Server.Models
 {
     public class UserData
     {
@@ -12,14 +12,14 @@ namespace server.Models
         public int Wins;
         public int Chips;
         public string Message;
-        public List<string> messages = new List<string>();
+        public List<string> Messages = new List<string>();
 
         public bool Equals(UserData other)
         {
-            if (messages.Count != other.messages.Count) return false;
-            for(int i = 0; i < messages.Count; i++)
+            if (Messages.Count != other.Messages.Count) return false;
+            for(var i = 0; i < Messages.Count; i++)
             {
-                if (messages[i] != other.messages[i]) return false;
+                if (Messages[i] != other.Messages[i]) return false;
             }
 
 
