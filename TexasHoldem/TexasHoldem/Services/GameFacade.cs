@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.Game;
-using TexasHoldem.Users;
+using TexasHoldem.Logics;
 
 namespace TexasHoldem.Services
 {
-    public class GameManager
+    public class GameFacade
     {
         private readonly GameCenter _gameCenter;
         private readonly MessageLogic _messageLogic;
         private readonly UserLogic _userLogic;
 
-        public GameManager()
+        public GameFacade()
         {
             _gameCenter = GameCenter.GetGameCenter();
             _messageLogic = new MessageLogic();

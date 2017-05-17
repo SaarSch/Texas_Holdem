@@ -73,9 +73,9 @@
                     <TextBox x:Name ="MaxPlayersTxt_Copy" Text="8" HorizontalAlignment="Left" Height="15" Margin="305,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
                     <TextBox x:Name ="MinPlayersTxt_Copy" Text="2" HorizontalAlignment="Left" Height="16" Margin="305,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
                     <TextBox x:Name ="MinBetTxt_Copy" Text="4" HorizontalAlignment="Left" Height="17" Margin="305,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
-                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="509,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="509,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True"/>
                     <Label Content="Room Name" HorizontalAlignment="Left" Margin="427,39,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="PlayerNameTxt_Copy" HorizontalAlignment="Left" Height="19" Margin="509,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+                    <TextBox x:Name="PlayerNameTxt_Copy" HorizontalAlignment="Left" Height="19" Margin="509,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True"/>
                     <Label Content="Player Name" HorizontalAlignment="Left" Margin="427,74,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>

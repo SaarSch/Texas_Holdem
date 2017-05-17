@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
+using TexasHoldem.Users;
 
-namespace TexasHoldem.Users
+namespace TexasHoldem.Logics
 {
     public class UserLogic
     {
