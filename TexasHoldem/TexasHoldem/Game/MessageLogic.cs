@@ -24,7 +24,7 @@ namespace TexasHoldem.Game
             Notifier.Instance.Notify(roomUsers, r.Name, message);
         }
 
-        public Room PlayerSendMessege(string message, Player sender, Room r)
+        public Room PlayerSendMessege(string message, IPlayer sender, Room r)
         {
             if (message is null)
             {
@@ -124,7 +124,7 @@ namespace TexasHoldem.Game
             return r;
         }
 
-        public Room PlayerWisper(string message, Player sender, User reciver, Room r)
+        public Room PlayerWisper(string message, IPlayer sender, User reciver, Room r)
         {
             if (message is null)
             {

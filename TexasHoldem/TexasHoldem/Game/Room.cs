@@ -20,8 +20,8 @@ namespace TexasHoldem.Game
     public class Room
     {
         public bool IsOn;
-        public List<User> SpectateUsers = new List<User>();
-        public List<Player> Players = new List<Player>(8);
+        public List<IUser> SpectateUsers = new List<IUser>();
+        public List<IPlayer> Players = new List<IPlayer>(8);
         public Deck Deck = new Deck();
         public Card[] CommunityCards = new Card[5];
         public string Name;
@@ -38,7 +38,7 @@ namespace TexasHoldem.Game
         public const int MinNameLength = 4;
         public const int MaxNameLength = 30;
 
-        public Room(string name, Player creator, GamePreferences gamePreferences)
+        public Room(string name, IPlayer creator, GamePreferences gamePreferences)
         {
 
             if (name == null)
@@ -116,7 +116,7 @@ namespace TexasHoldem.Game
             return false;
         }
 
-        public Room AddPlayer(Player p)
+        public Room AddPlayer(IPlayer p)
         {
             foreach(var p1 in Players)
             {
@@ -173,7 +173,7 @@ namespace TexasHoldem.Game
             return this;
         }
   
-        public void Spectate(User user)
+        public void Spectate(IUser user)
         {
             if (!GamePreferences.Spectating)
             {
@@ -346,7 +346,7 @@ namespace TexasHoldem.Game
             return this;
         }
 
-        public Room Call(Player p)
+        public Room Call(IPlayer p)
         {
             if (!Players.Contains(p))
             {
@@ -403,7 +403,7 @@ namespace TexasHoldem.Game
             return this;
         }
 
-        public Room SetBet(Player p, int bet, bool smallBlind)
+        public Room SetBet(IPlayer p, int bet, bool smallBlind)
         {
             if(!Players.Contains(p))
             {
@@ -513,9 +513,9 @@ namespace TexasHoldem.Game
 
         }
 
-        public List<Player> Winners()
+        public List<IPlayer> Winners()
         {  
-            var winners = new List<Player>();
+            var winners = new List<IPlayer>();
             foreach (var p in Players)
             {
                 if (!p.Folded)
@@ -548,7 +548,7 @@ namespace TexasHoldem.Game
             return winners;
         }
 
-        private string PlayersToString(List<Player> players)
+        private string PlayersToString(List<IPlayer> players)
         {
             var playersNames = "Players:";
             foreach (var p in players) playersNames += p.ToString();
@@ -558,7 +558,7 @@ namespace TexasHoldem.Game
         public void CalcWinnersChips()
         {
  
-            var winners = Winners();
+            List<IPlayer> winners = Winners();
 
             Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
             Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
@@ -591,7 +591,7 @@ namespace TexasHoldem.Game
             _turn++;
         }
 
-        public Room Fold(Player p)
+        public Room Fold(IPlayer p)
         {
             var allFolded = true;
             foreach(var p1 in Players)
@@ -633,9 +633,9 @@ namespace TexasHoldem.Game
             return this;
         }
 
-        public Player GetPlayer(string name)
+        public IPlayer GetPlayer(string name)
         {
-            Player ans = null;
+            IPlayer ans = null;
             if(name == null)
             {
                 var e = new Exception("name cant be null");

@@ -35,7 +35,7 @@ namespace AllTests.UnitTests.GameReplay
             var p2 = new Player("kobi", new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000));
             p1.CurrentBet = 100;
             p2.CurrentBet = 150;
-            var players = new List<Player> {p1, p2};
+            var players = new List<IPlayer> {p1, p2};
 
             Replayer.Save(filename, 5, players, 100, null, null);
             if (File.Exists(path))
@@ -62,7 +62,7 @@ namespace AllTests.UnitTests.GameReplay
             p1.CurrentBet = 100;
             p2.CurrentBet = 150;
             p1.Folded = true;
-            var players = new List<Player> {p1, p2};
+            var players = new List<IPlayer> {p1, p2};
             Card[] community =
             {
                 new Card(2, CardType.Clubs), null, new Card(5, CardType.Diamonds), new Card(10, CardType.Hearts),
@@ -86,7 +86,7 @@ namespace AllTests.UnitTests.GameReplay
             p1.CurrentBet = 100;
             p2.CurrentBet = 150;
             p1.Folded = true;
-            var players = new List<Player> {p1, p2};
+            var players = new List<IPlayer> {p1, p2};
             Card[] community =
             {
                 new Card(2, CardType.Clubs), null, new Card(5, CardType.Diamonds), new Card(10, CardType.Hearts),
@@ -112,7 +112,7 @@ namespace AllTests.UnitTests.GameReplay
             p1.CurrentBet = 100;
             p2.CurrentBet = 150;
             p1.Folded = true;
-            var players = new List<Player> {p1, p2};
+            var players = new List<IPlayer> {p1, p2};
             Card[] community =
             {
                 new Card(2, CardType.Clubs), null, new Card(5, CardType.Diamonds), new Card(10, CardType.Hearts),
@@ -139,7 +139,7 @@ namespace AllTests.UnitTests.GameReplay
             p1.CurrentBet = 100;
             p2.CurrentBet = 150;
             p1.Folded = true;
-            var players = new List<Player> {p1, p2};
+            var players = new List<IPlayer> {p1, p2};
             Card[] community =
             {
                 new Card(2, CardType.Clubs), null, new Card(5, CardType.Diamonds), new Card(10, CardType.Hearts),
@@ -196,7 +196,7 @@ namespace AllTests.UnitTests.GameReplay
 
             try
             {
-                Replayer.Save(filename, -5, new List<Player>(), 100, community, "a comment");
+                Replayer.Save(filename, -5, new List<IPlayer>(), 100, community, "a comment");
                 File.Delete(Directory.GetCurrentDirectory() + "\\" + filename);
                 File.Delete(Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt");
                 Assert.Fail(); // If it gets to this line, no exception was thrown
@@ -217,7 +217,7 @@ namespace AllTests.UnitTests.GameReplay
             p1.CurrentBet = 100;
             p2.CurrentBet = 150;
             p1.Folded = true;
-            var players = new List<Player> {p1, p2};
+            var players = new List<IPlayer> {p1, p2};
             Card[] community =
             {
                 new Card(2, CardType.Clubs), null, new Card(5, CardType.Diamonds), new Card(10, CardType.Hearts),
