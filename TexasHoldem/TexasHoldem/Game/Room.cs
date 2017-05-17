@@ -19,6 +19,7 @@ namespace TexasHoldem.Game
 
     public class Room
     {
+        public int id;
         public bool IsOn;
         public List<User> SpectateUsers = new List<User>();
         public List<Player> Players = new List<Player>(8);

@@ -1,5 +1,6 @@
 ﻿using server.Models;
 using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using Room = TexasHoldem.Game.Room;
 
@@ -7,6 +8,8 @@ namespace server.Controllers
 {
     public class RoomController : ApiController
     {
+        public static Dictionary<string,Dictionary<string,Queue<RoomState>>> Replays =new Dictionary<string, Dictionary<string, Queue<RoomState>>>();
+
         // Put: /api/Room?game_name=moshe&player_name=kaki
         public RoomState Put(string gameName, string playerName) //get current status
         {
