@@ -29,13 +29,20 @@ namespace AllTests.UnitTests.Game
             p.Hand[0] = d1;
             p.Hand[1] = d2;
         }
-        private void SetBet(int amount, IPlayer p)
+
+        private void mokSetBet(int amount, IPlayer p)
         {
             p.CurrentBet += amount;
             p.ChipsAmount -= amount;
             p.PreviousRaise = amount;
             p.BetInThisRound = true;
         }
+
+        private void mokAddNotification(string Room, string notif, IUser u)
+        {
+            u.Notifications.Add(new Tuple<string, string>(Room, notif));
+        }
+
         [TestInitialize]
         public void Initialize()
         {
@@ -62,36 +69,56 @@ namespace AllTests.UnitTests.Game
             userMock.Setup(user => user.GetPassword()).Returns("12345678");
             userMock.Setup(user => user.GetAvatar()).Returns("aaa.png");
             userMock.Setup(user => user.GetEmail()).Returns("hello@gmail.com");
-            userMock.Setup(user => user.ChipsAmount).Returns(5000);
+            userMock.Setup(user => user.ChipsAmount).Returns(50000);
+            userMock.SetupProperty(user => user.Notifications);
             _u = userMock.Object;
+            _u.Notifications = new List<Tuple<string, string>>();
+            userMock.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((Room, notif) => mokAddNotification(Room, notif, _u));
 
             userMock1.Setup(user => user.GetUsername()).Returns("tom12346");
             userMock1.Setup(user => user.GetAvatar()).Returns("bbb.png");
             userMock1.Setup(user => user.GetEmail()).Returns("hello1@gmail.com");
-            userMock1.Setup(user => user.ChipsAmount).Returns(5000);
+            userMock1.Setup(user => user.ChipsAmount).Returns(50000);
             userMock1.Setup(user => user.GetPassword()).Returns("12345678");
+            userMock1.SetupProperty(user => user.Notifications);
             _u1 = userMock1.Object;
+            _u1.Notifications = new List<Tuple<string, string>>();
+            userMock1.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((Room, notif) => mokAddNotification(Room, notif, _u1));
 
             userMock2.Setup(user => user.GetUsername()).Returns("tom12347");
             userMock2.Setup(user => user.GetAvatar()).Returns("ccc.png");
             userMock2.Setup(user => user.GetEmail()).Returns("hello3@gmail.com");
-            userMock2.Setup(user => user.ChipsAmount).Returns(5000);
+            userMock2.Setup(user => user.ChipsAmount).Returns(50000);
             userMock2.Setup(user => user.GetPassword()).Returns("12345678");
+            userMock2.SetupProperty(user => user.Notifications);
             _u2 = userMock2.Object;
+            _u2.Notifications = new List<Tuple<string, string>>();
+            userMock2.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((Room, notif) => mokAddNotification(Room, notif, _u2));
 
             userMock3.Setup(user => user.GetUsername()).Returns("tom12348");
             userMock3.Setup(user => user.GetAvatar()).Returns("ccc.png");
             userMock3.Setup(user => user.GetEmail()).Returns("hello3@gmail.com");
-            userMock3.Setup(user => user.ChipsAmount).Returns(5000);
+            userMock3.Setup(user => user.ChipsAmount).Returns(50000);
             userMock3.Setup(user => user.GetPassword()).Returns("12345678");
+            userMock3.SetupProperty(user => user.Notifications);
             _u3 = userMock3.Object;
+            _u3.Notifications = new List<Tuple<string, string>>();
+            userMock3.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((Room, notif) => mokAddNotification(Room, notif, _u3));
 
             userMock4.Setup(user => user.GetUsername()).Returns("tom12349");
             userMock4.Setup(user => user.GetAvatar()).Returns("ccc.png");
             userMock4.Setup(user => user.GetEmail()).Returns("hello3@gmail.com");
-            userMock4.Setup(user => user.ChipsAmount).Returns(5000);
+            userMock4.Setup(user => user.ChipsAmount).Returns(50000);
             userMock4.Setup(user => user.GetPassword()).Returns("12345678");
+            userMock4.SetupProperty(user => user.Notifications);
             _u4 = userMock4.Object;
+            _u4.Notifications = new List<Tuple<string, string>>();
+            userMock4.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((Room, notif) => mokAddNotification(Room, notif, _u4));
 
             pMock.Setup(plyer => plyer.Name).Returns("shachar");
             pMock.Setup(plyer => plyer.User).Returns(_u);
@@ -100,10 +127,13 @@ namespace AllTests.UnitTests.Game
             pMock.SetupProperty(plyer => plyer.BetInThisRound);
             pMock.SetupProperty(plyer => plyer.CurrentBet);
             pMock.SetupProperty(plyer => plyer.ChipsAmount);
+            pMock.SetupProperty(plyer => plyer.StrongestHand);
+            pMock.SetupProperty(plyer => plyer.Folded);
             _p = pMock.Object;
             _p.Hand = new ICard[2];
             pMock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
                 .Callback<ICard, ICard>((d1, d2) => mokupdatehand(d1, d2, _p));
+            pMock.Setup(plyer => plyer.SetBet(It.IsAny<int>())).Callback<int>(amount => mokSetBet(amount, _p));
 
             p1Mock.Setup(plyer => plyer.Name).Returns("shachar1");
             p1Mock.Setup(plyer => plyer.User).Returns(_u1);
@@ -112,10 +142,13 @@ namespace AllTests.UnitTests.Game
             p1Mock.SetupProperty(plyer => plyer.BetInThisRound);
             p1Mock.SetupProperty(plyer => plyer.CurrentBet);
             p1Mock.SetupProperty(plyer => plyer.ChipsAmount);
+            p1Mock.SetupProperty(plyer => plyer.StrongestHand);
+            p1Mock.SetupProperty(plyer => plyer.Folded);
             _p1 = p1Mock.Object;
             _p1.Hand = new ICard[2];
-            pMock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
+            p1Mock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
                 .Callback<ICard, ICard>((d1, d2) => mokupdatehand(d1, d2, _p1));
+            p1Mock.Setup(plyer => plyer.SetBet(It.IsAny<int>())).Callback<int>(amount => mokSetBet(amount, _p1));
 
             p2Mock.Setup(plyer => plyer.Name).Returns("shachar2");
             p2Mock.Setup(plyer => plyer.User).Returns(_u2);
@@ -124,10 +157,13 @@ namespace AllTests.UnitTests.Game
             p2Mock.SetupProperty(plyer => plyer.BetInThisRound);
             p2Mock.SetupProperty(plyer => plyer.CurrentBet);
             p2Mock.SetupProperty(plyer => plyer.ChipsAmount);
+            p2Mock.SetupProperty(plyer => plyer.StrongestHand);
+            p2Mock.SetupProperty(plyer => plyer.Folded);
             _p2 = p2Mock.Object;
             _p2.Hand = new ICard[2];
-            pMock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
+            p2Mock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
                 .Callback<ICard, ICard>((d1, d2) => mokupdatehand(d1, d2, _p2));
+            p2Mock.Setup(plyer => plyer.SetBet(It.IsAny<int>())).Callback<int>(amount => mokSetBet(amount, _p2));
 
             p3Mock.Setup(plyer => plyer.Name).Returns("shachar3");
             p3Mock.Setup(plyer => plyer.User).Returns(_u3);
@@ -136,10 +172,13 @@ namespace AllTests.UnitTests.Game
             p3Mock.SetupProperty(plyer => plyer.BetInThisRound);
             p3Mock.SetupProperty(plyer => plyer.CurrentBet);
             p3Mock.SetupProperty(plyer => plyer.ChipsAmount);
+            p3Mock.SetupProperty(plyer => plyer.StrongestHand);
+            p3Mock.SetupProperty(plyer => plyer.Folded);
             _p3 = p3Mock.Object;
             _p3.Hand = new ICard[2];
-            pMock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
+            p3Mock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
                 .Callback<ICard, ICard>((d1, d2) => mokupdatehand(d1, d2, _p3));
+            p3Mock.Setup(plyer => plyer.SetBet(It.IsAny<int>())).Callback<int>(amount => mokSetBet(amount, _p3));
 
             p4Mock.Setup(plyer => plyer.Name).Returns("shachar4");
             p4Mock.Setup(plyer => plyer.User).Returns(_u4);
@@ -148,10 +187,13 @@ namespace AllTests.UnitTests.Game
             p4Mock.SetupProperty(plyer => plyer.BetInThisRound);
             p4Mock.SetupProperty(plyer => plyer.CurrentBet);
             p4Mock.SetupProperty(plyer => plyer.ChipsAmount);
+            p4Mock.SetupProperty(plyer => plyer.StrongestHand);
+            p4Mock.SetupProperty(plyer => plyer.Folded);
             _p4 = p4Mock.Object;
             _p4.Hand = new ICard[2];
-            pMock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
+            p4Mock.Setup(plyer => plyer.SetCards(It.IsAny<ICard>(), It.IsAny<ICard>()))
                 .Callback<ICard, ICard>((d1, d2) => mokupdatehand(d1, d2, _p4));
+            p4Mock.Setup(plyer => plyer.SetBet(It.IsAny<int>())).Callback<int>(amount => mokSetBet(amount, _p4));
 
             _card1Mock = card1Mock.Object;
             _card2Mock = card2Mock.Object;
@@ -1075,7 +1117,7 @@ namespace AllTests.UnitTests.Game
 
             r.AddPlayer(_p1);
 
-            Assert.IsTrue(r.Winners().Count == 1 && r.Winners()[0] == _p1);
+            Assert.IsTrue(r.Winners().Count == 1 && r.Winners()[0] == _p2);
         }
 
         [TestMethod]
