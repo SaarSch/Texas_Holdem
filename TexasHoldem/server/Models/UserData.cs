@@ -1,4 +1,6 @@
-﻿namespace server.Models
+﻿using System.Collections.Generic;
+
+namespace server.Models
 {
     public class UserData
     {
@@ -10,5 +12,6 @@
         public int Wins;
         public int Chips;
         public string Message;
+        public List<string> messages = new List<string>();
     }
 }

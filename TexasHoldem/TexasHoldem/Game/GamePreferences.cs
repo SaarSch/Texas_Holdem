@@ -1,7 +1,7 @@
 ﻿using System;
 using TexasHoldem.Loggers;
 
-namespace TexasHoldem.GamePrefrences
+namespace TexasHoldem.Game
 {
     public enum Gametype
     {
@@ -10,17 +10,13 @@ namespace TexasHoldem.GamePrefrences
         PotLimit, 
     }
 
-    public class GamePreferences : IPreferences
+    public class GamePreferences
     {
         private int _buyInPolicy;
         private int _chipPolicy;
         private int _minBet;
         private int _minPlayers;
         private int _maxPlayers;
-
-        public const int MinBetValue = 2;
-        public const int MinPlayersValue = 2;
-        public const int MaxPlayersValue = 10;
 
         public Gametype GameType { get; set; }
         public int BuyInPolicy
@@ -107,85 +103,19 @@ namespace TexasHoldem.GamePrefrences
         }
         public bool Spectating { get; set; }
 
+        public const int MinBetValue = 2;
+        public const int MinPlayersValue = 2;
+        public const int MaxPlayersValue = 10;
+
         public GamePreferences()
         {
-            SetGameType(Gametype.NoLimit);
-            SetBuyInPolicy(1);
-            SetChipPolicy(0);
-            SetMinBet(4);
-            SetMinPlayers(2);
-            SetMaxPlayers(8);
-            SetSpectating(true);
-        }
-
-        public void SetBuyInPolicy(int bp)
-        {
-            BuyInPolicy = bp;
-        }
-
-        public void SetChipPolicy(int cp)
-        {
-            ChipPolicy = cp;
-        }
-
-        public void SetGameType(Gametype gt)
-        {
-            GameType = gt;
-        }
-
-        public void SetMaxPlayers(int mp)
-        {
-            MaxPlayers = mp;
-        }
-
-        public void SetMinPlayers(int mp)
-        {
-            MinPlayers = mp;
-        }
-
-        public void SetMinBet(int mb)
-        {
-            MinBet = mb;
-        }
-
-        public void SetSpectating(bool s)
-        {
-            Spectating = s;
-        }
-
-        public int GetBuyInPolicy()
-        {
-            return BuyInPolicy;
-        }
-
-        public int GetChipPolicy()
-        {
-            return ChipPolicy;
-        }
-
-        public Gametype GetGameType()
-        {
-            return GameType;
-        }
-
-        public int GetMaxPlayers()
-        {
-            return MaxPlayers;
-        }
-
-        public int GetMinPlayers()
-        {
-            return MinPlayers;
-        }
-
-        public int GetMinBet()
-        {
-            return MinBet;
-        }
-
-        public bool GetSpectating()
-        {
-            return Spectating;
+            GameType = Gametype.NoLimit;
+            BuyInPolicy = 1;
+            ChipPolicy = 0;
+            MinBet = 4;
+            MinPlayers = 2;
+            MaxPlayers = 8;
+            Spectating = true;
         }
     }
 }

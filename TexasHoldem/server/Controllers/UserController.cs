@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using server.Models;
 
@@ -59,9 +55,6 @@ namespace server.Controllers
                     case "delete":
                         WebApiConfig.UserManger.DeleteUser(username, passwordOrRank);
                         break;
-                    case "changerank":
-                        WebApiConfig.UserManger.ChangeRank(username,Int32.Parse(passwordOrRank) );
-                        break;
                     case "register":
                         WebApiConfig.UserManger.Register(username, passwordOrRank);
                         break;
@@ -75,7 +68,7 @@ namespace server.Controllers
             }
             return "";
         }
-        // login -->POST: api/Login
+        // login -->POST: api/User
         public UserData Post([FromBody]UserData value)
         {
             var ret = new UserData();
@@ -97,7 +90,7 @@ namespace server.Controllers
 
             return ret;
         }
-        //editUser --> POST: api/Login?username=elad
+        //editUser --> POST: api/User?username=elad
         public string Post([FromBody]UserData value, string username)
         {
             try

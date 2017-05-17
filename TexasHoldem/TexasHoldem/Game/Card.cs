@@ -6,10 +6,10 @@ namespace TexasHoldem.Game
 {
     public enum CardType
     {
-        Spades, //עלה
-        Hearts, //לב
-        Diamonds, //יהלום
-        Clubs, //תלתן
+        Spades, 
+        Hearts, 
+        Diamonds, 
+        Clubs, 
     }
     public class Card : IComparable
     {

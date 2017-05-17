@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Game;
-using TexasHoldem.GamePrefrences;
 using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.Game
@@ -32,7 +31,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, -8, 0, 4, 2, 8, true
-                new GamePreferences();
+                new GamePreferences {BuyInPolicy = -8};
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -47,7 +47,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, -8, 4, 2, 8, true
-                new GamePreferences();
+                new GamePreferences { ChipPolicy = -8 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -57,7 +58,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 2, 1, 2, 8, true
-                new GamePreferences();
+                new GamePreferences { MinBet = 1 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -67,7 +69,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 4, 4, 1, 8, true
-                new GamePreferences();
+                new GamePreferences { MinPlayers = 1 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -77,7 +80,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 4, 4, 2, 15, true
-                new GamePreferences();
+                new GamePreferences { MaxPlayers = 15 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -87,7 +91,8 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 2, 4, 2, 8, true
-                new GamePreferences();
+                new GamePreferences { ChipPolicy = 2, MinBet = 4 };
+                Assert.Fail();
             }
 
             catch (Exception e)
@@ -208,7 +213,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Clubs)
             }; // straight flush
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -238,7 +243,7 @@ namespace AllTests.UnitTests.Game
                 new Card(10, CardType.Diamonds)
             }; // 4 of a kind
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -268,7 +273,7 @@ namespace AllTests.UnitTests.Game
                 new Card(8, CardType.Diamonds)
             }; //full house
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -299,7 +304,7 @@ namespace AllTests.UnitTests.Game
                 new Card(4, CardType.Diamonds)
             }; //flush
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -330,7 +335,7 @@ namespace AllTests.UnitTests.Game
                 new Card(7, CardType.Diamonds)
             }; //straight
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -361,7 +366,7 @@ namespace AllTests.UnitTests.Game
                 new Card(7, CardType.Diamonds)
             }; //3 of a kind
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -392,7 +397,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //2 pairs
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -423,7 +428,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //pair
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -455,7 +460,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // high card
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -487,7 +492,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // pair
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -519,7 +524,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //  2 pair
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -551,7 +556,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // high card
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -585,7 +590,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // high card
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -687,11 +692,13 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest6()
         {
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType(Gametype.PotLimit, gp);
-            gp = new ModifiedChipPolicy(30, gp);
-            gp = new ModifiedMinBet(10, gp);
-            gp = new ModifiedMinPlayers(3, gp);
+            var gp = new GamePreferences
+            {
+                GameType = Gametype.PotLimit,
+                ChipPolicy = 30,
+                MinBet = 10,
+                MinPlayers = 3
+            };
 
             var p = new Player("shachar", _u);
             var p2 = new Player("shachar1", _u);
@@ -711,11 +718,13 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SetBetTest7()
         {
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType(Gametype.PotLimit, gp);
-            gp = new ModifiedChipPolicy(30, gp);
-            gp = new ModifiedMinBet(10, gp);
-            gp = new ModifiedMinPlayers(3, gp);
+            var gp = new GamePreferences
+            {
+                GameType = Gametype.PotLimit,
+                ChipPolicy = 30,
+                MinBet = 10,
+                MinPlayers = 3
+            };
 
             var p = new Player("shachar", _u);
             var p2 = new Player("shachar2", _u);
@@ -756,7 +765,7 @@ namespace AllTests.UnitTests.Game
                 new Card(2, CardType.Hearts)
             }; //straight
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -788,7 +797,7 @@ namespace AllTests.UnitTests.Game
                 new Card(2, CardType.Diamonds)
             }; //straight
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -820,7 +829,7 @@ namespace AllTests.UnitTests.Game
                 new Card(2, CardType.Diamonds)
             }; //straight
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -852,7 +861,7 @@ namespace AllTests.UnitTests.Game
                 new Card(3, CardType.Hearts)
             }; //straight
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -883,7 +892,7 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //3 of a kind
 
-            Assert.IsTrue(r.HandCalculator(win).HandStrongessValue > r.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -1072,19 +1081,20 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void NotifyTest()
         {
-            var message = "wow you are so cool!";
+            var ml = new MessageLogic();
+            const string message = "wow you are so cool!";
             var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
             var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
             var p = new Player("shachar1", yossi);
             var r = new Room("aaaa", p, _gp);
             var p1 = new Player("shachar2", kobi);
             r.AddPlayer(p1);
-            r.NotifyRoom(message);
+            ml.NotifyRoom(message,r);
 
             foreach (var p2 in r.Players)
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
-                    p2.User.Notifications[0]);
+                    p2.User.Notifications[0].Item2);
         }
     }
 }

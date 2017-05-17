@@ -12,8 +12,7 @@
 5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
-5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
 5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!

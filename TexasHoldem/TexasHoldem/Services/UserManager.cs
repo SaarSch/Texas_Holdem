@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.Users;
 
 namespace TexasHoldem.Services
@@ -6,60 +7,62 @@ namespace TexasHoldem.Services
     public class UserManager
     {
         private readonly GameCenter _gameCenter;
+        private readonly UserLogic _userLogic;
 
         public UserManager()
         {
             _gameCenter = GameCenter.GetGameCenter();
+            _userLogic = new UserLogic();
         }
 
         public void Register(string username, string password) // UC 1
         {
-            _gameCenter.Register(username, password);
+            _userLogic.Register(username, password, _gameCenter.Users);
         }
 
         public User Login(string username, string password) // UC 2
         {
-            return _gameCenter.Login(username, password);
+            return _userLogic.Login(username, password, _gameCenter.Users);
         }
 
         public void Logout(string username) // UC 3
         {
-            _gameCenter.Logout(username);
+            _userLogic.Logout(username, _gameCenter.Users);
         }
 
         public void EditProfileUsername(string username, string newusername) // UC 4
         {
-            _gameCenter.EditUser(username, newusername, null, null, null);
+            _userLogic.EditUser(username, newusername, null, null, null, _gameCenter.Users);
         }
 
         public void EditProfilePassword(string username, string newPassword) // UC 4
         {
-            _gameCenter.EditUser(username, null, newPassword, null, null);
+            _userLogic.EditUser(username, null, newPassword, null, null, _gameCenter.Users);
         }
 
         public void EditProfileEmail(string username, string newEmail) // UC 4
         {
-            _gameCenter.EditUser(username, null, null, null, newEmail);
+            _userLogic.EditUser(username, null, null, null, newEmail, _gameCenter.Users);
         }
 
         public void EditProfileAvatarPath(string username, string newAvatarPath) // UC 4
         {
-            _gameCenter.EditUser(username, null, null, newAvatarPath, null);
+            _userLogic.EditUser(username, null, null, newAvatarPath, null, _gameCenter.Users);
         }
         public void EditUser(string username, string newusername, string newPassword, string newAvatarPath, string newEmail)
         {
-            _gameCenter.EditUser(username, newusername, newPassword, newAvatarPath, newEmail);
+            _userLogic.EditUser(username, newusername, newPassword, newAvatarPath, newEmail, _gameCenter.Users);
         }
         public void DeleteUser(string username, string password)
         {
-            _gameCenter.DeleteUser(username, password);
+            _userLogic.DeleteUser(username, password, _gameCenter.Users);
         }
 
         public bool IsUserLoggedIn(string userName, string pass)
         {
             try
             {
-                _gameCenter.GetLoggedInUser(userName);
+                _userLogic.GetLoggedInUser(userName, _gameCenter.Users);
             }
             catch (Exception)
             {
@@ -70,17 +73,17 @@ namespace TexasHoldem.Services
 
         public void IsUserLoggedInn(string userName)
         {
-                _gameCenter.GetLoggedInUser(userName);
+                _userLogic.GetLoggedInUser(userName, _gameCenter.Users);
         }
 
         public int GetRank(string userName)
         {
-           return _gameCenter.GetUser(userName).League;
+           return _userLogic.GetUser(userName, _gameCenter.Users).League;
         }
 
-        public void ChangeRank(string userName, int rank)
+        public List<string> GetMessages(string username, string roomName)
         {
-            _gameCenter.GetUser(userName).League = rank;
+            return _gameCenter.GetMessages(username, roomName);
         }
     }
 }

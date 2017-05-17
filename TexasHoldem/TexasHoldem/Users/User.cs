@@ -13,7 +13,7 @@ namespace TexasHoldem.Users
         private string _avatarPath;
         private string _email;
 
-        public List<string> Notifications { get; set; }
+        public List<Tuple<string,string>> Notifications { get; set; }
         public int League=-1;
         public int Wins;
         public int ChipsAmount;
@@ -30,28 +30,34 @@ namespace TexasHoldem.Users
             SetPassword(password);
             SetAvatar(avatarPath);
             SetEmail(email);
-            Notifications = new List<string>();
+            Notifications = new List<Tuple<string, string>>();
             ChipsAmount = chipsAmount;
         }
 
-        public void AddNotification(string notif)
+        public void AddNotification(string Room, string notif)
         {
             if (notif == "")
             {
                 throw new Exception("notification is empty.");
             }
 
-            Notifications.Add(notif);
+            Notifications.Add(new Tuple<string, string>(Room,notif));
         }
 
-        public void RemoveNotification(string notif)
+        public void RemoveNotification(string Room, string notif)
         {
             if (notif == "")
             {
                 throw new Exception("notification is empty.");
             }
+            Tuple<string, string> p = null;
+            foreach (var p1 in Notifications)
+            {
+                if (p1.Item1 == Room && p1.Item2 == notif)
+                    p = p1;
+            }
 
-            Notifications.Remove(notif);
+            Notifications.Remove(p);
         }
 
         public void SetPassword(string password)
@@ -99,7 +105,9 @@ namespace TexasHoldem.Users
         {
             if (username.Length > PasswordLengthMax || username.Length < PasswordLengthMin)
             {
+
                 Exception e = new IllegalPasswordException("Illegal username! Length must be between 8 and 12.");
+
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }

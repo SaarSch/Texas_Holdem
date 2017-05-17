@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.Game;
-using TexasHoldem.GamePrefrences;
+using TexasHoldem.Users;
 
 namespace TexasHoldem.Services
 {
     public class GameManager
     {
         private readonly GameCenter _gameCenter;
+        private readonly MessageLogic _messageLogic;
+        private readonly UserLogic _userLogic;
 
         public GameManager()
         {
             _gameCenter = GameCenter.GetGameCenter();
+            _messageLogic = new MessageLogic();
+            _userLogic = new UserLogic();
+        }
+
+        public Room RoomStatus(string roomName)
+        {
+            return _gameCenter.GetRoom(roomName);
         }
 
         public void SetLeagues()
         {
-            _gameCenter.SetLeagues();
+            _userLogic.SetLeagues(_gameCenter.Users);
         }
 
         public Room CreateGame(string gameName, string username, string creatorName) // UC 5
@@ -26,14 +35,14 @@ namespace TexasHoldem.Services
 
         public Room CreateGameWithPreferences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating)
         {
-            IPreferences gp = new GamePreferences();
-            gp = new ModifiedGameType((Gametype)Enum.Parse(typeof(Gametype), gameType), gp);
-            gp = new ModifiedBuyInPolicy(buyInPolicy, gp);
-            gp = new ModifiedChipPolicy(chipPolicy, gp);
-            gp = new ModifiedMinBet(minBet, gp);
-            gp = new ModifiedMinPlayers(minPlayers, gp);
-            gp = new ModifiedMaxPlayers(maxPlayers, gp);
-            gp = new ModifiedSpectating(spectating, gp);
+            var gp = new GamePreferences();
+            gp.GameType = (Gametype) Enum.Parse(typeof(Gametype),gameType);
+            gp.BuyInPolicy = buyInPolicy;
+            gp.ChipPolicy = chipPolicy;
+            gp.MinBet = minBet;
+            gp.MinPlayers = minPlayers;
+            gp.MaxPlayers = maxPlayers;
+            gp.Spectating = spectating;
 
             return _gameCenter.CreateRoom(gameName, username, creatorName, gp);
         }
@@ -60,7 +69,7 @@ namespace TexasHoldem.Services
 
         public List<Room> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
         {
-            var context = _gameCenter.GetUser(username);
+            var context = _userLogic.GetUser(username, _gameCenter.Users);
 
             var predicates = new List<Predicate<Room>>();
 
@@ -78,31 +87,31 @@ namespace TexasHoldem.Services
             }
             if (r.GameType != null)
             {
-                predicates.Add(room => room.GamePreferences.GetGameType().ToString() == r.GameType);
+                predicates.Add(room => room.GamePreferences.GameType.ToString() == r.GameType);
             }
             if (r.BuyInPolicy != null)
             {
-                predicates.Add(room => room.GamePreferences.GetBuyInPolicy() == r.BuyInPolicy.Value);
+                predicates.Add(room => room.GamePreferences.BuyInPolicy == r.BuyInPolicy.Value);
             }
             if (r.ChipPolicy != null)
             {
-                predicates.Add(room => room.GamePreferences.GetChipPolicy() == r.ChipPolicy.Value);
+                predicates.Add(room => room.GamePreferences.ChipPolicy == r.ChipPolicy.Value);
             }
             if (r.MinBet != null)
             {
-                predicates.Add(room => room.GamePreferences.GetMinBet() == r.MinBet.Value);
+                predicates.Add(room => room.GamePreferences.MinBet == r.MinBet.Value);
             }
             if (r.MinPlayers != null)
             {
-                predicates.Add(room => room.GamePreferences.GetMinPlayers() == r.MinPlayers.Value);
+                predicates.Add(room => room.GamePreferences.MinPlayers == r.MinPlayers.Value);
             }
             if (r.MaxPlayers != null)
             {
-                predicates.Add(room => room.GamePreferences.GetMaxPlayers() == r.MaxPlayers.Value);
+                predicates.Add(room => room.GamePreferences.MaxPlayers == r.MaxPlayers.Value);
             }
             if (r.SepctatingAllowed != null)
             {
-                predicates.Add(room => room.GamePreferences.GetSpectating() == r.SepctatingAllowed.Value);
+                predicates.Add(room => room.GamePreferences.Spectating == r.SepctatingAllowed.Value);
             }
 
             return _gameCenter.FindGames(predicates);
@@ -128,39 +137,29 @@ namespace TexasHoldem.Services
             return _gameCenter.GetRoom(room).Call(_gameCenter.GetRoom(room).GetPlayer(userName));
         }
 
-        public void SetExpCriteria(string username, int exp) // UC 14
-        {
-            _gameCenter.SetExpCriteria(username, exp);
-        }
-
-        public void SetUserLeague(string username, string usernameToSet, int rank) // UC 14
-        {
-            _gameCenter.SetUserRank(username, usernameToSet, rank);
-        }
-
         public void CalcLeague()
         {
-            _gameCenter.SetLeagues();
+            _userLogic.SetLeagues(_gameCenter.Users);
         }
 
-        public void PlayerWisper(string room, string username_sender, string username_reciver, string message)
+        public Room PlayerWisper(string room, string playernameSender, string usernameReceiver, string message)
         {
-            _gameCenter.GetRoom(room).PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(username_sender), _gameCenter.GetUser(username_reciver));
+            return _messageLogic.PlayerWisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public void SpectatorWisper(string room, string username_sender, string username_reciver, string message)
+        public Room SpectatorWisper(string room, string usernameSender, string usernameReceiver, string message)
         {
-            _gameCenter.GetRoom(room).SpectatorWisper(message, _gameCenter.GetUser(username_sender), _gameCenter.GetUser(username_reciver));
+            return _messageLogic.SpectatorWisper(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public void PlayerSendMessege(string room, string username_sender, string username_reciver, string message)
+        public Room PlayerSendMessege(string room, string playerNameSender, string message)
         {
-            _gameCenter.GetRoom(room).PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(username_sender));
+            return _messageLogic.PlayerSendMessege(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender),_gameCenter.GetRoom(room));
         }
 
-        public void SpectatorsSendMessege(string room, string username_sender, string username_reciver, string message)
+        public Room SpectatorsSendMessege(string room, string usernameSender, string message)
         {
-            _gameCenter.GetRoom(room).SpectatorsSendMessege(message, _gameCenter.GetUser(username_sender));
+            return _messageLogic.SpectatorsSendMessege(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
         public bool RestartGameCenter()
@@ -168,7 +167,7 @@ namespace TexasHoldem.Services
             try
             {
                 _gameCenter.DeleteAllRooms();
-                _gameCenter.DeleteAllUsers();
+                _userLogic.DeleteAllUsers(_gameCenter.Users);
             }
             catch (Exception)
             {
