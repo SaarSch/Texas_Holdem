@@ -12,7 +12,7 @@ namespace server.Controllers
             var ret = new RoomList();
             try
             {
-                var rooms = WebApiConfig.GameManger.FindGames(value.User, new TexasHoldem.Services.RoomFilter(
+                var rooms = WebApiConfig.GameManger.FindGames(value.User, new TexasHoldem.Game.RoomFilter(
                     value.PlayerName, value.PotSize, value.LeagueOnly, value.GameType, value.BuyInPolicy,
                     value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers,
                     value.SpectatingAllowed));

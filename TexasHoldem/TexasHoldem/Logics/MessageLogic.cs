@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TexasHoldem.Game;
 using TexasHoldem.Loggers;
 using TexasHoldem.Notifications;
 using TexasHoldem.Users;
 
-namespace TexasHoldem.Game
+namespace TexasHoldem.Logics
 {
     public class MessageLogic
     {

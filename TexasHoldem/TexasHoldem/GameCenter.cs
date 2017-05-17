@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Game;
 using TexasHoldem.Loggers;
+using TexasHoldem.Logics;
 using TexasHoldem.Users;
 
 namespace TexasHoldem

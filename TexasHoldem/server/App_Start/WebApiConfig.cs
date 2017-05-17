@@ -5,9 +5,9 @@ namespace server
 {
     public static class WebApiConfig
     {
-        public static GameManager GameManger= new GameManager();
-        public static UserManager UserManger = new UserManager();
-        public static ReplayManager ReplayManger = new ReplayManager();
+        public static GameFacade GameManger= new GameFacade();
+        public static UserFacade UserManger = new UserFacade();
+        public static ReplayFacade ReplayManger = new ReplayFacade();
 
         public static void Register(HttpConfiguration config)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Game;
+using TexasHoldem.Logics;
 using TexasHoldem.Users;
 
 namespace AllTests.UnitTests.GameCenter
