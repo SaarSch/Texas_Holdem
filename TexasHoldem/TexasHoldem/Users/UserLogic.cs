@@ -7,7 +7,7 @@ namespace TexasHoldem.Users
 {
     public class UserLogic
     {
-        public void SetLeagues(List<Tuple<User, bool>> users)
+        public void SetLeagues(List<Tuple<IUser, bool>> users)
         {
             double size = users.Count / 10;
             var leagueSize = (int)Math.Ceiling(size);
@@ -15,8 +15,8 @@ namespace TexasHoldem.Users
             var currentSize = 0;
             var league = 10;
             var usersNum = 0;
-            var done = new List<User>();
-            User current = null;
+            var done = new List<IUser>();
+            IUser current = null;
             var maxWins = -1;
             for (var i = 0; i < users.Count; i++)
             {

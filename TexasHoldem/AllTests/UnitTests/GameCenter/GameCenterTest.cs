@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TexasHoldem.Game;
 using TexasHoldem.Users;
 
@@ -11,19 +12,41 @@ namespace AllTests.UnitTests.GameCenter
     {
         private readonly TexasHoldem.GameCenter _gc = TexasHoldem.GameCenter.GetGameCenter();
         private readonly UserLogic _ul = new UserLogic();
+        private List<Tuple<IUser, bool>> _u;
+        [TestInitialize]
+        public void Initialize()
+        {
+            _u=new List<Tuple<IUser, bool>>();
+        
+            for (var i = 0; i < 20; i++)
+            {
+                var userMock = new Mock<IUser>();
+                userMock.SetupAllProperties();
+                userMock.Setup(us=>us.GetPassword()).Returns("12345678");
+                userMock.Setup(us => us.GetUsername()).Returns("aaaaaaa" + i);
+                _u.Add(new Tuple<IUser, bool>(userMock.Object,false));
+            }
+        }
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full()
         {
-            for(var i = 0; i < 20; i++)
+            var i = 0;
+            foreach (var u in _u)
             {
-                _ul.Register("aaaaaaa" + i, "12345678",_gc.Users);
-                _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
+                u.Item1.Wins = i;
+                i++;
             }
-            _ul.SetLeagues(_gc.Users);
-            for(var i = 0; i < 20; i++)
+
+            //    for (var i = 0; i < 20; i++)
+            //{
+            //    _ul.Register("aaaaaaa" + i, "12345678",_gc.Users);
+            //    _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
+            //}
+            _ul.SetLeagues(_u);
+            foreach (var u in _u)
             {
-                Assert.IsTrue(_ul.GetUser("aaaaaaa" + i, _gc.Users).League == Math.Floor((double)i / 2) + 1);
+                Assert.IsTrue(u.Item1.League == Math.Floor((double)i / 2) + 1);
             }
             _ul.DeleteAllUsers(_gc.Users);
         }
