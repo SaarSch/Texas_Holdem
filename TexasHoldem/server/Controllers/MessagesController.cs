@@ -1,8 +1,8 @@
-﻿using server.Models;
-using System;
+﻿using System;
 using System.Web.Http;
+using Server.Models;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     public class MessagesController : ApiController
     {
@@ -16,9 +16,9 @@ namespace server.Controllers
             {
                 if (status == "player")
                 {
-                    r = WebApiConfig.GameManger.PlayerSendMessege(room, sender, message);
+                    r = WebApiConfig.GameFacade.PlayerSendMessege(room, sender, message);
                 }
-                else r = WebApiConfig.GameManger.SpectatorsSendMessege(room, sender, message);
+                else r = WebApiConfig.GameFacade.SpectatorsSendMessege(room, sender, message);
             }
             catch (Exception e)
             {
@@ -37,9 +37,9 @@ namespace server.Controllers
             {
                 if (status == "player")
                 {
-                    r = WebApiConfig.GameManger.PlayerWisper(room, sender, reciver, message);
+                    r = WebApiConfig.GameFacade.PlayerWisper(room, sender, reciver, message);
                 }
-                else r = WebApiConfig.GameManger.SpectatorWisper(room, sender, reciver, message);
+                else r = WebApiConfig.GameFacade.SpectatorWisper(room, sender, reciver, message);
             }
             catch (Exception e)
             {

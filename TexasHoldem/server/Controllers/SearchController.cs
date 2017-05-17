@@ -1,9 +1,9 @@
-﻿using server.Models;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Http;
+using Server.Models;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     public class SearchController : ApiController
         {
@@ -12,7 +12,7 @@ namespace server.Controllers
             var ret = new RoomList();
             try
             {
-                var rooms = WebApiConfig.GameManger.FindGames(value.User, new TexasHoldem.Game.RoomFilter(
+                var rooms = WebApiConfig.GameFacade.FindGames(value.User, new TexasHoldem.Game.RoomFilter(
                     value.PlayerName, value.PotSize, value.LeagueOnly, value.GameType, value.BuyInPolicy,
                     value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers,
                     value.SpectatingAllowed));

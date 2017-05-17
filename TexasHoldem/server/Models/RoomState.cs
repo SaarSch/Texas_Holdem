@@ -1,4 +1,4 @@
-﻿namespace server.Models
+﻿namespace Server.Models
 {
     public class RoomState
     {
@@ -13,12 +13,12 @@
         public bool SepctatingAllowed;
         public string Messege;
         public string CurrentPlayer;
-        public UserData[] spectators;
+        public UserData[] Spectators;
 
         public bool Equals(RoomState other)
         {
             if (other == null) return false;
-            for(int i = 0; i < 5; i++)
+            for(var i = 0; i < 5; i++)
             {
                 if (CommunityCards[i] != other.CommunityCards[i])
                 {
@@ -26,7 +26,7 @@
                 }
             }
             if (AllPlayers.Length != other.AllPlayers.Length) return false;
-            for (int i = 0; i < AllPlayers.Length; i++)
+            for (var i = 0; i < AllPlayers.Length; i++)
             {
                 if (AllPlayers[i] != null)
                 {
@@ -37,12 +37,12 @@
                 }
             
             }
-            if (spectators.Length != other.spectators.Length) return false;
-            for (int i = 0; i < spectators.Length; i++)
+            if (Spectators.Length != other.Spectators.Length) return false;
+            for (var i = 0; i < Spectators.Length; i++)
             {
-                if (spectators[i] != null)
+                if (Spectators[i] != null)
                 {
-                    if (!spectators[i].Equals(other.spectators[i]))
+                    if (!Spectators[i].Equals(other.Spectators[i]))
                     {
                         return false;
                     }

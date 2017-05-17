@@ -2,7 +2,7 @@
 using System.Web.Http;
 using TexasHoldem.Services;
 
-namespace server
+namespace Server
 {
     public static class WebApiConfig
     {
