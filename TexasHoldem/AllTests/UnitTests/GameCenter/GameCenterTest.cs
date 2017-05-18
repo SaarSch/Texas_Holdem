@@ -199,6 +199,16 @@ namespace AllTests.UnitTests.GameCenter
             Assert.IsTrue(succ);
         }
 
+        private IRoom createMockRoom(string name,IUser u,string p)
+        {
+            var roomMock = new Mock<IRoom>();
+            var pl = new Mock<IPlayer>();
+            roomMock.SetupAllProperties();
+            roomMock.Setup(r => r.Name).Returns(name);
+            roomMock.Setup(r => r.).Returns(name);
+
+            return roomMock.Object;
+        }
         [TestMethod]
         public void GameCenter_FindGames_SearchPlayer()
         {
@@ -209,6 +219,7 @@ namespace AllTests.UnitTests.GameCenter
 
             //Gametype.NoLimit, 0, 0, 5, 3, 4, true
             var gp = new GamePreferences();
+            _gc.Rooms.Add(createMockRoom("MyRoom1", _u[0], "player1"));
             _gc.CreateRoom("MyRoom1", "aaaaaaa0", "player1", gp);
             _gc.CreateRoom("MyRoom2", "aaaaaaa1", "player2", gp);
             var p = new List<Predicate<IRoom>> {room => room.HasPlayer("player1")};
