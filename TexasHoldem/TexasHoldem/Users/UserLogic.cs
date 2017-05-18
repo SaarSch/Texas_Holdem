@@ -48,7 +48,7 @@ namespace TexasHoldem.Users
             }
         }
 
-        public void Register(string username, string password, List<Tuple<User, bool>> users)
+        public void Register(string username, string password, List<Tuple<IUser, bool>> users)
         {
             for (var i = 0; i < users.Count; i++)
             {
@@ -60,15 +60,15 @@ namespace TexasHoldem.Users
                 }
             }
 
-            users.Add(new Tuple<User, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
+            users.Add(new Tuple<IUser, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
         }
 
-        public User Login(string username, string password, List<Tuple<User, bool>> users)
+        public IUser Login(string username, string password, List<Tuple<IUser, bool>> users)
         {
             int i;
-            User user = null;
+            IUser user = null;
             for (i = 0; i < users.Count; i++)
             {
                 if (users[i].Item1.GetUsername() == username)
@@ -82,7 +82,7 @@ namespace TexasHoldem.Users
                             throw e;
                         }
                         user = users[i].Item1;
-                        users[i] = new Tuple<User, bool>(users[i].Item1, true);
+                        users[i] = new Tuple<IUser, bool>(users[i].Item1, true);
                     }
                     else
                     {
@@ -105,7 +105,7 @@ namespace TexasHoldem.Users
 
         }
 
-        public void Logout(string username, List<Tuple<User, bool>> users)
+        public void Logout(string username, List<Tuple<IUser, bool>> users)
         {
             int i;
             var exist = false;
@@ -121,7 +121,7 @@ namespace TexasHoldem.Users
                         throw e;
                     }
                     exist = true;
-                    users[i] = new Tuple<User, bool>(users[i].Item1, false);
+                    users[i] = new Tuple<IUser, bool>(users[i].Item1, false);
                 }
             }
 
@@ -134,12 +134,12 @@ namespace TexasHoldem.Users
             Logger.Log(Severity.Action, username + " logged out successfully!");
         }
 
-        public void DeleteAllUsers(List<Tuple<User, bool>> users)
+        public void DeleteAllUsers(List<Tuple<IUser, bool>> users)
         {
             users.Clear();
         }
 
-        public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<User, bool>> users)
+        public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
         {
             var userExists = false;
             for (var i = 0; i < users.Count; i++)
@@ -193,7 +193,7 @@ namespace TexasHoldem.Users
             Logger.Log(Severity.Action, username + "'s profile edited successfully!");
         }
 
-        public User GetLoggedInUser(string username,List<Tuple<User, bool>> users)
+        public IUser GetLoggedInUser(string username,List<Tuple<IUser, bool>> users)
         {
             for (var i = 0; i < users.Count; i++)
             {
@@ -213,7 +213,7 @@ namespace TexasHoldem.Users
             throw e;
         }
 
-        public User GetUser(string username, List<Tuple<User, bool>> users)
+        public IUser GetUser(string username, List<Tuple<IUser, bool>> users)
         {
             for (var i = 0; i < users.Count; i++)
             {
@@ -228,9 +228,9 @@ namespace TexasHoldem.Users
             throw e;
         }
 
-        public void DeleteUser(string username, string password, List<Tuple<User, bool>> users)
+        public void DeleteUser(string username, string password, List<Tuple<IUser, bool>> users)
         {
-            Tuple<User, bool> userToDelete = null;
+            Tuple<IUser, bool> userToDelete = null;
             for (var i = 0; i < users.Count; i++)
             {
                 if (users[i].Item1.GetUsername() == username)

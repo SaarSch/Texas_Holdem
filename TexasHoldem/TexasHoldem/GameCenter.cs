@@ -16,7 +16,7 @@ namespace TexasHoldem
         }
 
         private static GameCenter _instance;
-        public List<Tuple<User, bool>> Users { get; }
+        public List<Tuple<IUser, bool>> Users { get; }
         public List<Room> Rooms;
         public int ExpCriteria { get; }
         public int DefaultRank { get; private set; }
@@ -30,7 +30,7 @@ namespace TexasHoldem
 
         private GameCenter()
         {
-            Users = new List<Tuple<User, bool>>();
+            Users = new List<Tuple<IUser, bool>>();
             Rooms = new List<Room>();
             UserLogic = new UserLogic();
             ExpCriteria = 10;
