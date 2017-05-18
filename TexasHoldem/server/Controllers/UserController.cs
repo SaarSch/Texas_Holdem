@@ -75,12 +75,12 @@ namespace Server.Controllers
             try
             {
                 var u = Server.UserFacade.Login(value.Username, value.Password);
-                ret.AvatarPath = u.GetAvatar();
+                ret.AvatarPath = u.AvatarPath;
                 ret.Chips = u.ChipsAmount;
-                ret.Email = u.GetEmail();
-                ret.Password = u.GetPassword();
+                ret.Email = u.Email;
+                ret.Password = u.Password;
                 ret.Rank = u.League;
-                ret.Username = u.GetUsername();
+                ret.Username = u.Username;
                 ret.Wins = u.Wins;
             }
             catch (Exception e)

@@ -317,8 +317,8 @@ namespace Client
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                GameWindow gameWindow = new GameWindow(PlayerNameTxt_Copy.Text, roomState, true);
-                App.Current.MainWindow = gameWindow;
+                var gameWindow = new GameWindow(PlayerNameTxt_Copy.Text, roomState, true);
+                Application.Current.MainWindow = gameWindow;
 
                 //this.Close();
                 gameWindow.Show();

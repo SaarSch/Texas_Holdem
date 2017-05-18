@@ -75,7 +75,7 @@ namespace TexasHoldem.Logics
             }
             var roomUsers = new List<User>();
             roomUsers.AddRange(r.SpectateUsers);
-            Notifier.Instance.Notify(roomUsers, r.Name, sender.GetUsername() + ": " + message);
+            Notifier.Instance.Notify(roomUsers, r.Name, sender.Username + ": " + message);
             return r;
         }
 
@@ -93,7 +93,7 @@ namespace TexasHoldem.Logics
                 throw new Exception("reciver dose not exist");
             }
             var roomUsers = new List<User> { reciver };
-            Notifier.Instance.Notify(roomUsers, r.Name, sender.GetUsername() + ": " + message);
+            Notifier.Instance.Notify(roomUsers, r.Name, sender.Username + ": " + message);
             return r;
         }
 

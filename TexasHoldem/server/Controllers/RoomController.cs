@@ -161,7 +161,7 @@ namespace Server.Controllers
                 var spectator = false;
                 foreach (var u in r.SpectateUsers)
                 {
-                    if (u.GetUsername() == player) spectator = true;
+                    if (u.Username == player) spectator = true;
                 }
 
                 ans.RoomName = r.Name;
@@ -184,7 +184,7 @@ namespace Server.Controllers
                         PlayerName = p.Name,
                         CurrentBet = p.CurrentBet,
                         ChipsAmount = p.ChipsAmount,
-                        Avatar = p.User.GetAvatar(),
+                        Avatar = p.User.AvatarPath,
                         PlayerHand = new string[2]
                     };
                     if (player == p.Name&&r.IsOn)
@@ -223,8 +223,8 @@ namespace Server.Controllers
                 var u1 = new UserData();
                 foreach(var u in r.SpectateUsers)
                 {
-                    u1.Username = u.GetUsername();
-                    if (spectator&& player==u.GetUsername())
+                    u1.Username = u.Username;
+                    if (spectator&& player==u.Username)
                     {     
                         foreach (var pa in u.Notifications)
                         {

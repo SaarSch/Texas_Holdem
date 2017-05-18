@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using Client.Data;
 using Newtonsoft.Json.Linq;
-using System.Timers;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace Client
 {
@@ -23,17 +26,16 @@ namespace Client
         public GameWindow(string self, RoomState state, bool creator)
         {
             InitializeComponent();
-            this.SelfPlayerName = self;
-            this.CountPlayers = 1;
-            this.RoomName = state.RoomName;
-            this.Creator = creator;
-            RoomNameLbl.Content = this.RoomName;
-            NameLabels = new Label[9]{P1Lbl, P2Lbl, P3Lbl, P4Lbl, P5Lbl, P6Lbl, P7Lbl, P8Lbl, P9Lbl};
-            ChipLabels = new Label[9]{C1Lbl, C2Lbl, C3Lbl, C4Lbl, C5Lbl, C6Lbl, C7Lbl, C8Lbl, C9Lbl};
-            BetLabels = new Label[9] { Bet1, Bet2, Bet3, Bet4, Bet5, Bet6, Bet7, Bet8, Bet9 };
+            SelfPlayerName = self;
+            CountPlayers = 1;
+            RoomName = state.RoomName;
+            Creator = creator;
+            RoomNameLbl.Content = RoomName;
+            NameLabels = new[]{P1Lbl, P2Lbl, P3Lbl, P4Lbl, P5Lbl, P6Lbl, P7Lbl, P8Lbl, P9Lbl};
+            ChipLabels = new[]{C1Lbl, C2Lbl, C3Lbl, C4Lbl, C5Lbl, C6Lbl, C7Lbl, C8Lbl, C9Lbl};
+            BetLabels = new[] { Bet1, Bet2, Bet3, Bet4, Bet5, Bet6, Bet7, Bet8, Bet9 };
             PlayerMap = new Dictionary<string, int>();
-            ChatComboBoxContent = new List<string>();
-            ChatComboBoxContent.Add("ALL");
+            ChatComboBoxContent = new List<string> {"ALL"};
             PlayerMap.Add(SelfPlayerName, CountPlayers);
             UpdateRoom(state);
         }
@@ -48,9 +50,9 @@ namespace Client
 
         private void UpdateRoom(RoomState state)
         {
-            foreach (Player p  in state.AllPlayers)
+            foreach (var p  in state.AllPlayers)
             {
-                if (state.IsOn == false && this.Creator)
+                if (state.IsOn == false && Creator)
                 {
                     Start.Visibility = Visibility.Visible;
                 }
@@ -64,8 +66,7 @@ namespace Client
                     PlayerMap.Add(p.PlayerName, CountPlayers);
                     ChatComboBoxContent.Add(p.PlayerName);
                 }
-                int playerVal = - 1;
-                PlayerMap.TryGetValue(p.PlayerName, out playerVal);
+                PlayerMap.TryGetValue(p.PlayerName, out int playerVal);
                 if (playerVal != -1)
                 {
                     UpdatePlayer(playerVal, p);
@@ -86,11 +87,11 @@ namespace Client
 
         private void StatusRequest()
         {
-            string controller = "Room?gameName=" + this.RoomName + "&playerName=" + this.SelfPlayerName;
-            string ans = RestClient.MakePutRequest(controller);
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName;
+            var ans = RestClient.MakePutRequest(controller);
             MessageBox.Show(ans, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            JObject json = JObject.Parse(ans);
-            RoomState roomState = json.ToObject<RoomState>();
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
                 UpdateRoom(roomState);
@@ -115,7 +116,7 @@ namespace Client
 
         private void UpdateSelfCards(string[] hand)
         {
-            if (hand != null && hand[0]!=null && hand[1]!=null)
+            if (hand?[0] != null && hand[1]!=null)
             {
                 P1Card1.Source = new BitmapImage(new Uri(@"Resources/_" + hand[0] + ".png"));
                 P1Card2.Source = new BitmapImage(new Uri(@"Resources/_" + hand[1] + ".png"));
@@ -126,7 +127,7 @@ namespace Client
         {
             if (cards == null || cards.Length == 0)
                 return;
-            foreach (string s in cards)
+            foreach (var s in cards)
             {
                 if (s != null)
                     Com1.Source = new BitmapImage(new Uri(@"Resources/_" + s + ".png", UriKind.Relative));
@@ -135,11 +136,11 @@ namespace Client
 
         private void Bet_Click(object sender, RoutedEventArgs e)
         {
-            string controller = "Room?gameName=" + this.RoomName + "&player_name=" + this.SelfPlayerName +
+            var controller = "Room?gameName=" + RoomName + "&player_name=" + SelfPlayerName +
                                 "&bet=" + (int)CurrentBet_Label.Content;
-            string ans = RestClient.MakeGetRequest(controller);
-            JObject json = JObject.Parse(ans);
-            RoomState roomState = json.ToObject<RoomState>();
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
                 UpdateRoom(roomState);
@@ -152,11 +153,10 @@ namespace Client
 
         private void Call_Click(object sender, RoutedEventArgs e)
         {
-            string controller = "Room?gameName=" + this.RoomName + "&playerName=" + this.SelfPlayerName +
-                                "&bet=call";
-            string ans = RestClient.MakeGetRequest(controller);
-            JObject json = JObject.Parse(ans);
-            RoomState roomState = json.ToObject<RoomState>();
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&bet=call";
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
                 UpdateRoom(roomState);
@@ -169,11 +169,10 @@ namespace Client
 
         private void Fold_Click(object sender, RoutedEventArgs e)
         {
-            string controller = "Room?gameName=" + this.RoomName + "&playerName=" + this.SelfPlayerName +
-                                "&bet=fold";
-            string ans = RestClient.MakeGetRequest(controller);
-            JObject json = JObject.Parse(ans);
-            RoomState roomState = json.ToObject<RoomState>();
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&bet=fold";
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
                 UpdateRoom(roomState);
@@ -186,10 +185,10 @@ namespace Client
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            string controller = "Room?gameName=" + this.RoomName + "&playerName=" + this.SelfPlayerName;
-            string ans = RestClient.MakeGetRequest(controller);
-            JObject json = JObject.Parse(ans);
-            RoomState roomState = json.ToObject<RoomState>();
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName;
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
                 Start.Visibility = Visibility.Hidden;

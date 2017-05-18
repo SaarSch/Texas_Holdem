@@ -10,12 +10,12 @@ namespace Client
     public partial class LoginWindow
     {
 
-        private bool _login_mode;
+        private bool _loginMode;
 
         public LoginWindow()
         {
             InitializeComponent();
-            _login_mode = true;
+            _loginMode = true;
         }
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
@@ -64,11 +64,11 @@ namespace Client
 
         private void ChangeMode_Click(object sender, RoutedEventArgs e)
         {
-            _login_mode = !_login_mode;
+            _loginMode = !_loginMode;
             UsernameTxt.Text = "";
             PasswordTxt.Password = "";
 
-            if (_login_mode)
+            if (_loginMode)
             {
                 ModeLbl.Content = "Log In to Texas Holdem!";
                 LogInButton.Visibility = Visibility.Visible;

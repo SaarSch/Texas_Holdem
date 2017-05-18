@@ -53,7 +53,7 @@ namespace TexasHoldem.Logics
         {
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
                     Logger.Log(Severity.Error, e.Message);
@@ -72,9 +72,9 @@ namespace TexasHoldem.Logics
             User user = null;
             for (i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
-                    if (users[i].Item1.GetPassword() == password)
+                    if (users[i].Item1.Password == password)
                     {
                         if (users[i].Item2)
                         {
@@ -113,7 +113,7 @@ namespace TexasHoldem.Logics
 
             for (i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     if (!users[i].Item2)
                     {
@@ -145,7 +145,7 @@ namespace TexasHoldem.Logics
             var userExists = false;
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     userExists = true;
                     if (!users[i].Item2)
@@ -160,21 +160,21 @@ namespace TexasHoldem.Logics
                         {
                             for (var j = 0; j < users.Count; j++)
                             {
-                                if (users[j].Item1.GetUsername() == newUserName)
+                                if (users[j].Item1.Username == newUserName)
                                 {
                                     var e = new IllegalUsernameException("ERROR in Edit Profile: New username already exists!");
                                     Logger.Log(Severity.Error, e.Message);
                                     throw e;
                                 }
                             }
-                            users[i].Item1.SetUsername(newUserName);
+                            users[i].Item1.Username = newUserName;
                         }
                         if (newPassword != null)
-                            users[i].Item1.SetPassword(newPassword);
+                            users[i].Item1.Password = newPassword;
                         if (newAvatarPath != null)
-                            users[i].Item1.SetAvatar(newAvatarPath);
+                            users[i].Item1.AvatarPath = newAvatarPath;
                         if (newEmail != null)
-                            users[i].Item1.SetEmail(newEmail);
+                            users[i].Item1.Email = newEmail;
                     }
                     catch (Exception)
                     {
@@ -198,7 +198,7 @@ namespace TexasHoldem.Logics
         {
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     if (!users[i].Item2)
                     {
@@ -218,7 +218,7 @@ namespace TexasHoldem.Logics
         {
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
 
                     return users[i].Item1;
@@ -234,9 +234,9 @@ namespace TexasHoldem.Logics
             Tuple<User, bool> userToDelete = null;
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
-                    if (users[i].Item1.GetPassword() == password)
+                    if (users[i].Item1.Username == password)
                     {
                         userToDelete = users[i];
                     }
