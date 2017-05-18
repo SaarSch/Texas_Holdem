@@ -29,7 +29,7 @@ namespace TexasHoldem.Game
         public GamePreferences GamePreferences;
         public bool Flop;
         public int Pot = 0;
-    //    public readonly string GameReplay;
+        public readonly string GameReplay;
         private int _turn = 1;
         public GameStatus GameStatus;
 

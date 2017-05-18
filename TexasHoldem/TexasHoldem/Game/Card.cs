@@ -42,7 +42,7 @@ namespace TexasHoldem.Game
 
         public override string ToString()
         {
-            return "(" + Value + Type + ")";
+            return Value +""+ Type;
         }
     }
 }

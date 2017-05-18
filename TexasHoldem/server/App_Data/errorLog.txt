@@ -70,3 +70,45 @@
 5/18/2017 00:19: Error: Error in GetRoom: Room wrwge doesn't exist!
 5/18/2017 00:22: Error: Error in GetRoom: Room rtert doesn't exist!
 5/18/2017 00:52: Error: Error in GetRoom: Room regrg doesn't exist!
+5/18/2017 01:01: Error: Error in GetRoom: Room hyryhery doesn't exist!
+5/18/2017 01:21: Error: Error in GetRoom: Room hfnfnhf doesn't exist!
+5/18/2017 09:47: Error: Illegal password! Must contain at least 1 non-letter character.
+5/18/2017 09:47: Error: Error in GetRoom: Room fgjfj doesn't exist!
+5/18/2017 09:48: Error: Error in GetRoom: Room dghdjhh doesn't exist!
+5/18/2017 11:31: Error: Error in GetRoom: Room sgererye doesn't exist!
+5/18/2017 11:33: Error: Illegal password! Length must be between 8 and 12.
+5/18/2017 11:33: Error: Error in GetRoom: Room fgsgse doesn't exist!
+5/18/2017 14:10: Error: Error in GetRoom: Room jhjh doesn't exist!
+5/18/2017 14:11: Error: Error in GetRoom: Room fdsggdf doesn't exist!
+5/18/2017 14:12: Error: Error in GetRoom: Room jhjhfjh doesn't exist!
+5/18/2017 15:01: Error: ERROR in Login: Username does not exist!
+5/18/2017 15:01: Error: Error in GetRoom: Room dfgbdf doesn't exist!
+5/18/2017 15:01: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 15:39: Error: Error in GetRoom: Room erthert doesn't exist!
+5/18/2017 16:11: Error: Error in GetRoom: Room khvjh767 doesn't exist!
+5/18/2017 16:13: Error: Error in GetRoom: Room vfeerf doesn't exist!
+5/18/2017 16:16: Error: Error in GetRoom: Room fgdfgf doesn't exist!
+5/18/2017 16:17: Error: Error in GetRoom: Room fgbfdb doesn't exist!
+5/18/2017 16:19: Error: Illegal username! Length must be between 8 and 12.
+5/18/2017 16:19: Error: Error in GetRoom: Room rvrgvtre doesn't exist!
+5/18/2017 16:20: Error: Error in GetRoom: Room fgvfgb doesn't exist!
+5/18/2017 16:24: Error: Error in GetRoom: Room jfdgjgf doesn't exist!
+5/18/2017 16:28: Error: Error in GetRoom: Room gdheyhey doesn't exist!
+5/18/2017 16:32: Error: ERROR in FindGames: No game rooms found.
+5/18/2017 16:32: Error: ERROR in FindGames: No game rooms found.
+5/18/2017 17:11: Error: Illegal password! Length must be between 8 and 12.
+5/18/2017 17:12: Error: ERROR in Login: Username does not exist!
+5/18/2017 17:12: Error: Error in GetRoom: Room dcdc doesn't exist!
+5/18/2017 17:14: Error: Error in GetRoom: Room rgbbrgb doesn't exist!
+5/18/2017 17:15: Error: Error in GetRoom: Room fdgfb doesn't exist!
+5/18/2017 17:23: Error: Error in GetRoom: Room geeeeg doesn't exist!
+5/18/2017 17:27: Error: Error in GetRoom: Room gfhgf656565 doesn't exist!
+5/18/2017 17:27: Error: can't play with less then min players
+5/18/2017 18:09: Error: Error in GetRoom: Room dfgdfgdfg doesn't exist!
+5/18/2017 18:12: Error: Error in GetRoom: Room mvhvhjhfh doesn't exist!
+5/18/2017 18:14: Error: Error in GetRoom: Room mhvhv doesn't exist!
+5/18/2017 18:14: Error: can't play with less then min players
+5/18/2017 18:20: Error: Error in GetRoom: Room fgdgdfgd doesn't exist!
+5/18/2017 19:39: Error: ERROR in Login: Username does not exist!
+5/18/2017 19:41: Error: ERROR in Login: Username does not exist!
+5/18/2017 19:41: Error: ERROR in Register: Username already exists!
