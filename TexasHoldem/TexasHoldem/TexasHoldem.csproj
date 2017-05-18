@@ -61,6 +61,7 @@
     <Compile Include="Exceptions\IllegalCriteriaException.cs" />
     <Compile Include="Game\ICard.cs" />
     <Compile Include="Game\IPlayer.cs" />
+    <Compile Include="Game\IRoom.cs" />
     <Compile Include="Game\MessageLogic.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />

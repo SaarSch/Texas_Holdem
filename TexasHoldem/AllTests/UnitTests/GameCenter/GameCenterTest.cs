@@ -211,7 +211,7 @@ namespace AllTests.UnitTests.GameCenter
             var gp = new GamePreferences();
             _gc.CreateRoom("MyRoom1", "aaaaaaa0", "player1", gp);
             _gc.CreateRoom("MyRoom2", "aaaaaaa1", "player2", gp);
-            var p = new List<Predicate<Room>> {room => room.HasPlayer("player1")};
+            var p = new List<Predicate<IRoom>> {room => room.HasPlayer("player1")};
             var ans = _gc.FindGames(p);
             if (ans.Count == 1 && ans[0].Name == "MyRoom1")
                     succ = true;
@@ -243,7 +243,7 @@ namespace AllTests.UnitTests.GameCenter
                 };
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                var p = new List<Predicate<Room>> {room => room.HasPlayer(null)};
+                var p = new List<Predicate<IRoom>> {room => room.HasPlayer(null)};
                 _gc.FindGames(p);
             }
             catch
@@ -272,7 +272,7 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
-                var p = new List<Predicate<Room>> {room => room.Pot == 5};
+                var p = new List<Predicate<IRoom>> {room => room.Pot == 5};
                 var ans = _gc.FindGames(p);
                 if (ans.Count == 1 && ans[0].Name == "MyRoom2")
                     succ = true;
@@ -303,7 +303,7 @@ namespace AllTests.UnitTests.GameCenter
                 _gc.CreateRoom("MyRoom1", "seanoch123", "player1", gp);
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
-                var p = new List<Predicate<Room>>();
+                var p = new List<Predicate<IRoom>>();
                 var ans = _gc.FindGames(p);
                 if (ans.Count == 2)
                     succ = true;
@@ -379,7 +379,7 @@ namespace AllTests.UnitTests.GameCenter
                     Spectating = false
                 };
                 _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
-                var p = new List<Predicate<Room>> {room => room.GamePreferences.GameType == Gametype.PotLimit};
+                var p = new List<Predicate<IRoom>> {room => room.GamePreferences.GameType == Gametype.PotLimit};
                 var ans = _gc.FindGames(p);
                 if (ans.Count == 1)
                     succ = true;
@@ -420,7 +420,7 @@ namespace AllTests.UnitTests.GameCenter
                 var r = _gc.CreateRoom("MyRoom2", "login1234", "player2", gp);
                 r.Pot = 5;
                 _gc.CreateRoom("MyRoom3", "login1234", "player2", gp);
-                var p = new List<Predicate<Room>> {room => room.HasPlayer("player2"), room => room.Pot == 5};
+                var p = new List<Predicate<IRoom>> {room => room.HasPlayer("player2"), room => room.Pot == 5};
                 var ans = _gc.FindGames(p);
                 if (ans.Count == 1 && ans[0].Name == "MyRoom2")
                     succ = true;

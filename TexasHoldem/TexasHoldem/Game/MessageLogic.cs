@@ -24,7 +24,7 @@ namespace TexasHoldem.Game
             Notifier.Instance.Notify(roomUsers, r.Name, message);
         }
 
-        public Room PlayerSendMessege(string message, IPlayer sender, Room r)
+        public IRoom PlayerSendMessege(string message, IPlayer sender, IRoom r)
         {
             if (message is null)
             {
@@ -59,7 +59,7 @@ namespace TexasHoldem.Game
             return message != "" && !wordFilter.IsMatch(message);
         }
 
-        public Room SpectatorsSendMessege(string message, IUser sender, Room r)
+        public IRoom SpectatorsSendMessege(string message, IUser sender, IRoom r)
         {
             if (message is null)
             {
@@ -87,7 +87,7 @@ namespace TexasHoldem.Game
             return r;
         }
 
-        public Room SpectatorWisper(string message, IUser sender, IUser reciver, Room r)
+        public IRoom SpectatorWisper(string message, IUser sender, IUser reciver, IRoom r)
         {
             if (message is null)
             {
@@ -124,7 +124,7 @@ namespace TexasHoldem.Game
             return r;
         }
 
-        public Room PlayerWisper(string message, IPlayer sender, IUser reciver, Room r)
+        public IRoom PlayerWisper(string message, IPlayer sender, IUser reciver, IRoom r)
         {
             if (message is null)
             {
@@ -161,7 +161,7 @@ namespace TexasHoldem.Game
             return r;
         }
 
-        private bool IsUserIsPlayer(IUser u, Room r)
+        private bool IsUserIsPlayer(IUser u, IRoom r)
         {
             foreach (var p in r.Players)
             {

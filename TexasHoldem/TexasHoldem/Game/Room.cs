@@ -17,21 +17,21 @@ namespace TexasHoldem.Game
         River, 
     }
 
-    public class Room
+    public class Room : IRoom
     {
-        public bool IsOn;
-        public List<IUser> SpectateUsers = new List<IUser>();
-        public List<IPlayer> Players = new List<IPlayer>(8);
-        public Deck Deck = new Deck();
-        public Card[] CommunityCards = new Card[5];
-        public string Name;
-        public int League;
-        public GamePreferences GamePreferences;
-        public bool Flop;
-        public int Pot = 0;
-        public readonly string GameReplay;
+        public bool IsOn { get; set; }
+        public List<IUser> SpectateUsers { get; set; } = new List<IUser>();
+        public List<IPlayer> Players { get; set; } = new List<IPlayer>(8);
+        public Deck Deck { get; set; } = new Deck();
+        public Card[] CommunityCards { get; set; } = new Card[5];
+        public string Name{ get; set; }
+        public int League { get; set; }
+        public GamePreferences GamePreferences { get; set; }
+        public bool Flop { get; set; }
+        public int Pot { get; set; } = 0;
+        public string GameReplay { get; }
         private int _turn = 1;
-        public GameStatus GameStatus;
+        public GameStatus GameStatus { get; set; }
 
         public HandLogic HandLogic { get; }
 

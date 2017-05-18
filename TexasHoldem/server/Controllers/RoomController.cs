@@ -1,6 +1,8 @@
 ﻿using server.Models;
 using System;
 using System.Web.Http;
+using TexasHoldem.Game;
+using Player = server.Models.Player;
 using Room = TexasHoldem.Game.Room;
 
 namespace server.Controllers
@@ -10,7 +12,7 @@ namespace server.Controllers
         // Put: /api/Room?game_name=moshe&player_name=kaki
         public RoomState Put(string gameName, string playerName) //get current status
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -45,7 +47,7 @@ namespace server.Controllers
         // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
         public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate game// leave game
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -74,7 +76,7 @@ namespace server.Controllers
         // GET: /api/Room?game_name=moshe&player_name=kaki&bet=100
         public RoomState GET(string gameName, string playerName, int bet) //palce bet
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -92,7 +94,7 @@ namespace server.Controllers
         // GET: /api/Room?game_name=moshe&player_name=kaki&option=call 
         public RoomState GET(string gameName, string playerName, string option) //call / fold 
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -121,7 +123,7 @@ namespace server.Controllers
             var ans = new RoomState();
             try
             {
-                Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
+                IRoom r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
                 if (r != null) CreateRoomState(value.CreatorPlayerName, r, ans);
                 return ans;
             }
@@ -134,7 +136,7 @@ namespace server.Controllers
 
         }
 
-        public static void CreateRoomState(string player, Room r, RoomState ans)
+        public static void CreateRoomState(string player, IRoom r, RoomState ans)
         {
             try
             {

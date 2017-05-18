@@ -17,7 +17,7 @@ namespace TexasHoldem
 
         private static GameCenter _instance;
         public List<Tuple<IUser, bool>> Users { get; }
-        public List<Room> Rooms;
+        public List<IRoom> Rooms;
         public int ExpCriteria { get; }
         public int DefaultRank { get; private set; }
 
@@ -31,7 +31,7 @@ namespace TexasHoldem
         private GameCenter()
         {
             Users = new List<Tuple<IUser, bool>>();
-            Rooms = new List<Room>();
+            Rooms = new List<IRoom>();
             UserLogic = new UserLogic();
             ExpCriteria = 10;
         }
@@ -69,9 +69,9 @@ namespace TexasHoldem
             throw e;
         }
 
-        public Room GetRoom(string roomName)
+        public IRoom GetRoom(string roomName)
         {
-            Room roomFound = null;
+            IRoom roomFound = null;
             for (var i = 0; i < Rooms.Count && roomFound == null; i++)
             {
                 if (Rooms[i].Name == roomName)
@@ -99,7 +99,7 @@ namespace TexasHoldem
             return true;
         }
 
-        public Room AddUserToRoom(string username, string roomName, bool isSpectator, string playerName = "")
+        public IRoom AddUserToRoom(string username, string roomName, bool isSpectator, string playerName = "")
         {
             var room = GetRoom(roomName);
             var user = UserLogic.GetLoggedInUser(username, Users);
@@ -125,7 +125,7 @@ namespace TexasHoldem
             return room;
         }
 
-        public Room RemoveUserFromRoom(string username, string roomName, string playerName)
+        public IRoom RemoveUserFromRoom(string username, string roomName, string playerName)
         {
             var room = GetRoom(roomName);
             UserLogic.GetLoggedInUser(username, Users);
@@ -159,9 +159,9 @@ namespace TexasHoldem
             throw e;
         }
 
-        public List<Room> FindGames(List<Predicate<Room>> predicates)
+        public List<IRoom> FindGames(List<Predicate<IRoom>> predicates)
         {
-            var ans = new List<Room>();
+            var ans = new List<IRoom>();
             string roomsFound = "";
             foreach (var r in Rooms)
             {
