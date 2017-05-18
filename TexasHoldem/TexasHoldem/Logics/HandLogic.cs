@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TexasHoldem.Game;
 
-namespace TexasHoldem.Game
+namespace TexasHoldem.Logics
 {
     public class HandLogic
     {

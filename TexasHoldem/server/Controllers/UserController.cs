@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Http;
-using server.Models;
+using Server.Models;
 
-namespace server.Controllers
+namespace Server.Controllers
 {
     public class UserController : ApiController
     {
@@ -11,7 +11,7 @@ namespace server.Controllers
         {
             try
             {
-                return WebApiConfig.UserManger.GetRank(username);
+                return Server.UserFacade.GetRank(username);
             }
             catch
             {
@@ -28,10 +28,10 @@ namespace server.Controllers
                 switch (mode)
                 {
                     case "logout":
-                        WebApiConfig.UserManger.Logout(username);
+                        Server.UserFacade.Logout(username);
                         break;
                     case "isloggedin":
-                        WebApiConfig.UserManger.IsUserLoggedInn(username);
+                        Server.UserFacade.IsUserLoggedInn(username);
                         break;
                     default:
                         throw new Exception("comunication error: unkown mode");
@@ -53,10 +53,10 @@ namespace server.Controllers
                 switch (mode)
                 {
                     case "delete":
-                        WebApiConfig.UserManger.DeleteUser(username, passwordOrRank);
+                        Server.UserFacade.DeleteUser(username, passwordOrRank);
                         break;
                     case "register":
-                        WebApiConfig.UserManger.Register(username, passwordOrRank);
+                        Server.UserFacade.Register(username, passwordOrRank);
                         break;
                     default:
                         throw new Exception("comunication error: unkown mode");
@@ -74,7 +74,7 @@ namespace server.Controllers
             var ret = new UserData();
             try
             {
-                var u = WebApiConfig.UserManger.Login(value.Username, value.Password);
+                var u = Server.UserFacade.Login(value.Username, value.Password);
                 ret.AvatarPath = u.GetAvatar();
                 ret.Chips = u.ChipsAmount;
                 ret.Email = u.GetEmail();
@@ -95,7 +95,7 @@ namespace server.Controllers
         {
             try
             {
-                WebApiConfig.UserManger.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
+                Server.UserFacade.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
             }
             catch (Exception e)
             {

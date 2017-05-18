@@ -1,4 +1,4 @@
-﻿namespace server.Models
+﻿namespace Server.Models
 {
     public class Room
     {

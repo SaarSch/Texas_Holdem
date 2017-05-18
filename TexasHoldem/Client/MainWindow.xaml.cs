@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using Client.Data;
@@ -14,18 +11,18 @@ namespace Client
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private UserData loggedUser;
-        public List<Room> roomResults;
+        private readonly UserData _loggedUser;
+        public List<Room> RoomResults;
 
         public MainWindow(UserData user)
         {
-            roomResults = new List<Room>();
+            RoomResults = new List<Room>();
             InitializeComponent();
-            RoomsGrid.ItemsSource = roomResults;
-            loggedUser = user;
-            UpdateUserLabels(loggedUser.Username, loggedUser.Chips);
+            RoomsGrid.ItemsSource = RoomResults;
+            _loggedUser = user;
+            UpdateUserLabels(_loggedUser.Username, _loggedUser.Chips);
         }
 
         //TODO: add avatar update
@@ -52,17 +49,16 @@ namespace Client
 
         private RoomFilter SetFilter()
         {
-            RoomFilter filter = new RoomFilter();
-            filter.User = loggedUser.Username;
-            if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value == true)
+            var filter = new RoomFilter {User = _loggedUser.Username};
+            if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value)
             {
                 filter.PlayerName = PlayerNameTxt.Text;
             }
-            if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value == true)
+            if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int pot = Int32.Parse(PotSizeTxt.Text);
+                    var pot = int.Parse(PotSizeTxt.Text);
                     filter.PotSize = pot;
                 }
                 catch
@@ -71,19 +67,19 @@ namespace Client
                     return null;
                 }
             }
-            if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value == true)
+            if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value)
             {
                 filter.LeagueOnly = true;
             }
-            if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value == true)
+            if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value)
             {
                 filter.GameType = GameTypeCombobox.Text;
             }
-            if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value == true)
+            if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int buy = Int32.Parse(BuyinPolicyTxt.Text);
+                    var buy = int.Parse(BuyinPolicyTxt.Text);
                     filter.BuyInPolicy = buy;
                 }
                 catch
@@ -92,11 +88,11 @@ namespace Client
                     return null;
                 }
             }
-            if (ChipPolicyCheckbox.IsChecked != null && ChipPolicyCheckbox.IsChecked.Value == true)
+            if (ChipPolicyCheckbox.IsChecked != null && ChipPolicyCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int chip = Int32.Parse(ChipPolicyTxt.Text);
+                    var chip = int.Parse(ChipPolicyTxt.Text);
                     filter.ChipPolicy = chip;
                 }
                 catch
@@ -105,11 +101,11 @@ namespace Client
                     return null;
                 }
             }
-            if (MinBetCheckbox.IsChecked != null && MinBetCheckbox.IsChecked.Value == true)
+            if (MinBetCheckbox.IsChecked != null && MinBetCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int minB = Int32.Parse(MinBetTxt.Text);
+                    var minB = int.Parse(MinBetTxt.Text);
                     filter.MinBet = minB;
                 }
                 catch
@@ -118,11 +114,11 @@ namespace Client
                     return null;
                 }
             }
-            if (MinPlayersCheckbox.IsChecked != null && MinPlayersCheckbox.IsChecked.Value == true)
+            if (MinPlayersCheckbox.IsChecked != null && MinPlayersCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int minP = Int32.Parse(MinPlayersTxt.Text);
+                    var minP = int.Parse(MinPlayersTxt.Text);
                     filter.MinPlayers = minP;
                 }
                 catch
@@ -131,11 +127,11 @@ namespace Client
                     return null;
                 }
             }
-            if (MaxPlayersCheckbox.IsChecked != null && MaxPlayersCheckbox.IsChecked.Value == true)
+            if (MaxPlayersCheckbox.IsChecked != null && MaxPlayersCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int maxP = Int32.Parse(MaxPlayersTxt.Text);
+                    var maxP = int.Parse(MaxPlayersTxt.Text);
                     filter.MaxPlayers = maxP;
                 }
                 catch
@@ -144,9 +140,9 @@ namespace Client
                     return null;
                 }
             }
-            if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value == true)
+            if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value)
             {
-                bool cond = SpectatingCombobox.Text == "Yes";
+                var cond = SpectatingCombobox.Text == "Yes";
                 filter.SpectatingAllowed = cond;
             }
             return filter;
@@ -154,28 +150,28 @@ namespace Client
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            RoomFilter filter = SetFilter();
+            var filter = SetFilter();
 
             if (filter == null)
                 return;
 
-            string controller = "Search";
-            string data = new JavaScriptSerializer().Serialize(filter);
+            const string controller = "Search";
+            var data = new JavaScriptSerializer().Serialize(filter);
 
-            string ans = RestClient.MakePostRequest(controller, data);
-            JObject json = JObject.Parse(ans);
-            RoomList roomList = json.ToObject<RoomList>();
+            var ans = RestClient.MakePostRequest(controller, data);
+            var json = JObject.Parse(ans);
+            var roomList = json.ToObject<RoomList>();
             if (roomList.Message == null)
             {
-                roomResults = roomList.Rooms.ToList();
-                RoomsGrid.ItemsSource = roomResults;
+                RoomResults = roomList.Rooms.ToList();
+                RoomsGrid.ItemsSource = RoomResults;
                 RoomsGrid.Items.Refresh();
             }
             else
             {
                 MessageBox.Show("No rooms to show!", "No results", MessageBoxButton.OK, MessageBoxImage.Information);
-                roomResults.Clear();
-                RoomsGrid.ItemsSource = roomResults;
+                RoomResults.Clear();
+                RoomsGrid.ItemsSource = RoomResults;
                 RoomsGrid.Items.Refresh();
             }
         }
@@ -212,8 +208,8 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            ProfileWindow profileWindow = new ProfileWindow(loggedUser, this);
-            App.Current.MainWindow = profileWindow;
+            var profileWindow = new ProfileWindow(_loggedUser, this);
+            Application.Current.MainWindow = profileWindow;
             //this.Close();
             profileWindow.Show();
         }
@@ -225,13 +221,15 @@ namespace Client
 
         private Room SetRoom()
         {
-            Room room = new Room();
-            room.CreatorUserName = loggedUser.Username;
-            room.CreatorPlayerName = PlayerNameTxt_Copy.Text;
-            room.GameType = GameTypeCombobox_Copy.Text;
+            var room = new Room
+            {
+                CreatorUserName = _loggedUser.Username,
+                CreatorPlayerName = PlayerNameTxt_Copy.Text,
+                GameType = GameTypeCombobox_Copy.Text
+            };
             try
             {
-                int buy = Int32.Parse(BuyinPolicyTxt_Copy.Text);
+                var buy = int.Parse(BuyinPolicyTxt_Copy.Text);
                 room.BuyInPolicy = buy;
             }
             catch
@@ -242,7 +240,7 @@ namespace Client
             }
             try
             {
-                int chip = Int32.Parse(ChipPolicyTxt_Copy.Text);
+                var chip = int.Parse(ChipPolicyTxt_Copy.Text);
                 room.ChipPolicy = chip;
             }
             catch
@@ -253,7 +251,7 @@ namespace Client
             }
             try
             {
-                int minB = Int32.Parse(MinBetTxt_Copy.Text);
+                var minB = int.Parse(MinBetTxt_Copy.Text);
                 room.MinBet = minB;
             }
             catch
@@ -264,7 +262,7 @@ namespace Client
             }
             try
             {
-                int minP = Int32.Parse(MinPlayersTxt_Copy.Text);
+                var minP = int.Parse(MinPlayersTxt_Copy.Text);
                 room.MinPlayers = minP;
             }
             catch
@@ -275,7 +273,7 @@ namespace Client
             }
             try
             {
-                int maxP = Int32.Parse(MaxPlayersTxt_Copy.Text);
+                var maxP = int.Parse(MaxPlayersTxt_Copy.Text);
                 room.MaxPlayers = maxP;
             }
             catch
@@ -285,7 +283,7 @@ namespace Client
                 return null;
             }
 
-            bool cond = SpectatingCombobox_Copy.Text == "Yes";
+            var cond = SpectatingCombobox_Copy.Text == "Yes";
             room.SpectatingAllowed = cond;
 
             room.RoomName = RoomNameTxt.Text;
@@ -295,20 +293,20 @@ namespace Client
 
         private void newRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            Room room = SetRoom();
+            var room = SetRoom();
 
             if (room == null)
                 return;
 
-            string controller = "Room";
-            string data = new JavaScriptSerializer().Serialize(room);
+            const string controller = "Room";
+            var data = new JavaScriptSerializer().Serialize(room);
 
-            string ans = RestClient.MakePostRequest(controller, data);
-            JObject json = JObject.Parse(ans);
-            RoomState roomState = json.ToObject<RoomState>();
+            var ans = RestClient.MakePostRequest(controller, data);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                    int chip = (int)chipsLabel.Content;
+                var chip = (int)chipsLabel.Content;
                 if (room.ChipPolicy != 0)
                 {
                     chipsLabel.Content = chip - room.ChipPolicy;
@@ -318,8 +316,10 @@ namespace Client
                     chipsLabel.Content = 0;
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 GameWindow gameWindow = new GameWindow(PlayerNameTxt_Copy.Text, roomState, true);
                 App.Current.MainWindow = gameWindow;
+
                 //this.Close();
                 gameWindow.Show();
             }
