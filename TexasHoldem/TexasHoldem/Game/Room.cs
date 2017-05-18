@@ -129,7 +129,7 @@ namespace TexasHoldem.Game
             }
             foreach (var u in SpectateUsers)
             {
-                if (u.GetUsername().Equals(p.Name))
+                if (u.Username.Equals(p.Name))
                 {
                     var e = new Exception("can't join, player name is already exist");
                     Logger.Log(Severity.Exception, e.Message);
@@ -199,7 +199,7 @@ namespace TexasHoldem.Game
             }
             foreach (var p in Players)
             {
-                if (p.Name == user.GetUsername())
+                if (p.Name == user.Username)
                 {
                     var e = new Exception("can't spectate at this room");
                     Logger.Log(Severity.Exception, e.Message);
