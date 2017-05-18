@@ -316,8 +316,10 @@ namespace Client
                     chipsLabel.Content = 0;
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                var gameWindow = new GameWindow(roomState);
-                Application.Current.MainWindow = gameWindow;
+
+                GameWindow gameWindow = new GameWindow(PlayerNameTxt_Copy.Text, roomState, true);
+                App.Current.MainWindow = gameWindow;
+
                 //this.Close();
                 gameWindow.Show();
             }
@@ -325,6 +327,11 @@ namespace Client
             {
                 MessageBox.Show(roomState.Messege, "Error in creation", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void RoomsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show("NOT IMPLEMENTED!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

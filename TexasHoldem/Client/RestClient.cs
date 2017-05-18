@@ -43,6 +43,17 @@ namespace Client
             return ans;
         }
 
+        public static string MakePutRequest(string controller)
+        {
+            string ans = "";
+            SetController(controller);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
+            request.Method = "PUT";
+            ans = PerformRequest(request);
+            _endPoint = AZURE_ADDRESS;
+            return ans;
+        }
+
         private static string PerformRequest(WebRequest request)
         {
             var strResponseValue = "";

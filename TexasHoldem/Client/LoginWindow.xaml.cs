@@ -9,9 +9,13 @@ namespace Client
     /// </summary>
     public partial class LoginWindow
     {
+
+        private bool _login_mode;
+
         public LoginWindow()
         {
             InitializeComponent();
+            _login_mode = true;
         }
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
@@ -31,6 +35,8 @@ namespace Client
             }
             else
             {
+                UsernameTxt.Text = "";
+                PasswordTxt.Password = "";
                 MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
@@ -53,6 +59,28 @@ namespace Client
             else
             {
                 MessageBox.Show(loggedUser.Message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ChangeMode_Click(object sender, RoutedEventArgs e)
+        {
+            _login_mode = !_login_mode;
+            UsernameTxt.Text = "";
+            PasswordTxt.Password = "";
+
+            if (_login_mode)
+            {
+                ModeLbl.Content = "Log In to Texas Holdem!";
+                LogInButton.Visibility = Visibility.Visible;
+                RegisterButton.Visibility = Visibility.Hidden;
+                ChangeMode.Content = "Join us now!";
+            }
+            else
+            {
+                ModeLbl.Content = "Create a New Account";
+                LogInButton.Visibility = Visibility.Hidden;
+                RegisterButton.Visibility = Visibility.Visible;
+                ChangeMode.Content = "Back";
             }
         }
     }
