@@ -19,6 +19,7 @@ namespace AllTests.UnitTests.GameCenter
             for(var i = 0; i < 20; i++)
             {
                 _ul.Register("aaaaaaa" + i, "12345678",_gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).League = 2;
                 _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
             _ul.SetLeagues(_gc.Users);
@@ -35,6 +36,7 @@ namespace AllTests.UnitTests.GameCenter
             for (var i = 0; i < 60; i++)
             {
                 _ul.Register("aaaaaaa" + i, "12345678", _gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).League = 2;
                 _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
             _ul.SetLeagues(_gc.Users);
@@ -51,6 +53,7 @@ namespace AllTests.UnitTests.GameCenter
             for (var i = 0; i < 8; i++)
             {
                 _ul.Register("aaaaaaa" + i, "12345678", _gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).League = 2;
                 _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
             _ul.SetLeagues(_gc.Users);
@@ -67,6 +70,7 @@ namespace AllTests.UnitTests.GameCenter
             for (var i = 0; i < 21; i++)
             {
                 _ul.Register("aaaaaaa" + i, "12345678", _gc.Users);
+                _ul.GetUser("aaaaaaa" + i, _gc.Users).League = 2;
                 _ul.GetUser("aaaaaaa" + i, _gc.Users).Wins = i;
             }
             _ul.SetLeagues(_gc.Users);

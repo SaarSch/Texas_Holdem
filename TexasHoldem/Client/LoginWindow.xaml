@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Login" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+        Title="Login" Height="350" Width="525" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>
@@ -14,15 +14,16 @@
             <ColumnDefinition Width="72*"/>
             <ColumnDefinition Width="445*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="72,138,0,0" VerticalAlignment="Top" Foreground="White" Grid.Column="1"/>
-        <TextBox Name="UsernameTxt" HorizontalAlignment="Left" Height="23" Margin="149,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="72,175,0,0" VerticalAlignment="Top" Foreground="White" Grid.Column="1"/>
-        <PasswordBox Name="PasswordTxt" HorizontalAlignment="Left" Margin="149,179,0,0" VerticalAlignment="Top" Width="120" Height="22" Grid.Column="1"/>
-        <Button Content="Log in" HorizontalAlignment="Left" Margin="232,223,0,0" VerticalAlignment="Top" Width="137" Click="LogInButtonClick" Name="LogInButton" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"/>
-        <Button Visibility="Hidden" Content="Register" HorizontalAlignment="Left" Margin="232,223,0,0" VerticalAlignment="Top" Width="137" Click="RegisterButtonClick" x:Name="RegisterButton" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Height="93" Margin="72,10,0,0" VerticalAlignment="Top" Width="209" Source="Resources/gamelogo.png"/>
-        <Label Name="ModeLbl" Content="Log In to Texas Holdem!" Grid.Column="1" HorizontalAlignment="Left" Margin="0,99,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="14"/>
-        <Button Content="Join us now!" HorizontalAlignment="Left" Margin="232,252,0,0" VerticalAlignment="Top" Width="137"  x:Name="ChangeMode" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1" Click="ChangeMode_Click"/>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="72,152,0,0" VerticalAlignment="Top" Foreground="White" Grid.Column="1"/>
+        <TextBox Name="UsernameTxt" HorizontalAlignment="Left" Height="23" Margin="149,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="72,189,0,0" VerticalAlignment="Top" Foreground="White" Grid.Column="1"/>
+        <PasswordBox Name="PasswordTxt" HorizontalAlignment="Left" Margin="149,193,0,0" VerticalAlignment="Top" Width="120" Height="22" Grid.Column="1"/>
+        <Button Content="Log in" HorizontalAlignment="Left" Margin="226,239,0,0" VerticalAlignment="Top" Width="137" Click="LogInButtonClick" Name="LogInButton" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"/>
+        <Button Visibility="Hidden" Content="Register" HorizontalAlignment="Left" Margin="232,239,0,0" VerticalAlignment="Top" Width="137" Click="RegisterButtonClick" x:Name="RegisterButton" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="118" Margin="52,10,0,0" VerticalAlignment="Top" Width="248" Source="Resources/gamelogo.png"/>
+        <Label Name="ModeLbl" Content="Log In to Texas Holdem!" Grid.Column="1" HorizontalAlignment="Left" Margin="0,113,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="14"/>
+        <Button Content="Join us now!" HorizontalAlignment="Left" Margin="80,239,0,0" VerticalAlignment="Top" Width="137"  x:Name="ChangeMode" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1" Click="ChangeMode_Click"/>
+        <Label Content="Created by: Daniel Margalit, Elad Kamin, Saar Scheinkman, Shachr Cfir, Sean Ocheri" HorizontalAlignment="Left" Margin="0,289,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="446" Foreground="White" FontSize="9"/>
 
     </Grid>
 </Window>

@@ -19,8 +19,8 @@
                 <ImageBrush ImageSource="Resources/table_pic.png"/>
             </Image.OpacityMask>
         </Image>
-        <Rectangle Name="RecP1" Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="165" Opacity="0.5"/>
-        <Rectangle Fill="White" HorizontalAlignment="Left" Height="44" Margin="307,22,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="151" Opacity="0.5"/>
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="165" Opacity="0.5"/>
+        <Rectangle Name="RecP1" Fill="White" HorizontalAlignment="Left" Height="44" Margin="307,22,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="151" Opacity="0.5"/>
         <Rectangle Name="RecP2" Fill="White" HorizontalAlignment="Left" Height="44" Margin="500,21,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5"/>
         <Rectangle Name="RecP3" Fill="White" HorizontalAlignment="Left" Height="44" Margin="682,21,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5"/>
         <Rectangle Name="RecP4" Fill="White" HorizontalAlignment="Left" Height="44" Margin="942,105,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>

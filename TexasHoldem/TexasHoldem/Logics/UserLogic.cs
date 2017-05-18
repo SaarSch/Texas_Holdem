@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
@@ -10,7 +11,8 @@ namespace TexasHoldem.Logics
     {
         public void SetLeagues(List<Tuple<User, bool>> users)
         {
-            double size = users.Count / 10;
+            List<Tuple<User, bool>> tempUsers = users.Where(user => user.Item1.League != -1).ToList();
+            double size = tempUsers.Count / 10;
             var leagueSize = (int)Math.Ceiling(size);
             if (leagueSize == 0) leagueSize = 1;
             var currentSize = 0;
@@ -19,9 +21,9 @@ namespace TexasHoldem.Logics
             var done = new List<User>();
             User current = null;
             var maxWins = -1;
-            for (var i = 0; i < users.Count; i++)
+                        for (var i = 0; i < tempUsers.Count; i++)
             {
-                foreach (var u in users)
+                foreach (var u in tempUsers)
                 {
                     if (u.Item1.Wins > maxWins && !done.Contains(u.Item1))
                     {
@@ -41,7 +43,7 @@ namespace TexasHoldem.Logics
                     currentSize = 0;
                     league--;
                 }
-                if (users.Count == usersNum + 1 && users.Count % 2 == 1)
+                if (tempUsers.Count == usersNum + 1 && tempUsers.Count % 2 == 1)
                 {
                     league++;
                 }

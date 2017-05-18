@@ -21,7 +21,7 @@ namespace Server.Models
             if (PlayerHand.Length != other.PlayerHand.Length) return false;
             for (var i = 0; i < PlayerHand.Length; i++)
             {
-                if (Messages[i] != other.Messages[i]) return false;
+                if (PlayerHand[i] != other.PlayerHand[i]) return false;
             }
             return PlayerName == other.PlayerName && CurrentBet == other.CurrentBet && ChipsAmount == other.ChipsAmount && Avatar == other.Avatar;
            
