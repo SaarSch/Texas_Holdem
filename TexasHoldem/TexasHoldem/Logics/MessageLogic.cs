@@ -43,7 +43,7 @@ namespace TexasHoldem.Logics
             }
         }
 
-        public Room PlayerSendMessege(string message, Player sender, Room r)
+        public Room PlayerSendMessage(string message, Player sender, Room r)
         {
             CheckMessage(message, sender);
             if (!r.Players.Contains(sender))
@@ -65,7 +65,7 @@ namespace TexasHoldem.Logics
             return message != "" && !wordFilter.IsMatch(message);
         }
 
-        public Room SpectatorsSendMessege(string message, User sender, Room r)
+        public Room SpectatorsSendMessage(string message, User sender, Room r)
         {
             CheckMessage(message, sender);
             if (!r.SpectateUsers.Contains(sender))
@@ -79,7 +79,7 @@ namespace TexasHoldem.Logics
             return r;
         }
 
-        public Room SpectatorWisper(string message, User sender, User reciver, Room r)
+        public Room SpectatorWhisper(string message, User sender, User reciver, Room r)
         {
             CheckMessage(message, sender,reciver);
             if (!r.SpectateUsers.Contains(sender))
@@ -97,7 +97,7 @@ namespace TexasHoldem.Logics
             return r;
         }
 
-        public Room PlayerWisper(string message, Player sender, User reciver, Room r)
+        public Room PlayerWhisper(string message, Player sender, User reciver, Room r)
         {
             CheckMessage(message, sender, reciver);         
             if (!r.Players.Contains(sender))

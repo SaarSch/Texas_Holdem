@@ -11,7 +11,7 @@ namespace Server
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configure(global::Server.Server.Register);
         }
     }
 }
