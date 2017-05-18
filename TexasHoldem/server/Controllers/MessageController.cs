@@ -4,7 +4,7 @@ using Server.Models;
 
 namespace Server.Controllers
 {
-    public class MessagesController : ApiController
+    public class MessageController : ApiController
     {
 
         // GET: api/Messages/?room=moshe&sender=kaki&message=message sent to all&status=player
@@ -16,9 +16,9 @@ namespace Server.Controllers
             {
                 if (status == "player")
                 {
-                    r = WebApiConfig.GameFacade.PlayerSendMessege(room, sender, message);
+                    r = Server.GameFacade.PlayerSendMessage(room, sender, message);
                 }
-                else r = WebApiConfig.GameFacade.SpectatorsSendMessege(room, sender, message);
+                else r = Server.GameFacade.SpectatorsSendMessage(room, sender, message);
             }
             catch (Exception e)
             {
@@ -37,9 +37,9 @@ namespace Server.Controllers
             {
                 if (status == "player")
                 {
-                    r = WebApiConfig.GameFacade.PlayerWisper(room, sender, reciver, message);
+                    r = Server.GameFacade.PlayerWhisper(room, sender, reciver, message);
                 }
-                else r = WebApiConfig.GameFacade.SpectatorWisper(room, sender, reciver, message);
+                else r = Server.GameFacade.SpectatorWhisper(room, sender, reciver, message);
             }
             catch (Exception e)
             {

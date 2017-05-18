@@ -271,11 +271,11 @@ namespace TexasHoldem.Bridges
             {
                 if (isSpectator)
                 {
-                    _gameManager.SpectatorsSendMessege(roomName, senderPlayerName, message);
+                    _gameManager.SpectatorsSendMessage(roomName, senderPlayerName, message);
                 }
                 else
                 {
-                    _gameManager.PlayerSendMessege(roomName, senderPlayerName, message);
+                    _gameManager.PlayerSendMessage(roomName, senderPlayerName, message);
                 }
             }
             catch (Exception)
@@ -291,11 +291,11 @@ namespace TexasHoldem.Bridges
             {
                 if (isSpectator)
                 {
-                    _gameManager.SpectatorWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                    _gameManager.SpectatorWhisper(roomName, senderPlayerName, receiverPlayerName, message);
                 }
                 else
                 {
-                    _gameManager.PlayerWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                    _gameManager.PlayerWhisper(roomName, senderPlayerName, receiverPlayerName, message);
                 }
             }
             catch (Exception)

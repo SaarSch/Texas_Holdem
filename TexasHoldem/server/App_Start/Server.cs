@@ -4,7 +4,7 @@ using TexasHoldem.Services;
 
 namespace Server
 {
-    public static class WebApiConfig
+    public static class Server
     {
         public static DateTime ChangeLeagues;
         public static GameFacade GameFacade= new GameFacade();

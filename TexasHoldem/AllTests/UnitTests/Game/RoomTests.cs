@@ -1090,7 +1090,7 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, _gp);
             var p1 = new Player("shachar2", kobi);
             r.AddPlayer(p1);
-            ml.PlayerSendMessege(message,p1,r);
+            ml.PlayerSendMessage(message,p1,r);
 
             foreach (var p2 in r.Players)
                 Assert.AreEqual(
@@ -1108,7 +1108,7 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, _gp);
             var p1 = new Player("shachar2", kobi);
             r.AddPlayer(p1);
-            ml.PlayerWisper(message, p1,p.User,r);
+            ml.PlayerWhisper(message, p1,p.User,r);
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + p1.Name + ": " + message,
                     p.User.Notifications[0].Item2);
@@ -1127,7 +1127,7 @@ namespace AllTests.UnitTests.Game
                 var r = new Room("aaaa", p, _gp);
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
-                ml.PlayerWisper(message, p1, p.User, r);
+                ml.PlayerWhisper(message, p1, p.User, r);
                
             }
             catch(Exception e)
@@ -1150,7 +1150,7 @@ namespace AllTests.UnitTests.Game
                 var r = new Room("aaaa", p, _gp);
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
-                ml.PlayerWisper("aa", null, p.User, r);
+                ml.PlayerWhisper("aa", null, p.User, r);
 
             }
             catch (Exception e)
@@ -1173,7 +1173,7 @@ namespace AllTests.UnitTests.Game
                 var r = new Room("aaaa", p, _gp);
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
-                ml.PlayerWisper("", p1, p.User, r);
+                ml.PlayerWhisper("", p1, p.User, r);
 
             }
             catch (Exception e)
@@ -1196,7 +1196,7 @@ namespace AllTests.UnitTests.Game
                 var r = new Room("aaaa", p, _gp);
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
-                ml.PlayerWisper("fuck", p1, p.User, r);
+                ml.PlayerWhisper("fuck", p1, p.User, r);
 
             }
             catch (Exception e)

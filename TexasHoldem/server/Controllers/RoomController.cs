@@ -17,7 +17,7 @@ namespace Server.Controllers
             var ans = new RoomState();
             try
             {
-                r = WebApiConfig.GameFacade.RoomStatus(gameName);
+                r = Server.GameFacade.RoomStatus(gameName);
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace Server.Controllers
             var ans = new RoomState();
             try
             {
-                r = WebApiConfig.GameFacade.StartGame(gameName);
+                r = Server.GameFacade.StartGame(gameName);
             }
             catch (Exception e)
             {
@@ -55,14 +55,14 @@ namespace Server.Controllers
                 switch (option)
                 {
                     case "join":
-                        r = WebApiConfig.GameFacade.JoinGame(userName, gameName, playerName);
+                        r = Server.GameFacade.JoinGame(userName, gameName, playerName);
                         if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
-                        r = WebApiConfig.GameFacade.SpectateGame(userName, gameName, playerName);
+                        r = Server.GameFacade.SpectateGame(userName, gameName, playerName);
                         break;
                     case "leave":
-                        r = WebApiConfig.GameFacade.LeaveGame(userName, gameName, playerName);
+                        r = Server.GameFacade.LeaveGame(userName, gameName, playerName);
                         break;
                 }
             }
@@ -82,7 +82,7 @@ namespace Server.Controllers
             var ans = new RoomState();
             try
             {
-                r = WebApiConfig.GameFacade.PlaceBet(gameName, playerName, bet);
+                r = Server.GameFacade.PlaceBet(gameName, playerName, bet);
             }
             catch (Exception e)
             {
@@ -103,10 +103,10 @@ namespace Server.Controllers
                 switch (option)
                 {
                     case "fold":
-                        r = WebApiConfig.GameFacade.Fold(gameName, playerName);
+                        r = Server.GameFacade.Fold(gameName, playerName);
                         break;
                     case "call":
-                        r = WebApiConfig.GameFacade.Call(gameName, playerName);
+                        r = Server.GameFacade.Call(gameName, playerName);
                         break;
                 }
                 if (r != null) CreateRoomState(playerName, r, ans);
@@ -122,15 +122,15 @@ namespace Server.Controllers
         // POST: api/Room   create room
         public RoomState Post([FromBody]Models.Room value)
         {
-            if(WebApiConfig.ChangeLeagues.AddDays(7)<= DateTime.Now)
+            if(Server.ChangeLeagues.AddDays(7)<= DateTime.Now)
             {
-                WebApiConfig.GameFacade.SetLeagues();
-                WebApiConfig.ChangeLeagues = DateTime.Now;
+                Server.GameFacade.SetLeagues();
+                Server.ChangeLeagues = DateTime.Now;
             }
             var ans = new RoomState();
             try
             {
-                Room r = WebApiConfig.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
+                Room r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
                 if (r != null)
                 {
                     var roomDic = new Dictionary<string, List<RoomState>>();
