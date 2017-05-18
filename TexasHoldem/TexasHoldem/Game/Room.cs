@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
-using TexasHoldem.GameReplay;
 using TexasHoldem.Loggers;
 using TexasHoldem.Logics;
 using TexasHoldem.Users;
@@ -20,7 +19,7 @@ namespace TexasHoldem.Game
 
     public class Room
     {
-        public int id;
+        public int Id;
         public bool IsOn;
         public List<User> SpectateUsers = new List<User>();
         public List<Player> Players = new List<Player>(8);
@@ -31,10 +30,9 @@ namespace TexasHoldem.Game
         public GamePreferences GamePreferences;
         public bool Flop;
         public int Pot = 0;
-        public readonly string GameReplay;
-        private int _turn = 1;
         public GameStatus GameStatus;
         public int CurrentTurn;
+        public string GameReplay;
 
         public HandLogic HandLogic { get; }
 
@@ -370,9 +368,9 @@ namespace TexasHoldem.Game
         private void NextPlayer()
         {
          
-           for (int j= 0; j < Players.Count-1; j++)
+           for (var j= 0; j < Players.Count-1; j++)
             {
-                int i = (CurrentTurn+1+j) % Players.Count;
+                var i = (CurrentTurn+1+j) % Players.Count;
                 if (!Players[i].Folded)
                 {
                     CurrentTurn = i;
@@ -505,8 +503,8 @@ namespace TexasHoldem.Game
 
             p.SetBet(bet);
 
-        //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
-
+            //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+            NextPlayer();
             return this;
         }
 
@@ -611,7 +609,7 @@ namespace TexasHoldem.Game
             var zero = Players[0];
             for(var i=0; i < Players.Count-1; i++) Players[i] = Players[i + 1];
             Players[Players.Count-1] = zero;
-            _turn++;
+            //_turn++;
         }
 
         public Room Fold(Player p)
@@ -637,7 +635,7 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            int folded = 0;
+            var folded = 0;
             foreach (var p1 in Players)
             {
                 if (p1.Folded)
@@ -649,7 +647,7 @@ namespace TexasHoldem.Game
             {
                 p.Fold();
                 Logger.Log(Severity.Action, "player " + p.Name + " folded");
-                Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
+                //Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
                 CalcWinnersChips();
                 return this;
             }
@@ -658,7 +656,7 @@ namespace TexasHoldem.Game
             Logger.Log(Severity.Action, "player "+p.Name+" folded");
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
-
+            NextPlayer();
             return this;
         }
 

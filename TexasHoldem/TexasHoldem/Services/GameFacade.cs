@@ -35,14 +35,16 @@ namespace TexasHoldem.Services
 
         public Room CreateGameWithPreferences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating)
         {
-            var gp = new GamePreferences();
-            gp.GameType = (Gametype) Enum.Parse(typeof(Gametype),gameType);
-            gp.BuyInPolicy = buyInPolicy;
-            gp.ChipPolicy = chipPolicy;
-            gp.MinBet = minBet;
-            gp.MinPlayers = minPlayers;
-            gp.MaxPlayers = maxPlayers;
-            gp.Spectating = spectating;
+            var gp = new GamePreferences
+            {
+                GameType = (Gametype) Enum.Parse(typeof(Gametype), gameType),
+                BuyInPolicy = buyInPolicy,
+                ChipPolicy = chipPolicy,
+                MinBet = minBet,
+                MinPlayers = minPlayers,
+                MaxPlayers = maxPlayers,
+                Spectating = spectating
+            };
 
             return _gameCenter.CreateRoom(gameName, username, creatorName, gp);
         }
