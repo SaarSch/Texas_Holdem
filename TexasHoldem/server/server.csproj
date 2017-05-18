@@ -84,8 +84,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="App_Start\Server.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ReplayController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
