@@ -116,10 +116,10 @@ namespace TexasHoldem.Users
         }
 
         public List<Tuple<string,string>> Notifications { get; set; }
-        public int League = -1;
-        public int Wins;
-        public int ChipsAmount;
-        public int NumOfGames;
+        public int League { get; set; }
+        public int Wins { get; set; }
+        public int ChipsAmount { get; set; }
+        public int NumOfGames { get; set; }
 
         public const int PasswordLengthMin = 8;
         public const int PasswordLengthMax = 12;

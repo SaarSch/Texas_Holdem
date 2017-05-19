@@ -36,5 +36,6 @@ namespace TexasHoldem.Game
         void NextTurn();
         Room Fold(IPlayer p);
         IPlayer GetPlayer(string name);
+        int CurrentTurn { get; set; }
     }
 }

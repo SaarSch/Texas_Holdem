@@ -5,20 +5,16 @@ namespace TexasHoldem.Users
 {
     public interface IUser
     {
+        string Username { get; set; }
+        string Password { get; set; }
+        string Email { get; set; }
+        string AvatarPath { get; set; }
         List<Tuple<string, string>> Notifications { get; set; }
         int League { get; set; }
         int Wins { get; set; }
         int ChipsAmount { get; set; }
         int NumOfGames { get; set; }
-        void AddNotification(string Room, string notif);
-        void RemoveNotification(string Room, string notif);
-        void SetPassword(string password);
-        string GetPassword();
-        void SetUsername(string username);
-        string GetUsername();
-        void SetAvatar(string avatarPath);
-        string GetAvatar();
-        void SetEmail(string email);
-        string GetEmail();
+        void AddNotification(string room, string notif);
+        void RemoveNotification(string room, string notif);
     }
 }

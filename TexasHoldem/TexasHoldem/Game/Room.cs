@@ -30,8 +30,8 @@ namespace TexasHoldem.Game
         public bool Flop { get; set; }
         public int Pot { get; set; } = 0;
         public string GameReplay { get; }
-        private int _turn = 1;
         public GameStatus GameStatus { get; set; }
+        public int CurrentTurn { get; set; }
 
         public HandLogic HandLogic { get; }
 
@@ -364,9 +364,6 @@ namespace TexasHoldem.Game
             return this;
         }
 
-<<<<<<< HEAD
-        public Room Call(IPlayer p)
-=======
         private void NextPlayer()
         {
          
@@ -381,8 +378,7 @@ namespace TexasHoldem.Game
             }
         }
 
-        public Room Call(Player p)
->>>>>>> master
+        public Room Call(IPlayer p)
         {
             if (!Players.Contains(p))
             {

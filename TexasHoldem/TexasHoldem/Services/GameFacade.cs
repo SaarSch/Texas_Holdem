@@ -144,22 +144,22 @@ namespace TexasHoldem.Services
             _userLogic.SetLeagues(_gameCenter.Users);
         }
 
-        public IRoom PlayerWisper(string room, string playernameSender, string usernameReceiver, string message)
+        public IRoom PlayerWhisper(string room, string playernameSender, string usernameReceiver, string message)
         {
             return _messageLogic.PlayerWhisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public IRoom SpectatorWisper(string room, string usernameSender, string usernameReceiver, string message)
+        public IRoom SpectatorWhisper(string room, string usernameSender, string usernameReceiver, string message)
         {
             return _messageLogic.SpectatorWhisper(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public IRoom PlayerSendMessege(string room, string playerNameSender, string message)
+        public IRoom PlayerSendMessage(string room, string playerNameSender, string message)
         {
             return _messageLogic.PlayerSendMessage(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender),_gameCenter.GetRoom(room));
         }
 
-        public IRoom SpectatorsSendMessege(string room, string usernameSender, string message)
+        public IRoom SpectatorsSendMessage(string room, string usernameSender, string message)
         {
             return _messageLogic.SpectatorsSendMessage(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _gameCenter.GetRoom(room));
         }

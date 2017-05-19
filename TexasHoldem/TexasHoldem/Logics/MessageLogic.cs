@@ -43,7 +43,7 @@ namespace TexasHoldem.Logics
             }
         }
 
-        public Room PlayerSendMessage(string message, Player sender, Room r)
+        public IRoom PlayerSendMessage(string message, IPlayer sender, IRoom r)
         {
             CheckMessage(message, sender);
             if (!r.Players.Contains(sender))
@@ -52,7 +52,7 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            var roomUsers = new List<User>();
+            var roomUsers = new List<IUser>();
             foreach (var p in r.Players) roomUsers.Add(p.User);
             roomUsers.AddRange(r.SpectateUsers);
             Notifier.Instance.Notify(roomUsers, r.Name, " " + sender.Name + ": " + message);
@@ -65,7 +65,7 @@ namespace TexasHoldem.Logics
             return message != "" && !wordFilter.IsMatch(message);
         }
 
-        public Room SpectatorsSendMessage(string message, User sender, Room r)
+        public IRoom SpectatorsSendMessage(string message, IUser sender, IRoom r)
         {
             CheckMessage(message, sender);
             if (!r.SpectateUsers.Contains(sender))
@@ -73,13 +73,13 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "sender dose not exist");
                 throw new Exception("sender dose not exist");
             }
-            var roomUsers = new List<User>();
+            var roomUsers = new List<IUser>();
             roomUsers.AddRange(r.SpectateUsers);
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Username + ": " + message);
             return r;
         }
 
-        public Room SpectatorWhisper(string message, User sender, User reciver, Room r)
+        public IRoom SpectatorWhisper(string message, IUser sender, IUser reciver, IRoom r)
         {
             CheckMessage(message, sender,reciver);
             if (!r.SpectateUsers.Contains(sender))
@@ -92,12 +92,12 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<User> { reciver };
+            var roomUsers = new List<IUser> { reciver };
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Username + ": " + message);
             return r;
         }
 
-        public Room PlayerWhisper(string message, Player sender, User reciver, Room r)
+        public IRoom PlayerWhisper(string message, IPlayer sender, IUser reciver, IRoom r)
         {
             CheckMessage(message, sender, reciver);         
             if (!r.Players.Contains(sender))
@@ -110,18 +110,33 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<User> { reciver };
+            var roomUsers = new List<IUser> { reciver };
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Name + ": " + message);
             return r;
         }
 
-        private bool IsUserIsPlayer(User u, Room r)
+        private bool IsUserIsPlayer(IUser u, IRoom r)
         {
             foreach (var p in r.Players)
             {
                 if (p.User == u) return true;
             }
             return false;
+        }
+
+        public void NotifyRoom(string message, IRoom r)
+        {
+            if (message is null)
+            {
+                var e = new Exception("can't send null message");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+            var roomUsers = new List<IUser>();
+
+            foreach (var p in r.Players) roomUsers.Add(p.User);
+            roomUsers.AddRange(r.SpectateUsers);
+            Notifier.Instance.Notify(roomUsers, r.Name, message);
         }
     }
 }

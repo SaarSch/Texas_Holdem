@@ -27,10 +27,10 @@ namespace AllTests.UnitTests.Game
             card2Mock.Setup(card => card.Value).Returns(2);
             card2Mock.Setup(card => card.Type).Returns(CardType.Clubs);
 
-            userMock.Setup(user => user.GetUsername()).Returns("tom1234555");
-            userMock.Setup(user => user.GetPassword()).Returns("12345678");
-            userMock.Setup(user => user.GetAvatar()).Returns("aaa.png");
-            userMock.Setup(user => user.GetEmail()).Returns("hello@gmail.com");
+            userMock.Setup(user => user.Username).Returns("tom1234555");
+            userMock.Setup(user => user.Password).Returns("12345678");
+            userMock.Setup(user => user.AvatarPath).Returns("aaa.png");
+            userMock.Setup(user => user.Email).Returns("hello@gmail.com");
 
             _userMock = userMock.Object;
             _card1Mock = card1Mock.Object;
