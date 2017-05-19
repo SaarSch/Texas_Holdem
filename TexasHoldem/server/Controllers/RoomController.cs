@@ -236,10 +236,12 @@ namespace Server.Controllers
                     }
                 }
 
-                if (!Replays[r.Name][player][Replays[r.Name][player].Count].Equals(ans))
+                if (Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
                 {
                     Replays[r.Name][player].Add(ans);
                 }
+
+                else if(Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
 
             }
             catch (Exception e)

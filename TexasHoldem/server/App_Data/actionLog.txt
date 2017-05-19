@@ -216,3 +216,251 @@
 5/18/2017 18:20: Room fgdgdfgd created successfully by gergererg!
 5/18/2017 19:41: Registration completed successfully!
 5/18/2017 19:41: seanoch111 logged in successfully!
+5/18/2017 21:35: Registration completed successfully!
+5/18/2017 21:35: seanoch111 logged in successfully!
+5/18/2017 21:35: new player created for user:seanoch111
+5/18/2017 21:35: new room was created room  name=cgfbgfgb rank=10
+5/18/2017 21:35: Room cgfbgfgb created successfully by hgngdndnh!
+5/18/2017 21:35: new player created for user:seanoch111
+5/18/2017 21:36: Registration completed successfully!
+5/18/2017 21:36: seanoch111 logged in successfully!
+5/18/2017 21:36: new player created for user:seanoch111
+5/18/2017 21:36: new room was created room  name=tyhdthtdyj rank=10
+5/18/2017 21:36: Room tyhdthtdyj created successfully by tjftjfjfujf!
+5/18/2017 21:36: new player created for user:seanoch111
+5/18/2017 21:43: Registration completed successfully!
+5/18/2017 21:43: Registration completed successfully!
+5/18/2017 21:43: seanoch111 logged in successfully!
+5/18/2017 21:44: new player created for user:seanoch111
+5/18/2017 21:44: new room was created room  name=fbfbdfgb rank=10
+5/18/2017 21:44: Room fbfbdfgb created successfully by gfbdfgb!
+5/18/2017 21:44: new player created for user:seanoch111
+5/18/2017 21:47: Registration completed successfully!
+5/18/2017 21:48: shachar3210 logged in successfully!
+5/18/2017 21:48: new player created for user:shachar3210
+5/18/2017 21:48: new room was created room  name=qwsdasdad rank=10
+5/18/2017 21:48: Room qwsdasdad created successfully by asdad!
+5/18/2017 21:48: new player created for user:shachar3210
+5/18/2017 21:50: Registration completed successfully!
+5/18/2017 21:50: shachar3210 logged in successfully!
+5/18/2017 21:50: new player created for user:shachar3210
+5/18/2017 21:50: new room was created room  name=asadsasda rank=10
+5/18/2017 21:50: Room asadsasda created successfully by asdasd!
+5/18/2017 21:51: new player created for user:shachar3210
+5/18/2017 21:51: new player created for user:shachar3210
+5/18/2017 21:51: new player created for user:shachar3210
+5/18/2017 21:51: new player created for user:shachar3210
+5/18/2017 21:56: Registration completed successfully!
+5/18/2017 21:58: elad1234 logged in successfully!
+5/18/2017 22:01: new player created for user:elad1234
+5/18/2017 22:01: new room was created room  name=aaaaa11 rank=-1
+5/18/2017 22:01: Room aaaaa11 created successfully by elad1234!
+5/18/2017 22:03: Registration completed successfully!
+5/18/2017 22:03: elad1234 logged in successfully!
+5/18/2017 22:03: new player created for user:elad1234
+5/18/2017 22:03: new room was created room  name=aaaaa11 rank=-1
+5/18/2017 22:03: Room aaaaa11 created successfully by elad1234!
+5/18/2017 22:05: new player created for user:elad1234
+5/18/2017 22:06: new player created for user:elad1234
+5/18/2017 22:06: new room was created room  name=aaaaa111 rank=-1
+5/18/2017 22:06: Room aaaaa111 created successfully by elad1234!
+5/18/2017 22:09: Registration completed successfully!
+5/18/2017 22:10: elad1234 logged in successfully!
+5/18/2017 22:10: new player created for user:elad1234
+5/18/2017 22:10: new room was created room  name=aaaaa11 rank=10
+5/18/2017 22:10: Room aaaaa11 created successfully by elad1234!
+5/18/2017 22:12: Registration completed successfully!
+5/18/2017 22:12: seanoch111 logged in successfully!
+5/18/2017 22:12: new player created for user:seanoch111
+5/18/2017 22:12: new room was created room  name=fdffdds rank=10
+5/18/2017 22:12: Room fdffdds created successfully by dsdffd!
+5/18/2017 22:27: Registration completed successfully!
+5/18/2017 22:28: seanoch111 logged in successfully!
+5/18/2017 22:28: new player created for user:seanoch111
+5/18/2017 22:28: new room was created room  name=ffffd rank=10
+5/18/2017 22:28: Room ffffd created successfully by dfdfd!
+5/18/2017 22:59: Registration completed successfully!
+5/18/2017 22:59: seanoch111 logged in successfully!
+5/18/2017 22:59: new player created for user:seanoch111
+5/18/2017 22:59: new room was created room  name=gdhdgh rank=10
+5/18/2017 22:59: Room gdhdgh created successfully by dghddgdgh!
+5/18/2017 23:01: Registration completed successfully!
+5/18/2017 23:01: seanoch111 logged in successfully!
+5/18/2017 23:02: new player created for user:seanoch111
+5/18/2017 23:02: new room was created room  name=ffgsfg rank=10
+5/18/2017 23:02: Room ffgsfg created successfully by sfgsfsfg!
+5/18/2017 23:03: Registration completed successfully!
+5/18/2017 23:03: aaaa1111 logged in successfully!
+5/18/2017 23:03: Found the following game rooms: ffgsfg.
+5/18/2017 23:05: Found the following game rooms: ffgsfg.
+5/18/2017 23:05: Found the following game rooms: ffgsfg.
+5/19/2017 00:13: Registration completed successfully!
+5/19/2017 00:13: seanoch111 logged in successfully!
+5/19/2017 00:14: new player created for user:seanoch111
+5/19/2017 00:14: new room was created room  name=kaki rank=-1
+5/19/2017 00:14: Room kaki created successfully by kaka!
+5/19/2017 00:14: Registration completed successfully!
+5/19/2017 00:15: aaaa1111 logged in successfully!
+5/19/2017 00:15: Found the following game rooms: kaki.
+5/19/2017 00:15: new player created for user:aaaa1111
+5/19/2017 00:15: new player joined the room: room name=kakiplayer name=sami11
+5/19/2017 00:16: new player created for user:aaaa1111
+5/19/2017 00:16: new player created for user:aaaa1111
+5/19/2017 00:17: Registration completed successfully!
+5/19/2017 00:17: mosh1111 logged in successfully!
+5/19/2017 00:17: new player created for user:mosh1111
+5/19/2017 00:17: new room was created room  name=hhhhh rank=-1
+5/19/2017 00:17: Room hhhhh created successfully by hhhhh!
+5/19/2017 01:06: Registration completed successfully!
+5/19/2017 01:06: moshe1111 logged in successfully!
+5/19/2017 01:07: new player created for user:moshe1111
+5/19/2017 01:07: new room was created room  name=ffff rank=-1
+5/19/2017 01:07: Room ffff created successfully by fff!
+5/19/2017 01:16: Registration completed successfully!
+5/19/2017 01:16: moshe111 logged in successfully!
+5/19/2017 01:16: new player created for user:moshe111
+5/19/2017 01:16: new room was created room  name=dddaf rank=-1
+5/19/2017 01:16: Room dddaf created successfully by afvava!
+5/19/2017 01:20: Registration completed successfully!
+5/19/2017 01:20: seanoch111 logged in successfully!
+5/19/2017 01:21: Found the following game rooms: dddaf.
+5/19/2017 01:21: new player created for user:seanoch111
+5/19/2017 01:21: new player joined the room: room name=dddafplayer name=seaniko
+5/19/2017 01:22: new game started in room dddaf dealer and small blind-User name: moshe111 Player name: afvava Chip amount:5000big blind-User name: seanoch111 Player name: seaniko Chip amount:5000
+5/19/2017 01:22: User: moshe111 player: afvava set Bets= 2 current Chips Amount=4998
+5/19/2017 01:22: User: seanoch111 player: seaniko set Bets= 4 current Chips Amount=4996
+5/19/2017 01:22: user: moshe111 player: afvava got 2 cards: 7, 4
+5/19/2017 01:22: playerafvavagot 2 cards:7Clubs4Diamonds
+5/19/2017 01:22: user: seanoch111 player: seaniko got 2 cards: 12, 12
+5/19/2017 01:22: playerseanikogot 2 cards:12Hearts12Diamonds
+5/19/2017 01:34: Registration completed successfully!
+5/19/2017 01:35: seanoch111 logged in successfully!
+5/19/2017 01:35: new player created for user:seanoch111
+5/19/2017 01:35: new room was created room  name=fggg rank=-1
+5/19/2017 01:35: Room fggg created successfully by gggg!
+5/19/2017 01:36: Registration completed successfully!
+5/19/2017 01:36: moshe111 logged in successfully!
+5/19/2017 01:36: Found the following game rooms: fggg.
+5/19/2017 01:36: new player created for user:moshe111
+5/19/2017 01:36: new player joined the room: room name=fgggplayer name=cccccc
+5/19/2017 01:38: new game started in room fggg dealer and small blind-User name: seanoch111 Player name: gggg Chip amount:5000big blind-User name: moshe111 Player name: cccccc Chip amount:5000
+5/19/2017 01:38: User: seanoch111 player: gggg set Bets= 2 current Chips Amount=4998
+5/19/2017 01:38: User: moshe111 player: cccccc set Bets= 4 current Chips Amount=4996
+5/19/2017 01:38: user: seanoch111 player: gggg got 2 cards: 10, 13
+5/19/2017 01:38: playergggggot 2 cards:10Clubs13Spades
+5/19/2017 01:38: user: moshe111 player: cccccc got 2 cards: 6, 11
+5/19/2017 01:38: playerccccccgot 2 cards:6Clubs11Hearts
+5/19/2017 01:42: Registration completed successfully!
+5/19/2017 01:43: shmulik111 logged in successfully!
+5/19/2017 01:43: new player created for user:shmulik111
+5/19/2017 01:43: new room was created room  name=dvdsg rank=-1
+5/19/2017 01:43: Room dvdsg created successfully by dsgsgdgds!
+5/19/2017 01:50: Registration completed successfully!
+5/19/2017 01:50: rrrrrr444 logged in successfully!
+5/19/2017 01:50: new player created for user:rrrrrr444
+5/19/2017 01:50: new room was created room  name=rrrrrr444 rank=-1
+5/19/2017 01:50: Room rrrrrr444 created successfully by rrrrrr444!
+5/19/2017 01:50: Registration completed successfully!
+5/19/2017 01:51: ssssssss444 logged in successfully!
+5/19/2017 01:51: Found the following game rooms: rrrrrr444.
+5/19/2017 01:51: new player created for user:ssssssss444
+5/19/2017 01:51: new player joined the room: room name=rrrrrr444player name=ssssssss444
+5/19/2017 01:51: new game started in room rrrrrr444 dealer and small blind-User name: rrrrrr444 Player name: rrrrrr444 Chip amount:5000big blind-User name: ssssssss444 Player name: ssssssss444 Chip amount:5000
+5/19/2017 01:51: User: rrrrrr444 player: rrrrrr444 set Bets= 2 current Chips Amount=4998
+5/19/2017 01:51: User: ssssssss444 player: ssssssss444 set Bets= 4 current Chips Amount=4996
+5/19/2017 01:51: user: rrrrrr444 player: rrrrrr444 got 2 cards: 13, 2
+5/19/2017 01:51: playerrrrrrr444got 2 cards:13Diamonds2Clubs
+5/19/2017 01:51: user: ssssssss444 player: ssssssss444 got 2 cards: 7, 6
+5/19/2017 01:51: playerssssssss444got 2 cards:7Diamonds6Diamonds
+5/19/2017 02:00: Registration completed successfully!
+5/19/2017 02:00: seanoch1111 logged in successfully!
+5/19/2017 02:00: new player created for user:seanoch1111
+5/19/2017 02:00: new room was created room  name=seanoch1111 rank=-1
+5/19/2017 02:00: Room seanoch1111 created successfully by seanoch1111!
+5/19/2017 02:01: Registration completed successfully!
+5/19/2017 02:01: ronono1111 logged in successfully!
+5/19/2017 02:01: Found the following game rooms: seanoch1111.
+5/19/2017 02:01: new player created for user:ronono1111
+5/19/2017 02:01: new player joined the room: room name=seanoch1111player name=ronono1111
+5/19/2017 02:02: new game started in room seanoch1111 dealer and small blind-User name: seanoch1111 Player name: seanoch1111 Chip amount:5000big blind-User name: ronono1111 Player name: ronono1111 Chip amount:5000
+5/19/2017 02:02: User: seanoch1111 player: seanoch1111 set Bets= 2 current Chips Amount=4998
+5/19/2017 02:02: User: ronono1111 player: ronono1111 set Bets= 4 current Chips Amount=4996
+5/19/2017 02:02: user: seanoch1111 player: seanoch1111 got 2 cards: 2, 7
+5/19/2017 02:02: playerseanoch1111got 2 cards:2Clubs7Hearts
+5/19/2017 02:02: user: ronono1111 player: ronono1111 got 2 cards: 9, 10
+5/19/2017 02:02: playerronono1111got 2 cards:9Clubs10Hearts
+5/19/2017 02:06: Registration completed successfully!
+5/19/2017 02:06: seanoch111 logged in successfully!
+5/19/2017 02:07: new player created for user:seanoch111
+5/19/2017 02:07: new room was created room  name=seanoch111 rank=-1
+5/19/2017 02:07: Room seanoch111 created successfully by seanoch111!
+5/19/2017 02:07: Registration completed successfully!
+5/19/2017 02:07: benben222 logged in successfully!
+5/19/2017 02:07: Found the following game rooms: seanoch111.
+5/19/2017 02:07: new player created for user:benben222
+5/19/2017 02:07: new player joined the room: room name=seanoch111player name=benben222
+5/19/2017 02:08: new game started in room seanoch111 dealer and small blind-User name: seanoch111 Player name: seanoch111 Chip amount:5000big blind-User name: benben222 Player name: benben222 Chip amount:5000
+5/19/2017 02:08: User: seanoch111 player: seanoch111 set Bets= 2 current Chips Amount=4998
+5/19/2017 02:08: User: benben222 player: benben222 set Bets= 4 current Chips Amount=4996
+5/19/2017 02:08: user: seanoch111 player: seanoch111 got 2 cards: 7, 12
+5/19/2017 02:08: playerseanoch111got 2 cards:7Clubs12Diamonds
+5/19/2017 02:08: user: benben222 player: benben222 got 2 cards: 8, 5
+5/19/2017 02:08: playerbenben222got 2 cards:8Diamonds5Hearts
+5/19/2017 02:14: Registration completed successfully!
+5/19/2017 02:14: seanoch123 logged in successfully!
+5/19/2017 02:14: new player created for user:seanoch123
+5/19/2017 02:14: new room was created room  name=seanoch123 rank=-1
+5/19/2017 02:14: Room seanoch123 created successfully by seanoch123!
+5/19/2017 02:14: Registration completed successfully!
+5/19/2017 02:14: jeremy111 logged in successfully!
+5/19/2017 02:14: Found the following game rooms: seanoch123.
+5/19/2017 02:14: new player created for user:jeremy111
+5/19/2017 02:14: new player joined the room: room name=seanoch123player name=jeremy111
+5/19/2017 02:15: new game started in room seanoch123 dealer and small blind-User name: seanoch123 Player name: seanoch123 Chip amount:5000big blind-User name: jeremy111 Player name: jeremy111 Chip amount:5000
+5/19/2017 02:15: User: seanoch123 player: seanoch123 set Bets= 2 current Chips Amount=4998
+5/19/2017 02:15: User: jeremy111 player: jeremy111 set Bets= 4 current Chips Amount=4996
+5/19/2017 02:15: user: seanoch123 player: seanoch123 got 2 cards: 14, 14
+5/19/2017 02:15: playerseanoch123got 2 cards:14Clubs14Diamonds
+5/19/2017 02:15: user: jeremy111 player: jeremy111 got 2 cards: 13, 7
+5/19/2017 02:15: playerjeremy111got 2 cards:13Clubs7Hearts
+5/19/2017 02:18: Registration completed successfully!
+5/19/2017 02:18: seanoch111 logged in successfully!
+5/19/2017 02:18: new player created for user:seanoch111
+5/19/2017 02:18: new room was created room  name=seanoch111 rank=-1
+5/19/2017 02:18: Room seanoch111 created successfully by seanoch111!
+5/19/2017 02:19: Registration completed successfully!
+5/19/2017 02:19: elad4244 logged in successfully!
+5/19/2017 02:19: Found the following game rooms: seanoch111.
+5/19/2017 02:19: new player created for user:elad4244
+5/19/2017 02:19: new player joined the room: room name=seanoch111player name=elad4244
+5/19/2017 02:19: new game started in room seanoch111 dealer and small blind-User name: seanoch111 Player name: seanoch111 Chip amount:5000big blind-User name: elad4244 Player name: elad4244 Chip amount:5000
+5/19/2017 02:19: User: seanoch111 player: seanoch111 set Bets= 2 current Chips Amount=4998
+5/19/2017 02:19: User: elad4244 player: elad4244 set Bets= 4 current Chips Amount=4996
+5/19/2017 02:19: user: seanoch111 player: seanoch111 got 2 cards: 13, 12
+5/19/2017 02:19: playerseanoch111got 2 cards:13Diamonds12Diamonds
+5/19/2017 02:19: user: elad4244 player: elad4244 got 2 cards: 7, 6
+5/19/2017 02:19: playerelad4244got 2 cards:7Diamonds6Clubs
+5/19/2017 02:19: User: seanoch111 player: seanoch111 set Bets= 956 current Chips Amount=4044
+5/19/2017 02:19: User: elad4244 player: elad4244 set Bets= 1185 current Chips Amount=3815
+5/19/2017 02:19: User: seanoch111 player: seanoch111 set Bets= 1910 current Chips Amount=3090
+5/19/2017 02:20: User: elad4244 player: elad4244 set Bets= 5000 current Chips Amount=0
+5/19/2017 02:20: User: seanoch111 player: seanoch111 set Bets= 3173 current Chips Amount=1827
+5/19/2017 02:25: Registration completed successfully!
+5/19/2017 02:25: seanoch111 logged in successfully!
+5/19/2017 02:25: new player created for user:seanoch111
+5/19/2017 02:25: new room was created room  name=seanoch111 rank=-1
+5/19/2017 02:25: Room seanoch111 created successfully by seanoch111!
+5/19/2017 02:26: Registration completed successfully!
+5/19/2017 02:26: ksksks2222 logged in successfully!
+5/19/2017 02:26: Found the following game rooms: seanoch111.
+5/19/2017 02:26: new player created for user:ksksks2222
+5/19/2017 02:26: new player joined the room: room name=seanoch111player name=ksksks2222
+5/19/2017 02:26: new game started in room seanoch111 dealer and small blind-User name: seanoch111 Player name: seanoch111 Chip amount:5000big blind-User name: ksksks2222 Player name: ksksks2222 Chip amount:5000
+5/19/2017 02:26: User: seanoch111 player: seanoch111 set Bets= 2 current Chips Amount=4998
+5/19/2017 02:26: User: ksksks2222 player: ksksks2222 set Bets= 4 current Chips Amount=4996
+5/19/2017 02:26: user: seanoch111 player: seanoch111 got 2 cards: 7, 3
+5/19/2017 02:26: playerseanoch111got 2 cards:7Clubs3Diamonds
+5/19/2017 02:26: user: ksksks2222 player: ksksks2222 got 2 cards: 14, 3
+5/19/2017 02:26: playerksksks2222got 2 cards:14Diamonds3Clubs
+5/19/2017 02:26: User: seanoch111 player: seanoch111 set Bets= 1592 current Chips Amount=3408
+5/19/2017 02:26: User: ksksks2222 player: ksksks2222 set Bets= 595 current Chips Amount=4405

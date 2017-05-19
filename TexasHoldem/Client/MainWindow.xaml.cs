@@ -49,7 +49,7 @@ namespace Client
 
         private RoomFilter SetFilter()
         {
-            var filter = new RoomFilter {User = _loggedUser.Username};
+            var filter = new RoomFilter { User = _loggedUser.Username };
             if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value)
             {
                 filter.PlayerName = PlayerNameTxt.Text;
@@ -142,7 +142,7 @@ namespace Client
             }
             if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value)
             {
-                var cond = SpectatingCombobox.Text == "Yes";
+                var cond = SpectatingCombobox.SelectedIndex<=0;
                 filter.SpectatingAllowed = cond;
             }
             return filter;
@@ -150,6 +150,11 @@ namespace Client
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
+            JoinNameLbl.Visibility = Visibility.Hidden;
+            JoinNameTxt.Visibility = Visibility.Hidden;
+            Join.IsEnabled = false;
+            Spectate.IsEnabled = false;
+
             var filter = SetFilter();
 
             if (filter == null)
@@ -283,7 +288,7 @@ namespace Client
                 return null;
             }
 
-            var cond = SpectatingCombobox_Copy.Text == "Yes";
+            var cond = SpectatingCombobox_Copy.SelectedIndex <= 0;
             room.SpectatingAllowed = cond;
 
             room.RoomName = RoomNameTxt.Text;
@@ -300,7 +305,6 @@ namespace Client
 
             const string controller = "Room";
             var data = new JavaScriptSerializer().Serialize(room);
-
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
@@ -331,7 +335,50 @@ namespace Client
 
         private void RoomsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            MessageBox.Show("NOT IMPLEMENTED!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            Join.IsEnabled = true;
+            JoinNameLbl.Visibility = Visibility.Visible;
+            JoinNameTxt.Visibility = Visibility.Visible;
+        }
+
+        private void Join_Click(object sender, RoutedEventArgs e)
+        {
+            string room = RoomResults[RoomsGrid.SelectedIndex].RoomName;
+            if (string.IsNullOrEmpty(JoinNameTxt.Text))
+            {
+                MessageBox.Show("Player name cannot be empty!", "Error in join", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else
+            {
+                var controller = "Room?userName=" + _loggedUser.Username + "&gameName=" + room +
+                                 "&playerName=" + JoinNameTxt.Text +"&option=join";
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    var chip = (int)chipsLabel.Content;
+                    if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
+                    {
+                        chipsLabel.Content = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+                    }
+                    else
+                    {
+                        chipsLabel.Content = 0;
+                    }
+                    MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    var gameWindow = new GameWindow(JoinNameTxt.Text, roomState, false);
+                    Application.Current.MainWindow = gameWindow;
+
+                    //this.Close();
+                    gameWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

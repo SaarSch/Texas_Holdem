@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows;
 
 namespace Client
 {
@@ -43,12 +44,13 @@ namespace Client
             return ans;
         }
 
-        public static string MakePutRequest(string controller)
+        public static string MakePutRequest(string controller, string data)
         {
             string ans = "";
             SetController(controller);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "PUT";
+            WriteData(request, data);
             ans = PerformRequest(request);
             _endPoint = AZURE_ADDRESS;
             return ans;

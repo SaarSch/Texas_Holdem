@@ -112,3 +112,69 @@
 5/18/2017 19:39: Error: ERROR in Login: Username does not exist!
 5/18/2017 19:41: Error: ERROR in Login: Username does not exist!
 5/18/2017 19:41: Error: ERROR in Register: Username already exists!
+5/18/2017 21:34: Error: ERROR in Login: Username does not exist!
+5/18/2017 21:35: Error: Error in GetRoom: Room cgfbgfgb doesn't exist!
+5/18/2017 21:35: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:35: Error: ERROR in Login: Username does not exist!
+5/18/2017 21:36: Error: Error in GetRoom: Room tyhdthtdyj doesn't exist!
+5/18/2017 21:36: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:44: Error: Error in GetRoom: Room fbfbdfgb doesn't exist!
+5/18/2017 21:44: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:48: Error: Error in GetRoom: Room qwsdasdad doesn't exist!
+5/18/2017 21:48: Error: Error in GetRoom: Room sqdqdq doesn't exist!
+5/18/2017 21:48: Error: player chips amount is too low to join
+5/18/2017 21:49: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:49: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:50: Error: ERROR in Register: Username already exists!
+5/18/2017 21:50: Error: Error in GetRoom: Room asadsasda doesn't exist!
+5/18/2017 21:51: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:51: Error: Error in GetRoom: Room 123123 doesn't exist!
+5/18/2017 21:51: Error: player chips amount is too low to join
+5/18/2017 21:51: Error: Error in GetRoom: Room asdasd doesn't exist!
+5/18/2017 21:51: Error: player chips amount is too low to join
+5/18/2017 21:51: Error: Error in GetRoom: Room asdasd doesn't exist!
+5/18/2017 21:51: Error: player chips amount is too low to join
+5/18/2017 21:54: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:56: Error: ERROR in GetUser: This User doesn't exist.
+5/18/2017 21:56: Error: ERROR in GetUser: This User doesn't exist.
+5/18/2017 21:56: Error: Illegal username! Length must be between 8 and 12.
+5/18/2017 21:58: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:59: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:59: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 22:01: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 22:01: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/18/2017 22:03: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 22:03: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/18/2017 22:05: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 22:06: Error: Error in GetRoom: Room aaaaa111 doesn't exist!
+5/18/2017 22:09: Error: ERROR in GetLoggedInUser: This User is not logged in.
+5/18/2017 22:10: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/18/2017 22:12: Error: Error in GetRoom: Room fdffdds doesn't exist!
+5/18/2017 22:28: Error: ERROR in Login: Wrong password!
+5/18/2017 22:28: Error: Error in GetRoom: Room ffffd doesn't exist!
+5/18/2017 22:59: Error: Error in GetRoom: Room gdhdgh doesn't exist!
+5/18/2017 23:02: Error: Error in GetRoom: Room ffgsfg doesn't exist!
+5/18/2017 23:03: Error: ERROR in Login: This User is already logged in.
+5/19/2017 00:13: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 00:14: Error: Error in GetRoom: Room kaki doesn't exist!
+5/19/2017 00:16: Exception: can't join, player name is already exist
+5/19/2017 00:16: Exception: can't join, player name is already exist
+5/19/2017 00:17: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 00:17: Error: Error in GetRoom: Room hhhhh doesn't exist!
+5/19/2017 01:06: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 01:07: Error: Error in GetRoom: Room ffff doesn't exist!
+5/19/2017 01:07: Error: can't play with less then min players
+5/19/2017 01:16: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 01:16: Error: Error in GetRoom: Room dddaf doesn't exist!
+5/19/2017 01:16: Error: can't play with less then min players
+5/19/2017 01:35: Error: Error in GetRoom: Room fggg doesn't exist!
+5/19/2017 01:35: Error: can't play with less then min players
+5/19/2017 01:43: Error: Error in GetRoom: Room dvdsg doesn't exist!
+5/19/2017 01:50: Error: Error in GetRoom: Room rrrrrr444 doesn't exist!
+5/19/2017 02:00: Error: Error in GetRoom: Room seanoch1111 doesn't exist!
+5/19/2017 02:07: Error: Error in GetRoom: Room seanoch111 doesn't exist!
+5/19/2017 02:07: Error: can't play with less then min players
+5/19/2017 02:14: Error: Error in GetRoom: Room seanoch123 doesn't exist!
+5/19/2017 02:18: Error: Error in GetRoom: Room seanoch111 doesn't exist!
+5/19/2017 02:25: Error: Error in GetRoom: Room seanoch111 doesn't exist!
+5/19/2017 02:26: Error: can't bet less then min bet
