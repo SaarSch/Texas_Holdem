@@ -863,7 +863,8 @@ namespace AllTests.UnitTests.Game
             }
         }
 
-        [TestMethod]        public void SetBetTest6()
+        [TestMethod]
+        public void SetBetTest6()
         {
             var gp = new GamePreferences
             {
@@ -872,7 +873,8 @@ namespace AllTests.UnitTests.Game
                 MinBet = 10,
                 MinPlayers = 3
             };
-            //var p = new Player("shachar", _u);            //var p2 = new Player("shachar1", _u);
+            //var p = new Player("shachar", _u);
+            //var p2 = new Player("shachar1", _u);
             var r = new Room("aaaa", _p, gp);
             r.AddPlayer(_p1);
             _p1.CurrentBet = 500;
@@ -898,24 +900,14 @@ namespace AllTests.UnitTests.Game
             };
 
 
-            var p = new Player("shachar", _u);
-            var p2 = new Player("shachar2", _u);
-            var r = new Room("aaaa", p, gp);
-            r.AddPlayer(p2);
-            p.ChipsAmount = 60000;
-            p2.CurrentBet = 500;
-            r.SetBet(p, 500, false);
-            Assert.IsTrue(p.CurrentBet == 500);
-/*
             //var p = new Player("shachar", _u);
             //var p2 = new Player("shachar2", _u);
             var r = new Room("aaaa", _p, gp);
-            r.AddPlayer(_p1);
+            r.AddPlayer(_p2);
             _p.ChipsAmount = 60000;
-            _p1.CurrentBet = 500;
-            r.SetBet(_p, 300, false);
-            Assert.IsTrue(_p.CurrentBet == 300);
-*/
+            _p2.CurrentBet = 500;
+            r.SetBet(_p, 500, false);
+            Assert.IsTrue(_p.CurrentBet == 500);
         }
 
         [TestMethod]
@@ -1281,6 +1273,7 @@ namespace AllTests.UnitTests.Game
                     p2.User.Notifications[0].Item2);
             }
         }
+
         [TestMethod]
         public void NotifyTestPlayerWisper()
         {
