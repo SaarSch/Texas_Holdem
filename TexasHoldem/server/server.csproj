@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TexasHoldem\TexasHoldem.csproj">
-      <Project>{f37c86e4-baff-48e9-9428-14afc10f26dc}</Project>
+      <Project>{F37C86E4-BAFF-48E9-9428-14AFC10F26DC}</Project>
       <Name>TexasHoldem</Name>
     </ProjectReference>
   </ItemGroup>

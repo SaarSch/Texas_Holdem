@@ -53,6 +53,8 @@
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
     <Compile Include="Game\GamePreferences.cs" />
+    <Compile Include="Game\IPlayer.cs" />
+    <Compile Include="Game\IRoom.cs" />
     <Compile Include="Logics\HandLogic.cs" />
     <Compile Include="Game\HandStrength.cs" />
     <Compile Include="Exceptions\IllegalCardValueException.cs" />
@@ -60,8 +62,6 @@
     <Compile Include="Exceptions\IllegalRoomNameException.cs" />
     <Compile Include="Exceptions\IllegalCriteriaException.cs" />
     <Compile Include="Game\ICard.cs" />
-    <Compile Include="Game\IPlayer.cs" />
-    <Compile Include="Game\IRoom.cs" />
     <Compile Include="Logics\MessageLogic.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />

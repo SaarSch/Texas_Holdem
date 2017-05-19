@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 using Server.Models;
+using IRoom = TexasHoldem.Game.IRoom;
 
 namespace Server.Controllers
 {
@@ -10,15 +11,11 @@ namespace Server.Controllers
         // GET: api/Messages/?room=moshe&sender=kaki&message=message sent to all&status=player
         public RoomState Get(string room, string sender, string message, string status) 
         {
-            TexasHoldem.Game.IRoom r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
-                if (status == "player")
-                {
-                    r = Server.GameFacade.PlayerSendMessage(room, sender, message);
-                }
-                else r = Server.GameFacade.SpectatorsSendMessage(room, sender, message);
+                r = status == "player" ? Server.GameFacade.PlayerSendMessage(room, sender, message) : Server.GameFacade.SpectatorsSendMessage(room, sender, message);
             }
             catch (Exception e)
             {
@@ -31,15 +28,11 @@ namespace Server.Controllers
         // GET: api/Messages/?room=moshe&sender=kaki&reciver=sean&message=message&status=player   wisper
         public RoomState Get(string room, string sender, string reciver, string message, string status)
         {
-            TexasHoldem.Game.IRoom r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
-                if (status == "player")
-                {
-                    r = Server.GameFacade.PlayerWhisper(room, sender, reciver, message);
-                }
-                else r = Server.GameFacade.SpectatorWhisper(room, sender, reciver, message);
+                r = status == "player" ? Server.GameFacade.PlayerWhisper(room, sender, reciver, message) : Server.GameFacade.SpectatorWhisper(room, sender, reciver, message);
             }
             catch (Exception e)
             {

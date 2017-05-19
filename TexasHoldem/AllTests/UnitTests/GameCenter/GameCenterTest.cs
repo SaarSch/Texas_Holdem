@@ -42,8 +42,8 @@ namespace AllTests.UnitTests.GameCenter
             {
                 var userMock = new Mock<IUser>();
                 userMock.SetupAllProperties();
-                userMock.Setup(us => us.GetPassword()).Returns("12345678");
-                userMock.Setup(us => us.GetUsername()).Returns("aaaaaaa" + i);
+                userMock.Setup(us => us.Password).Returns("12345678");
+                userMock.Setup(us => us.Username).Returns("aaaaaaa" + i);
                 userMock.Setup(us => us.Wins).Returns(i);
                 userMock.Setup(us => us.ChipsAmount).Returns(50000);
                 _u.Add(new Tuple<IUser, bool>(userMock.Object, b));

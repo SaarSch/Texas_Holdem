@@ -11,7 +11,7 @@ namespace TexasHoldem.Logics
     {
         public void SetLeagues(List<Tuple<IUser, bool>> users)
         {
-            List<Tuple<User, bool>> tempUsers = users.Where(user => user.Item1.League != -1).ToList();
+            var tempUsers = users.Where(user => user.Item1.League != -1).ToList();
             double size = tempUsers.Count / 10;
             var leagueSize = (int)Math.Ceiling(size);
             if (leagueSize == 0) leagueSize = 1;
@@ -21,7 +21,7 @@ namespace TexasHoldem.Logics
             var done = new List<IUser>();
             IUser current = null;
             var maxWins = -1;
-                        for (var i = 0; i < tempUsers.Count; i++)
+            for (var i = 0; i < tempUsers.Count; i++)
             {
                 foreach (var u in tempUsers)
                 {
