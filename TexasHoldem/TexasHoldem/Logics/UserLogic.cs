@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
+using TexasHoldem.Users;
 
-namespace TexasHoldem.Users
+namespace TexasHoldem.Logics
 {
     public class UserLogic
     {
         public void SetLeagues(List<Tuple<IUser, bool>> users)
         {
-            double size = users.Count / 10;
+            List<Tuple<User, bool>> tempUsers = users.Where(user => user.Item1.League != -1).ToList();
+            double size = tempUsers.Count / 10;
             var leagueSize = (int)Math.Ceiling(size);
             if (leagueSize == 0) leagueSize = 1;
             var currentSize = 0;
@@ -18,9 +21,9 @@ namespace TexasHoldem.Users
             var done = new List<IUser>();
             IUser current = null;
             var maxWins = -1;
-            for (var i = 0; i < users.Count; i++)
+                        for (var i = 0; i < tempUsers.Count; i++)
             {
-                foreach (var u in users)
+                foreach (var u in tempUsers)
                 {
                     if (u.Item1.Wins > maxWins && !done.Contains(u.Item1))
                     {
@@ -40,7 +43,7 @@ namespace TexasHoldem.Users
                     currentSize = 0;
                     league--;
                 }
-                if (users.Count == usersNum + 1 && users.Count % 2 == 1)
+                if (tempUsers.Count == usersNum + 1 && tempUsers.Count % 2 == 1)
                 {
                     league++;
                 }
@@ -52,7 +55,7 @@ namespace TexasHoldem.Users
         {
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
                     Logger.Log(Severity.Error, e.Message);
@@ -71,9 +74,9 @@ namespace TexasHoldem.Users
             IUser user = null;
             for (i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
-                    if (users[i].Item1.GetPassword() == password)
+                    if (users[i].Item1.Password == password)
                     {
                         if (users[i].Item2)
                         {
@@ -112,7 +115,7 @@ namespace TexasHoldem.Users
 
             for (i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     if (!users[i].Item2)
                     {
@@ -144,7 +147,7 @@ namespace TexasHoldem.Users
             var userExists = false;
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     userExists = true;
                     if (!users[i].Item2)
@@ -159,21 +162,21 @@ namespace TexasHoldem.Users
                         {
                             for (var j = 0; j < users.Count; j++)
                             {
-                                if (users[j].Item1.GetUsername() == newUserName)
+                                if (users[j].Item1.Username == newUserName)
                                 {
                                     var e = new IllegalUsernameException("ERROR in Edit Profile: New username already exists!");
                                     Logger.Log(Severity.Error, e.Message);
                                     throw e;
                                 }
                             }
-                            users[i].Item1.SetUsername(newUserName);
+                            users[i].Item1.Username = newUserName;
                         }
                         if (newPassword != null)
-                            users[i].Item1.SetPassword(newPassword);
+                            users[i].Item1.Password = newPassword;
                         if (newAvatarPath != null)
-                            users[i].Item1.SetAvatar(newAvatarPath);
+                            users[i].Item1.AvatarPath = newAvatarPath;
                         if (newEmail != null)
-                            users[i].Item1.SetEmail(newEmail);
+                            users[i].Item1.Email = newEmail;
                     }
                     catch (Exception)
                     {
@@ -197,7 +200,7 @@ namespace TexasHoldem.Users
         {
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
                     if (!users[i].Item2)
                     {
@@ -217,7 +220,7 @@ namespace TexasHoldem.Users
         {
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
 
                     return users[i].Item1;
@@ -233,9 +236,9 @@ namespace TexasHoldem.Users
             Tuple<IUser, bool> userToDelete = null;
             for (var i = 0; i < users.Count; i++)
             {
-                if (users[i].Item1.GetUsername() == username)
+                if (users[i].Item1.Username == username)
                 {
-                    if (users[i].Item1.GetPassword() == password)
+                    if (users[i].Item1.Username == password)
                     {
                         userToDelete = users[i];
                     }

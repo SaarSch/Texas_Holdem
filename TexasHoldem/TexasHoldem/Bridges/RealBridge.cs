@@ -8,15 +8,15 @@ namespace TexasHoldem.Bridges
 {
     public class RealBridge:IBridge
     {
-        private readonly UserManager _userManager;
-        private readonly GameManager _gameManager;
-        private readonly ReplayManager _replayManager;
+        private readonly UserFacade _userManager;
+        private readonly GameFacade _gameManager;
+        private readonly ReplayFacade _replayManager;
 
         public RealBridge()
         {
-            _userManager = new UserManager();
-            _gameManager = new GameManager();
-            _replayManager = new ReplayManager();
+            _userManager = new UserFacade();
+            _gameManager = new GameFacade();
+            _replayManager = new ReplayFacade();
         }
 
         public bool Register(string userName, string pass)
@@ -271,11 +271,11 @@ namespace TexasHoldem.Bridges
             {
                 if (isSpectator)
                 {
-                    _gameManager.SpectatorsSendMessege(roomName, senderPlayerName, message);
+                    _gameManager.SpectatorsSendMessage(roomName, senderPlayerName, message);
                 }
                 else
                 {
-                    _gameManager.PlayerSendMessege(roomName, senderPlayerName, message);
+                    _gameManager.PlayerSendMessage(roomName, senderPlayerName, message);
                 }
             }
             catch (Exception)
@@ -291,11 +291,11 @@ namespace TexasHoldem.Bridges
             {
                 if (isSpectator)
                 {
-                    _gameManager.SpectatorWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                    _gameManager.SpectatorWhisper(roomName, senderPlayerName, receiverPlayerName, message);
                 }
                 else
                 {
-                    _gameManager.PlayerWisper(roomName, senderPlayerName, receiverPlayerName, message);
+                    _gameManager.PlayerWhisper(roomName, senderPlayerName, receiverPlayerName, message);
                 }
             }
             catch (Exception)

@@ -21,7 +21,7 @@ namespace TexasHoldem.Game
         {
             User = user ?? throw new Exception("illegal User");
             Name = name ?? throw new Exception("illegal player name");
-            Logger.Log(Severity.Action, "new player created for user:"+User.GetUsername());
+            Logger.Log(Severity.Action, "new player created for user:"+User.Username);
         }
 
         public void SetCards(ICard first, ICard second)
@@ -34,7 +34,7 @@ namespace TexasHoldem.Game
             }
             Hand[0] = first;
             Hand[1] = second;
-            Logger.Log(Severity.Action,"user: " +User.GetUsername()+" player: "+Name+" got 2 cards: " +first.Value+", "+second.Value);
+            Logger.Log(Severity.Action,"user: " +User.Username+" player: "+Name+" got 2 cards: " +first.Value+", "+second.Value);
         }
 
         public void SetBet(int amount)
@@ -49,7 +49,7 @@ namespace TexasHoldem.Game
             ChipsAmount -= amount;
             PreviousRaise = amount;
             BetInThisRound = true;
-            Logger.Log(Severity.Action, "User: " + User.GetUsername() + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
+            Logger.Log(Severity.Action, "User: " + User.Username + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
         }
 
         public void ClearBet() { CurrentBet = 0; }
@@ -58,6 +58,6 @@ namespace TexasHoldem.Game
 
         public void UndoFold() { Folded = false; }
 
-        public override string ToString() { return "User name: " + User.GetUsername() + " Player name: " + Name+" Chip amount:"+ChipsAmount; }
+        public override string ToString() { return "User name: " + User.Username + " Player name: " + Name+" Chip amount:"+ChipsAmount; }
     }
 }

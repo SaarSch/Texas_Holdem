@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="TexasHoldem" Height="588" Width="983.2" WindowStartupLocation="CenterScreen">
     <Window.Background>
-        <ImageBrush ImageSource="Resources/background-of-playing-cards.jpg"></ImageBrush>
+        <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>
     <Grid Margin="0,0,17.6,15.4">
         <Grid.RowDefinitions>
@@ -16,88 +16,104 @@
             <RowDefinition Height="150*"/>
         </Grid.RowDefinitions>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="150" Margin="176,10,0,0" VerticalAlignment="Top" Width="773">
-            <TabItem Header="Search rooms">
-                <Grid Background="#FFE5E5E5">
-                    <Button x:Name="SearchButton" Content="Search!" HorizontalAlignment="Left" Margin="682,50,0,0" VerticalAlignment="Top" Width="75" Height="39" RenderTransformOrigin="0.507,1" Click="SearchButton_Click"/>
-                    <TextBox x:Name="PlayerNameTxt" HorizontalAlignment="Left" Height="19" Margin="103,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
-                    <TextBox x:Name="PotSizeTxt" HorizontalAlignment="Left" Height="17" Margin="103,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
+            <TabItem Header="Search rooms" Margin="-2,2,-2,0">
+                <Grid Background="#FFE4E4E4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="131*"/>
+                        <ColumnDefinition Width="19*"/>
+                        <ColumnDefinition Width="617*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="SearchButton" Content="Search!" HorizontalAlignment="Left" Margin="532,50,0,0" VerticalAlignment="Top" Width="76" Height="39" RenderTransformOrigin="0.507,1" Click="SearchButton_Click" Grid.Column="2"/>
+                    <TextBox x:Name="PlayerNameTxt" HorizontalAlignment="Left" Height="19" Margin="103,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="PotSizeTxt" HorizontalAlignment="Left" Height="17" Margin="103,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False" Grid.ColumnSpan="3"/>
                     <CheckBox Content="Player Name" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" x:Name="PlayerCheckbox" Checked="PlayerCheckBoxChecked" Unchecked="PlayerCheckBoxChecked"/>
                     <CheckBox Content="Pot Size" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" x:Name="PotCheckbox" Checked="PotCheckboxChecked" Unchecked="PotCheckboxChecked"/>
-                    <CheckBox Content="Show only games in my league" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" x:Name="LeagueCheckbox"/>
-                    <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="122" Margin="215,0,0,0" VerticalAlignment="Top" Width="455" BorderBrush="Black" BorderThickness="1"/>
-                    <CheckBox Content="Game Type" HorizontalAlignment="Left" Margin="224,24,0,0" VerticalAlignment="Top" x:Name="GameTypeCheckbox" Checked="GameTypeCheckbox_Checked" Unchecked="GameTypeCheckbox_Checked"/>
-                    <TextBox x:Name ="BuyinPolicyTxt" Text="1" HorizontalAlignment="Left" Height="21" Margin="323,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" IsEnabled="False"/>
-                    <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="323,24,0,0" VerticalAlignment="Top" Width="87" Height="19" RenderTransformOrigin="0.7,-0.36" x:Name="GameTypeCombobox" SelectedIndex="1">
+                    <CheckBox Content="Show only games in my league" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" x:Name="LeagueCheckbox" Grid.ColumnSpan="3"/>
+                    <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="122" Margin="66,0,0,0" VerticalAlignment="Top" Width="454" BorderBrush="Black" BorderThickness="1" Grid.Column="2"/>
+                    <CheckBox Content="Game Type" HorizontalAlignment="Left" Margin="74,24,0,0" VerticalAlignment="Top" x:Name="GameTypeCheckbox" Checked="GameTypeCheckbox_Checked" Unchecked="GameTypeCheckbox_Checked" Grid.Column="2"/>
+                    <TextBox x:Name ="BuyinPolicyTxt" Text="1" HorizontalAlignment="Left" Height="21" Margin="174,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="86" IsEnabled="False" Grid.Column="2"/>
+                    <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="174,24,0,0" VerticalAlignment="Top" Width="86" Height="19" RenderTransformOrigin="0.7,-0.36" x:Name="GameTypeCombobox" SelectedIndex="1" Grid.Column="2">
                         <ComboBoxItem Content="Limit" />
                         <ComboBoxItem Content="NoLimit"/>
                         <ComboBoxItem Content="PotLimit"/>
                     </ComboBox>
-                    <CheckBox Content="Buy-in Policy" HorizontalAlignment="Left" Margin="224,50,0,0" VerticalAlignment="Top" x:Name="BuyinPolicyCheckbox" Checked="BuyInPolicyChecked" Unchecked="BuyInPolicyChecked"/>
-                    <CheckBox Content="Chip Policy" HorizontalAlignment="Left" Margin="225,77,0,0" VerticalAlignment="Top" x:Name="ChipPolicyCheckbox" Checked="ChipPolicyCheckbox_Checked" Unchecked="ChipPolicyCheckbox_Checked"/>
-                    <TextBox x:Name ="ChipPolicyTxt" Text="0" HorizontalAlignment="Left" Height="21" Margin="323,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" IsEnabled="False"/>
-                    <CheckBox Content="Min. Bet" HorizontalAlignment="Left" Margin="434,10,0,0" VerticalAlignment="Top" x:Name="MinBetCheckbox" Checked="MinBetCheckbox_Checked" Unchecked="MinBetCheckbox_Checked"/>
-                    <CheckBox Content="Min. Players" HorizontalAlignment="Left" Margin="434,36,0,0" VerticalAlignment="Top" x:Name="MinPlayersCheckbox" Checked="MinPlayersCheckbox_Checked" Unchecked="MinPlayersCheckbox_Checked"/>
-                    <CheckBox Content="Max. Players" HorizontalAlignment="Left" Margin="434,59,0,0" VerticalAlignment="Top" x:Name="MaxPlayersCheckbox" Checked="MaxPlayersCheckbox_Checked" Unchecked="MaxPlayersCheckbox_Checked"/>
-                    <CheckBox Content="Spectating Allowed" HorizontalAlignment="Left" Margin="434,84,0,0" VerticalAlignment="Top" x:Name="SpectatingCheckbox" Checked="SpectatingCheckbox_Checked" Unchecked="SpectatingCheckbox_Checked"/>
-                    <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="569,82,0,0" VerticalAlignment="Top" Width="51" Height="21" RenderTransformOrigin="0.7,-0.36" x:Name="SpectatingCombobox" SelectedIndex="0">
+                    <CheckBox Content="Buy-in Policy" HorizontalAlignment="Left" Margin="74,50,0,0" VerticalAlignment="Top" x:Name="BuyinPolicyCheckbox" Checked="BuyInPolicyChecked" Unchecked="BuyInPolicyChecked" Grid.Column="2"/>
+                    <CheckBox Content="Chip Policy" HorizontalAlignment="Left" Margin="76,77,0,0" VerticalAlignment="Top" x:Name="ChipPolicyCheckbox" Checked="ChipPolicyCheckbox_Checked" Unchecked="ChipPolicyCheckbox_Checked" Grid.Column="2"/>
+                    <TextBox x:Name ="ChipPolicyTxt" Text="0" HorizontalAlignment="Left" Height="21" Margin="174,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="86" IsEnabled="False" Grid.Column="2"/>
+                    <CheckBox Content="Min. Bet" HorizontalAlignment="Left" Margin="284,10,0,0" VerticalAlignment="Top" x:Name="MinBetCheckbox" Checked="MinBetCheckbox_Checked" Unchecked="MinBetCheckbox_Checked" Grid.Column="2"/>
+                    <CheckBox Content="Min. Players" HorizontalAlignment="Left" Margin="284,36,0,0" VerticalAlignment="Top" x:Name="MinPlayersCheckbox" Checked="MinPlayersCheckbox_Checked" Unchecked="MinPlayersCheckbox_Checked" Grid.Column="2"/>
+                    <CheckBox Content="Max. Players" HorizontalAlignment="Left" Margin="284,59,0,0" VerticalAlignment="Top" x:Name="MaxPlayersCheckbox" Checked="MaxPlayersCheckbox_Checked" Unchecked="MaxPlayersCheckbox_Checked" Grid.Column="2"/>
+                    <CheckBox Content="Spectating Allowed" HorizontalAlignment="Left" Margin="284,84,0,0" VerticalAlignment="Top" x:Name="SpectatingCheckbox" Checked="SpectatingCheckbox_Checked" Unchecked="SpectatingCheckbox_Checked" Grid.Column="2"/>
+                    <ComboBox HorizontalAlignment="Left" IsEnabled="False" Margin="420,82,0,0" VerticalAlignment="Top" Width="50" Height="21" RenderTransformOrigin="0.7,-0.36" x:Name="SpectatingCombobox" SelectedIndex="0" Grid.Column="2">
                         <ComboBoxItem Content="Yes" />
                         <ComboBoxItem Content="No"/>
                     </ComboBox>
-                    <TextBox x:Name ="MaxPlayersTxt" Text="8" HorizontalAlignment="Left" Height="18" Margin="527,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False"/>
-                    <TextBox x:Name ="MinPlayersTxt" Text="2" HorizontalAlignment="Left" Height="16" Margin="527,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False"/>
-                    <TextBox x:Name ="MinBetTxt" Text="4" HorizontalAlignment="Left" Height="17" Margin="527,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False"/>
+                    <TextBox x:Name ="MaxPlayersTxt" Text="8" HorizontalAlignment="Left" Height="18" Margin="378,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False" Grid.Column="2"/>
+                    <TextBox x:Name ="MinPlayersTxt" Text="2" HorizontalAlignment="Left" Height="16" Margin="378,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False" Grid.Column="2"/>
+                    <TextBox x:Name ="MinBetTxt" Text="4" HorizontalAlignment="Left" Height="17" Margin="378,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False" Grid.Column="2"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Create a room">
-                <Grid Background="#FFE5E5E5">
-                    <Button x:Name="newRoomButton" Content="Create a new room" HorizontalAlignment="Left" Margin="631,53,0,0" VerticalAlignment="Top" Width="120" Click="newRoomButton_Click" Height="31"/>
-                    <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="122" VerticalAlignment="Top" Width="405" BorderBrush="Black" BorderThickness="1"/>
-                    <Label Content="Game Type" HorizontalAlignment="Left" Margin="12,29,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name ="BuyinPolicyTxt_Copy" Text="1" HorizontalAlignment="Left" Height="21" Margin="101,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="101,29,0,0" VerticalAlignment="Top" Width="87" Height="19" RenderTransformOrigin="0.7,-0.36" x:Name="GameTypeCombobox_Copy" SelectedIndex="1">
+            <TabItem Header="Create a room" Height="24" VerticalAlignment="Top" Margin="-2,0">
+                <Grid Background="#FFE4E4E4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="36*"/>
+                        <ColumnDefinition Width="731*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="newRoomButton" Content="Create a new room" HorizontalAlignment="Left" Margin="595,53,0,0" VerticalAlignment="Top" Width="120" Click="newRoomButton_Click" Height="31" Grid.Column="1"/>
+                    <Frame Content="Game Prefrences" HorizontalAlignment="Left" Height="122" VerticalAlignment="Top" Width="405" BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2"/>
+                    <Label Content="Game Type" HorizontalAlignment="Left" Margin="12,29,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name ="BuyinPolicyTxt_Copy" Text="1" HorizontalAlignment="Left" Height="21" Margin="65,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" Grid.Column="1"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="65,29,0,0" VerticalAlignment="Top" Width="87" Height="19" RenderTransformOrigin="0.7,-0.36" x:Name="GameTypeCombobox_Copy" SelectedIndex="1" Grid.Column="1">
+                        <ComboBox.Background>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Offset="0"/>
+                                <GradientStop Offset="1"/>
+                            </LinearGradientBrush>
+                        </ComboBox.Background>
                         <ComboBoxItem Content="Limit" />
                         <ComboBoxItem Content="NoLimit"/>
                         <ComboBoxItem Content="PotLimit"/>
                     </ComboBox>
-                    <Label Content="Buy-in Policy" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Chip Policy" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name ="ChipPolicyTxt_Copy" Text="0" HorizontalAlignment="Left" Height="21" Margin="101,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87"/>
-                    <Label Content="Min. Bet" HorizontalAlignment="Left" Margin="214,11,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Min. Players" HorizontalAlignment="Left" Margin="214,35,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Max. Players" HorizontalAlignment="Left" Margin="214,59,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Spectating Allowed" HorizontalAlignment="Left" Margin="214,84,0,0" VerticalAlignment="Top"/>
-                    <ComboBox HorizontalAlignment="Left" Margin="330,86,0,0" VerticalAlignment="Top" Width="51" Height="21" RenderTransformOrigin="0.7,-0.36" x:Name="SpectatingCombobox_Copy" SelectedIndex="0">
+                    <Label Content="Buy-in Policy" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Label Content="Chip Policy" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name ="ChipPolicyTxt_Copy" Text="0" HorizontalAlignment="Left" Height="21" Margin="65,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" Grid.Column="1"/>
+                    <Label Content="Min. Bet" HorizontalAlignment="Left" Margin="178,11,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Label Content="Min. Players" HorizontalAlignment="Left" Margin="178,35,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Label Content="Max. Players" HorizontalAlignment="Left" Margin="178,59,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <Label Content="Spectating Allowed" HorizontalAlignment="Left" Margin="178,84,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="294,86,0,0" VerticalAlignment="Top" Width="51" Height="21" RenderTransformOrigin="0.7,-0.36" x:Name="SpectatingCombobox_Copy" SelectedIndex="0" Grid.Column="1">
                         <ComboBoxItem Content="Yes" />
                         <ComboBoxItem Content="No"/>
                     </ComboBox>
-                    <TextBox x:Name ="MaxPlayersTxt_Copy" Text="8" HorizontalAlignment="Left" Height="15" Margin="305,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
-                    <TextBox x:Name ="MinPlayersTxt_Copy" Text="2" HorizontalAlignment="Left" Height="16" Margin="305,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
-                    <TextBox x:Name ="MinBetTxt_Copy" Text="4" HorizontalAlignment="Left" Height="17" Margin="305,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76"/>
-                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="509,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
-                    <Label Content="Room Name" HorizontalAlignment="Left" Margin="427,39,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="PlayerNameTxt_Copy" HorizontalAlignment="Left" Height="19" Margin="509,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="False"/>
-                    <Label Content="Player Name" HorizontalAlignment="Left" Margin="427,74,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name ="MaxPlayersTxt_Copy" Text="8" HorizontalAlignment="Left" Height="15" Margin="269,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Column="1"/>
+                    <TextBox x:Name ="MinPlayersTxt_Copy" Text="2" HorizontalAlignment="Left" Height="16" Margin="269,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Column="1"/>
+                    <TextBox x:Name ="MinBetTxt_Copy" Text="4" HorizontalAlignment="Left" Height="17" Margin="269,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Column="1"/>
+                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="473,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True" Grid.Column="1"/>
+                    <Label Content="Room Name" HorizontalAlignment="Left" Margin="391,39,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="PlayerNameTxt_Copy" HorizontalAlignment="Left" Height="19" Margin="473,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True" Grid.Column="1"/>
+                    <Label Content="Player Name" HorizontalAlignment="Left" Margin="391,74,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <Image HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="Resources/profilePicture.png" Stretch="Fill"/>
-        <Label x:Name="usernameLabel"  Content="Username" HorizontalAlignment="Left" Margin="47,134,0,0" VerticalAlignment="Top" Background="#FFB3B3B3"/>
+        <Label x:Name="usernameLabel"  Content="Username" HorizontalAlignment="Left" Margin="31,134,0,0" VerticalAlignment="Top" Foreground="White" Width="100" FontWeight="Bold"/>
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
-        <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="362" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}">
+        <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="293" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}" SelectionChanged="RoomsGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding RoomName}" Header="Name"/>
                 <DataGridTextColumn Binding="{Binding GameType}" Header="Type"/>
                 <DataGridTextColumn Binding="{Binding League}"  Header="Rank"/>
+                <DataGridTextColumn Binding="{Binding ChipPolicy}"  Header="Chip Policy"/>
                 <DataGridTextColumn Binding="{Binding BuyInPolicy}"  Header="Buy In Policy"/>
                 <DataGridTextColumn Binding="{Binding MinBet}"  Header="Min. Bet"/>
                 <DataGridTextColumn Binding="{Binding MinPlayers}"  Header="Min. Players"/>
                 <DataGridTextColumn Binding="{Binding MaxPlayers}"  Header="Max. Players"/>
-                <DataGridTextColumn Binding="{Binding SepctatingAllowed}"  Header="Spectating?"/>
+                <DataGridTextColumn Binding="{Binding SpectatingAllowed}"  Header="Spectating?"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Chips: " HorizontalAlignment="Left" Margin="47,160,0,0" VerticalAlignment="Top" Background="#FFB3B3B3"/>
-        <Label x:Name="chipsLabel" HorizontalAlignment="Left" Margin="86,160,0,0" VerticalAlignment="Top"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="310" Margin="10,225,0,0" Stroke="Black" VerticalAlignment="Top" Width="147" Grid.RowSpan="3"/>
+        <Label Content="Chips: " Margin="31,160,883.4,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="chipsLabel" HorizontalAlignment="Left" Margin="79,161,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Width="54"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="310" Margin="10,225,0,0" Stroke="Black" VerticalAlignment="Top" Width="147" Grid.RowSpan="3" Opacity="0.7"/>
         <TextBlock x:Name="newsTextBlock" TextWrapping="Wrap" Margin="17,236,811.2,121.747" Grid.RowSpan="3">
             <TextBlock.RenderTransform>
                 <TranslateTransform x:Name="translate" />
@@ -115,5 +131,9 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </TextBlock.Triggers><Run Text="Server"/><Run Text=" News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News"/></TextBlock>
+        <Button Name="Join" IsEnabled="False" Content="Join!" HorizontalAlignment="Left" Height="31" Margin="800,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616" Click="Join_Click"/>
+        <Button Name="Spectate" IsEnabled="False" Content="Spectate!" HorizontalAlignment="Left" Height="31" Margin="642,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
+        <Label Name ="JoinNameLbl" Visibility="Hidden" Content="Player Name" HorizontalAlignment="Left" Margin="340,85,0,0" Grid.Row="2" VerticalAlignment="Top" Foreground="White" FontSize="16"/>
+        <TextBox Name="JoinNameTxt" Visibility="Hidden"  HorizontalAlignment="Left" Height="31" Margin="448,85,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16"/>
     </Grid>
 </Window>

@@ -6,16 +6,19 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="Profile Editor" Height="400" Width="500" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
+    </Window.Background>
     <Grid>
         <Image HorizontalAlignment="Left" Height="144" Margin="31,50,0,0" VerticalAlignment="Top" Width="143" Source="pack://siteoforigin:,,,/Resources/profilePicture.png" Stretch="Fill"/>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="208,86,0,0" VerticalAlignment="Top"/>
-        <Button Content="Upload new avatar" HorizontalAlignment="Left" Margin="31,199,0,0" VerticalAlignment="Top" Width="143" Name="AvatarButton" Click="AvatarButton_Click"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="208,117,0,0" VerticalAlignment="Top"/>
-        <Label Content="Email" HorizontalAlignment="Left" Margin="208,148,0,0" VerticalAlignment="Top"/>
-        <TextBox Name = "UsernameTxt"  HorizontalAlignment="Left" Height="23" Margin="288,90,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
-        <TextBox Name = "PasswordTxt"  HorizontalAlignment="Left" Height="23" Margin="288,121,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
-        <TextBox Name = "EmailTxt" HorizontalAlignment="Left" Height="23" Margin="288,151,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
-        <Button Content="Confirm" HorizontalAlignment="Left" Margin="330,219,0,0" VerticalAlignment="Top" Width="75" Name ="ConfirmButton" Click="ConfirmButton_Click"/>
+        <Label Content="Username" HorizontalAlignment="Left" Margin="208,86,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Button Content="Upload new avatar" HorizontalAlignment="Left" Margin="31,204,0,0" VerticalAlignment="Top" Width="143" Name="AvatarButton" Click="AvatarButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
+        <Label Content="Password" HorizontalAlignment="Left" Margin="208,117,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label Content="Email" HorizontalAlignment="Left" Margin="208,148,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <TextBox Name = "UsernameTxt"  HorizontalAlignment="Left" Height="23" Margin="288,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
+        <TextBox Name = "PasswordTxt"  HorizontalAlignment="Left" Height="23" Margin="288,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
+        <TextBox Name = "EmailTxt" HorizontalAlignment="Left" Height="23" Margin="288,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
+        <Button Content="Confirm" HorizontalAlignment="Left" Margin="330,219,0,0" VerticalAlignment="Top" Width="75" Name ="ConfirmButton" Click="ConfirmButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
 
     </Grid>
 </Window>

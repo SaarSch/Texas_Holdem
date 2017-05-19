@@ -53,7 +53,7 @@
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
     <Compile Include="Game\GamePreferences.cs" />
-    <Compile Include="Game\HandLogic.cs" />
+    <Compile Include="Logics\HandLogic.cs" />
     <Compile Include="Game\HandStrength.cs" />
     <Compile Include="Exceptions\IllegalCardValueException.cs" />
     <Compile Include="Exceptions\IllegalBetException.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="Game\ICard.cs" />
     <Compile Include="Game\IPlayer.cs" />
     <Compile Include="Game\IRoom.cs" />
-    <Compile Include="Game\MessageLogic.cs" />
+    <Compile Include="Logics\MessageLogic.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
     <Compile Include="Game\Player.cs" />
@@ -73,16 +73,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\GameManager.cs" />
-    <Compile Include="Services\RoomFilter.cs" />
-    <Compile Include="Services\UserManager.cs" />
-    <Compile Include="Services\ReplayManager.cs" />
+    <Compile Include="Services\GameFacade.cs" />
+    <Compile Include="Game\RoomFilter.cs" />
+    <Compile Include="Services\UserFacade.cs" />
+    <Compile Include="Services\ReplayFacade.cs" />
     <Compile Include="Exceptions\IllegalPasswordException.cs" />
     <Compile Include="Exceptions\IllegalUsernameException.cs" />
     <Compile Include="Exceptions\IllegalAvatarException.cs" />
     <Compile Include="Users\IUser.cs" />
     <Compile Include="Users\User.cs" />
-    <Compile Include="Users\UserLogic.cs" />
+    <Compile Include="Logics\UserLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

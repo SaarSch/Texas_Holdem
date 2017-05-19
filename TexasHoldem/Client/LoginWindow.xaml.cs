@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Client.Data;
 using Newtonsoft.Json.Linq;
 
 namespace Client
@@ -6,23 +7,36 @@ namespace Client
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class LoginWindow
     {
+
+        private bool _loginMode;
+
         public LoginWindow()
         {
             InitializeComponent();
+            _loginMode = true;
         }
 
         private void RegisterButtonClick(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("User?username="+ UsernameTxt.Text+"&passwordOrRank="+ PasswordTxt.Password + "&mode=register");
-            string ans = RestClient.MakeGetRequest();
+            if (string.IsNullOrEmpty(UsernameTxt.Text) || string.IsNullOrEmpty(PasswordTxt.Password))
+            {
+                MessageBox.Show("Username and password cannot be empty!", "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var controller = "User?username=" + UsernameTxt.Text + "&passwordOrRank=" + PasswordTxt.Password +
+                                "&mode=register";
+            var ans = RestClient.MakeGetRequest(controller);
             if (ans != "\"\"")
             {
                 MessageBox.Show(ans, "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
+                UsernameTxt.Text = "";
+                PasswordTxt.Password = "";
                 MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
@@ -30,20 +44,43 @@ namespace Client
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
-            RestClient.SetController("User");
-            string ans = RestClient.MakePostRequest("{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"}");
-            JObject json = JObject.Parse(ans);
-            UserData loggedUser = json.ToObject<UserData>();
+            var data = "{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"}";
+            const string controller = "user";
+            var ans = RestClient.MakePostRequest(controller,data);
+            var json = JObject.Parse(ans);
+            var loggedUser = json.ToObject<UserData>();
             if (loggedUser.Message == null)
             {
-                MainWindow main = new MainWindow(loggedUser);
-                App.Current.MainWindow = main;
-                this.Close();
+                var main = new MainWindow(loggedUser);
+                Application.Current.MainWindow = main;
+                Close();
                 main.Show();
             }
             else
             {
                 MessageBox.Show(loggedUser.Message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ChangeMode_Click(object sender, RoutedEventArgs e)
+        {
+            _loginMode = !_loginMode;
+            UsernameTxt.Text = "";
+            PasswordTxt.Password = "";
+
+            if (_loginMode)
+            {
+                ModeLbl.Content = "Log In to Texas Holdem!";
+                LogInButton.Visibility = Visibility.Visible;
+                RegisterButton.Visibility = Visibility.Hidden;
+                ChangeMode.Content = "Join us now!";
+            }
+            else
+            {
+                ModeLbl.Content = "Create a New Account";
+                LogInButton.Visibility = Visibility.Hidden;
+                RegisterButton.Visibility = Visibility.Visible;
+                ChangeMode.Content = "Back";
             }
         }
     }

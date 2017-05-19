@@ -1,30 +1,28 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using Client.Data;
+using System.Web.Script.Serialization;
 
 namespace Client
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private UserData loggedUser;
-        public List<Room> roomResults;
+        private readonly UserData _loggedUser;
+        public List<Room> RoomResults;
 
         public MainWindow(UserData user)
         {
-            roomResults = new List<Room>();
+            RoomResults = new List<Room>();
             InitializeComponent();
-            RoomsGrid.ItemsSource = roomResults;
-            loggedUser = user;
-            UpdateUserLabels(loggedUser.Username, loggedUser.Chips);
+            RoomsGrid.ItemsSource = RoomResults;
+            _loggedUser = user;
+            UpdateUserLabels(_loggedUser.Username, _loggedUser.Chips);
         }
 
         //TODO: add avatar update
@@ -48,20 +46,20 @@ namespace Client
         {
             PotSizeTxt.IsEnabled = !PotSizeTxt.IsEnabled;
         }
-        //Room r = WebApiConfig.GameManger.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
-        private string SetFilter()
+
+        private RoomFilter SetFilter()
         {
-            string filter = "{\"User\":\"" + loggedUser.Username+"\"";
-            if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value == true)
+            var filter = new RoomFilter { User = _loggedUser.Username };
+            if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value)
             {
-                filter += ",\"PlayerName\":\"" + PlayerNameTxt.Text+"\"";
+                filter.PlayerName = PlayerNameTxt.Text;
             }
-            if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value == true)
+            if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int pot = Int32.Parse(PotSizeTxt.Text);
-                    filter += ",\"PlayerName\":" + pot + "";
+                    var pot = int.Parse(PotSizeTxt.Text);
+                    filter.PotSize = pot;
                 }
                 catch
                 {
@@ -69,20 +67,20 @@ namespace Client
                     return null;
                 }
             }
-            if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value == true)
+            if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value)
             {
-                filter += ",\"LeagueOnly\":" + 1;
+                filter.LeagueOnly = true;
             }
-            if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value == true)
+            if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value)
             {
-                filter += ",\"GameType\":\"" + GameTypeCombobox.Text + "\"";
+                filter.GameType = GameTypeCombobox.Text;
             }
-            if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value == true)
+            if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int buy = Int32.Parse(BuyinPolicyTxt.Text);
-                    filter += ",\"BuyInPolicy\":" + buy + "";
+                    var buy = int.Parse(BuyinPolicyTxt.Text);
+                    filter.BuyInPolicy = buy;
                 }
                 catch
                 {
@@ -90,12 +88,12 @@ namespace Client
                     return null;
                 }
             }
-            if (ChipPolicyCheckbox.IsChecked != null && ChipPolicyCheckbox.IsChecked.Value == true)
+            if (ChipPolicyCheckbox.IsChecked != null && ChipPolicyCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int chip = Int32.Parse(ChipPolicyTxt.Text);
-                    filter += ",\"ChipPolicy\":" + chip + "";
+                    var chip = int.Parse(ChipPolicyTxt.Text);
+                    filter.ChipPolicy = chip;
                 }
                 catch
                 {
@@ -103,12 +101,12 @@ namespace Client
                     return null;
                 }
             }
-            if (MinBetCheckbox.IsChecked != null && MinBetCheckbox.IsChecked.Value == true)
+            if (MinBetCheckbox.IsChecked != null && MinBetCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int minB = Int32.Parse(MinBetTxt.Text);
-                    filter += ",\"MinBet\":" + minB + "";
+                    var minB = int.Parse(MinBetTxt.Text);
+                    filter.MinBet = minB;
                 }
                 catch
                 {
@@ -116,12 +114,12 @@ namespace Client
                     return null;
                 }
             }
-            if (MinPlayersCheckbox.IsChecked != null && MinPlayersCheckbox.IsChecked.Value == true)
+            if (MinPlayersCheckbox.IsChecked != null && MinPlayersCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int minP = Int32.Parse(MinPlayersTxt.Text);
-                    filter += ",\"MinPlayers\":" + minP + "";
+                    var minP = int.Parse(MinPlayersTxt.Text);
+                    filter.MinPlayers = minP;
                 }
                 catch
                 {
@@ -129,12 +127,12 @@ namespace Client
                     return null;
                 }
             }
-            if (MaxPlayersCheckbox.IsChecked != null && MaxPlayersCheckbox.IsChecked.Value == true)
+            if (MaxPlayersCheckbox.IsChecked != null && MaxPlayersCheckbox.IsChecked.Value)
             {
                 try
                 {
-                    int maxP = Int32.Parse(MaxPlayersTxt.Text);
-                    filter += ",\"MaxPlayers\":" + maxP + "";
+                    var maxP = int.Parse(MaxPlayersTxt.Text);
+                    filter.MaxPlayers = maxP;
                 }
                 catch
                 {
@@ -142,38 +140,43 @@ namespace Client
                     return null;
                 }
             }
-            if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value == true)
+            if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value)
             {
-                int cond = 0;
-                if (SpectatingCombobox.Text == "Yes")
-                    cond = 1;
-                filter += ",\"SepctatingAllowed\":" + cond + "";
+                var cond = SpectatingCombobox.SelectedIndex<=0;
+                filter.SpectatingAllowed = cond;
             }
-            filter += "}";
             return filter;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            string filter = SetFilter();
+            JoinNameLbl.Visibility = Visibility.Hidden;
+            JoinNameTxt.Visibility = Visibility.Hidden;
+            Join.IsEnabled = false;
+            Spectate.IsEnabled = false;
+
+            var filter = SetFilter();
 
             if (filter == null)
                 return;
-            RestClient.SetController("Search");
-            string ans = RestClient.MakePostRequest(filter);
-            JObject json = JObject.Parse(ans);
-            RoomList roomList = json.ToObject<RoomList>();
+
+            const string controller = "Search";
+            var data = new JavaScriptSerializer().Serialize(filter);
+
+            var ans = RestClient.MakePostRequest(controller, data);
+            var json = JObject.Parse(ans);
+            var roomList = json.ToObject<RoomList>();
             if (roomList.Message == null)
             {
-                roomResults = roomList.Rooms.ToList();
-                RoomsGrid.ItemsSource = roomResults;
+                RoomResults = roomList.Rooms.ToList();
+                RoomsGrid.ItemsSource = RoomResults;
                 RoomsGrid.Items.Refresh();
             }
             else
             {
-                MessageBox.Show("No rooms to show", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
-                roomResults.Clear();
-                RoomsGrid.ItemsSource = roomResults;
+                MessageBox.Show("No rooms to show!", "No results", MessageBoxButton.OK, MessageBoxImage.Information);
+                RoomResults.Clear();
+                RoomsGrid.ItemsSource = RoomResults;
                 RoomsGrid.Items.Refresh();
             }
         }
@@ -210,8 +213,8 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            ProfileWindow profileWindow = new ProfileWindow(loggedUser, this);
-            App.Current.MainWindow = profileWindow;
+            var profileWindow = new ProfileWindow(_loggedUser, this);
+            Application.Current.MainWindow = profileWindow;
             //this.Close();
             profileWindow.Show();
         }
@@ -221,9 +224,161 @@ namespace Client
             GameTypeCombobox.IsEnabled = !GameTypeCombobox.IsEnabled;
         }
 
+        private Room SetRoom()
+        {
+            var room = new Room
+            {
+                CreatorUserName = _loggedUser.Username,
+                CreatorPlayerName = PlayerNameTxt_Copy.Text,
+                GameType = GameTypeCombobox_Copy.Text
+            };
+            try
+            {
+                var buy = int.Parse(BuyinPolicyTxt_Copy.Text);
+                room.BuyInPolicy = buy;
+            }
+            catch
+            {
+                MessageBox.Show("Buy in policy must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                var chip = int.Parse(ChipPolicyTxt_Copy.Text);
+                room.ChipPolicy = chip;
+            }
+            catch
+            {
+                MessageBox.Show("Chip policy must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                var minB = int.Parse(MinBetTxt_Copy.Text);
+                room.MinBet = minB;
+            }
+            catch
+            {
+                MessageBox.Show("Minimum bet must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                var minP = int.Parse(MinPlayersTxt_Copy.Text);
+                room.MinPlayers = minP;
+            }
+            catch
+            {
+                MessageBox.Show("Minimum number of players must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+            try
+            {
+                var maxP = int.Parse(MaxPlayersTxt_Copy.Text);
+                room.MaxPlayers = maxP;
+            }
+            catch
+            {
+                MessageBox.Show("Maximum number of players must be a number!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
+
+            var cond = SpectatingCombobox_Copy.SelectedIndex <= 0;
+            room.SpectatingAllowed = cond;
+
+            room.RoomName = RoomNameTxt.Text;
+
+            return room;
+        }
+
         private void newRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            var room = SetRoom();
 
+            if (room == null)
+                return;
+
+            const string controller = "Room";
+            var data = new JavaScriptSerializer().Serialize(room);
+            var ans = RestClient.MakePostRequest(controller, data);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
+            if (roomState.Messege == null)
+            {
+                var chip = (int)chipsLabel.Content;
+                if (room.ChipPolicy != 0)
+                {
+                    chipsLabel.Content = chip - room.ChipPolicy;
+                }
+                else
+                {
+                    chipsLabel.Content = 0;
+                }
+                MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                var gameWindow = new GameWindow(PlayerNameTxt_Copy.Text, roomState, true);
+                Application.Current.MainWindow = gameWindow;
+
+                //this.Close();
+                gameWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show(roomState.Messege, "Error in creation", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void RoomsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Join.IsEnabled = true;
+            JoinNameLbl.Visibility = Visibility.Visible;
+            JoinNameTxt.Visibility = Visibility.Visible;
+        }
+
+        private void Join_Click(object sender, RoutedEventArgs e)
+        {
+            string room = RoomResults[RoomsGrid.SelectedIndex].RoomName;
+            if (string.IsNullOrEmpty(JoinNameTxt.Text))
+            {
+                MessageBox.Show("Player name cannot be empty!", "Error in join", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else
+            {
+                var controller = "Room?userName=" + _loggedUser.Username + "&gameName=" + room +
+                                 "&playerName=" + JoinNameTxt.Text +"&option=join";
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    var chip = (int)chipsLabel.Content;
+                    if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
+                    {
+                        chipsLabel.Content = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+                    }
+                    else
+                    {
+                        chipsLabel.Content = 0;
+                    }
+                    MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    var gameWindow = new GameWindow(JoinNameTxt.Text, roomState, false);
+                    Application.Current.MainWindow = gameWindow;
+
+                    //this.Close();
+                    gameWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Server.Models
+﻿namespace Client.Data
 {
     public class RoomFilter
     {

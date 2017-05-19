@@ -9,7 +9,10 @@ namespace TexasHoldem.GameReplay
 {
     public class Replayer
     {
-        private static readonly string CounterPath = Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt";
+    //    private static readonly string CounterPath = Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt";
+
+        private static readonly string CounterPath = (AppDomain.CurrentDomain.GetData("DataDirectory") != null ? 
+        AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory) + "\\gameReplayCounter.txt";
 
         private Replayer() { }
 
@@ -30,7 +33,8 @@ namespace TexasHoldem.GameReplay
 
         public static void Save(string filename, int round, List<IPlayer> players, int pot, Card[] community, string comment)
         {
-            var path = Directory.GetCurrentDirectory() + "\\" + filename;
+            var path = (AppDomain.CurrentDomain.GetData("DataDirectory") != null ?
+                           AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory) + "\\" + filename;
             if (!File.Exists(path))
             {
                 var e = new Exception("gameReplay file does not exists");

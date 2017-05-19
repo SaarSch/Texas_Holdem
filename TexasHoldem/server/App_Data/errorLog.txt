@@ -1,21 +1,180 @@
 12-May-17 18:04: Error: ERROR: Illegal username!Length must be between 8 and 12.
 12-May-17 18:04: Error: ERROR: Illegal password! Length must be between 8 and 12.
 12-May-17 18:04: Error: ERROR in Register: Illegal password!  Must contain at least 1 non-letter character.
-15/05/2017 14:35: Error: ERROR in Login: Username does not exist!
-15/05/2017 18:04: Exception: min bet can't be higher then chip policy
-15/05/2017 18:04: Error: ERROR in Edit Profile: This user doesn't exist.
-15/05/2017 18:24: Error: ERROR in GetUser: This User doesn't exist.
-15/05/2017 18:28: Error: ERROR in Login: Username does not exist!
-15/05/2017 18:28: Error: ERROR in GetUser: This User doesn't exist.
-15/05/2017 18:28: Error: ERROR in Login: Username does not exist!
-15/05/2017 18:28: Error: ERROR in Login: Username does not exist!
-15/05/2017 18:29: Error: ERROR in GetUser: This User doesn't exist.
-15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
-15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
-15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
-15/05/2017 18:30: Error: Illegal password! Length must be between 8 and 12.
-15/05/2017 18:31: Error: Illegal password! Length must be between 8 and 12.
-15/05/2017 18:32: Error: ERROR in Login: Username does not exist!
-15/05/2017 18:34: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
-15/05/2017 18:39: Error: ERROR in Login: Username does not exist!
-15/05/2017 18:40: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/15/2017 16:18: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:22: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:27: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:27: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:28: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!
+5/15/2017 16:31: Error: ERROR in Logout: Username does not exist!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:32: Error: ERROR in Register: Username already exists!
+5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:33: Error: ERROR in GetUser: This User doesn't exist.
+5/15/2017 16:34: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:14: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:15: Error: ERROR in FindGames: No game rooms found.
+5/16/2017 19:15: Error: Error in GetRoom: Room reerg4 doesn't exist!
+5/16/2017 19:15: Error: ERROR in CreateRoom: room name already taken!
+5/16/2017 19:16: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:16: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:16: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:17: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:20: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:23: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:24: Error: Illegal username! Length must be between 8 and 12.
+5/16/2017 19:24: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:24: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:24: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:24: Error: Error in GetRoom: Room jhjhjju76767 doesn't exist!
+5/16/2017 19:24: Error: player chips amount is too low to join
+5/16/2017 19:27: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:27: Error: player chips amount is too low to join
+5/16/2017 19:37: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:37: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:37: Error: ERROR in Login: Username does not exist!
+5/16/2017 19:37: Error: Illegal password! Length must be between 8 and 12.
+5/16/2017 19:37: Error: Error in GetRoom: Room fffrfd doesn't exist!
+5/16/2017 19:37: Error: ERROR in CreateRoom: room name already taken!
+5/16/2017 19:45: Error: Error in GetRoom: Room kjkj doesn't exist!
+5/16/2017 19:46: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:46: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:46: Error: Error in GetRoom: Room hbhgh doesn't exist!
+5/16/2017 19:46: Error: player chips amount is too low to join
+5/16/2017 19:47: Error: Illegal username! Length must be between 8 and 12.
+5/16/2017 19:47: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:47: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:48: Error: Error in GetRoom: Room  doesn't exist!
+5/16/2017 19:48: Error: room name must be between 4 and 30 characters long
+5/16/2017 19:48: Error: Error in GetRoom: Room cccdf doesn't exist!
+5/16/2017 19:50: Error: Error in GetRoom: Room hihjh doesn't exist!5/18/2017 00:13: Error: Error in GetRoom: Room regesg doesn't exist!
+5/18/2017 00:14: Error: Error in GetRoom: Room fhhrhrdht doesn't exist!
+5/18/2017 00:19: Error: Error in GetRoom: Room wrw doesn't exist!
+5/18/2017 00:19: Error: room name must be between 4 and 30 characters long
+5/18/2017 00:19: Error: Error in GetRoom: Room wrwge doesn't exist!
+5/18/2017 00:22: Error: Error in GetRoom: Room rtert doesn't exist!
+5/18/2017 00:52: Error: Error in GetRoom: Room regrg doesn't exist!
+5/18/2017 01:01: Error: Error in GetRoom: Room hyryhery doesn't exist!
+5/18/2017 01:21: Error: Error in GetRoom: Room hfnfnhf doesn't exist!
+5/18/2017 09:47: Error: Illegal password! Must contain at least 1 non-letter character.
+5/18/2017 09:47: Error: Error in GetRoom: Room fgjfj doesn't exist!
+5/18/2017 09:48: Error: Error in GetRoom: Room dghdjhh doesn't exist!
+5/18/2017 11:31: Error: Error in GetRoom: Room sgererye doesn't exist!
+5/18/2017 11:33: Error: Illegal password! Length must be between 8 and 12.
+5/18/2017 11:33: Error: Error in GetRoom: Room fgsgse doesn't exist!
+5/18/2017 14:10: Error: Error in GetRoom: Room jhjh doesn't exist!
+5/18/2017 14:11: Error: Error in GetRoom: Room fdsggdf doesn't exist!
+5/18/2017 14:12: Error: Error in GetRoom: Room jhjhfjh doesn't exist!
+5/18/2017 15:01: Error: ERROR in Login: Username does not exist!
+5/18/2017 15:01: Error: Error in GetRoom: Room dfgbdf doesn't exist!
+5/18/2017 15:01: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 15:39: Error: Error in GetRoom: Room erthert doesn't exist!
+5/18/2017 16:11: Error: Error in GetRoom: Room khvjh767 doesn't exist!
+5/18/2017 16:13: Error: Error in GetRoom: Room vfeerf doesn't exist!
+5/18/2017 16:16: Error: Error in GetRoom: Room fgdfgf doesn't exist!
+5/18/2017 16:17: Error: Error in GetRoom: Room fgbfdb doesn't exist!
+5/18/2017 16:19: Error: Illegal username! Length must be between 8 and 12.
+5/18/2017 16:19: Error: Error in GetRoom: Room rvrgvtre doesn't exist!
+5/18/2017 16:20: Error: Error in GetRoom: Room fgvfgb doesn't exist!
+5/18/2017 16:24: Error: Error in GetRoom: Room jfdgjgf doesn't exist!
+5/18/2017 16:28: Error: Error in GetRoom: Room gdheyhey doesn't exist!
+5/18/2017 16:32: Error: ERROR in FindGames: No game rooms found.
+5/18/2017 16:32: Error: ERROR in FindGames: No game rooms found.
+5/18/2017 17:11: Error: Illegal password! Length must be between 8 and 12.
+5/18/2017 17:12: Error: ERROR in Login: Username does not exist!
+5/18/2017 17:12: Error: Error in GetRoom: Room dcdc doesn't exist!
+5/18/2017 17:14: Error: Error in GetRoom: Room rgbbrgb doesn't exist!
+5/18/2017 17:15: Error: Error in GetRoom: Room fdgfb doesn't exist!
+5/18/2017 17:23: Error: Error in GetRoom: Room geeeeg doesn't exist!
+5/18/2017 17:27: Error: Error in GetRoom: Room gfhgf656565 doesn't exist!
+5/18/2017 17:27: Error: can't play with less then min players
+5/18/2017 18:09: Error: Error in GetRoom: Room dfgdfgdfg doesn't exist!
+5/18/2017 18:12: Error: Error in GetRoom: Room mvhvhjhfh doesn't exist!
+5/18/2017 18:14: Error: Error in GetRoom: Room mhvhv doesn't exist!
+5/18/2017 18:14: Error: can't play with less then min players
+5/18/2017 18:20: Error: Error in GetRoom: Room fgdgdfgd doesn't exist!
+5/18/2017 19:39: Error: ERROR in Login: Username does not exist!
+5/18/2017 19:41: Error: ERROR in Login: Username does not exist!
+5/18/2017 19:41: Error: ERROR in Register: Username already exists!
+5/18/2017 21:34: Error: ERROR in Login: Username does not exist!
+5/18/2017 21:35: Error: Error in GetRoom: Room cgfbgfgb doesn't exist!
+5/18/2017 21:35: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:35: Error: ERROR in Login: Username does not exist!
+5/18/2017 21:36: Error: Error in GetRoom: Room tyhdthtdyj doesn't exist!
+5/18/2017 21:36: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:44: Error: Error in GetRoom: Room fbfbdfgb doesn't exist!
+5/18/2017 21:44: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:48: Error: Error in GetRoom: Room qwsdasdad doesn't exist!
+5/18/2017 21:48: Error: Error in GetRoom: Room sqdqdq doesn't exist!
+5/18/2017 21:48: Error: player chips amount is too low to join
+5/18/2017 21:49: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:49: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:50: Error: ERROR in Register: Username already exists!
+5/18/2017 21:50: Error: Error in GetRoom: Room asadsasda doesn't exist!
+5/18/2017 21:51: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 21:51: Error: Error in GetRoom: Room 123123 doesn't exist!
+5/18/2017 21:51: Error: player chips amount is too low to join
+5/18/2017 21:51: Error: Error in GetRoom: Room asdasd doesn't exist!
+5/18/2017 21:51: Error: player chips amount is too low to join
+5/18/2017 21:51: Error: Error in GetRoom: Room asdasd doesn't exist!
+5/18/2017 21:51: Error: player chips amount is too low to join
+5/18/2017 21:54: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:56: Error: ERROR in GetUser: This User doesn't exist.
+5/18/2017 21:56: Error: ERROR in GetUser: This User doesn't exist.
+5/18/2017 21:56: Error: Illegal username! Length must be between 8 and 12.
+5/18/2017 21:58: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:59: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 21:59: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 22:01: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 22:01: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/18/2017 22:03: Error: ERROR in Edit Profile: This user doesn't exist.
+5/18/2017 22:03: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/18/2017 22:05: Error: ERROR in CreateRoom: room name already taken!
+5/18/2017 22:06: Error: Error in GetRoom: Room aaaaa111 doesn't exist!
+5/18/2017 22:09: Error: ERROR in GetLoggedInUser: This User is not logged in.
+5/18/2017 22:10: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+5/18/2017 22:12: Error: Error in GetRoom: Room fdffdds doesn't exist!
+5/18/2017 22:28: Error: ERROR in Login: Wrong password!
+5/18/2017 22:28: Error: Error in GetRoom: Room ffffd doesn't exist!
+5/18/2017 22:59: Error: Error in GetRoom: Room gdhdgh doesn't exist!
+5/18/2017 23:02: Error: Error in GetRoom: Room ffgsfg doesn't exist!
+5/18/2017 23:03: Error: ERROR in Login: This User is already logged in.
+5/19/2017 00:13: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 00:14: Error: Error in GetRoom: Room kaki doesn't exist!
+5/19/2017 00:16: Exception: can't join, player name is already exist
+5/19/2017 00:16: Exception: can't join, player name is already exist
+5/19/2017 00:17: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 00:17: Error: Error in GetRoom: Room hhhhh doesn't exist!
+5/19/2017 01:06: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 01:07: Error: Error in GetRoom: Room ffff doesn't exist!
+5/19/2017 01:07: Error: can't play with less then min players
+5/19/2017 01:16: Error: ERROR in FindGames: No game rooms found.
+5/19/2017 01:16: Error: Error in GetRoom: Room dddaf doesn't exist!
+5/19/2017 01:16: Error: can't play with less then min players
+5/19/2017 01:35: Error: Error in GetRoom: Room fggg doesn't exist!
+5/19/2017 01:35: Error: can't play with less then min players
+5/19/2017 01:43: Error: Error in GetRoom: Room dvdsg doesn't exist!
+5/19/2017 01:50: Error: Error in GetRoom: Room rrrrrr444 doesn't exist!
+5/19/2017 02:00: Error: Error in GetRoom: Room seanoch1111 doesn't exist!
+5/19/2017 02:07: Error: Error in GetRoom: Room seanoch111 doesn't exist!
+5/19/2017 02:07: Error: can't play with less then min players
+5/19/2017 02:14: Error: Error in GetRoom: Room seanoch123 doesn't exist!
+5/19/2017 02:18: Error: Error in GetRoom: Room seanoch111 doesn't exist!
+5/19/2017 02:25: Error: Error in GetRoom: Room seanoch111 doesn't exist!
+5/19/2017 02:26: Error: can't bet less then min bet
