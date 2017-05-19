@@ -11,7 +11,7 @@ namespace TexasHoldem.Game
         Diamonds, 
         Clubs, 
     }
-    public class Card : IComparable
+    public class Card : IComparable, ICard
     {
         public int Value { get; }
         public CardType Type { get; }

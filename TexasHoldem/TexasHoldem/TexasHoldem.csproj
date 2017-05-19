@@ -59,6 +59,9 @@
     <Compile Include="Exceptions\IllegalBetException.cs" />
     <Compile Include="Exceptions\IllegalRoomNameException.cs" />
     <Compile Include="Exceptions\IllegalCriteriaException.cs" />
+    <Compile Include="Game\ICard.cs" />
+    <Compile Include="Game\IPlayer.cs" />
+    <Compile Include="Game\IRoom.cs" />
     <Compile Include="Logics\MessageLogic.cs" />
     <Compile Include="Loggers\Logger.cs" />
     <Compile Include="Notifications\Notifier.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Exceptions\IllegalPasswordException.cs" />
     <Compile Include="Exceptions\IllegalUsernameException.cs" />
     <Compile Include="Exceptions\IllegalAvatarException.cs" />
+    <Compile Include="Users\IUser.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Logics\UserLogic.cs" />
   </ItemGroup>

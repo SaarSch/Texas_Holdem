@@ -21,7 +21,7 @@ namespace TexasHoldem.Services
             _userLogic.Register(username, password, _gameCenter.Users);
         }
 
-        public User Login(string username, string password) // UC 2
+        public IUser Login(string username, string password) // UC 2
         {
             return _userLogic.Login(username, password, _gameCenter.Users);
         }

@@ -10,7 +10,7 @@ namespace Server.Controllers
         // GET: api/Messages/?room=moshe&sender=kaki&message=message sent to all&status=player
         public RoomState Get(string room, string sender, string message, string status) 
         {
-            TexasHoldem.Game.Room r = null;
+            TexasHoldem.Game.IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -31,7 +31,7 @@ namespace Server.Controllers
         // GET: api/Messages/?room=moshe&sender=kaki&reciver=sean&message=message&status=player   wisper
         public RoomState Get(string room, string sender, string reciver, string message, string status)
         {
-            TexasHoldem.Game.Room r = null;
+            TexasHoldem.Game.IRoom r = null;
             var ans = new RoomState();
             try
             {

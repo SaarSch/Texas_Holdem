@@ -6,7 +6,7 @@ using TexasHoldem.Loggers;
 
 namespace TexasHoldem.Users
 {
-    public class User
+    public class User : IUser
     {
         private string _username;
         public string Username
@@ -16,9 +16,7 @@ namespace TexasHoldem.Users
             {
                 if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
                 {
-
                     Exception e = new IllegalPasswordException("Illegal username! Length must be between 8 and 12.");
-
                     Logger.Log(Severity.Error, e.Message);
                     throw e;
                 }
