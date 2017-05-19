@@ -402,12 +402,15 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+
             var callAmount = maxCips - p.CurrentBet;
-            SetBet(p, callAmount, false);
+            if(callAmount!=0) SetBet(p, callAmount, false);
+            else p.BetInThisRound = true;
+
 
             var amount = p.CurrentBet;
             var allCall = true;
-            foreach (var p1 in Players) if (p1.CurrentBet != amount)
+            foreach (var p1 in Players) if (p1.CurrentBet != amount||!p1.BetInThisRound)
             {
                 allCall = false;
                 break;
@@ -439,15 +442,23 @@ namespace TexasHoldem.Game
 
         public Room SetBet(Player p, int bet, bool smallBlind)
         {
-            if(!Players.Contains(p))
+            var maxCips = 0;
+            foreach (var p1 in Players) if (p1.CurrentBet > maxCips) maxCips = p1.CurrentBet;
+            if (p == null)
+            {
+                var e = new Exception("player can't be null");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+            if (!Players.Contains(p))
             {
                 var e = new Exception("invalid player");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
-            if (p == null)
+            if (bet + p.CurrentBet < maxCips)
             {
-                var e = new Exception("player can't be null");
+                var e = new Exception("cant bet lower then the higest bet");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }

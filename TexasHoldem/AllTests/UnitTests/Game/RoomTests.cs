@@ -607,7 +607,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("invalid player"));
+                Assert.IsTrue(e.Message.Equals("player can't be null"));
             }
         }
 
@@ -733,8 +733,8 @@ namespace AllTests.UnitTests.Game
             r.AddPlayer(p2);
             p.ChipsAmount = 60000;
             p2.CurrentBet = 500;
-            r.SetBet(p, 300, false);
-            Assert.IsTrue(p.CurrentBet == 300);
+            r.SetBet(p, 500, false);
+            Assert.IsTrue(p.CurrentBet == 500);
         }
 
         [TestMethod]
