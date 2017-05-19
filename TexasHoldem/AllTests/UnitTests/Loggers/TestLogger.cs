@@ -37,31 +37,17 @@ namespace AllTests.UnitTests.Loggers
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void Log_LogEmptyErrorMessage_ExceptionThrown()
         {
-            try
-            {
                 Logger.Log(Severity.Error, "");
-                Assert.Fail(); // If it gets to this line, no exception was thrown
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void Log_LogEmptyActionMessage_ExceptionThrown()
         {
-            try
-            {
                 Logger.Log(Severity.Action, "");
-                Assert.Fail(); // If it gets to this line, no exception was thrown
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
         }
     }
 }

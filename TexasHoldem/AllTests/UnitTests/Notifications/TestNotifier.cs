@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using TexasHoldem.Notifications;
 using TexasHoldem.Users;
 
@@ -10,40 +11,48 @@ namespace AllTests.UnitTests.Notifications
     public class TestNotifier
     {
         private readonly Notifier _notifier = Notifier.Instance;
+        private List<IUser> _users;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _users = new List<IUser>();
+            var mockuser1=new Mock<IUser>();
+            var mockuser2 = new Mock<IUser>();
+            mockuser1.SetupAllProperties();
+            mockuser2.SetupAllProperties();
+            var a = mockuser1.Object;
+            var b = mockuser2.Object;
+            a.Notifications = new List<Tuple<string, string>>();
+            b.Notifications = new List<Tuple<string, string>>();
+            mockuser1.Setup(r=>r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string,string>((s1,s2)=>a.Notifications.Add(new Tuple<string, string>(s1, s2)));
+            mockuser2.Setup(r => r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((s1, s2) => b.Notifications.Add(new Tuple<string, string>(s1, s2)));
+            _users.Add(a);
+            _users.Add(b);
+        }
 
         [TestMethod]
         public void Notify_NotifyTwoUsers_NotifyAddedToQueues()
         {
             const string message = "wow you are so cool!";
-            var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
-            var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
-            var users = new List<User> {yossi, kobi};
 
-            _notifier.Notify(users,"a", message);
+            _notifier.Notify(_users,"a", message);
 
-            foreach (var u in users)
+            foreach (var u in _users)
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + message,
                     u.Notifications[0].Item2);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void Notify_NotifyEmptyNotification_ExceptionThrown()
         {
-            var message2 = "";
-            var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
-            var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
-            var users = new List<User> {yossi, kobi};
+            const string message2 = "";
 
-            try
-            {
-                _notifier.Notify(users,"a", message2);
-                Assert.Fail(); // If it gets to this line, no exception was thrown
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
+            _notifier.Notify(_users,"a", message2);
         }
     }
 }

@@ -17,29 +17,28 @@ namespace TexasHoldem.Game
         River, 
     }
 
-    public class Room
+    public class Room : IRoom
     {
-        public int Id;
-        public bool IsOn;
-        public List<User> SpectateUsers = new List<User>();
-        public List<Player> Players = new List<Player>(8);
-        public Deck Deck = new Deck();
-        public Card[] CommunityCards = new Card[5];
-        public string Name;
-        public int League;
-        public GamePreferences GamePreferences;
-        public bool Flop;
-        public int Pot = 0;
-        public GameStatus GameStatus;
-        public int CurrentTurn;
-        public string GameReplay;
+        public bool IsOn { get; set; }
+        public List<IUser> SpectateUsers { get; set; } = new List<IUser>();
+        public List<IPlayer> Players { get; set; } = new List<IPlayer>(8);
+        public Deck Deck { get; set; } = new Deck();
+        public Card[] CommunityCards { get; set; } = new Card[5];
+        public string Name{ get; set; }
+        public int League { get; set; }
+        public GamePreferences GamePreferences { get; set; }
+        public bool Flop { get; set; }
+        public int Pot { get; set; } = 0;
+        public string GameReplay { get; }
+        public GameStatus GameStatus { get; set; }
+        public int CurrentTurn { get; set; }
 
         public HandLogic HandLogic { get; }
 
         public const int MinNameLength = 4;
         public const int MaxNameLength = 30;
 
-        public Room(string name, Player creator, GamePreferences gamePreferences)
+        public Room(string name, IPlayer creator, GamePreferences gamePreferences)
         {
             if (name == null)
             {
@@ -116,7 +115,7 @@ namespace TexasHoldem.Game
             return false;
         }
 
-        public Room AddPlayer(Player p)
+        public Room AddPlayer(IPlayer p)
         {
             foreach(var p1 in Players)
             {
@@ -182,7 +181,7 @@ namespace TexasHoldem.Game
             return this;
         }
   
-        public void Spectate(User user)
+        public void Spectate(IUser user)
         {
             if (!GamePreferences.Spectating)
             {
@@ -379,7 +378,7 @@ namespace TexasHoldem.Game
             }
         }
 
-        public Room Call(Player p)
+        public Room Call(IPlayer p)
         {
             if (!Players.Contains(p))
             {
@@ -440,7 +439,7 @@ namespace TexasHoldem.Game
             return this;
         }
 
-        public Room SetBet(Player p, int bet, bool smallBlind)
+        public Room SetBet(IPlayer p, int bet, bool smallBlind)
         {
             var maxCips = 0;
             foreach (var p1 in Players) if (p1.CurrentBet > maxCips) maxCips = p1.CurrentBet;
@@ -560,18 +559,33 @@ namespace TexasHoldem.Game
 
         }
 
-        public List<Player> Winners()
+        public List<IPlayer> Winners()
         {  
-            var winners = new List<Player>();
+            var winners = new List<IPlayer>();
             foreach (var p in Players)
             {
                 if (!p.Folded)
                 {
-                    var hand = p.Hand.ToList();
-                    hand.AddRange(CommunityCards.ToList());
-                    p.StrongestHand = HandLogic.HandCalculator(hand);
+                   // var hand = p.Hand.ToList();
+                    List<Card> cardsmoq = new List<Card>();
+                    var formoq = p.Hand.ToList();
+                    foreach (ICard c in formoq)
+                    {
+                        cardsmoq.Add((Card)c);
+                    }
+                    cardsmoq.AddRange(CommunityCards.ToList());
+                    p.StrongestHand = HandLogic.HandCalculator(cardsmoq);
                 }
-                else p.StrongestHand = new HandStrength(0, HandRank.Fold, p.Hand.ToList());
+                else
+                {
+                    List<Card> cardsmoq = new List<Card>();
+                    var formoq = p.Hand.ToList();
+                    foreach (ICard c in formoq)
+                    {
+                        cardsmoq.Add((Card)c);
+                    }
+                    p.StrongestHand = new HandStrength(0, HandRank.Fold, cardsmoq);
+                }
 
             }
             var maxHand = 0;
@@ -580,7 +594,7 @@ namespace TexasHoldem.Game
             return winners;
         }
 
-        private string PlayersToString(List<Player> players)
+        private string PlayersToString(List<IPlayer> players)
         {
             var playersNames = "Players:";
             foreach (var p in players) playersNames += p.ToString();
@@ -590,7 +604,7 @@ namespace TexasHoldem.Game
         public void CalcWinnersChips()
         {
  
-            var winners = Winners();
+            List<IPlayer> winners = Winners();
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
             Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
@@ -623,7 +637,7 @@ namespace TexasHoldem.Game
             //_turn++;
         }
 
-        public Room Fold(Player p)
+        public Room Fold(IPlayer p)
         {
             
             if (p == null)
@@ -671,9 +685,9 @@ namespace TexasHoldem.Game
             return this;
         }
 
-        public Player GetPlayer(string name)
+        public IPlayer GetPlayer(string name)
         {
-            Player ans = null;
+            IPlayer ans = null;
             if(name == null)
             {
                 var e = new Exception("name cant be null");

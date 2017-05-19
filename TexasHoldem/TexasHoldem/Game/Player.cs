@@ -5,26 +5,26 @@ using TexasHoldem.Users;
 
 namespace TexasHoldem.Game
 {
-    public class Player
+    public class Player : IPlayer
     {
-        public Card[] Hand  = new Card[2];
-        public string Name;
-        public int ChipsAmount;
-        public int CurrentBet;
-        public bool Folded;
-        public HandStrength StrongestHand;
-        public User User;
-        public int PreviousRaise;
-        public bool BetInThisRound;
+        public ICard[] Hand { get; set; } = new ICard[2];
+        public string Name { get; set; }
+        public int ChipsAmount { get; set; }
+        public int CurrentBet { get; set; }
+        public bool Folded { get; set; }
+        public HandStrength StrongestHand { get; set; }
+        public IUser User { get; set; }
+        public int PreviousRaise { get; set; }
+        public bool BetInThisRound { get; set; }
 
-        public Player(string name, User user)
+        public Player(string name, IUser user)
         {
             User = user ?? throw new Exception("illegal User");
             Name = name ?? throw new Exception("illegal player name");
             Logger.Log(Severity.Action, "new player created for user:"+User.Username);
         }
 
-        public void SetCards(Card first, Card second)
+        public void SetCards(ICard first, ICard second)
         {
             if (first == null || second == null)
             {

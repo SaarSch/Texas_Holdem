@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using Server.Models;
-using Room = TexasHoldem.Game.Room;
+using Player = Server.Models.Player;
+using IRoom = TexasHoldem.Game.IRoom;
 
 namespace Server.Controllers
 {
@@ -13,7 +14,7 @@ namespace Server.Controllers
         // Put: /api/Room?game_name=moshe&player_name=kaki
         public RoomState Put(string gameName, string playerName) //get current status
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -31,7 +32,7 @@ namespace Server.Controllers
         // GET: /api/Room?game_name=moshe&player_name=kaki
         public RoomState GET(string gameName, string playerName) //start game
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -48,7 +49,7 @@ namespace Server.Controllers
         // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
         public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate game// leave game
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -78,7 +79,7 @@ namespace Server.Controllers
         // GET: /api/Room?game_name=moshe&player_name=kaki&bet=100
         public RoomState GET(string gameName, string playerName, int bet) //palce bet
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -96,7 +97,7 @@ namespace Server.Controllers
         // GET: /api/Room?game_name=moshe&player_name=kaki&option=call 
         public RoomState GET(string gameName, string playerName, string option) //call / fold 
         {
-            Room r = null;
+            IRoom r = null;
             var ans = new RoomState();
             try
             {
@@ -130,7 +131,7 @@ namespace Server.Controllers
             var ans = new RoomState();
             try
             {
-                Room r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
+                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
                 if (r != null)
                 {
                     var roomDic = new Dictionary<string, List<RoomState>>();
@@ -154,7 +155,7 @@ namespace Server.Controllers
 
         }
 
-        public static void CreateRoomState(string player, Room r, RoomState ans)
+        public static void CreateRoomState(string player, IRoom r, RoomState ans)
         {
             try
             {

@@ -11,7 +11,7 @@ namespace TexasHoldem.Notifications
         private Notifier() { }
         public static Notifier Instance => _instance ?? (_instance = new Notifier());
 
-        public void Notify(List<User> users, string room, string msg)
+        public void Notify(List<IUser> users, string room, string msg)
         {
             if(msg == "")
             {

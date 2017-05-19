@@ -21,17 +21,10 @@ namespace AllTests.UnitTests.Users
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void AddNotification_AddEmptyNotification_ExceptionThrown()
         {
-            try
-            {
                 _yossi.AddNotification("a",Notif2);
-                Assert.Fail(); // If it gets to this line, no exception was thrown
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
         }
 
         [TestMethod]
@@ -43,17 +36,10 @@ namespace AllTests.UnitTests.Users
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void RemoveNotification_DeleteEmptyNotification_ExceptionThrown()
         {
-            try
-            {
                 _yossi.RemoveNotification("a",Notif2);
-                Assert.Fail(); // If it gets to this line, no exception was thrown
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
         }
     }
 }

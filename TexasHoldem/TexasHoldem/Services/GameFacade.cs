@@ -18,7 +18,7 @@ namespace TexasHoldem.Services
             _userLogic = new UserLogic();
         }
 
-        public Room RoomStatus(string roomName)
+        public IRoom RoomStatus(string roomName)
         {
             return _gameCenter.GetRoom(roomName);
         }
@@ -54,26 +54,26 @@ namespace TexasHoldem.Services
             return _gameCenter.IsRoomExist(roomName);
         }
 
-        public Room JoinGame(string username, string roomName, string playerName) // UC 6
+        public IRoom JoinGame(string username, string roomName, string playerName) // UC 6
         {
             return _gameCenter.AddUserToRoom(username, roomName, false, playerName);
         }
 
-        public Room SpectateGame(string username, string roomName, string playerName) // UC 7
+        public IRoom SpectateGame(string username, string roomName, string playerName) // UC 7
         {
             return _gameCenter.AddUserToRoom(username, roomName, true);
         }
 
-        public Room LeaveGame(string username, string roomName, string playerName) // UC 8
+        public IRoom LeaveGame(string username, string roomName, string playerName) // UC 8
         {
             return _gameCenter.RemoveUserFromRoom(username, roomName, playerName);
         }
 
-        public List<Room> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
+        public List<IRoom> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
         {
             var context = _userLogic.GetUser(username, _gameCenter.Users);
 
-            var predicates = new List<Predicate<Room>>();
+            var predicates = new List<Predicate<IRoom>>();
 
             if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
             {
@@ -144,22 +144,22 @@ namespace TexasHoldem.Services
             _userLogic.SetLeagues(_gameCenter.Users);
         }
 
-        public Room PlayerWhisper(string room, string playernameSender, string usernameReceiver, string message)
+        public IRoom PlayerWhisper(string room, string playernameSender, string usernameReceiver, string message)
         {
             return _messageLogic.PlayerWhisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public Room SpectatorWhisper(string room, string usernameSender, string usernameReceiver, string message)
+        public IRoom SpectatorWhisper(string room, string usernameSender, string usernameReceiver, string message)
         {
             return _messageLogic.SpectatorWhisper(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _userLogic.GetUser(usernameReceiver, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public Room PlayerSendMessage(string room, string playerNameSender, string message)
+        public IRoom PlayerSendMessage(string room, string playerNameSender, string message)
         {
             return _messageLogic.PlayerSendMessage(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender),_gameCenter.GetRoom(room));
         }
 
-        public Room SpectatorsSendMessage(string room, string usernameSender, string message)
+        public IRoom SpectatorsSendMessage(string room, string usernameSender, string message)
         {
             return _messageLogic.SpectatorsSendMessage(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
