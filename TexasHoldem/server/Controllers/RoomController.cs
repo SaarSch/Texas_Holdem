@@ -164,7 +164,8 @@ namespace Server.Controllers
                 {
                     if (u.Username == player) spectator = true;
                 }
-
+                ans.MinPlayers = r.GamePreferences.MinPlayers;
+                ans.MaxPlayers = r.GamePreferences.MaxPlayers;
                 ans.RoomName = r.Name;
                 ans.IsOn = r.IsOn;
                 ans.Pot = r.Pot;

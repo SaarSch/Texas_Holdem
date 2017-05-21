@@ -625,8 +625,18 @@ namespace TexasHoldem.Game
 
         public void CleanGame()
         {
-            foreach (var p in Players) { p.Hand[0] = null; p.Hand[1] = null; p.UndoFold();}
-            for (var i = 0; i < 5; i++) CommunityCards[i] = null;
+            this.GameStatus = GameStatus.PreFlop;
+            foreach (var p in Players)
+            {
+                p.Hand[0] = null;
+                p.Hand[1] = null;
+                p.CurrentBet = 0;
+                p.UndoFold();
+            }
+            for (var i = 0; i < 5; i++)
+            {
+                CommunityCards[i] = null;
+            }
         }
 
         public void NextTurn()
