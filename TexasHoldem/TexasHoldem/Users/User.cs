@@ -126,6 +126,7 @@ namespace TexasHoldem.Users
 
         public User(string username, string password, string avatarPath, string email, int chipsAmount)
         {
+            League = -1;
             NumOfGames = 0;
             Wins = 0;
             Username = username;

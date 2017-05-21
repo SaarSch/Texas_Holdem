@@ -186,3 +186,13 @@
 21/05/2017 10:25: Error: can't bet less then min bet
 21/05/2017 10:43: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 21/05/2017 10:44: Error: Error in GetRoom: Room aaaaa111 doesn't exist!
+21/05/2017 12:43: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+21/05/2017 12:43: Error: player chips amount is too low to join
+21/05/2017 12:44: Error: player chips amount is too low to join
+21/05/2017 12:45: Error: player chips amount is too low to join
+21/05/2017 12:47: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+21/05/2017 12:52: Error: player is not found
+21/05/2017 12:52: Error: player is not found
+21/05/2017 13:13: Error: ERROR in Edit Profile: This User is not logged in.
+21/05/2017 13:14: Error: Illegal password! Length must be between 8 and 12.
+21/05/2017 13:21: Error: ERROR in Login: Username does not exist!
