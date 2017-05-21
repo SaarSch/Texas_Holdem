@@ -464,3 +464,40 @@
 5/19/2017 02:26: playerksksks2222got 2 cards:14Diamonds3Clubs
 5/19/2017 02:26: User: seanoch111 player: seanoch111 set Bets= 1592 current Chips Amount=3408
 5/19/2017 02:26: User: ksksks2222 player: ksksks2222 set Bets= 595 current Chips Amount=4405
+21/05/2017 09:51: Registration completed successfully!
+21/05/2017 09:53: Registration completed successfully!
+21/05/2017 09:56: Registration completed successfully!
+21/05/2017 09:58: Registration completed successfully!
+21/05/2017 10:01: Registration completed successfully!
+21/05/2017 10:14: Registration completed successfully!
+21/05/2017 10:14: Registration completed successfully!
+21/05/2017 10:14: shacahr3210 logged in successfully!
+21/05/2017 10:14: shacahr3333 logged in successfully!
+21/05/2017 10:14: new player created for user:shacahr3210
+21/05/2017 10:14: new room was created room  name=aaaaa11 rank=10
+21/05/2017 10:14: Room aaaaa11 created successfully by shacahr3210!
+21/05/2017 10:20: new player created for user:shacahr3333
+21/05/2017 10:20: new player joined the room: room name=aaaaa11player name=kaki
+21/05/2017 10:21: new game started in room aaaaa11 dealer and small blind-User name: shacahr3210 Player name: shacahr3210 Chip amount:5big blind-User name: shacahr3333 Player name: kaki Chip amount:5
+21/05/2017 10:21: User: shacahr3210 player: shacahr3210 set Bets= 1 current Chips Amount=4
+21/05/2017 10:21: User: shacahr3333 player: kaki set Bets= 2 current Chips Amount=3
+21/05/2017 10:21: user: shacahr3210 player: shacahr3210 got 2 cards: 2, 8
+21/05/2017 10:21: playershacahr3210got 2 cards:2Clubs8Hearts
+21/05/2017 10:21: user: shacahr3333 player: kaki got 2 cards: 12, 4
+21/05/2017 10:21: playerkakigot 2 cards:12Diamonds4Diamonds
+21/05/2017 10:24: User: shacahr3210 player: shacahr3210 set Bets= 3 current Chips Amount=2
+21/05/2017 10:26: User: shacahr3333 player: kaki set Bets= 5 current Chips Amount=0
+21/05/2017 10:26: User: shacahr3210 player: shacahr3210 set Bets= 5 current Chips Amount=0
+21/05/2017 10:26: 3 community cards dealed room name=aaaaa11community cards:4Hearts10Hearts6Diamonds
+21/05/2017 10:27: 1 community card dealed room name=aaaaa11community cards:4Hearts10Hearts6Diamonds9Hearts
+21/05/2017 10:27: 1 community card dealed room name=aaaaa11community cards:4Hearts10Hearts6Diamonds9Hearts8Diamonds
+21/05/2017 10:27: the winners in roomaaaaa11isPlayers:User name: shacahr3210 Player name: shacahr3210 Chip amount:0
+21/05/2017 10:27: current status in roomaaaaa11isPlayers:User name: shacahr3210 Player name: shacahr3210 Chip amount:10User name: shacahr3333 Player name: kaki Chip amount:0
+21/05/2017 10:42: Registration completed successfully!
+21/05/2017 10:42: shacahr3333 logged in successfully!
+21/05/2017 10:43: new player created for user:shacahr3333
+21/05/2017 10:43: new room was created room  name=aaaaa11 rank=10
+21/05/2017 10:43: Room aaaaa11 created successfully by shacahr3210!
+21/05/2017 10:44: new player created for user:shacahr3333
+21/05/2017 10:44: new room was created room  name=aaaaa111 rank=10
+21/05/2017 10:44: Room aaaaa111 created successfully by shacahr3210!
