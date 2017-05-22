@@ -191,7 +191,7 @@ namespace Client
 
         private void Call_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&bet=call";
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=call";
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
@@ -207,7 +207,7 @@ namespace Client
 
         private void Fold_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&bet=fold";
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=fold";
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();

@@ -6,6 +6,7 @@ namespace TexasHoldem.Game
 {
     public interface IRoom
     {
+        string CurrentWinners { get; set; }
         bool IsOn { get; set; }
         List<IUser> SpectateUsers { get; set; }
         List<IPlayer> Players { get; set; }
@@ -26,6 +27,7 @@ namespace TexasHoldem.Game
         void DealCommunityFirst();
         void DealCommunitySecond();
         void DealCommunityThird();
+        bool IsInRoom(string name);
         Room StartGame();
         Room Call(IPlayer p);
         Room SetBet(IPlayer p, int bet, bool smallBlind);

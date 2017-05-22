@@ -50,9 +50,9 @@ namespace TexasHoldem.Services
         {
             _userLogic.EditUser(username, null, null, newAvatarPath, null, _gameCenter.Users);
         }
-        public void EditUser(string username, string newusername, string newPassword, string newAvatarPath, string newEmail)
+        public IUser EditUser(string username, string newusername, string newPassword, string newAvatarPath, string newEmail)
         {
-            _userLogic.EditUser(username, newusername, newPassword, newAvatarPath, newEmail, _gameCenter.Users);
+            return _userLogic.EditUser(username, newusername, newPassword, newAvatarPath, newEmail, _gameCenter.Users);
         }
         public void DeleteUser(string username, string password)
         {

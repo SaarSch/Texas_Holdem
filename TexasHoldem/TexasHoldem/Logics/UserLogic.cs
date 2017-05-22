@@ -112,7 +112,13 @@ namespace TexasHoldem.Logics
         {
             int i;
             var exist = false;
-
+            var UserRooms = GameCenter.GetGameCenter().Rooms.Where(r => r.IsInRoom(username)).ToList();
+            if (UserRooms.Count > 0)
+            {
+                var e = new Exception("can't log out before leaving all games");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
             for (i = 0; i < users.Count; i++)
             {
                 if (users[i].Item1.Username == username)
@@ -142,13 +148,15 @@ namespace TexasHoldem.Logics
             users.Clear();
         }
 
-        public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
+        public IUser EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
         {
+            IUser ans= null;
             var userExists = false;
             for (var i = 0; i < users.Count; i++)
             {
                 if (users[i].Item1.Username == username)
                 {
+                    ans = users[i].Item1;
                     userExists = true;
                     if (!users[i].Item2)
                     {
@@ -194,6 +202,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
             Logger.Log(Severity.Action, username + "'s profile edited successfully!");
+            return ans;
         }
 
         public IUser GetLoggedInUser(string username,List<Tuple<IUser, bool>> users)

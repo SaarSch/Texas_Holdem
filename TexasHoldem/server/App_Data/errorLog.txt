@@ -196,3 +196,8 @@
 21/05/2017 13:13: Error: ERROR in Edit Profile: This User is not logged in.
 21/05/2017 13:14: Error: Illegal password! Length must be between 8 and 12.
 21/05/2017 13:21: Error: ERROR in Login: Username does not exist!
+22/05/2017 18:46: Error: Error in GetRoom: Room asdasd doesn't exist!
+22/05/2017 18:50: Error: Error in GetRoom: Room asdasd doesn't exist!
+22/05/2017 18:51: Error: Error in GetRoom: Room asdasd doesn't exist!
+22/05/2017 18:51: Error: ERROR in Login: Username does not exist!
+22/05/2017 18:51: Error: ERROR in Register: Username already exists!
