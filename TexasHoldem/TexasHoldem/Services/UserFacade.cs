@@ -82,6 +82,11 @@ namespace TexasHoldem.Services
            return _userLogic.GetUser(userName, _gameCenter.Users).League;
         }
 
+        public IUser GetUser(string userName)
+        {
+            return _userLogic.GetUser(userName, _gameCenter.Users);
+        }
+
         public List<string> GetMessages(string username, string roomName)
         {
             return _gameCenter.GetMessages(username, roomName);

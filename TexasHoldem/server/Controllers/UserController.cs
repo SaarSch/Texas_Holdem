@@ -68,6 +68,30 @@ namespace Server.Controllers
             }
             return "";
         }
+
+        public UserData Put(string userName)
+        {
+            var ret = new UserData();
+            try
+            {
+                var u = Server.UserFacade.GetUser(userName);
+                ret.AvatarPath = u.AvatarPath;
+                ret.Chips = u.ChipsAmount;
+                ret.Email = u.Email;
+                ret.Password = u.Password;
+                ret.Rank = u.League;
+                ret.Username = u.Username;
+                ret.Wins = u.Wins;
+            }
+            catch (Exception e)
+            {
+                ret.Message = e.Message;
+            }
+
+            return ret;
+        }
+
+
         // login -->POST: api/User
         public UserData Post([FromBody]UserData value)
         {
