@@ -243,3 +243,8 @@
 23/05/2017 21:09: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 23/05/2017 21:09: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 23/05/2017 21:09: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+24/05/2017 01:00: Error: ERROR in Register: Username already exists!
+24/05/2017 01:01: Error: ERROR in GetLoggedInUser: This User is not logged in.
+24/05/2017 01:01: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+24/05/2017 01:01: Error: ERROR in Login: Username does not exist!
+24/05/2017 01:02: Error: Error in GetRoom: Room aaaaa11 doesn't exist!

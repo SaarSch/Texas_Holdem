@@ -353,8 +353,10 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            foreach(var p in Players)
+            foreach (var p in Players)
             {
+                p.Hand[0] = null;
+                p.Hand[1] = null;
                 p.User.NumOfGames++;
                 if (p.User.NumOfGames == 11)
                 {
@@ -669,8 +671,6 @@ namespace TexasHoldem.Game
             this.GameStatus = GameStatus.PreFlop;
             foreach (var p in Players)
             {
-                p.Hand[0] = null;
-                p.Hand[1] = null;
                 p.CurrentBet = 0;
                 p.UndoFold();
             }
