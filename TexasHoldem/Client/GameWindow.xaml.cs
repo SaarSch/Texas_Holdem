@@ -28,10 +28,12 @@ namespace Client
         public Label[] ChipLabels;
         public Label[] BetLabels;
         public Image[] CommunityCards;
+        public Image[] Avatars;
         public Rectangle[] TurnSymbol;
         public bool Creator;
         public MainWindow Main;
         private bool _playing;
+        private bool _got_win_msg;
 
         public GameWindow(UserData user, string self, RoomState state, bool creator, MainWindow main)
         {
@@ -44,10 +46,12 @@ namespace Client
             Creator = creator;
             RoomNameLbl.Content = RoomName;
             _playing = true;
+            _got_win_msg = false;
             NameLabels = new[]{P1Lbl, P2Lbl, P3Lbl, P4Lbl, P5Lbl, P6Lbl, P7Lbl, P8Lbl, P9Lbl};
             ChipLabels = new[]{C1Lbl, C2Lbl, C3Lbl, C4Lbl, C5Lbl, C6Lbl, C7Lbl, C8Lbl, C9Lbl};
             BetLabels = new[] { Bet1, Bet2, Bet3, Bet4, Bet5, Bet6, Bet7, Bet8, Bet9 };
             CommunityCards = new[] { Com1, Com2, Com3, Com4, Com5 };
+            Avatars = new[] { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8, Avatar9 };
             TurnSymbol = new[] { RecP1, RecP2, RecP3, RecP4, RecP5, RecP6, RecP7, RecP8, RecP9 };
             PlayerMap = new Dictionary<string, int>();
             ChatComboBoxContent = new List<string> {"ALL"};
@@ -63,8 +67,13 @@ namespace Client
             }
         }
 
-        private void UpdateRoom(RoomState state)
+        private void EndOfGameUpdate(RoomState state)
         {
+            if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg)
+            {
+                MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Error);
+                _got_win_msg = true;
+            }
             if (state.IsOn == false)
             {
                 Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Visible);
@@ -72,6 +81,7 @@ namespace Client
             else
             {
                 Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
+                _got_win_msg = false;
             }
             if (state.IsOn == false && Creator)
             {
@@ -81,6 +91,17 @@ namespace Client
             {
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
             }
+        }
+
+        private void UpdateRoom(RoomState state)
+        {
+            EndOfGameUpdate(state);
+
+            foreach (Rectangle r in TurnSymbol)
+            {
+                r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
+            }
+
             foreach (var p  in state.AllPlayers)
             {
                 if (!PlayerMap.ContainsKey(p.PlayerName))
@@ -92,11 +113,12 @@ namespace Client
                 PlayerMap.TryGetValue(p.PlayerName, out int playerVal);
                 if (p.PlayerName == state.CurrentPlayer && state.IsOn)
                 {
-                    foreach (Rectangle r in TurnSymbol)
-                    {
-                        r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
-                    }
                     TurnSymbol[playerVal - 1].Dispatcher.Invoke(()=>TurnSymbol[playerVal - 1].Fill = System.Windows.Media.Brushes.Red);
+                }
+                if (p.PlayerName == SelfPlayerName && state.IsOn == false &&
+                    !string.IsNullOrEmpty(state.CurrentWinners))
+                {
+                    User.Chips = p.ChipsAmount;
                 }
                 if (playerVal != -1)
                 {
@@ -141,6 +163,7 @@ namespace Client
             NameLabels[i - 1].Dispatcher.Invoke(()=> NameLabels[i - 1].Content = p.PlayerName);
             ChipLabels[i - 1].Dispatcher.Invoke(()=> ChipLabels[i - 1].Content = p.ChipsAmount);
             BetLabels[i - 1].Dispatcher.Invoke(()=> BetLabels[i - 1].Content = p.CurrentBet);
+            Avatars[i - 1].Dispatcher.Invoke(() => Avatars[i - 1].Source = new BitmapImage(new Uri(@p.Avatar, UriKind.Relative)));
             if (p.PlayerName == SelfPlayerName)
             {
                 UpdateSelfCards(p.PlayerHand);

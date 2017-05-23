@@ -66,9 +66,9 @@ namespace Client
         {
             var controller = "User?username=" + _user.Username;
             var data = "{\"Username\":\"" + UsernameTxt.Text + "\"," +
-                          "\"Password\":\"" + PasswordTxt.Text + "\"," +
-                          "\"Email\":\"" + EmailTxt.Text +  "\"," +
-                                                    "\"AvatarPath\":\"" + Picture + "\"}";
+                          "\"Password\":\"" + PasswordTxt.Text + "\","
+                          + "\"AvatarPath\":\"" + Picture + "\"," +
+                       "\"Email\":\"" + EmailTxt.Text + "\"}";
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
             var tmpUser = json.ToObject<UserData>();
@@ -118,7 +118,7 @@ namespace Client
 
         private void Opt4_Click(object sender, RoutedEventArgs e)
         {
-            Picture = "Resources/avatar1.png";
+            Picture = "Resources/avatar4.png";
             ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
         }
     }

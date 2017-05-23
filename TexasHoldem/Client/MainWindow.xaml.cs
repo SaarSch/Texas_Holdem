@@ -29,10 +29,6 @@ namespace Client
             LoggedUser = user;
             _loggedIn = true;
             DataContext = LoggedUser;
-            if (LoggedUser.AvatarPath == "default.png")
-            {
-                LoggedUser.AvatarPath = "Resources/profilePicture.png";
-            }
             UpdateAvatar(LoggedUser.AvatarPath);
         }
 
