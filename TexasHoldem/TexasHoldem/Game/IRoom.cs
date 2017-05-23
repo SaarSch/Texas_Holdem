@@ -33,7 +33,7 @@ namespace TexasHoldem.Game
         Room SetBet(IPlayer p, int bet, bool smallBlind);
         void ExitRoom(string player);
         List<IPlayer> Winners();
-        void CalcWinnersChips();
+        void CalcWinnersChips(bool folded);
         void CleanGame();
         void NextTurn();
         IRoom ExitSpectator(IUser user);

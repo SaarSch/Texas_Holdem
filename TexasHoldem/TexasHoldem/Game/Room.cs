@@ -451,7 +451,7 @@ namespace TexasHoldem.Game
                         DealCommunityThird();
                         break;
                     case GameStatus.River:
-                        CalcWinnersChips();
+                        CalcWinnersChips(false);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -625,10 +625,17 @@ namespace TexasHoldem.Game
             return playersNames;
         }
 
-        public void CalcWinnersChips()
+        public void CalcWinnersChips(bool folded)
         {
- 
-            List<IPlayer> winners = Winners();
+            List<IPlayer> winners = new List<IPlayer>();
+            if (folded)
+            {
+                foreach (Player p in Players)
+                {
+                    if (!p.Folded) winners.Add(p);
+                }
+            }
+            else winners = Winners();
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
             Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
@@ -711,7 +718,7 @@ namespace TexasHoldem.Game
                 p.Fold();
                 Logger.Log(Severity.Action, "player " + p.Name + " folded");
                 //Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
-                CalcWinnersChips();
+                CalcWinnersChips(true);
                 return this;
             }
 
