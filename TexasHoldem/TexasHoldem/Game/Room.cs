@@ -570,6 +570,13 @@ namespace TexasHoldem.Game
                 if (Players[i].Name.Equals(player))
                 {
                     Players[i].User.ChipsAmount += Players[i].ChipsAmount;
+                    for(int j=0;j< Players[i].User.Notifications.Count; j++)
+                    {
+                        if (Players[i].User.Notifications[j].Item1 == this.Name)
+                        {
+                            Players[i].User.Notifications.Remove(Players[i].User.Notifications[j]);
+                        }
+                    }              
                     Players.Remove(Players[i]);
                     break;
                 }
