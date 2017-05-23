@@ -172,7 +172,7 @@ namespace Server.Controllers
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
                 ans.AllPlayers = new Player[r.Players.Count];
-                ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
+                if(r.Players.Count>0) ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
                 ans.CurrentWinners = r.CurrentWinners;
                 for (var i = 0; i < 5; i++)
                 {

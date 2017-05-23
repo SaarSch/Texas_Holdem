@@ -201,3 +201,10 @@
 22/05/2017 18:51: Error: Error in GetRoom: Room asdasd doesn't exist!
 22/05/2017 18:51: Error: ERROR in Login: Username does not exist!
 22/05/2017 18:51: Error: ERROR in Register: Username already exists!
+23/05/2017 10:04: Error: ERROR in Login: Username does not exist!
+23/05/2017 10:04: Error: ERROR in Login: Username does not exist!
+23/05/2017 10:04: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 10:05: Error: can't play with less then min players
+23/05/2017 10:05: Exception: can't exit from room, player is not found
+23/05/2017 10:08: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 10:11: Error: Error in GetRoom: Room aaaaa11 doesn't exist!

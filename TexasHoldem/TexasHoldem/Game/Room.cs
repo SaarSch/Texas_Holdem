@@ -544,13 +544,15 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            foreach (var p in Players)
-                if (p.Name.Equals(player))
+            for (int i = 0; i < Players.Count; i++)
+            {
+                if (Players[i].Name.Equals(player))
                 {
-                    p.User.ChipsAmount += p.ChipsAmount;
-                    Players.Remove(p);
+                    Players[i].User.ChipsAmount += Players[i].ChipsAmount;
+                    Players.Remove(Players[i]);
                     break;
                 }
+            }
 
             if (Players.Count == 0)
             {

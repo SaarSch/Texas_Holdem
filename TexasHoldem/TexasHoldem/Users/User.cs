@@ -76,7 +76,7 @@ namespace TexasHoldem.Users
             }
         }
 
-        private string _avatarPath;
+        private string _avatarPath = "Resources/profilePicture.png";
         public string AvatarPath
         {
             get => _avatarPath;

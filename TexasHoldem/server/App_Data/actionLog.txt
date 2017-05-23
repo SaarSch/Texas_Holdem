@@ -575,3 +575,20 @@
 22/05/2017 18:52: user: shachar1234 player: asdqwe1 got 2 cards: 5, 8
 22/05/2017 18:52: playerasdqwe1got 2 cards:5Clubs8Spades
 22/05/2017 18:52: User: sean1234 player: asdasd set Bets= 1123 current Chips Amount=3877
+23/05/2017 10:03: Registration completed successfully!
+23/05/2017 10:04: shacahr3210 logged in successfully!
+23/05/2017 10:04: new player created for user:shacahr3210
+23/05/2017 10:04: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 10:04: Room aaaaa11 created successfully by shacahr3210!
+23/05/2017 10:06: Room aaaaa11 deleted successfully!
+23/05/2017 10:07: last player exited, room closed
+23/05/2017 10:08: Registration completed successfully!
+23/05/2017 10:08: shacahr3210 logged in successfully!
+23/05/2017 10:08: new player created for user:shacahr3210
+23/05/2017 10:08: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 10:08: Room aaaaa11 created successfully by shacahr3210!
+23/05/2017 10:09: Room aaaaa11 deleted successfully!
+23/05/2017 10:09: last player exited, room closed
+23/05/2017 10:11: new player created for user:shacahr3210
+23/05/2017 10:11: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 10:11: Room aaaaa11 created successfully by shacahr3210!
