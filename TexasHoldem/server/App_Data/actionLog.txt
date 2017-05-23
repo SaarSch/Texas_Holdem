@@ -538,3 +538,14 @@
 21/05/2017 13:13: Registration completed successfully!
 21/05/2017 13:21: Registration completed successfully!
 21/05/2017 13:22: shacahr3210 logged in successfully!
+5/22/2017 20:02: Registration completed successfully!
+5/22/2017 20:02: gyugjg1122 logged in successfully!
+5/22/2017 20:03: new player created for user:gyugjg1122
+5/22/2017 20:03: new room was created room  name=dffdgsg rank=-1
+5/22/2017 20:03: Room dffdgsg created successfully by fsgsfgf!
+5/22/2017 20:03: new player created for user:gyugjg1122
+5/22/2017 20:05: Registration completed successfully!
+5/22/2017 20:05: fkjytj6557 logged in successfully!
+5/22/2017 20:05: new player created for user:fkjytj6557
+5/22/2017 20:05: new room was created room  name=ghshsh rank=-1
+5/22/2017 20:05: Room ghshsh created successfully by shhsshsh!

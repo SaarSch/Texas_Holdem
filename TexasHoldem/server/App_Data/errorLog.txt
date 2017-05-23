@@ -196,3 +196,12 @@
 21/05/2017 13:13: Error: ERROR in Edit Profile: This User is not logged in.
 21/05/2017 13:14: Error: Illegal password! Length must be between 8 and 12.
 21/05/2017 13:21: Error: ERROR in Login: Username does not exist!
+5/22/2017 20:03: Error: Error in GetRoom: Room dffdgsg doesn't exist!
+5/22/2017 20:03: Error: Error in GetRoom: Room dff77dgsg doesn't exist!
+5/22/2017 20:03: Error: player chips amount is too low to join
+5/22/2017 20:04: Exception: min bet can't be higher then chip policy
+5/22/2017 20:04: Exception: min bet can't be higher then chip policy
+5/22/2017 20:04: Exception: min bet can't be higher then chip policy
+5/22/2017 20:04: Exception: Minimum bet can't be less then 2
+5/22/2017 20:05: Error: Illegal username! Length must be between 8 and 12.
+5/22/2017 20:05: Error: Error in GetRoom: Room ghshsh doesn't exist!

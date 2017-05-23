@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Windows;
 using Client.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Client
 {
@@ -10,7 +11,7 @@ namespace Client
     /// </summary>
     public partial class ProfileWindow
     {
-        private readonly UserData _user;
+        private UserData _user;
         private readonly MainWindow _mainWindow;
 
         public ProfileWindow(UserData user, MainWindow mainWindow)
@@ -57,20 +58,34 @@ namespace Client
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             var controller = "User?username=" + _user.Username;
-            var data = "{\"username\":\"" + UsernameTxt.Text + "\"," +
-                          "\"password\":\"" + PasswordTxt.Text + "\"," +
-                          "\"email\":\"" + EmailTxt.Text + "\"}" /*"\"," +
-                                                    "\"avatar\":\"" + EmailTxt.Text + "\"}"*/;
+            var data = "{\"Username\":\"" + UsernameTxt.Text + "\"," +
+                          "\"Password\":\"" + PasswordTxt.Text + "\"," +
+                          "\"Email\":\"" + EmailTxt.Text +  "\"," +
+                                                    "\"Avatar\":\"" + "Resources/profilePicture.png" + "\"}";
             var ans = RestClient.MakePostRequest(controller, data);
-            if (ans == "\"\"")
+            var json = JObject.Parse(ans);
+            var tmpUser = json.ToObject<UserData>();
+            if (tmpUser.Message == null)
             {
-                MessageBox.Show("User edited succesfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                _mainWindow.UpdateUserLabels(UsernameTxt.Text, _user.Chips); //TODO: add avatar update
+                _user.Username = tmpUser.Username;
+                _user.Password = tmpUser.Password;
+                _user.Email = tmpUser.Email;
+                _user.AvatarPath = tmpUser.AvatarPath;
+                Application.Current.MainWindow = _mainWindow;
+                Close();
+                _mainWindow.Show();
             }
             else
             {
-                MessageBox.Show(ans, "Error in edit", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(tmpUser.Message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow = _mainWindow;
+            _mainWindow.Show();
+            Close();
         }
     }
 }

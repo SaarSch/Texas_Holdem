@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="GameWindow" Height="700.576" Width="1122.479" WindowStartupLocation="CenterScreen">
+        Title="GameWindow" Height="700.576" Width="1122.479" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>
@@ -20,7 +20,7 @@
             </Image.OpacityMask>
         </Image>
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="165" Opacity="0.5"/>
-        <Rectangle Name="RecP1" Fill="White" HorizontalAlignment="Left" Height="44" Margin="307,22,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="151" Opacity="0.5"/>
+        <Rectangle Name="RecP1" Fill="White" HorizontalAlignment="Left" Height="44" Margin="307,22,0,0" Stroke="Red" StrokeThickness="5" VerticalAlignment="Top" Width="151" Opacity="0.5"/>
         <Rectangle Name="RecP2" Fill="White" HorizontalAlignment="Left" Height="44" Margin="500,21,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5"/>
         <Rectangle Name="RecP3" Fill="White" HorizontalAlignment="Left" Height="44" Margin="682,21,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5"/>
         <Rectangle Name="RecP4" Fill="White" HorizontalAlignment="Left" Height="44" Margin="942,105,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
@@ -117,6 +117,8 @@
         <Label x:Name="Bet8" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="364,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="140,183,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.RowSpan="2"/>
         <Label x:Name="Bet9" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="156,192,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.RowSpan="2"/>
-        <Button Name="Start" Visibility="Hidden" Content="Start Game!" HorizontalAlignment="Left" Margin="16,84,0,0" VerticalAlignment="Top" Width="165" Height="33" Click="Start_Click"/>
+        <Button Name="Start" Visibility="Hidden" Content="Start Game!" HorizontalAlignment="Left" Margin="16,84,0,0" VerticalAlignment="Top" Width="165" Height="33" Click="Start_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
+        <Button Name="Leave" Content="Leave" HorizontalAlignment="Left" Margin="973,22,0,0" VerticalAlignment="Top" Width="126" Height="33" Click="Leave_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
+
     </Grid>
 </Window>

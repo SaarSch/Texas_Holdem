@@ -20,6 +20,7 @@ namespace Client
     {
         public string RoomName;
         public string SelfPlayerName;
+        public string Username;
         public Dictionary<string,int> PlayerMap;
         public int CountPlayers;
         public List<string> ChatComboBoxContent;
@@ -29,11 +30,14 @@ namespace Client
         public Image[] CommunityCards;
         public Rectangle[] TurnSymbol;
         public bool Creator;
+        public MainWindow Main;
 
-        public GameWindow(string self, RoomState state, bool creator)
+        public GameWindow(string username, string self, RoomState state, bool creator, MainWindow main)
         {
             InitializeComponent();
+            Main = main;
             SelfPlayerName = self;
+            Username = username;
             CountPlayers = 1;
             RoomName = state.RoomName;
             Creator = creator;
@@ -59,6 +63,14 @@ namespace Client
 
         private void UpdateRoom(RoomState state)
         {
+            if (state.IsOn == false)
+            {
+                Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Visible);
+            }
+            else
+            {
+                Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
+            }
             if (state.IsOn == false && Creator)
             {
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
@@ -92,25 +104,7 @@ namespace Client
             UpdateCommunityCards(state.CommunityCards);
             ChatComboBox.Dispatcher.Invoke(()=> ChatComboBox.ItemsSource = ChatComboBoxContent);
             ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
-
-            if (SelfPlayerName == state.CurrentPlayer && state.IsOn)
-            {
-                BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = true);
-                BetSlide.Dispatcher.Invoke(() => BetSlide.Value = 1);
-                CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Content = 1);
-                CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Visibility = Visibility.Visible);
-                Bet.Dispatcher.Invoke(() => Bet.IsEnabled = true);
-                Call.Dispatcher.Invoke(() => Call.IsEnabled = true);
-                Fold.Dispatcher.Invoke(() => Fold.IsEnabled = true);
-            }
-            else
-            {
-                BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = false);
-                CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Visibility = Visibility.Hidden);
-                Bet.Dispatcher.Invoke(() => Bet.IsEnabled = false);
-                Call.Dispatcher.Invoke(() => Call.IsEnabled = false);
-                Fold.Dispatcher.Invoke(() => Fold.IsEnabled = false);
-            }
+            UpdateBetGui(state);
 
             if ((state.IsOn == false && !Creator) || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
             {
@@ -152,23 +146,60 @@ namespace Client
             }
         }
 
+        private void UpdateBetGui(RoomState state)
+        {
+            if (SelfPlayerName == state.CurrentPlayer && state.IsOn)
+            {
+                BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = true);
+                BetSlide.Dispatcher.Invoke(() => BetSlide.Value = 1);
+                CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Content = 1);
+                CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Visibility = Visibility.Visible);
+                Bet.Dispatcher.Invoke(() => Bet.IsEnabled = true);
+                Call.Dispatcher.Invoke(() => Call.IsEnabled = true);
+                Fold.Dispatcher.Invoke(() => Fold.IsEnabled = true);
+            }
+            else
+            {
+                BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = false);
+                CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Visibility = Visibility.Hidden);
+                Bet.Dispatcher.Invoke(() => Bet.IsEnabled = false);
+                Call.Dispatcher.Invoke(() => Call.IsEnabled = false);
+                Fold.Dispatcher.Invoke(() => Fold.IsEnabled = false);
+            }
+        }
+
         private void UpdateSelfCards(string[] hand)
         {
-            if (hand?[0] != null && hand[1]!=null)
+            if (hand[0] != null && hand[1] != null)
             {
                 P1Card1.Dispatcher.Invoke(()=> P1Card1.Source = new BitmapImage(new Uri(@"Resources/_" + hand[0] + ".png", UriKind.Relative)));
                 P1Card2.Dispatcher.Invoke(()=> P1Card2.Source = new BitmapImage(new Uri(@"Resources/_" + hand[1] + ".png", UriKind.Relative)));
+            }
+            else
+            {
+                P1Card1.Dispatcher.Invoke(() => P1Card1.Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                P1Card2.Dispatcher.Invoke(() => P1Card2.Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
             }
         }
 
         private void UpdateCommunityCards(string[] cards)
         {
             if (cards == null || cards.Length == 0)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    CommunityCards[i]
+                        .Dispatcher.Invoke(() => CommunityCards[i].Source =
+                            new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                }
                 return;
-            for(int i=0; i<cards.Length;i++)
+            }
+            for (int i=0; i<cards.Length;i++)
             {
                 if (cards[i] != null)
                     CommunityCards[i].Dispatcher.Invoke(()=>  CommunityCards[i].Source = new BitmapImage(new Uri(@"Resources/_" + cards[i] + ".png", UriKind.Relative)));
+                else
+                    CommunityCards[i].Dispatcher.Invoke(() => CommunityCards[i].Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
             }
         }
 
@@ -191,7 +222,7 @@ namespace Client
 
         private void Call_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&bet=call";
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=call";
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
@@ -207,7 +238,7 @@ namespace Client
 
         private void Fold_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&bet=fold";
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=fold";
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
@@ -238,5 +269,25 @@ namespace Client
             }
         }
 
+        private void Leave_Click(object sender, RoutedEventArgs e)
+        {
+                var controller = "Room?userName=" + Username + "&gameName=" + RoomName +
+                                 "&playerName=" + SelfPlayerName + "&option=leave";
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    MessageBox.Show("Left game successfully!", "Bye bye", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Application.Current.MainWindow = Main;
+                    Close();
+                    Main.Show();
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            
+        }
     }
 }
