@@ -8,7 +8,7 @@ namespace Server.Controllers
     public class MessageController : ApiController
     {
 
-        // GET: api/Messages/?room=moshe&sender=kaki&message=message sent to all&status=player
+        // GET: api/Messages/?room=moshe&sender=kaki&message=message sent to all&status=player||Spectator
         public RoomState Get(string room, string sender, string message, string status) 
         {
             IRoom r = null;
@@ -24,8 +24,8 @@ namespace Server.Controllers
             if (r != null) RoomController.CreateRoomState(sender, r, ans);
             return ans;
         }
-        
-        // GET: api/Messages/?room=moshe&sender=kaki&reciver=sean&message=message&status=player   wisper
+
+        // GET: api/Messages/?room=moshe&sender=kaki&reciver=sean&message=message&status=player||Spectator
         public RoomState Get(string room, string sender, string reciver, string message, string status)
         {
             IRoom r = null;

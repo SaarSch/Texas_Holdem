@@ -209,6 +209,27 @@ namespace TexasHoldem.Game
             SpectateUsers.Add(user);
         }
 
+        public IRoom ExitSpectator(IUser user)
+        {
+            if (user is null)
+            {
+                var e = new Exception("can't add a null user to the room");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+
+            if (!SpectateUsers.Contains(user))
+            {
+
+                var e = new Exception("User is not spectate this room");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+
+            SpectateUsers.Remove(user);
+            return this;
+        }
+
         public void DealTwo()
         {
             foreach (var p in Players)

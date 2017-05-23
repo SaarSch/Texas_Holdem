@@ -47,7 +47,7 @@ namespace Server.Controllers
         }
 
         // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
-        public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate game// leave game
+        public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate// leave // leaveSpectator
         {
             IRoom r = null;
             var ans = new RoomState();
@@ -60,11 +60,14 @@ namespace Server.Controllers
                         if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
-                        r = Server.GameFacade.SpectateGame(userName, gameName, playerName);
+                        r = Server.GameFacade.SpectateGame(userName, gameName);
                         break;
                     case "leave":
                         r = Server.GameFacade.LeaveGame(userName, gameName, playerName);
                         Replays[r.Name].Remove(playerName);
+                        break;
+                    case "leaveSpectator":
+                        r = Server.GameFacade.SpectatorExit(userName, gameName);
                         break;
                 }
             }

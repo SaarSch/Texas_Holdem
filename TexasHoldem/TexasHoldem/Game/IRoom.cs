@@ -36,6 +36,7 @@ namespace TexasHoldem.Game
         void CalcWinnersChips();
         void CleanGame();
         void NextTurn();
+        IRoom ExitSpectator(IUser user);
         Room Fold(IPlayer p);
         IPlayer GetPlayer(string name);
         int CurrentTurn { get; set; }
