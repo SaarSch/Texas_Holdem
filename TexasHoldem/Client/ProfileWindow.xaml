@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Profile Editor" Height="400" Width="500" WindowStartupLocation="CenterScreen">
+        Title="Profile Editor" Height="400" Width="500" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>
     <Grid>
-        <Image HorizontalAlignment="Left" Height="144" Margin="31,50,0,0" VerticalAlignment="Top" Width="143" Source="Resources/profilePicture.png" Stretch="Fill"/>
+        <Image Name="ProfilePic" HorizontalAlignment="Left" Height="144" Margin="31,46,0,0" VerticalAlignment="Top" Width="143" Source="Resources/profilePicture.png" Stretch="Fill"/>
         <Label Content="Username" HorizontalAlignment="Left" Margin="208,86,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <Button Content="Upload new avatar" HorizontalAlignment="Left" Margin="31,204,0,0" VerticalAlignment="Top" Width="143" Name="AvatarButton" Click="AvatarButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
+        <Button Content="Reset Avatar" HorizontalAlignment="Left" Margin="31,270,0,0" VerticalAlignment="Top" Width="143" Name="AvatarButton" Click="AvatarButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
         <Label Content="Password" HorizontalAlignment="Left" Margin="208,117,0,0" VerticalAlignment="Top" Foreground="White"/>
         <Label Content="Email" HorizontalAlignment="Left" Margin="208,148,0,0" VerticalAlignment="Top" Foreground="White"/>
         <TextBox Name = "UsernameTxt"  HorizontalAlignment="Left" Height="23" Margin="288,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
@@ -20,6 +20,18 @@
         <TextBox Name = "EmailTxt" HorizontalAlignment="Left" Height="23" Margin="288,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
         <Button Content="Confirm" HorizontalAlignment="Left" Margin="330,219,0,0" VerticalAlignment="Top" Width="75" Name ="ConfirmButton" Click="ConfirmButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
         <Button Content="Back" HorizontalAlignment="Left" Margin="243,219,0,0" VerticalAlignment="Top" Width="75" x:Name ="BackButton" Click="BackButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
+        <Button Name="Opt1" HorizontalAlignment="Left" Margin="31,209,0,0" VerticalAlignment="Top" Width="32" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt1_Click">
+            <Image Source="Resources/avatar1.png"></Image>
+        </Button>
+        <Button Name="Opt2" HorizontalAlignment="Left" Margin="68,207,0,0" VerticalAlignment="Top" Width="32" Height="56" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt2_Click">
+            <Image Source="Resources/avatar2.png" Height="40" Width="32"></Image>
+        </Button>
+        <Button Name="Opt3" HorizontalAlignment="Left" Margin="105,210,0,0" VerticalAlignment="Top" Width="32" Height="50" BorderBrush="{x:Null}" Background="{x:Null}" Click="Opt3_Click">
+            <Image Source="Resources/avatar3.png" Height="33" Width="32"></Image>
+        </Button>
+        <Button Name="Opt4" HorizontalAlignment="Left" Margin="142,210,0,0" VerticalAlignment="Top" Width="32" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt4_Click">
+            <Image Source="Resources/avatar4.png" Height="33" Width="32"></Image>
+        </Button>
 
     </Grid>
 </Window>

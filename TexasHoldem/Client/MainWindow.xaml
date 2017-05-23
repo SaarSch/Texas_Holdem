@@ -95,7 +95,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Image Name="ProfilePic" HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="" Stretch="Fill"/>
+        <Image Name="ProfilePic"  HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="Resources/profilePicture.png" Stretch="Fill"/>
         <Label Name="usernameLabel"  Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="31,134,0,0" VerticalAlignment="Top" Foreground="White" Width="100" FontWeight="Bold" Height="27"/>
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
         <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="293" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}" SelectionChanged="RoomsGrid_OnSelectionChanged">

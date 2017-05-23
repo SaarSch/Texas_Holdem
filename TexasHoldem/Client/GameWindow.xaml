@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="GameWindow" Height="700.576" Width="1122.479" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="GameWindow" Height="700.576" Width="1122.479" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>

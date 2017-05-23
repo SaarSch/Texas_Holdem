@@ -1,6 +1,8 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Client.Data;
 using Newtonsoft.Json.Linq;
 
@@ -13,6 +15,7 @@ namespace Client
     {
         private UserData _user;
         private readonly MainWindow _mainWindow;
+        private string Picture;
 
         public ProfileWindow(UserData user, MainWindow mainWindow)
         {
@@ -22,11 +25,15 @@ namespace Client
             UsernameTxt.Text = user.Username;
             PasswordTxt.Text = user.Password;
             EmailTxt.Text = user.Email;
+            Picture = user.AvatarPath;
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
         }
 
         private void AvatarButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog 
+            Picture = _user.AvatarPath;
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            /* Create OpenFileDialog 
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 DefaultExt = ".png",
@@ -51,7 +58,7 @@ namespace Client
             else
             {
                 // handle
-            }
+            } */
         }
 
         // POST: api/User?username=elad
@@ -61,7 +68,7 @@ namespace Client
             var data = "{\"Username\":\"" + UsernameTxt.Text + "\"," +
                           "\"Password\":\"" + PasswordTxt.Text + "\"," +
                           "\"Email\":\"" + EmailTxt.Text +  "\"," +
-                                                    "\"Avatar\":\"" + "Resources/profilePicture.png" + "\"}";
+                                                    "\"AvatarPath\":\"" + Picture + "\"}";
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
             var tmpUser = json.ToObject<UserData>();
@@ -71,21 +78,48 @@ namespace Client
                 _user.Password = tmpUser.Password;
                 _user.Email = tmpUser.Email;
                 _user.AvatarPath = tmpUser.AvatarPath;
-                Application.Current.MainWindow = _mainWindow;
+                _mainWindow.UpdateAvatar(tmpUser.AvatarPath);
                 Close();
-                _mainWindow.Show();
             }
             else
             {
-                MessageBox.Show(tmpUser.Message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(tmpUser.Message, "Error in edit profile", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
+        {   
+            Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.MainWindow = _mainWindow;
             _mainWindow.Show();
-            Close();
+        }
+
+        private void Opt1_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar1.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void Opt2_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar2.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void Opt3_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar3.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void Opt4_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar1.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
         }
     }
 }

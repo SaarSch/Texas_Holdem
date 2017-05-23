@@ -20,7 +20,7 @@ namespace Client
     {
         public string RoomName;
         public string SelfPlayerName;
-        public string Username;
+        public UserData User;
         public Dictionary<string,int> PlayerMap;
         public int CountPlayers;
         public List<string> ChatComboBoxContent;
@@ -31,17 +31,19 @@ namespace Client
         public Rectangle[] TurnSymbol;
         public bool Creator;
         public MainWindow Main;
+        private bool _playing;
 
-        public GameWindow(string username, string self, RoomState state, bool creator, MainWindow main)
+        public GameWindow(UserData user, string self, RoomState state, bool creator, MainWindow main)
         {
             InitializeComponent();
             Main = main;
             SelfPlayerName = self;
-            Username = username;
+            User = user;
             CountPlayers = 1;
             RoomName = state.RoomName;
             Creator = creator;
             RoomNameLbl.Content = RoomName;
+            _playing = true;
             NameLabels = new[]{P1Lbl, P2Lbl, P3Lbl, P4Lbl, P5Lbl, P6Lbl, P7Lbl, P8Lbl, P9Lbl};
             ChipLabels = new[]{C1Lbl, C2Lbl, C3Lbl, C4Lbl, C5Lbl, C6Lbl, C7Lbl, C8Lbl, C9Lbl};
             BetLabels = new[] { Bet1, Bet2, Bet3, Bet4, Bet5, Bet6, Bet7, Bet8, Bet9 };
@@ -271,13 +273,14 @@ namespace Client
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-                var controller = "Room?userName=" + Username + "&gameName=" + RoomName +
+                var controller = "Room?userName=" + User.Username + "&gameName=" + RoomName +
                                  "&playerName=" + SelfPlayerName + "&option=leave";
                 var ans = RestClient.MakeGetRequest(controller);
                 var json = JObject.Parse(ans);
                 var roomState = json.ToObject<RoomState>();
                 if (roomState.Messege == null)
                 {
+                    _playing = false;
                     MessageBox.Show("Left game successfully!", "Bye bye", MessageBoxButton.OK, MessageBoxImage.Information);
                     Application.Current.MainWindow = Main;
                     Close();
@@ -288,6 +291,16 @@ namespace Client
                     MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_playing)
+            {
+                e.Cancel = true;
+                MessageBox.Show("Cannot exit before leaving the game!", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -29,17 +29,16 @@ namespace Client
             LoggedUser = user;
             _loggedIn = true;
             DataContext = LoggedUser;
+            if (LoggedUser.AvatarPath == "default.png")
+            {
+                LoggedUser.AvatarPath = "Resources/profilePicture.png";
+            }
+            UpdateAvatar(LoggedUser.AvatarPath);
         }
 
-        //TODO: add avatar update
         public void UpdateAvatar(string path)
         {
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@path, UriKind.Relative)));
         }
 
         private void PlayerCheckBoxChecked(object sender, RoutedEventArgs e)
@@ -313,16 +312,14 @@ namespace Client
                 if (room.ChipPolicy != 0)
                 {
                    LoggedUser.Chips = chip - room.ChipPolicy;
-                    // chipsLabel.Content = chip - room.ChipPolicy;
                 }
                 else
                 {
                     LoggedUser.Chips = 0;
-                    //  chipsLabel.Content = 0;
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var gameWindow = new GameWindow(LoggedUser.Username, PlayerNameTxt_Copy.Text, roomState, true, this);
+                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, true, this);
                 Application.Current.MainWindow = gameWindow;
 
                 gameWindow.Show();
@@ -351,7 +348,7 @@ namespace Client
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            string room = RoomResults[RoomsGrid.SelectedIndex].RoomName;
+            Room room = RoomResults[RoomsGrid.SelectedIndex];
             if (string.IsNullOrEmpty(JoinNameTxt.Text))
             {
                 MessageBox.Show("Player name cannot be empty!", "Error in join", MessageBoxButton.OK,
@@ -359,7 +356,7 @@ namespace Client
             }
             else
             {
-                var controller = "Room?userName=" + LoggedUser.Username + "&gameName=" + room +
+                var controller = "Room?userName=" + LoggedUser.Username + "&gameName=" + room.RoomName +
                                  "&playerName=" + JoinNameTxt.Text +"&option=join";
                 var ans = RestClient.MakeGetRequest(controller);
                 var json = JObject.Parse(ans);
@@ -369,15 +366,15 @@ namespace Client
                     var chip = (int)chipsLabel.Content;
                     if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
                     {
-                        chipsLabel.Content = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+                        LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
                     }
                     else
                     {
-                        chipsLabel.Content = 0;
+                        LoggedUser.Chips = 0;
                     }
                     MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    var gameWindow = new GameWindow(LoggedUser.Username, JoinNameTxt.Text, roomState, false, this);
+                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, false, this);
                     Application.Current.MainWindow = gameWindow;
                     gameWindow.Show();
                 }
