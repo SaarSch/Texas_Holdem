@@ -63,7 +63,7 @@ namespace TexasHoldem.Logics
                 }
             }
 
-            users.Add(new Tuple<IUser, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
+            users.Add(new Tuple<IUser, bool>(new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000), false));
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
         }
@@ -112,7 +112,13 @@ namespace TexasHoldem.Logics
         {
             int i;
             var exist = false;
-
+            var UserRooms = GameCenter.GetGameCenter().Rooms.Where(r => r.IsInRoom(username)).ToList();
+            if (UserRooms.Count > 0)
+            {
+                var e = new Exception("can't log out before leaving all games");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
             for (i = 0; i < users.Count; i++)
             {
                 if (users[i].Item1.Username == username)
@@ -142,13 +148,28 @@ namespace TexasHoldem.Logics
             users.Clear();
         }
 
-        public void EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
+        public IUser EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
         {
+
+            if (newEmail != null)
+            {
+                User.CanSetMail(newEmail);
+            }
+            if (newUserName != null)
+            {
+                User.CanSetUserName(newUserName);
+            }
+            if (newPassword != null)
+            {
+                User.CanSetPass(newPassword);
+            }
+            IUser ans= null;
             var userExists = false;
             for (var i = 0; i < users.Count; i++)
             {
                 if (users[i].Item1.Username == username)
                 {
+                    ans = users[i].Item1;
                     userExists = true;
                     if (!users[i].Item2)
                     {
@@ -158,7 +179,7 @@ namespace TexasHoldem.Logics
                     }
                     try
                     {
-                        if (newUserName != null)
+                        if (newUserName != null&&newUserName!=username)
                         {
                             for (var j = 0; j < users.Count; j++)
                             {
@@ -194,6 +215,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
             Logger.Log(Severity.Action, username + "'s profile edited successfully!");
+            return ans;
         }
 
         public IUser GetLoggedInUser(string username,List<Tuple<IUser, bool>> users)

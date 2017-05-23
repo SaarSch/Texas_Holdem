@@ -47,7 +47,7 @@ namespace Server.Controllers
         }
 
         // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
-        public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate game// leave game
+        public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate// leave // leaveSpectator
         {
             IRoom r = null;
             var ans = new RoomState();
@@ -60,10 +60,14 @@ namespace Server.Controllers
                         if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
-                        r = Server.GameFacade.SpectateGame(userName, gameName, playerName);
+                        r = Server.GameFacade.SpectateGame(userName, gameName);
                         break;
                     case "leave":
                         r = Server.GameFacade.LeaveGame(userName, gameName, playerName);
+                        Replays[r.Name].Remove(playerName);
+                        break;
+                    case "leaveSpectator":
+                        r = Server.GameFacade.SpectatorExit(userName, gameName);
                         break;
                 }
             }
@@ -172,7 +176,8 @@ namespace Server.Controllers
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
                 ans.AllPlayers = new Player[r.Players.Count];
-                ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
+                if(r.Players.Count>0 && r.CurrentTurn < r.Players.Count) ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
+                ans.CurrentWinners = r.CurrentWinners;
                 for (var i = 0; i < 5; i++)
                 {
                     if (r.CommunityCards[i] == null) break;
@@ -187,7 +192,8 @@ namespace Server.Controllers
                         CurrentBet = p.CurrentBet,
                         ChipsAmount = p.ChipsAmount,
                         Avatar = p.User.AvatarPath,
-                        PlayerHand = new string[2]
+                        PlayerHand = new string[2],
+                        folded = p.Folded
                     };
                     if (player == p.Name&&r.IsOn)
                     {
@@ -238,12 +244,12 @@ namespace Server.Controllers
                     }
                 }
 
-                if (Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
+                if (Replays[r.Name].ContainsKey(player)&&Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
                 {
                     Replays[r.Name][player].Add(ans);
                 }
 
-                else if(Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
+                else if(Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
 
             }
             catch (Exception e)

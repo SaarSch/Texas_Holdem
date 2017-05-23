@@ -59,9 +59,14 @@ namespace TexasHoldem.Services
             return _gameCenter.AddUserToRoom(username, roomName, false, playerName);
         }
 
-        public IRoom SpectateGame(string username, string roomName, string playerName) // UC 7
+        public IRoom SpectateGame(string username, string roomName) // UC 7
         {
             return _gameCenter.AddUserToRoom(username, roomName, true);
+        }
+
+        public IRoom SpectatorExit(string username, string roomName) // UC 7
+        {
+            return _gameCenter.GetRoom(roomName).ExitSpectator(_userLogic.GetUser(username, _gameCenter.Users));
         }
 
         public IRoom LeaveGame(string username, string roomName, string playerName) // UC 8

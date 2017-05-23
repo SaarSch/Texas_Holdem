@@ -10,6 +10,7 @@ namespace Server.Models
         public string Avatar;
         public string[] PlayerHand;
         public List<string> Messages = new List<string>();
+        public bool folded;
 
         public bool Equals(Player other)
         {

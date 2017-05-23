@@ -538,14 +538,158 @@
 21/05/2017 13:13: Registration completed successfully!
 21/05/2017 13:21: Registration completed successfully!
 21/05/2017 13:22: shacahr3210 logged in successfully!
-5/22/2017 20:02: Registration completed successfully!
-5/22/2017 20:02: gyugjg1122 logged in successfully!
-5/22/2017 20:03: new player created for user:gyugjg1122
-5/22/2017 20:03: new room was created room  name=dffdgsg rank=-1
-5/22/2017 20:03: Room dffdgsg created successfully by fsgsfgf!
-5/22/2017 20:03: new player created for user:gyugjg1122
-5/22/2017 20:05: Registration completed successfully!
-5/22/2017 20:05: fkjytj6557 logged in successfully!
-5/22/2017 20:05: new player created for user:fkjytj6557
-5/22/2017 20:05: new room was created room  name=ghshsh rank=-1
-5/22/2017 20:05: Room ghshsh created successfully by shhsshsh!
+
+22/05/2017 18:45: Registration completed successfully!
+22/05/2017 18:45: shachar3210 logged in successfully!
+22/05/2017 18:46: Registration completed successfully!
+22/05/2017 18:46: sean1234 logged in successfully!
+22/05/2017 18:46: new player created for user:sean1234
+22/05/2017 18:46: new room was created room  name=asdasd rank=-1
+22/05/2017 18:46: Room asdasd created successfully by asdasd!
+22/05/2017 18:46: Found the following game rooms: asdasd.
+22/05/2017 18:46: new player created for user:shachar3210
+22/05/2017 18:46: new player joined the room: room name=asdasdplayer name=ssdfds
+22/05/2017 18:47: new game started in room asdasd dealer and small blind-User name: sean1234 Player name: asdasd Chip amount:5000big blind-User name: shachar3210 Player name: ssdfds Chip amount:5000
+22/05/2017 18:47: User: sean1234 player: asdasd set Bets= 2 current Chips Amount=4998
+22/05/2017 18:47: User: shachar3210 player: ssdfds set Bets= 4 current Chips Amount=4996
+22/05/2017 18:47: user: sean1234 player: asdasd got 2 cards: 8, 6
+22/05/2017 18:47: playerasdasdgot 2 cards:8Clubs6Diamonds
+22/05/2017 18:47: user: shachar3210 player: ssdfds got 2 cards: 5, 4
+22/05/2017 18:47: playerssdfdsgot 2 cards:5Hearts4Diamonds
+22/05/2017 18:47: User: sean1234 player: asdasd set Bets= 426 current Chips Amount=4574
+22/05/2017 18:50: Registration completed successfully!
+22/05/2017 18:51: sean1234 logged in successfully!
+22/05/2017 18:51: new player created for user:sean1234
+22/05/2017 18:51: new room was created room  name=asdasd rank=-1
+22/05/2017 18:51: Room asdasd created successfully by asdasd!
+22/05/2017 18:51: Registration completed successfully!
+22/05/2017 18:51: Registration completed successfully!
+22/05/2017 18:52: shachar1234 logged in successfully!
+22/05/2017 18:52: Found the following game rooms: asdasd.
+22/05/2017 18:52: new player created for user:shachar1234
+22/05/2017 18:52: new player joined the room: room name=asdasdplayer name=asdqwe1
+22/05/2017 18:52: new game started in room asdasd dealer and small blind-User name: sean1234 Player name: asdasd Chip amount:5000big blind-User name: shachar1234 Player name: asdqwe1 Chip amount:5000
+22/05/2017 18:52: User: sean1234 player: asdasd set Bets= 2 current Chips Amount=4998
+22/05/2017 18:52: User: shachar1234 player: asdqwe1 set Bets= 4 current Chips Amount=4996
+22/05/2017 18:52: user: sean1234 player: asdasd got 2 cards: 12, 4
+22/05/2017 18:52: playerasdasdgot 2 cards:12Spades4Spades
+22/05/2017 18:52: user: shachar1234 player: asdqwe1 got 2 cards: 5, 8
+22/05/2017 18:52: playerasdqwe1got 2 cards:5Clubs8Spades
+22/05/2017 18:52: User: sean1234 player: asdasd set Bets= 1123 current Chips Amount=3877
+23/05/2017 10:03: Registration completed successfully!
+23/05/2017 10:04: shacahr3210 logged in successfully!
+23/05/2017 10:04: new player created for user:shacahr3210
+23/05/2017 10:04: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 10:04: Room aaaaa11 created successfully by shacahr3210!
+23/05/2017 10:06: Room aaaaa11 deleted successfully!
+23/05/2017 10:07: last player exited, room closed
+23/05/2017 10:08: Registration completed successfully!
+23/05/2017 10:08: shacahr3210 logged in successfully!
+23/05/2017 10:08: new player created for user:shacahr3210
+23/05/2017 10:08: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 10:08: Room aaaaa11 created successfully by shacahr3210!
+23/05/2017 10:09: Room aaaaa11 deleted successfully!
+23/05/2017 10:09: last player exited, room closed
+23/05/2017 10:11: new player created for user:shacahr3210
+23/05/2017 10:11: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 10:11: Room aaaaa11 created successfully by shacahr3210!
+23/05/2017 12:12: Registration completed successfully!
+23/05/2017 12:12: shacahr3210 logged in successfully!
+23/05/2017 12:12: new player created for user:shacahr3210
+23/05/2017 12:12: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 12:12: Room aaaaa11 created successfully by shacahr3210!
+23/05/2017 12:12: Registration completed successfully!
+23/05/2017 12:12: shacahr3333 logged in successfully!
+23/05/2017 12:13: new player created for user:shacahr3333
+23/05/2017 12:13: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:18: Registration completed successfully!
+23/05/2017 12:18: shacahr3333 logged in successfully!
+23/05/2017 12:19: Registration completed successfully!
+23/05/2017 12:19: shacahr3333 logged in successfully!
+23/05/2017 12:22: Registration completed successfully!
+23/05/2017 12:22: shacahr3333 logged in successfully!
+23/05/2017 12:25: new player created for user:shacahr3333
+23/05/2017 12:25: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 12:25: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 12:27: Room aaaaa11 deleted successfully!
+23/05/2017 12:27: last player exited, room closed
+23/05/2017 12:32: Registration completed successfully!
+23/05/2017 12:32: Registration completed successfully!
+23/05/2017 12:32: shacahr3333 logged in successfully!
+23/05/2017 12:32: shacahr3210 logged in successfully!
+23/05/2017 12:33: new player created for user:shacahr3333
+23/05/2017 12:33: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 12:33: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 12:34: new player created for user:shacahr3210
+23/05/2017 12:34: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:34: new game started in room aaaaa11 dealer and small blind-User name: shacahr3333 Player name: shacahr3333 Chip amount:5000big blind-User name: shacahr3210 Player name: kaki Chip amount:5000
+23/05/2017 12:34: User: shacahr3333 player: shacahr3333 set Bets= 1 current Chips Amount=4999
+23/05/2017 12:34: User: shacahr3210 player: kaki set Bets= 2 current Chips Amount=4998
+23/05/2017 12:34: user: shacahr3333 player: shacahr3333 got 2 cards: 6, 3
+23/05/2017 12:34: playershacahr3333got 2 cards:6Hearts3Clubs
+23/05/2017 12:34: user: shacahr3210 player: kaki got 2 cards: 4, 8
+23/05/2017 12:34: playerkakigot 2 cards:4Diamonds8Clubs
+23/05/2017 12:35: User: shacahr3333 player: shacahr3333 set Bets= 1001 current Chips Amount=3999
+23/05/2017 12:35: User: shacahr3210 player: kaki set Bets= 1001 current Chips Amount=3999
+23/05/2017 12:35: 3 community cards dealed room name=aaaaa11community cards:14Hearts2Spades5Hearts
+23/05/2017 12:35: 1 community card dealed room name=aaaaa11community cards:14Hearts2Spades5Hearts5Spades
+23/05/2017 12:35: 1 community card dealed room name=aaaaa11community cards:14Hearts2Spades5Hearts5Spades7Clubs
+23/05/2017 12:36: the winners in roomaaaaa11isPlayers:User name: shacahr3210 Player name: kaki Chip amount:3999
+23/05/2017 12:36: current status in roomaaaaa11isPlayers:User name: shacahr3333 Player name: shacahr3333 Chip amount:3999User name: shacahr3210 Player name: kaki Chip amount:6001
+23/05/2017 12:42: Registration completed successfully!
+23/05/2017 12:43: Registration completed successfully!
+23/05/2017 12:43: shacahr3333 logged in successfully!
+23/05/2017 12:43: shacahr3210 logged in successfully!
+23/05/2017 12:43: new player created for user:shacahr3333
+23/05/2017 12:43: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 12:43: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 12:43: new player created for user:shacahr3210
+23/05/2017 12:43: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:45: new player created for user:shacahr3210
+23/05/2017 12:45: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:45: new player created for user:shacahr3210
+23/05/2017 12:45: new player created for user:shacahr3210
+23/05/2017 12:45: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:46: new player created for user:shacahr3210
+23/05/2017 12:46: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:46: Registration completed successfully!
+23/05/2017 12:47: Registration completed successfully!
+23/05/2017 12:47: shacahr3333 logged in successfully!
+23/05/2017 12:47: shacahr3210 logged in successfully!
+23/05/2017 12:47: new player created for user:shacahr3333
+23/05/2017 12:47: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 12:47: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 12:47: new player created for user:shacahr3210
+23/05/2017 12:47: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:48: Registration completed successfully!
+23/05/2017 12:48: Registration completed successfully!
+23/05/2017 12:48: shacahr3333 logged in successfully!
+23/05/2017 12:48: shacahr3210 logged in successfully!
+23/05/2017 12:48: new player created for user:shacahr3333
+23/05/2017 12:48: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 12:48: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 12:48: new player created for user:shacahr3210
+23/05/2017 12:48: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 12:50: new player created for user:shacahr3210
+23/05/2017 12:50: new player joined the room: room name=aaaaa11player name=kaki
+23/05/2017 13:12: Registration completed successfully!
+23/05/2017 13:12: shacahr3333 logged in successfully!
+23/05/2017 13:12: new player created for user:shacahr3333
+23/05/2017 13:12: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 13:12: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 13:13: Room aaaaa11 deleted successfully!
+23/05/2017 13:13: last player exited, room closed
+23/05/2017 13:15: Registration completed successfully!
+23/05/2017 13:15: shacahr3333 logged in successfully!
+23/05/2017 13:15: new player created for user:shacahr3333
+23/05/2017 13:15: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 13:15: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 13:16: Room aaaaa11 deleted successfully!
+23/05/2017 13:16: last player exited, room closed
+23/05/2017 13:17: Registration completed successfully!
+23/05/2017 13:17: shacahr3333 logged in successfully!
+23/05/2017 13:17: new player created for user:shacahr3333
+23/05/2017 13:17: new room was created room  name=aaaaa11 rank=-1
+23/05/2017 13:17: Room aaaaa11 created successfully by shacahr3333!
+23/05/2017 13:17: Room aaaaa11 deleted successfully!
+23/05/2017 13:17: last player exited, room closed
