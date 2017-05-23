@@ -74,10 +74,15 @@
         <Label Name="RoomNameLbl" Content="Room Name" HorizontalAlignment="Left" Margin="39,25,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" Foreground="White"/>
         <Label Name="CurrentBet_Label" Visibility="Visible" HorizontalContentAlignment="Center" Content="1" HorizontalAlignment="Left" Margin="973,328,0,0" VerticalAlignment="Top" Width="73" Foreground="White" Grid.Row="1" FontSize="20" FontWeight="Bold" FontStyle="Italic"/>
         <Button Name="Call" Content="Call / Check" IsEnabled="False" HorizontalAlignment="Left" Margin="973,401,0,0" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Call_Click"/>
-        <TextBlock x:Name="ChatBox" HorizontalAlignment="Left" Height="76" Margin="10,334,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="950" Background="White" Opacity="0.75" Grid.Row="1"/>
         <TextBox x:Name="Message" HorizontalAlignment="Left" Height="33" Margin="145,415,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="742" Grid.Row="1"/>
-        <Button Name="Send" Content="Send" HorizontalAlignment="Left" Margin="892,415,0,0" VerticalAlignment="Top" Width="68" Height="33" Grid.Row="1"/>
-        <ComboBox x:Name="ChatComboBox" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="10,415,0,0" VerticalAlignment="Top" Width="130" Height="33" SelectedIndex="0" Grid.Row="1">
+        <Button Name="Send" Content="Send" HorizontalAlignment="Left" Margin="892,415,0,0" VerticalAlignment="Top" Width="68" Height="33" Grid.Row="1" Click="Send_Click"/>
+        <ComboBox x:Name="ChatComboBox" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="16,415,0,0" VerticalAlignment="Top" Width="124" Height="33" SelectedIndex="0" Grid.Row="1">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                    <GradientStop Color="#FFB93535" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
         </ComboBox>
         <Rectangle Name="RecP5" Fill="White" HorizontalAlignment="Left" Height="44" Margin="714,276,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
         <Label Name="P5Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="752,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
@@ -119,6 +124,16 @@
         <Label x:Name="Bet9" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="124,192,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.RowSpan="2"/>
         <Button Name="Start" Visibility="Visible" Content="Start!" HorizontalAlignment="Left" Margin="859,25,0,0" VerticalAlignment="Top" Width="90" Height="33" Click="Start_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
         <Button Name="Leave" Content="Leave" HorizontalAlignment="Left" Margin="958,25,0,0" VerticalAlignment="Top" Width="90" Height="33" Click="Leave_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
+        <ScrollViewer Name="ChatScroll" HorizontalAlignment="Left" Height="78" Margin="16,328,0,0" Grid.Row="1" VerticalAlignment="Top" Width="943">
+            <TextBlock Name="Chat" TextWrapping="Wrap" Width="931" Foreground="Black" Opacity="0.5" FontSize="16">
+                <TextBlock.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFD69797" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </TextBlock.Background>
+            </TextBlock>
+        </ScrollViewer>
 
     </Grid>
 </Window>

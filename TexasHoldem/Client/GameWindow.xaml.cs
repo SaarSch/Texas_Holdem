@@ -34,6 +34,7 @@ namespace Client
         public MainWindow Main;
         private bool _playing;
         private bool _got_win_msg;
+        private bool _first_play;
 
         public GameWindow(UserData user, string self, RoomState state, bool creator, MainWindow main)
         {
@@ -47,16 +48,22 @@ namespace Client
             RoomNameLbl.Content = RoomName;
             _playing = true;
             _got_win_msg = false;
+            _first_play = true;
+            InitGuiArrays();
+            PlayerMap = new Dictionary<string, int>();
+            ChatComboBoxContent = new List<string> {"ALL"};
+            PlayerMap.Add(SelfPlayerName, CountPlayers);
+            UpdateRoom(state);
+        }
+
+        private void InitGuiArrays()
+        {
             NameLabels = new[]{P1Lbl, P2Lbl, P3Lbl, P4Lbl, P5Lbl, P6Lbl, P7Lbl, P8Lbl, P9Lbl};
             ChipLabels = new[]{C1Lbl, C2Lbl, C3Lbl, C4Lbl, C5Lbl, C6Lbl, C7Lbl, C8Lbl, C9Lbl};
             BetLabels = new[] { Bet1, Bet2, Bet3, Bet4, Bet5, Bet6, Bet7, Bet8, Bet9 };
             CommunityCards = new[] { Com1, Com2, Com3, Com4, Com5 };
             Avatars = new[] { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8, Avatar9 };
             TurnSymbol = new[] { RecP1, RecP2, RecP3, RecP4, RecP5, RecP6, RecP7, RecP8, RecP9 };
-            PlayerMap = new Dictionary<string, int>();
-            ChatComboBoxContent = new List<string> {"ALL"};
-            PlayerMap.Add(SelfPlayerName, CountPlayers);
-            UpdateRoom(state);
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -69,9 +76,11 @@ namespace Client
 
         private void EndOfGameUpdate(RoomState state)
         {
-            if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg)
+            if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg && !_first_play)
             {
-                MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
+                PlayerMap.Clear();
+                PlayerMap.Add(SelfPlayerName, CountPlayers);
                 _got_win_msg = true;
             }
             if (state.IsOn == false)
@@ -82,6 +91,7 @@ namespace Client
             {
                 Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
                 _got_win_msg = false;
+                _first_play = false;
             }
             if (state.IsOn == false && Creator)
             {
@@ -96,6 +106,7 @@ namespace Client
         private void UpdateRoom(RoomState state)
         {
             EndOfGameUpdate(state);
+            UpdateChat(state);
 
             foreach (Rectangle r in TurnSymbol)
             {
@@ -130,8 +141,8 @@ namespace Client
             ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
             UpdateBetGui(state);
 
-            if ((state.IsOn == false && !Creator) || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
-            {
+          //  if ((state.IsOn == false && !Creator) || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
+          //  {
                 System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
                 {
@@ -139,7 +150,7 @@ namespace Client
                     timer.Dispose();
                 },
                 null, 2000, System.Threading.Timeout.Infinite);
-            }
+        //    }
         }
 
         private void StatusRequest()
@@ -237,7 +248,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                UpdateRoom(roomState);
+     //           UpdateRoom(roomState);
             }
             else
             {
@@ -253,7 +264,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                UpdateRoom(roomState);
+      //          UpdateRoom(roomState);
             }
             else
             {
@@ -269,7 +280,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                UpdateRoom(roomState);
+    //            UpdateRoom(roomState);
             }
             else
             {
@@ -286,7 +297,7 @@ namespace Client
             if (roomState.Messege == null)
             {
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
-                UpdateRoom(roomState);
+       //         UpdateRoom(roomState);
             }
             else
             {
@@ -323,6 +334,57 @@ namespace Client
                 e.Cancel = true;
                 MessageBox.Show("Cannot exit before leaving the game!", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
+            }
+        }
+
+        private void UpdateChat(RoomState state)
+        {
+            Chat.Dispatcher.Invoke(() => Chat.Text = "");
+            foreach (Player p in state.AllPlayers)
+            {
+                if (p.PlayerName == SelfPlayerName)
+                {
+                    foreach (string message in p.Messages)
+                    {
+                        Chat.Dispatcher.Invoke(() => Chat.Text += message + "\n");
+                    }
+                }
+            }
+            ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
+        }
+
+        private void Send_Click(object sender, RoutedEventArgs e)
+        {
+            string msg = Message.Text;
+            if (string.IsNullOrEmpty(msg))
+            {
+                MessageBox.Show("An empty message cannot be sent.", "Cannot send message", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            else
+            {
+                string controller;
+                if (ChatComboBox.SelectedIndex <= 0)
+                {
+                    controller = "Message?room=" + RoomName + "&sender=" + SelfPlayerName +
+                                 "&message=" + msg + "&status=player";
+                }
+                else
+                {
+                    controller = "Message?room=" + RoomName + "&sender=" + SelfPlayerName +
+                                 "&reciver=" + ChatComboBoxContent[ChatComboBox.SelectedIndex] + "&message=" + msg + "&status=player";
+                }
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    UpdateChat(roomState);
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Cannot send message", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
