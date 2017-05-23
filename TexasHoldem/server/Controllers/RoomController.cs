@@ -64,6 +64,7 @@ namespace Server.Controllers
                         break;
                     case "leave":
                         r = Server.GameFacade.LeaveGame(userName, gameName, playerName);
+                        Replays[r.Name].Remove(playerName);
                         break;
                 }
             }
@@ -172,7 +173,7 @@ namespace Server.Controllers
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
                 ans.AllPlayers = new Player[r.Players.Count];
-                if(r.Players.Count>0) ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
+                if(r.Players.Count>0 && r.CurrentTurn < r.Players.Count) ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
                 ans.CurrentWinners = r.CurrentWinners;
                 for (var i = 0; i < 5; i++)
                 {
@@ -239,12 +240,12 @@ namespace Server.Controllers
                     }
                 }
 
-                if (Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
+                if (Replays[r.Name].ContainsKey(player)&&Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
                 {
                     Replays[r.Name][player].Add(ans);
                 }
 
-                else if(Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
+                else if(Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
 
             }
             catch (Exception e)

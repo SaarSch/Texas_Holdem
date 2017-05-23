@@ -63,7 +63,7 @@ namespace TexasHoldem.Logics
                 }
             }
 
-            users.Add(new Tuple<IUser, bool>(new User(username, password, "default.png", "default@gmail.com", 5000), false));
+            users.Add(new Tuple<IUser, bool>(new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000), false));
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
         }
@@ -150,6 +150,19 @@ namespace TexasHoldem.Logics
 
         public IUser EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
         {
+
+            if (newEmail != null)
+            {
+                User.CanSetMail(newEmail);
+            }
+            if (newUserName != null)
+            {
+                User.CanSetUserName(newUserName);
+            }
+            if (newPassword != null)
+            {
+                User.CanSetPass(newPassword);
+            }
             IUser ans= null;
             var userExists = false;
             for (var i = 0; i < users.Count; i++)
@@ -166,7 +179,7 @@ namespace TexasHoldem.Logics
                     }
                     try
                     {
-                        if (newUserName != null)
+                        if (newUserName != null&&newUserName!=username)
                         {
                             for (var j = 0; j < users.Count; j++)
                             {

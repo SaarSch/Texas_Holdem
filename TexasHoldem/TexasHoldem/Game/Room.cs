@@ -340,7 +340,7 @@ namespace TexasHoldem.Game
                     p.User.League = p.User.Wins;
                 }
             }
-
+            CurrentWinners = "";
             GameStatus = GameStatus.PreFlop;
             IsOn = true;
             CurrentTurn = 0;
@@ -631,7 +631,6 @@ namespace TexasHoldem.Game
 
         public void CleanGame()
         {
-            CurrentWinners = "";
             this.GameStatus = GameStatus.PreFlop;
             foreach (var p in Players)
             {

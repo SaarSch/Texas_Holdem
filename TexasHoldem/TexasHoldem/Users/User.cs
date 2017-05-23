@@ -34,6 +34,69 @@ namespace TexasHoldem.Users
                 _username = value;
             }
         }
+        public static void CanSetPass(string value)
+        {  
+            if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
+            {
+                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+            var hasNonLetterChar = false;
+            for (int i = 0; i < value.Length && !hasNonLetterChar; i++)
+            {
+                if (value[i] == ' ')
+                {
+                    Exception e = new IllegalPasswordException("Illegal password! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
+                }
+                if (!char.IsLetter(value[i]))
+                {
+                    hasNonLetterChar = true;
+                }
+            }
+            if (!hasNonLetterChar)
+            {
+                Exception e = new IllegalPasswordException("Illegal password! Must contain at least 1 non-letter character.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+        }
+
+        public static void CanSetMail(string value)
+        {
+            if (Regex.IsMatch(value, @"\A[a-z0-9]+([-._][a-z0-9]+)*@([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,4}\z")
+                   && Regex.IsMatch(value, @"^(?=.{1,64}@.{4,64}$)(?=.{6,100}$).*"))
+            {
+                return;
+            }
+            else
+            {
+                Exception e = new IllegalAvatarException("Illegal email! must be in format: aaa@bbb.ccc.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }     
+        }
+
+        public static void CanSetUserName(string value)
+        {
+            if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
+            {
+                Exception e = new IllegalPasswordException("Illegal username! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+            for (var i = 0; i < value.Length; i++)
+            {
+                if (value[i] == ' ')
+                {
+                    Exception e = new IllegalUsernameException("Illegal username! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
+                }
+            }
+        }
 
         private string _password;
         public string Password
@@ -82,8 +145,7 @@ namespace TexasHoldem.Users
             get => _avatarPath;
             set
             {
-                if (value.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1
-                    || (!value.EndsWith(".png") && !value.EndsWith(".jpg") && !value.EndsWith(".jpeg"))
+                if ((!value.EndsWith(".png") && !value.EndsWith(".jpg") && !value.EndsWith(".jpeg"))
                     || value.Contains("virus")
                     || value.Contains("VIRUS"))
                 {
