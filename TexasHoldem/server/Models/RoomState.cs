@@ -14,6 +14,7 @@
         public string Messege;
         public string CurrentPlayer;
         public UserData[] Spectators;
+        public string CurrentWinners;
 
         public bool Equals(RoomState other)
         {

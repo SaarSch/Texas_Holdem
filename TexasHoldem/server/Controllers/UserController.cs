@@ -68,6 +68,30 @@ namespace Server.Controllers
             }
             return "";
         }
+
+        public UserData Put(string userName)
+        {
+            var ret = new UserData();
+            try
+            {
+                var u = Server.UserFacade.GetUser(userName);
+                ret.AvatarPath = u.AvatarPath;
+                ret.Chips = u.ChipsAmount;
+                ret.Email = u.Email;
+                ret.Password = u.Password;
+                ret.Rank = u.League;
+                ret.Username = u.Username;
+                ret.Wins = u.Wins;
+            }
+            catch (Exception e)
+            {
+                ret.Message = e.Message;
+            }
+
+            return ret;
+        }
+
+
         // login -->POST: api/User
         public UserData Post([FromBody]UserData value)
         {
@@ -91,18 +115,30 @@ namespace Server.Controllers
             return ret;
         }
         //editUser --> POST: api/User?username=elad
-        public string Post([FromBody]UserData value, string username)
+        public UserData Post([FromBody]UserData value, string username)
         {
+            var ret = new UserData();
             try
             {
-                Server.UserFacade.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
+               var u= Server.UserFacade.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
+                if (u != null)
+                {
+                    ret.AvatarPath = u.AvatarPath;
+                    ret.Chips = u.ChipsAmount;
+                    ret.Email = u.Email;
+                    ret.Password = u.Password;
+                    ret.Rank = u.League;
+                    ret.Username = u.Username;
+                    ret.Wins = u.Wins;
+                }
+               
             }
             catch (Exception e)
             {
-                return e.Message;
+               ret.Message=e.Message;
             }
 
-            return "";
+            return ret;
         }
 
 

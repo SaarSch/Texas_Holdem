@@ -199,7 +199,7 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                _gameManager.SpectateGame(username, roomName, playerName);
+                _gameManager.SpectateGame(username, roomName);
             }
             catch (Exception)
             {

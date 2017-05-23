@@ -52,7 +52,12 @@ namespace TexasHoldem.Game
             Logger.Log(Severity.Action, "User: " + User.Username + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
         }
 
-        public void ClearBet() { CurrentBet = 0; }
+        public void ClearBet()
+        {
+            CurrentBet = 0;
+            PreviousRaise = 0;
+            Folded = false;
+        }
 
         public void Fold() { Folded = true; }
 

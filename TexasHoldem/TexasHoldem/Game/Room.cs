@@ -32,6 +32,7 @@ namespace TexasHoldem.Game
         public string GameReplay { get; }
         public GameStatus GameStatus { get; set; }
         public int CurrentTurn { get; set; }
+        public string CurrentWinners { get; set; }
 
         public HandLogic HandLogic { get; }
 
@@ -208,6 +209,27 @@ namespace TexasHoldem.Game
             SpectateUsers.Add(user);
         }
 
+        public IRoom ExitSpectator(IUser user)
+        {
+            if (user is null)
+            {
+                var e = new Exception("can't add a null user to the room");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+
+            if (!SpectateUsers.Contains(user))
+            {
+
+                var e = new Exception("User is not spectate this room");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+
+            SpectateUsers.Remove(user);
+            return this;
+        }
+
         public void DealTwo()
         {
             foreach (var p in Players)
@@ -339,7 +361,7 @@ namespace TexasHoldem.Game
                     p.User.League = p.User.Wins;
                 }
             }
-
+            CurrentWinners = "";
             GameStatus = GameStatus.PreFlop;
             IsOn = true;
             CurrentTurn = 0;
@@ -352,13 +374,13 @@ namespace TexasHoldem.Game
             {
                 Logger.Log(Severity.Action, "new game started in room " + Name + " dealer and small blind-" + Players[0]+ "big blind-"+Players[1]);
                 SetBet(Players[0], smallBlind,true);
-                SetBet(Players[1], GamePreferences.MinBet,false);
+                SetBet(Players[1], GamePreferences.MinBet, true);
             }
             else
             {
                 Logger.Log(Severity.Action, "new game started in room"+Name+" dealer" + Players[0]+ "small blind-" + Players[1] + "big blind-" + Players[2] +PlayersToString(Players));
                 SetBet(Players[1], smallBlind,true);
-                SetBet(Players[2], GamePreferences.MinBet,false);
+                SetBet(Players[2], GamePreferences.MinBet, true);
             }
             DealTwo();
             return this;
@@ -403,7 +425,7 @@ namespace TexasHoldem.Game
             }
 
             var callAmount = maxCips - p.CurrentBet;
-            if(callAmount!=0) SetBet(p, callAmount, false);
+            if(callAmount!=0) SetBet(p, callAmount, true);
             else p.BetInThisRound = true;
 
 
@@ -462,21 +484,21 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            if ((bet < GamePreferences.MinBet&&!smallBlind)||(smallBlind&&bet!=GamePreferences.MinBet/2))
+            if ((bet < GamePreferences.MinBet&&!smallBlind))
             {
                 var e = new IllegalBetException("can't bet less then min bet");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
-            if (GamePreferences.GameType == Gametype.NoLimit && p.BetInThisRound && p.PreviousRaise > bet) // no limit mode
+            if (!smallBlind&& GamePreferences.GameType == Gametype.NoLimit && p.BetInThisRound && p.PreviousRaise > bet) // no limit mode
             {
                 var e = new IllegalBetException("can't bet less then previous raise in no limit mode");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
-            if (GamePreferences.GameType == Gametype.Limit) // limit mode
+            if (!smallBlind && GamePreferences.GameType == Gametype.Limit) // limit mode
             {
                 if (GameStatus==GameStatus.PreFlop || GameStatus==GameStatus.Flop)  //pre flop & flop
                 {
@@ -499,7 +521,7 @@ namespace TexasHoldem.Game
                 }
             }
 
-            if (GamePreferences.GameType == Gametype.PotLimit)// limit pot
+            if (!smallBlind&&GamePreferences.GameType == Gametype.PotLimit)// limit pot
             {
                 var pot = 0;
                 foreach (var p1 in Players) pot += p1.CurrentBet;
@@ -543,13 +565,15 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            foreach (var p in Players)
-                if (p.Name.Equals(player))
+            for (int i = 0; i < Players.Count; i++)
+            {
+                if (Players[i].Name.Equals(player))
                 {
-                    p.User.ChipsAmount += p.ChipsAmount;
-                    Players.Remove(p);
+                    Players[i].User.ChipsAmount += Players[i].ChipsAmount;
+                    Players.Remove(Players[i]);
                     break;
                 }
+            }
 
             if (Players.Count == 0)
             {
@@ -608,8 +632,11 @@ namespace TexasHoldem.Game
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
             Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
-            foreach(var p in winners)
+            if (winners.Count > 1) CurrentWinners += "The winners are: ";
+            else CurrentWinners += "The winner is: ";
+            foreach (var p in winners)
             {
+                CurrentWinners += p.Name + " ";
                 p.User.Wins++;
             }
             var totalChips = 0;
@@ -637,6 +664,7 @@ namespace TexasHoldem.Game
             {
                 CommunityCards[i] = null;
             }
+            CurrentTurn = 0;
         }
 
         public void NextTurn()
@@ -713,10 +741,25 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-
+ 
             foreach (var p in Players) if (p.Name.Equals(name)) ans = p;
 
             return ans;
+        }
+
+        public bool IsInRoom(string name)
+        {
+            foreach (Player p in Players)
+            {
+                if (p.User.Username == name) return true;
+            }
+
+            foreach (User u in SpectateUsers)
+            {
+                if (u.Username == name) return true;
+            }
+
+            return false;
         }
 
     }

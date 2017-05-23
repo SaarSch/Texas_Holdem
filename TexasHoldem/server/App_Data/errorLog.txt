@@ -196,3 +196,31 @@
 21/05/2017 13:13: Error: ERROR in Edit Profile: This User is not logged in.
 21/05/2017 13:14: Error: Illegal password! Length must be between 8 and 12.
 21/05/2017 13:21: Error: ERROR in Login: Username does not exist!
+22/05/2017 18:46: Error: Error in GetRoom: Room asdasd doesn't exist!
+22/05/2017 18:50: Error: Error in GetRoom: Room asdasd doesn't exist!
+22/05/2017 18:51: Error: Error in GetRoom: Room asdasd doesn't exist!
+22/05/2017 18:51: Error: ERROR in Login: Username does not exist!
+22/05/2017 18:51: Error: ERROR in Register: Username already exists!
+23/05/2017 10:04: Error: ERROR in Login: Username does not exist!
+23/05/2017 10:04: Error: ERROR in Login: Username does not exist!
+23/05/2017 10:04: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 10:05: Error: can't play with less then min players
+23/05/2017 10:05: Exception: can't exit from room, player is not found
+23/05/2017 10:08: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 10:11: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 12:12: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 12:18: Error: ERROR in Login: Username does not exist!
+23/05/2017 12:19: Error: ERROR in Login: This User is already logged in.
+23/05/2017 12:25: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 12:26: Exception: can't exit from room, player is not found
+23/05/2017 12:33: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 12:42: Error: ERROR in Register: Username already exists!
+23/05/2017 12:42: Error: ERROR in Register: Username already exists!
+23/05/2017 12:42: Error: ERROR in Register: Username already exists!
+23/05/2017 12:43: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 12:45: Exception: can't join, player name is already exist
+23/05/2017 12:47: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 12:48: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 13:12: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 13:15: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
+23/05/2017 13:17: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
