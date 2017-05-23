@@ -192,7 +192,8 @@ namespace Server.Controllers
                         CurrentBet = p.CurrentBet,
                         ChipsAmount = p.ChipsAmount,
                         Avatar = p.User.AvatarPath,
-                        PlayerHand = new string[2]
+                        PlayerHand = new string[2],
+                        folded = p.Folded
                     };
                     if (player == p.Name&&r.IsOn)
                     {
