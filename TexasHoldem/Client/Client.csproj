@@ -338,5 +338,20 @@
   <ItemGroup>
     <Resource Include="Resources\gamelogo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\avatar1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\avatar3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\avatar4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\avatar2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

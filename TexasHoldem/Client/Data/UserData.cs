@@ -1,14 +1,66 @@
-﻿namespace Client.Data
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+
+namespace Client.Data
 {
-    public class UserData
+    public class UserData : INotifyPropertyChanged
     {
-        public string Username;
-        public string Password;
-        public string AvatarPath;
-        public string Email;
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string AvatarPath
+        {
+            get => _avatarPath;
+            set
+            {
+                _avatarPath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                _email = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _username;
+        private string _password;
+        private string _avatarPath;
+        private string _email;
+        private int _chips;
         public int Rank;
         public int Wins;
-        public int Chips;
+        public int Chips
+        {
+            get => _chips;
+            set
+            {
+                _chips = value;
+                OnPropertyChanged();
+            }
+        }
         public string Message;
 
         public UserData(string username, string password, string avatarPath, string email, int rank, int wins, int chips, string message)
@@ -21,6 +73,13 @@
             Wins = wins;
             Chips = chips;
             Message = message;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

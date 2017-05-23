@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="TexasHoldem" Height="588" Width="983.2" WindowStartupLocation="CenterScreen">
+        Title="TexasHoldem" Height="588" Width="983.2" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>
@@ -95,8 +95,8 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Image HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="Resources/profilePicture.png" Stretch="Fill"/>
-        <Label x:Name="usernameLabel"  Content="Username" HorizontalAlignment="Left" Margin="31,134,0,0" VerticalAlignment="Top" Foreground="White" Width="100" FontWeight="Bold"/>
+        <Image Name="ProfilePic"  HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="Resources/profilePicture.png" Stretch="Fill"/>
+        <Label Name="usernameLabel"  Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="31,134,0,0" VerticalAlignment="Top" Foreground="White" Width="100" FontWeight="Bold" Height="27"/>
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
         <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="293" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}" SelectionChanged="RoomsGrid_OnSelectionChanged">
             <DataGrid.Columns>
@@ -112,9 +112,9 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Chips: " Margin="31,160,883.4,0" VerticalAlignment="Top" Foreground="White"/>
-        <Label x:Name="chipsLabel" HorizontalAlignment="Left" Margin="79,161,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Width="54"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="310" Margin="10,225,0,0" Stroke="Black" VerticalAlignment="Top" Width="147" Grid.RowSpan="3" Opacity="0.7"/>
-        <TextBlock x:Name="newsTextBlock" TextWrapping="Wrap" Margin="17,236,811.2,121.747" Grid.RowSpan="3">
+        <Label Name="chipsLabel" Content="{Binding Path=Chips, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="79,161,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Width="54"/>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="263" Margin="10,254,0,0" Stroke="Black" VerticalAlignment="Top" Width="147" Grid.RowSpan="3" Opacity="0.7"/>
+        <TextBlock x:Name="newsTextBlock" TextWrapping="Wrap" Margin="17,256,811.4,31" Grid.RowSpan="3">
             <TextBlock.RenderTransform>
                 <TranslateTransform x:Name="translate" />
             </TextBlock.RenderTransform>
@@ -135,5 +135,6 @@
         <Button Name="Spectate" IsEnabled="False" Content="Spectate!" HorizontalAlignment="Left" Height="31" Margin="642,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
         <Label Name ="JoinNameLbl" Visibility="Hidden" Content="Player Name" HorizontalAlignment="Left" Margin="340,85,0,0" Grid.Row="2" VerticalAlignment="Top" Foreground="White" FontSize="16"/>
         <TextBox Name="JoinNameTxt" Visibility="Hidden"  HorizontalAlignment="Left" Height="31" Margin="448,85,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16"/>
+        <Button Content="Log Out" HorizontalAlignment="Left" Margin="35,216,0,0" VerticalAlignment="Top" Width="96" Name="LogoutButton" Click="LogoutButton_OnClick"/>
     </Grid>
 </Window>

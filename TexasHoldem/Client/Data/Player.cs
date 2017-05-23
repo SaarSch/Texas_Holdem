@@ -1,4 +1,6 @@
-﻿namespace Client.Data
+﻿using System.Collections.Generic;
+
+namespace Client.Data
 {
     public class Player
     {
@@ -7,5 +9,6 @@
         public int ChipsAmount;
         public string Avatar;
         public string[] PlayerHand;
+        public List<string> Messages = new List<string>();
     }
 }

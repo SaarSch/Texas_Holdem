@@ -1,10 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using Client.Data;
 using System.Web.Script.Serialization;
+using System.Windows.Media.Imaging;
 
 namespace Client
 {
@@ -13,28 +17,24 @@ namespace Client
     /// </summary>
     public partial class MainWindow
     {
-        private readonly UserData _loggedUser;
+        public UserData LoggedUser;
         public List<Room> RoomResults;
+        private bool _loggedIn;
 
         public MainWindow(UserData user)
         {
             RoomResults = new List<Room>();
             InitializeComponent();
             RoomsGrid.ItemsSource = RoomResults;
-            _loggedUser = user;
-            UpdateUserLabels(_loggedUser.Username, _loggedUser.Chips);
+            LoggedUser = user;
+            _loggedIn = true;
+            DataContext = LoggedUser;
+            UpdateAvatar(LoggedUser.AvatarPath);
         }
 
-        //TODO: add avatar update
-        public void UpdateUserLabels(string username, int chips)
+        public void UpdateAvatar(string path)
         {
-            usernameLabel.Content = username;
-            chipsLabel.Content = chips;
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@path, UriKind.Relative)));
         }
 
         private void PlayerCheckBoxChecked(object sender, RoutedEventArgs e)
@@ -49,7 +49,7 @@ namespace Client
 
         private RoomFilter SetFilter()
         {
-            var filter = new RoomFilter { User = _loggedUser.Username };
+            var filter = new RoomFilter { User = LoggedUser.Username };
             if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value)
             {
                 filter.PlayerName = PlayerNameTxt.Text;
@@ -150,11 +150,6 @@ namespace Client
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            JoinNameLbl.Visibility = Visibility.Hidden;
-            JoinNameTxt.Visibility = Visibility.Hidden;
-            Join.IsEnabled = false;
-            Spectate.IsEnabled = false;
-
             var filter = SetFilter();
 
             if (filter == null)
@@ -162,7 +157,6 @@ namespace Client
 
             const string controller = "Search";
             var data = new JavaScriptSerializer().Serialize(filter);
-
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
             var roomList = json.ToObject<RoomList>();
@@ -213,10 +207,10 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            var profileWindow = new ProfileWindow(_loggedUser, this);
-            Application.Current.MainWindow = profileWindow;
-            //this.Close();
-            profileWindow.Show();
+             var profile = new ProfileWindow(LoggedUser, this);
+            Application.Current.MainWindow = profile;
+            profile.Show();
+            Hide();
         }
 
         private void GameTypeCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -228,7 +222,7 @@ namespace Client
         {
             var room = new Room
             {
-                CreatorUserName = _loggedUser.Username,
+                CreatorUserName = LoggedUser.Username,
                 CreatorPlayerName = PlayerNameTxt_Copy.Text,
                 GameType = GameTypeCombobox_Copy.Text
             };
@@ -313,18 +307,17 @@ namespace Client
                 var chip = (int)chipsLabel.Content;
                 if (room.ChipPolicy != 0)
                 {
-                    chipsLabel.Content = chip - room.ChipPolicy;
+                   LoggedUser.Chips = chip - room.ChipPolicy;
                 }
                 else
                 {
-                    chipsLabel.Content = 0;
+                    LoggedUser.Chips = 0;
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var gameWindow = new GameWindow(PlayerNameTxt_Copy.Text, roomState, true);
+                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, true, this);
                 Application.Current.MainWindow = gameWindow;
 
-                //this.Close();
                 gameWindow.Show();
             }
             else
@@ -335,14 +328,23 @@ namespace Client
 
         private void RoomsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Join.IsEnabled = true;
-            JoinNameLbl.Visibility = Visibility.Visible;
-            JoinNameTxt.Visibility = Visibility.Visible;
+            if (RoomsGrid.SelectedIndex >= 0)
+            {
+                Join.IsEnabled = true;
+                JoinNameLbl.Visibility = Visibility.Visible;
+                JoinNameTxt.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Join.IsEnabled = false;
+                JoinNameLbl.Visibility = Visibility.Hidden;
+                JoinNameTxt.Visibility = Visibility.Hidden;
+            }
         }
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            string room = RoomResults[RoomsGrid.SelectedIndex].RoomName;
+            Room room = RoomResults[RoomsGrid.SelectedIndex];
             if (string.IsNullOrEmpty(JoinNameTxt.Text))
             {
                 MessageBox.Show("Player name cannot be empty!", "Error in join", MessageBoxButton.OK,
@@ -350,7 +352,7 @@ namespace Client
             }
             else
             {
-                var controller = "Room?userName=" + _loggedUser.Username + "&gameName=" + room +
+                var controller = "Room?userName=" + LoggedUser.Username + "&gameName=" + room.RoomName +
                                  "&playerName=" + JoinNameTxt.Text +"&option=join";
                 var ans = RestClient.MakeGetRequest(controller);
                 var json = JObject.Parse(ans);
@@ -360,24 +362,54 @@ namespace Client
                     var chip = (int)chipsLabel.Content;
                     if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
                     {
-                        chipsLabel.Content = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+                        LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
                     }
                     else
                     {
-                        chipsLabel.Content = 0;
+                        LoggedUser.Chips = 0;
                     }
                     MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    var gameWindow = new GameWindow(JoinNameTxt.Text, roomState, false);
+                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, false, this);
                     Application.Current.MainWindow = gameWindow;
-
-                    //this.Close();
                     gameWindow.Show();
                 }
                 else
                 {
                     MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var controller = "User?username=" + LoggedUser.Username + "&mode=logout";
+            var ans = RestClient.MakeGetRequest(controller);
+            ans = ans.Normalize();
+            if (ans != "\"\"")
+            {
+                MessageBox.Show(ans, "Error in logout", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                MessageBox.Show("Logged out successfully!", "Success", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                var login = new LoginWindow();
+                Application.Current.MainWindow = login;
+                _loggedIn = false;
+                Close();
+                login.Show();
+                
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (_loggedIn)
+            {
+                e.Cancel = true;
+                MessageBox.Show("Cannot exit before logging out!", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

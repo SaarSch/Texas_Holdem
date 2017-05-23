@@ -1,7 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Client.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Client
 {
@@ -10,8 +13,9 @@ namespace Client
     /// </summary>
     public partial class ProfileWindow
     {
-        private readonly UserData _user;
+        private UserData _user;
         private readonly MainWindow _mainWindow;
+        private string Picture;
 
         public ProfileWindow(UserData user, MainWindow mainWindow)
         {
@@ -21,11 +25,15 @@ namespace Client
             UsernameTxt.Text = user.Username;
             PasswordTxt.Text = user.Password;
             EmailTxt.Text = user.Email;
+            Picture = user.AvatarPath;
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
         }
 
         private void AvatarButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog 
+            Picture = _user.AvatarPath;
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            /* Create OpenFileDialog 
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
                 DefaultExt = ".png",
@@ -50,27 +58,68 @@ namespace Client
             else
             {
                 // handle
-            }
+            } */
         }
 
         // POST: api/User?username=elad
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             var controller = "User?username=" + _user.Username;
-            var data = "{\"username\":\"" + UsernameTxt.Text + "\"," +
-                          "\"password\":\"" + PasswordTxt.Text + "\"," +
-                          "\"email\":\"" + EmailTxt.Text + "\"}" /*"\"," +
-                                                    "\"avatar\":\"" + EmailTxt.Text + "\"}"*/;
+            var data = "{\"Username\":\"" + UsernameTxt.Text + "\"," +
+                          "\"Password\":\"" + PasswordTxt.Text + "\","
+                          + "\"AvatarPath\":\"" + Picture + "\"," +
+                       "\"Email\":\"" + EmailTxt.Text + "\"}";
             var ans = RestClient.MakePostRequest(controller, data);
-            if (ans == "\"\"")
+            var json = JObject.Parse(ans);
+            var tmpUser = json.ToObject<UserData>();
+            if (tmpUser.Message == null)
             {
-                MessageBox.Show("User edited succesfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                _mainWindow.UpdateUserLabels(UsernameTxt.Text, _user.Chips); //TODO: add avatar update
+                _user.Username = tmpUser.Username;
+                _user.Password = tmpUser.Password;
+                _user.Email = tmpUser.Email;
+                _user.AvatarPath = tmpUser.AvatarPath;
+                _mainWindow.UpdateAvatar(tmpUser.AvatarPath);
+                Close();
             }
             else
             {
-                MessageBox.Show(ans, "Error in edit", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(tmpUser.Message, "Error in edit profile", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {   
+            Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.MainWindow = _mainWindow;
+            _mainWindow.Show();
+        }
+
+        private void Opt1_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar1.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void Opt2_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar2.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void Opt3_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar3.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void Opt4_Click(object sender, RoutedEventArgs e)
+        {
+            Picture = "Resources/avatar4.png";
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
         }
     }
 }
