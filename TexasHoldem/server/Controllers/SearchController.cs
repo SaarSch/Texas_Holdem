@@ -28,7 +28,8 @@ namespace Server.Controllers
                         MinBet = rooms.ElementAt(i).GamePreferences.MinBet,
                         MinPlayers = rooms.ElementAt(i).GamePreferences.MinPlayers,
                         MaxPlayers = rooms.ElementAt(i).GamePreferences.MaxPlayers,
-                        SpectatingAllowed = rooms.ElementAt(i).GamePreferences.Spectating
+                        SpectatingAllowed = rooms.ElementAt(i).GamePreferences.Spectating,
+                        ChipPolicy = rooms.ElementAt(i).GamePreferences.ChipPolicy
                     };
                 }
             }
