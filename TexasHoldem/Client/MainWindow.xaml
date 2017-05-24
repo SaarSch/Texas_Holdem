@@ -39,7 +39,7 @@
                     </ComboBox>
                     <CheckBox Content="Buy-in Policy" HorizontalAlignment="Left" Margin="74,50,0,0" VerticalAlignment="Top" x:Name="BuyinPolicyCheckbox" Checked="BuyInPolicyChecked" Unchecked="BuyInPolicyChecked" Grid.Column="2"/>
                     <CheckBox Content="Chip Policy" HorizontalAlignment="Left" Margin="76,77,0,0" VerticalAlignment="Top" x:Name="ChipPolicyCheckbox" Checked="ChipPolicyCheckbox_Checked" Unchecked="ChipPolicyCheckbox_Checked" Grid.Column="2"/>
-                    <TextBox x:Name ="ChipPolicyTxt" Text="100" HorizontalAlignment="Left" Height="21" Margin="174,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="86" IsEnabled="False" Grid.Column="2"/>
+                    <TextBox x:Name ="ChipPolicyTxt" Text="1000" HorizontalAlignment="Left" Height="21" Margin="174,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="86" IsEnabled="False" Grid.Column="2"/>
                     <CheckBox Content="Min. Bet" HorizontalAlignment="Left" Margin="284,10,0,0" VerticalAlignment="Top" x:Name="MinBetCheckbox" Checked="MinBetCheckbox_Checked" Unchecked="MinBetCheckbox_Checked" Grid.Column="2"/>
                     <CheckBox Content="Min. Players" HorizontalAlignment="Left" Margin="284,36,0,0" VerticalAlignment="Top" x:Name="MinPlayersCheckbox" Checked="MinPlayersCheckbox_Checked" Unchecked="MinPlayersCheckbox_Checked" Grid.Column="2"/>
                     <CheckBox Content="Max. Players" HorizontalAlignment="Left" Margin="284,59,0,0" VerticalAlignment="Top" x:Name="MaxPlayersCheckbox" Checked="MaxPlayersCheckbox_Checked" Unchecked="MaxPlayersCheckbox_Checked" Grid.Column="2"/>
@@ -76,7 +76,7 @@
                     </ComboBox>
                     <Label Content="Buy-in Policy" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
                     <Label Content="Chip Policy" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                    <TextBox x:Name ="ChipPolicyTxt_Copy" Text="0" HorizontalAlignment="Left" Height="21" Margin="65,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" Grid.Column="1"/>
+                    <TextBox x:Name ="ChipPolicyTxt_Copy" Text="1000" HorizontalAlignment="Left" Height="21" Margin="65,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="87" Grid.Column="1"/>
                     <Label Content="Min. Bet" HorizontalAlignment="Left" Margin="178,11,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                     <Label Content="Min. Players" HorizontalAlignment="Left" Margin="178,35,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                     <Label Content="Max. Players" HorizontalAlignment="Left" Margin="178,59,0,0" VerticalAlignment="Top" Grid.Column="1"/>
