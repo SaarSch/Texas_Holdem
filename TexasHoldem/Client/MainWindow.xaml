@@ -11,9 +11,9 @@
     </Window.Background>
     <Grid Margin="0,0,17.6,15.4">
         <Grid.RowDefinitions>
-            <RowDefinition Height="353*"/>
-            <RowDefinition Height="67*"/>
-            <RowDefinition Height="150*"/>
+            <RowDefinition Height="401*"/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="143*"/>
         </Grid.RowDefinitions>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="150" Margin="176,10,0,0" VerticalAlignment="Top" Width="773">
             <TabItem Header="Search rooms" Margin="-2,2,-2,0">
@@ -95,9 +95,13 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Image Name="ProfilePic"  HorizontalAlignment="Left" Height="100" Margin="31,34,0,0" VerticalAlignment="Top" Width="100" Source="Resources/profilePicture.png" Stretch="Fill"/>
-        <Label Name="usernameLabel"  Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="31,134,0,0" VerticalAlignment="Top" Foreground="White" Width="100" FontWeight="Bold" Height="27"/>
-        <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="35,190,0,0" VerticalAlignment="Top" Width="96" x:Name="EditProfileButton" Click="EditProfileButton_Click"/>
+        <Image Name="ProfilePic"  HorizontalAlignment="Left" Height="100" Margin="31,85,0,0" VerticalAlignment="Top" Width="100" Source="Resources/profilePicture.png" Stretch="Fill"/>
+        <Label Name="usernameLabel"  Content="{Binding Path=Username, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center"  HorizontalAlignment="Left" Margin="17,190,0,0" VerticalAlignment="Top" Foreground="White" Width="131" Height="33" FontWeight="Bold" FontSize="16">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="25,305,0,0" VerticalAlignment="Top" Width="115" x:Name="EditProfileButton" Click="EditProfileButton_Click" Background="#FFE29797" BorderBrush="#FF9E1616" Height="23" FontWeight="Bold" FontSize="14"/>
         <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="293" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}" SelectionChanged="RoomsGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding RoomName}" Header="Name"/>
@@ -111,10 +115,18 @@
                 <DataGridTextColumn Binding="{Binding SpectatingAllowed}"  Header="Spectating?"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="Chips: " Margin="31,160,883.4,0" VerticalAlignment="Top" Foreground="White"/>
-        <Label Name="chipsLabel" Content="{Binding Path=Chips, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="79,161,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Width="54"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="263" Margin="10,254,0,0" Stroke="Black" VerticalAlignment="Top" Width="147" Grid.RowSpan="3" Opacity="0.7"/>
-        <TextBlock x:Name="newsTextBlock" TextWrapping="Wrap" Margin="17,256,811.4,31" Grid.RowSpan="3">
+        <Label Content="Chips: " Margin="17,231,869.4,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" Height="32" FontSize="14">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <Label Name="chipsLabel" Content="{Binding Path=Chips, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="95,231,0,0" VerticalAlignment="Top" Foreground="White" Height="32" Width="53" FontStyle="Italic" FontSize="14">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="95" Margin="10,372,0,0" Stroke="Black" VerticalAlignment="Top" Width="147" Grid.RowSpan="3" Opacity="0.7"/>
+        <TextBlock x:Name="newsTextBlock" TextWrapping="Wrap" Margin="17,372,811.4,77" Grid.RowSpan="3">
             <TextBlock.RenderTransform>
                 <TranslateTransform x:Name="translate" />
             </TextBlock.RenderTransform>
@@ -123,18 +135,29 @@
                     <BeginStoryboard>
                         <Storyboard RepeatBehavior="Forever">
                             <DoubleAnimation 
-                                From="0" To="30"
+                                From="0" To="60"
                                 Storyboard.TargetName="translate" 
                                 Storyboard.TargetProperty="Y"
                                 Duration="0:0:5" />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
-            </TextBlock.Triggers><Run Text="Server"/><Run Text=" News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News News"/></TextBlock>
+            </TextBlock.Triggers><Run Text="News News News News"/></TextBlock>
         <Button Name="Join" IsEnabled="False" Content="Join!" HorizontalAlignment="Left" Height="31" Margin="800,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616" Click="Join_Click"/>
         <Button Name="Spectate" IsEnabled="False" Content="Spectate!" HorizontalAlignment="Left" Height="31" Margin="642,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
-        <Label Name ="JoinNameLbl" Visibility="Hidden" Content="Player Name" HorizontalAlignment="Left" Margin="340,85,0,0" Grid.Row="2" VerticalAlignment="Top" Foreground="White" FontSize="16"/>
+        <Label Name ="JoinNameLbl" Visibility="Hidden" Content="Player Name" HorizontalAlignment="Left" Margin="340,85,0,0" Grid.Row="2" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="31" Width="99"/>
         <TextBox Name="JoinNameTxt" Visibility="Hidden"  HorizontalAlignment="Left" Height="31" Margin="448,85,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16"/>
-        <Button Content="Log Out" HorizontalAlignment="Left" Margin="35,216,0,0" VerticalAlignment="Top" Width="96" Name="LogoutButton" Click="LogoutButton_OnClick"/>
+        <Button Content="Log Out" HorizontalAlignment="Left" Margin="25,336,0,0" VerticalAlignment="Top" Width="115" Name="LogoutButton" Click="LogoutButton_OnClick" Background="#FFE29797" BorderBrush="#FF9E1616" Height="23" FontWeight="Bold" FontSize="14"/>
+        <Label Content="League: " Margin="17,263,869.4,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" Height="31" FontSize="14">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <Label Name="LeagueLabel" Content="{Binding Rank, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="95,263,0,0" VerticalAlignment="Top" Foreground="White" Height="31" Width="53" FontSize="14" FontStyle="Italic">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+        <Image HorizontalAlignment="Left" Height="62" Margin="10,18,0,0" VerticalAlignment="Top" Width="140" Source="Resources/gamelogo.png"/>
     </Grid>
 </Window>

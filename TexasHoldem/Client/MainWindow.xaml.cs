@@ -315,7 +315,7 @@ namespace Client
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, true, this);
+                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, this);
                 Application.Current.MainWindow = gameWindow;
 
                 gameWindow.Show();
@@ -370,7 +370,7 @@ namespace Client
                     }
                     MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, false, this);
+                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, this);
                     Application.Current.MainWindow = gameWindow;
                     gameWindow.Show();
                 }

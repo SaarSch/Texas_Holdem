@@ -29,31 +29,29 @@ namespace Client
         public Label[] BetLabels;
         public Image[] CommunityCards;
         public Image[] Avatars;
+        public Image[][] HandCards;
         public Rectangle[] TurnSymbol;
-        public bool Creator;
         public MainWindow Main;
         private bool _playing;
         private bool _got_win_msg;
         private bool _first_play;
 
-        public GameWindow(UserData user, string self, RoomState state, bool creator, MainWindow main)
+        public GameWindow(UserData user, string self, RoomState state, MainWindow main)
         {
             InitializeComponent();
             Main = main;
             SelfPlayerName = self;
             User = user;
-            CountPlayers = 1;
             RoomName = state.RoomName;
-            Creator = creator;
             RoomNameLbl.Content = RoomName;
+            PlayerMap = new Dictionary<string, int>();
+            ChatComboBoxContent = new List<string>();
             _playing = true;
             _got_win_msg = false;
             _first_play = true;
             InitGuiArrays();
-            PlayerMap = new Dictionary<string, int>();
-            ChatComboBoxContent = new List<string> {"ALL"};
-            PlayerMap.Add(SelfPlayerName, CountPlayers);
             UpdateRoom(state);
+            UpdateChat(state);
         }
 
         private void InitGuiArrays()
@@ -64,6 +62,12 @@ namespace Client
             CommunityCards = new[] { Com1, Com2, Com3, Com4, Com5 };
             Avatars = new[] { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8, Avatar9 };
             TurnSymbol = new[] { RecP1, RecP2, RecP3, RecP4, RecP5, RecP6, RecP7, RecP8, RecP9 };
+            HandCards = new[]
+            {
+                new[] {P1Card1, P1Card2}, new[] { P2Card1, P2Card2 }, new[] { P3Card1, P3Card2 },
+                new[] { P4Card1, P4Card2 },  new[] { P5Card1, P5Card2 },  new[] { P6Card1, P6Card2 },
+                new[] { P7Card1, P7Card2 },  new[] { P8Card1, P8Card2 },  new[] { P9Card1, P9Card2 }
+            };
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -79,41 +83,50 @@ namespace Client
             if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg && !_first_play)
             {
                 MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
-                PlayerMap.Clear();
-                PlayerMap.Add(SelfPlayerName, CountPlayers);
                 _got_win_msg = true;
+                foreach (Rectangle r in TurnSymbol)
+                {
+                    r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
+                }
             }
+        }
+
+        private void StartOfGameUpdate(RoomState state)
+        {
             if (state.IsOn == false)
             {
                 Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Visible);
-            }
-            else
-            {
-                Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
-                _got_win_msg = false;
-                _first_play = false;
-            }
-            if (state.IsOn == false && Creator)
-            {
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
             }
             else
             {
+                Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
+                _got_win_msg = false;
+                _first_play = false;
             }
         }
 
         private void UpdateRoom(RoomState state)
         {
-            EndOfGameUpdate(state);
-            UpdateChat(state);
+            StartOfGameUpdate(state);
 
             foreach (Rectangle r in TurnSymbol)
             {
                 r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
             }
 
-            foreach (var p  in state.AllPlayers)
+            if (!state.IsOn)
+            {
+                PlayerMap.Clear();
+                CountPlayers = 1;
+                ChatComboBoxContent.Clear();
+                ChatComboBoxContent.Add("ALL");
+                PlayerMap.Add(SelfPlayerName, CountPlayers);
+            }
+            
+
+            foreach (var p in state.AllPlayers)
             {
                 if (!PlayerMap.ContainsKey(p.PlayerName))
                 {
@@ -124,7 +137,8 @@ namespace Client
                 PlayerMap.TryGetValue(p.PlayerName, out int playerVal);
                 if (p.PlayerName == state.CurrentPlayer && state.IsOn)
                 {
-                    TurnSymbol[playerVal - 1].Dispatcher.Invoke(()=>TurnSymbol[playerVal - 1].Fill = System.Windows.Media.Brushes.Red);
+                    TurnSymbol[playerVal - 1]
+                        .Dispatcher.Invoke(() => TurnSymbol[playerVal - 1].Fill = System.Windows.Media.Brushes.Red);
                 }
                 if (p.PlayerName == SelfPlayerName && state.IsOn == false &&
                     !string.IsNullOrEmpty(state.CurrentWinners))
@@ -135,38 +149,60 @@ namespace Client
                 {
                     UpdatePlayer(playerVal, p);
                 }
+
+                UpdateCommunityCards(state.CommunityCards);
+                if (!state.IsOn)
+                {
+                    ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.ItemsSource = ChatComboBoxContent);
+                    ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
+                }
             }
-            UpdateCommunityCards(state.CommunityCards);
-            ChatComboBox.Dispatcher.Invoke(()=> ChatComboBox.ItemsSource = ChatComboBoxContent);
-            ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
+
+            ResetPlayers(CountPlayers);
             UpdateBetGui(state);
 
-          //  if ((state.IsOn == false && !Creator) || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
-          //  {
+            EndOfGameUpdate(state);
+
+
+            if (!state.IsOn || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
+            {
                 System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
                 {
-                    StatusRequest();
+                    StatusRequest(true);
                     timer.Dispose();
                 },
                 null, 2000, System.Threading.Timeout.Infinite);
-        //    }
+            }
         }
 
-        private void StatusRequest()
+        private void StatusRequest(bool roomUpdate)
         {
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName;
             var ans = RestClient.MakePutRequest(controller, "");
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                UpdateRoom(roomState);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    if (roomUpdate)
+                        UpdateRoom(roomState);
+                    else
+                        UpdateChat(roomState);
+                }
+                else
+                {
+                    if(_playing)
+                        MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                if(_playing)
+                       MessageBox.Show("An error has occurred.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            
         }
 
         private void UpdatePlayer(int i, Player p)
@@ -177,8 +213,22 @@ namespace Client
             Avatars[i - 1].Dispatcher.Invoke(() => Avatars[i - 1].Source = new BitmapImage(new Uri(@p.Avatar, UriKind.Relative)));
             if (p.PlayerName == SelfPlayerName)
             {
-                UpdateSelfCards(p.PlayerHand);
                 BetSlide.Dispatcher.Invoke(()=> BetSlide.Maximum = p.ChipsAmount);
+            }
+            UpdateCards(i, p.PlayerHand);
+        }
+
+        private void ResetPlayers(int startIndex)
+        {
+            for (int i = startIndex; i < NameLabels.Length; i++)
+            {
+                NameLabels[i].Dispatcher.Invoke(() => NameLabels[i].Content = "PlayerName");
+                ChipLabels[i].Dispatcher.Invoke(() => ChipLabels[i].Content = 0);
+                BetLabels[i].Dispatcher.Invoke(() => BetLabels[i].Content = "");
+                Avatars[i]
+                    .Dispatcher.Invoke(() => Avatars[i].Source =
+                        new BitmapImage(new Uri(@"Resources/profilePicture.png", UriKind.Relative)));
+                UpdateCards(i+1, null);
             }
         }
 
@@ -204,19 +254,20 @@ namespace Client
             }
         }
 
-        private void UpdateSelfCards(string[] hand)
+        private void UpdateCards(int i, string[] hand)
         {
-            if (hand[0] != null && hand[1] != null)
+            if (hand!=null && hand[0] != null && hand[1] != null)
             {
-                P1Card1.Dispatcher.Invoke(()=> P1Card1.Source = new BitmapImage(new Uri(@"Resources/_" + hand[0] + ".png", UriKind.Relative)));
-                P1Card2.Dispatcher.Invoke(()=> P1Card2.Source = new BitmapImage(new Uri(@"Resources/_" + hand[1] + ".png", UriKind.Relative)));
+                HandCards[i-1][0].Dispatcher.Invoke(()=> HandCards[i-1][0].Source = new BitmapImage(new Uri(@"Resources/_" + hand[0] + ".png", UriKind.Relative)));
+                HandCards[i-1][1].Dispatcher.Invoke(()=> HandCards[i-1][1].Source = new BitmapImage(new Uri(@"Resources/_" + hand[1] + ".png", UriKind.Relative)));
             }
             else
             {
-                P1Card1.Dispatcher.Invoke(() => P1Card1.Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
-                P1Card2.Dispatcher.Invoke(() => P1Card2.Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                HandCards[i - 1][0].Dispatcher.Invoke(() => HandCards[i - 1][0].Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                HandCards[i - 1][1].Dispatcher.Invoke(() => HandCards[i - 1][1].Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
             }
         }
+
 
         private void UpdateCommunityCards(string[] cards)
         {
@@ -248,7 +299,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-     //           UpdateRoom(roomState);
+                UpdateRoom(roomState);
             }
             else
             {
@@ -264,7 +315,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-      //          UpdateRoom(roomState);
+                UpdateRoom(roomState);
             }
             else
             {
@@ -280,7 +331,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-    //            UpdateRoom(roomState);
+                UpdateRoom(roomState);
             }
             else
             {
@@ -294,12 +345,7 @@ namespace Client
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
-            {
-                Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
-       //         UpdateRoom(roomState);
-            }
-            else
+            if (roomState.Messege != null)
             {
                 MessageBox.Show(roomState.Messege, "Cannot start game", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -335,6 +381,18 @@ namespace Client
                 MessageBox.Show("Cannot exit before leaving the game!", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
+            else
+            {
+                var controller = "User?userName=" + User.Username;
+                var ans = RestClient.MakePutRequest(controller,"");
+                var json = JObject.Parse(ans);
+                var data = json.ToObject<UserData>();
+                if (data.Message == null)
+                {
+                    User.Chips = data.Chips;
+                    User.Rank = data.Rank;
+                }
+            }
         }
 
         private void UpdateChat(RoomState state)
@@ -351,6 +409,13 @@ namespace Client
                 }
             }
             ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
+            System.Threading.Timer timer = null;
+            timer = new System.Threading.Timer((obj) =>
+                    {
+                        StatusRequest(false);
+                        timer.Dispose();
+                    },
+                    null, 2000, System.Threading.Timeout.Infinite);
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
@@ -374,17 +439,8 @@ namespace Client
                     controller = "Message?room=" + RoomName + "&sender=" + SelfPlayerName +
                                  "&reciver=" + ChatComboBoxContent[ChatComboBox.SelectedIndex] + "&message=" + msg + "&status=player";
                 }
-                var ans = RestClient.MakeGetRequest(controller);
-                var json = JObject.Parse(ans);
-                var roomState = json.ToObject<RoomState>();
-                if (roomState.Messege == null)
-                {
-                    UpdateChat(roomState);
-                }
-                else
-                {
-                    MessageBox.Show(roomState.Messege, "Cannot send message", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                Message.Text = "";
+                RestClient.MakeGetRequest(controller);
             }
         }
     }

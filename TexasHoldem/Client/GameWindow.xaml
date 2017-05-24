@@ -19,11 +19,33 @@
                 <ImageBrush ImageSource="Resources/table_pic.png"/>
             </Image.OpacityMask>
         </Image>
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="165" Opacity="0.5"/>
-        <Rectangle Name="RecP1" Fill="White" HorizontalAlignment="Left" Height="44" Margin="275,22,0,0" Stroke="Red" StrokeThickness="5" VerticalAlignment="Top" Width="151" Opacity="0.5"/>
-        <Rectangle Name="RecP2" Fill="White" HorizontalAlignment="Left" Height="44" Margin="468,21,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5"/>
-        <Rectangle Name="RecP3" Fill="White" HorizontalAlignment="Left" Height="44" Margin="650,21,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5"/>
-        <Rectangle Name="RecP4" Fill="White" HorizontalAlignment="Left" Height="44" Margin="898,105,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
+        <Image HorizontalAlignment="Left" Height="311" Margin="204,140,0,0" VerticalAlignment="Top" Width="638" Source="Resources/table_bg.png" Grid.RowSpan="2"/>
+
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="165" Opacity="0.5">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Rectangle Name="RecP1" Fill="White" HorizontalAlignment="Left" Height="44" Margin="275,22,0,0"  StrokeThickness="5" VerticalAlignment="Top" Width="151" Opacity="0.5">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Rectangle Name="RecP2" Fill="White" HorizontalAlignment="Left" Height="44" Margin="468,21,0,0" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Rectangle Name="RecP3" Fill="White" HorizontalAlignment="Left" Height="44" Margin="650,21,0,0"  StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Rectangle Name="RecP4" Fill="White" HorizontalAlignment="Left" Height="44" Margin="898,105,0,0"  StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
         <Slider Orientation="Vertical" Name="BetSlide" IsEnabled="False" Margin="1071,22,23,0" VerticalAlignment="Top" Minimum="1" Maximum="100" Value="1" ValueChanged="Slider_ValueChanged" Height="637" Grid.RowSpan="2"/>
         <Button Name="Bet" Content="Bet" IsEnabled="False" HorizontalAlignment="Left" Margin="973,374,0,0" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Bet_Click"/>
         <Button Name="Fold" Content="Fold" IsEnabled="False" HorizontalAlignment="Left" Margin="973,428,0,0" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Fold_Click"/>
@@ -41,31 +63,31 @@
         <Image Name="Avatar4" HorizontalAlignment="Left" Height="76" Margin="937,21,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png" Grid.Row="1"/>
         <Image Name="P4Card1" HorizontalAlignment="Left" Height="50" Margin="845,29,0,0" VerticalAlignment="Top" Width="35" Source="Resources/back.png" Grid.Row="1"/>
         <Image Name="P4Card2" HorizontalAlignment="Left" Height="50" Margin="885,29,0,0" VerticalAlignment="Top" Width="38" Source="Resources/back.png" Grid.Row="1"/>
-        <Label Name="P4Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="936,104,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="940,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Label Name="C4Lbl" Content="0" HorizontalAlignment="Left" Margin="977,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="P4Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="898,104,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1" Width="148"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="946,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="C4Lbl" Content="0" HorizontalAlignment="Left" Margin="983,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
         <Image Name="Avatar5" HorizontalAlignment="Left" Height="76" Margin="751,194,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png" Grid.Row="1"/>
         <Image Name="P5Card2" HorizontalAlignment="Left" Height="50" Margin="791,139,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png" Grid.Row="1"/>
         <Image Name="P5Card1" HorizontalAlignment="Left" Height="50" Margin="752,139,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png" Grid.Row="1"/>
         <Image Name="Avatar3" HorizontalAlignment="Left" Height="76" Margin="685,71,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
         <Image Name="P3Card2" HorizontalAlignment="Left" Height="50" Margin="723,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
         <Image Name="P3Card1" HorizontalAlignment="Left" Height="50" Margin="684,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
-        <Label Name="P3Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="688,22,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="694,38,0,0" VerticalAlignment="Top"/>
-        <Label Name="C3Lbl" Content="0" HorizontalAlignment="Left" Margin="729,38,0,0" VerticalAlignment="Top"/>
+        <Label Name="P3Lbl" HorizontalContentAlignment="Center" Content="PlayerName" HorizontalAlignment="Left" Margin="656,22,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="139"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="698,38,0,0" VerticalAlignment="Top"/>
+        <Label Name="C3Lbl" Content="0" HorizontalAlignment="Left" Margin="733,38,0,0" VerticalAlignment="Top"/>
         <Image Name="P9Card2" HorizontalAlignment="Left" Height="50" Margin="193,29,0,0" VerticalAlignment="Top" Width="37" Source="Resources/back.png" Grid.Row="1"/>
         <Image Name="Avatar2" HorizontalAlignment="Left" Height="76" Margin="503,71,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
         <Image Name="P2Card2" HorizontalAlignment="Left" Height="50" Margin="543,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
         <Image Name="P2Card1" HorizontalAlignment="Left" Height="50" Margin="503,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
-        <Label Name="P2Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="504,22,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="512,38,0,0" VerticalAlignment="Top"/>
-        <Label Name="C2Lbl" Content="0" HorizontalAlignment="Left" Margin="547,38,0,0" VerticalAlignment="Top"/>
+        <Label Name="P2Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="468,22,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="150"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="516,38,0,0" VerticalAlignment="Top"/>
+        <Label Name="C2Lbl" Content="0" HorizontalAlignment="Left" Margin="551,38,0,0" VerticalAlignment="Top"/>
         <Image Name="Avatar1" HorizontalAlignment="Left" Height="76" Margin="312,71,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
         <Image Name="P1Card2" HorizontalAlignment="Left" Height="50" Margin="351,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
         <Image Name="P1Card1" HorizontalAlignment="Left" Height="50" Margin="312,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
-        <Label Name="P1Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="310,22,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="316,40,0,0" VerticalAlignment="Top"/>
-        <Label Name="C1Lbl" Content="0" HorizontalAlignment="Left" Margin="351,40,0,0" VerticalAlignment="Top"/>
+        <Label Name="P1Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="283,22,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="133" Foreground="White"/>
+        <Label Content="Chips:" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="275,40,0,0" VerticalAlignment="Top" Width="91" Foreground="White"/>
+        <Label Name="C1Lbl" Content="0" HorizontalAlignment="Left" Margin="359,40,0,0" VerticalAlignment="Top" Foreground="White"/>
         <Image Name="Com2" HorizontalAlignment="Left" Height="50" Margin="465,47,0,0" VerticalAlignment="Top" Width="37" Source="Resources/back.png" Grid.Row="1"/>
         <Image Name="Com1" HorizontalAlignment="Left" Height="50" Margin="418,47,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png" Grid.Row="1"/>
         <Image Name="Com3" HorizontalAlignment="Left" Height="50" Margin="512,47,0,0" VerticalAlignment="Top" Width="37" Source="Resources/back.png" Grid.Row="1"/>
@@ -84,52 +106,73 @@
                 </LinearGradientBrush>
             </ComboBox.Background>
         </ComboBox>
-        <Rectangle Name="RecP5" Fill="White" HorizontalAlignment="Left" Height="44" Margin="714,276,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
-        <Label Name="P5Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="752,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="756,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Label Name="C5Lbl" Content="0" HorizontalAlignment="Left" Margin="788,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Rectangle Name="RecP6" Fill="White" HorizontalAlignment="Left" Height="44" Margin="547,276,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
-        <Label Name="P6Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="585,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="589,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Label Name="C6Lbl" Content="0" HorizontalAlignment="Left" Margin="622,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Rectangle Name="RecP7" Fill="White" HorizontalAlignment="Left" Height="44" Margin="374,276,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
-        <Label Name="P7Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="412,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="416,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Label Name="C7Lbl" Content="0" HorizontalAlignment="Left" Margin="449,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Rectangle Name="RecP8" Fill="White" HorizontalAlignment="Left" Height="44" Margin="202,277,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
-        <Label Name="P8Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="240,276,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="244,292,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Label Name="C8Lbl" Content="0" HorizontalAlignment="Left" Margin="277,292,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Rectangle Name="RecP9" Fill="White" HorizontalAlignment="Left" Height="44" Margin="16,105,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1"/>
-        <Label Name="P9Lbl" Content="PlayerName" HorizontalAlignment="Left" Margin="54,104,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1"/>
-        <Label Content="Chips:" HorizontalAlignment="Left" Margin="58,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <Label Name="C9Lbl" Content="0" HorizontalAlignment="Left" Margin="91,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Rectangle Name="RecP5" Fill="White" HorizontalAlignment="Left" Height="44" Margin="714,276,0,0"  StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Name="P5Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="714,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1" Width="150"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="762,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="C5Lbl" Content="0" HorizontalAlignment="Left" Margin="794,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Rectangle Name="RecP6" Fill="White" HorizontalAlignment="Left" Height="44" Margin="547,276,0,0"  StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Name="P6Lbl" HorizontalContentAlignment="Center" Content="PlayerName" HorizontalAlignment="Left" Margin="551,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1" Width="146"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="599,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="C6Lbl" Content="0" HorizontalAlignment="Left" Margin="632,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Rectangle Name="RecP7" Fill="White" HorizontalAlignment="Left" Height="44" Margin="374,276,0,0" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Name="P7Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="374,275,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1" Width="150"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="422,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="C7Lbl" Content="0" HorizontalAlignment="Left" Margin="455,291,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Rectangle Name="RecP8" Fill="White" HorizontalAlignment="Left" Height="44" Margin="202,277,0,0" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Name="P8Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="202,276,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1" Width="150"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="254,292,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="C8Lbl" Content="0" HorizontalAlignment="Left" Margin="287,292,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Rectangle Name="RecP9" Fill="White" HorizontalAlignment="Left" Height="44" Margin="16,105,0,0" StrokeThickness="5" VerticalAlignment="Top" Width="150" Opacity="0.5" Grid.Row="1">
+            <Rectangle.Effect>
+                <BlurEffect/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label Name="P9Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="16,104,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.Row="1" Width="150"/>
+        <Label Content="Chips:" HorizontalAlignment="Left" Margin="64,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Name="C9Lbl" Content="0" HorizontalAlignment="Left" Margin="101,120,0,0" VerticalAlignment="Top" Grid.Row="1"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="226,118,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png"/>
-        <Label Name="Bet1" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="242,127,0,0" VerticalAlignment="Top" Foreground="White" Width="42"/>
+        <Label Name="Bet1" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="242,127,0,0" VerticalAlignment="Top" Foreground="White" Width="42"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="426,118,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png"/>
-        <Label x:Name="Bet2" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="442,127,0,0" VerticalAlignment="Top" Foreground="White" Width="42"/>
+        <Label x:Name="Bet2" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="442,127,0,0" VerticalAlignment="Top" Foreground="White" Width="42"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="608,118,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png"/>
-        <Label x:Name="Bet3" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="624,127,0,0" VerticalAlignment="Top" Foreground="White" Width="42"/>
+        <Label x:Name="Bet3" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="624,127,0,0" VerticalAlignment="Top" Foreground="White" Width="42"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="869,183,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.RowSpan="2"/>
-        <Label x:Name="Bet4" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="885,192,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.RowSpan="2"/>
+        <Label x:Name="Bet4" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="885,192,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.RowSpan="2"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="826,154,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.Row="1"/>
-        <Label x:Name="Bet5" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="842,163,0,0" VerticalAlignment="Top" Foreground="White" Width="42" RenderTransformOrigin="1.667,1.788" Grid.Row="1"/>
+        <Label x:Name="Bet5" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="842,163,0,0" VerticalAlignment="Top" Foreground="White" Width="42" RenderTransformOrigin="1.667,1.788" Grid.Row="1"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="656,185,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.Row="1"/>
-        <Label x:Name="Bet6" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="672,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
+        <Label x:Name="Bet6" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="672,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="484,185,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.Row="1"/>
-        <Label x:Name="Bet7" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="500,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
+        <Label x:Name="Bet7" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="500,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="316,185,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.Row="1"/>
-        <Label x:Name="Bet8" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="332,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
+        <Label x:Name="Bet8" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="332,194,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.Row="1"/>
         <Image HorizontalAlignment="Left" Height="50" Margin="108,183,0,0" VerticalAlignment="Top" Width="100" Source="Resources/chip.png" Grid.RowSpan="2"/>
-        <Label x:Name="Bet9" Content="?" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="124,192,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.RowSpan="2"/>
+        <Label x:Name="Bet9" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="124,192,0,0" VerticalAlignment="Top" Foreground="White" Width="42" Grid.RowSpan="2"/>
         <Button Name="Start" Visibility="Visible" Content="Start!" HorizontalAlignment="Left" Margin="859,25,0,0" VerticalAlignment="Top" Width="90" Height="33" Click="Start_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
         <Button Name="Leave" Content="Leave" HorizontalAlignment="Left" Margin="958,25,0,0" VerticalAlignment="Top" Width="90" Height="33" Click="Leave_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
-        <ScrollViewer Name="ChatScroll" HorizontalAlignment="Left" Height="78" Margin="16,328,0,0" Grid.Row="1" VerticalAlignment="Top" Width="943">
+        <ScrollViewer Name="ChatScroll" HorizontalAlignment="Left" Height="62" Margin="16,344,0,0" Grid.Row="1" VerticalAlignment="Top" Width="943">
             <TextBlock Name="Chat" TextWrapping="Wrap" Width="931" Foreground="Black" Opacity="0.5" FontSize="16">
                 <TextBlock.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFD69797" Offset="0"/>
                         <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="#FF8D5757"/>
                     </LinearGradientBrush>
                 </TextBlock.Background>
             </TextBlock>
