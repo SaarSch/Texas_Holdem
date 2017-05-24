@@ -158,7 +158,7 @@
         <Button Name="Start" Visibility="Visible" Content="Start!" HorizontalAlignment="Left" Margin="859,25,0,0" VerticalAlignment="Top" Width="90" Height="33" Click="Start_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
         <Button Name="Leave" Content="Leave" HorizontalAlignment="Left" Margin="958,25,0,0" VerticalAlignment="Top" Width="90" Height="33" Click="Leave_Click"  Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616"/>
         <ScrollViewer Name="ChatScroll" HorizontalAlignment="Left" Height="62" Margin="150,344,0,0" Grid.Row="1" VerticalAlignment="Top" Width="809">
-            <TextBlock Name="Chat" TextWrapping="Wrap" Width="835" Foreground="Black" Opacity="0.5" FontSize="16">
+            <TextBlock Name="Chat" Text="{Binding  Path=Msg, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="835" Foreground="Black" Opacity="0.5" FontSize="16">
                 <TextBlock.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFD69797" Offset="0"/>

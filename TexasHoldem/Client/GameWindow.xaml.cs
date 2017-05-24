@@ -11,13 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Image = System.Windows.Controls.Image;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Client.Annotations;
 
 namespace Client
 {
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow
+    public partial class GameWindow : INotifyPropertyChanged
     {
         public string RoomName;
         public string SelfPlayerName;
@@ -38,6 +41,26 @@ namespace Client
         private bool _got_win_msg;
         private bool _first_play;
         private bool _me;
+        private string _msg;
+
+        public string Msg
+        {
+            get { return _msg; }
+            set
+            {
+                _msg = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    
 
 
         public GameWindow(UserData user, string self, RoomState state, MainWindow main)
@@ -56,6 +79,7 @@ namespace Client
             _me = false;
             InitGuiArrays();
             UpdateRoom(state);
+            DataContext = this;
             UpdateChat(state);
         }
 
@@ -156,7 +180,7 @@ namespace Client
                     UpdatePlayer(playerVal, p);
                 }
 
-                UpdateCommunityCards(state.CommunityCards, state.IsOn);
+                UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners!=null && state.CurrentWinners !=""));
                 if (!state.IsOn)
                 {
                     ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.ItemsSource = ChatComboBoxContent);
@@ -190,7 +214,7 @@ namespace Client
             {
                 var json = JObject.Parse(ans);
                 var roomState = json.ToObject<RoomState>();
-                if (roomState.Messege == null)
+                if (roomState.Messege == null && roomState.RoomName == RoomName)
                 {
                     if (roomUpdate)
                         UpdateRoom(roomState);
@@ -254,9 +278,11 @@ namespace Client
 
         private void UpdateBetGui(RoomState state)
         {
-            if (SelfPlayerName == state.CurrentPlayer && state.IsOn &&!_me)
+            if (SelfPlayerName == state.CurrentPlayer && state.IsOn)
             {
-                _me = true;
+                if (!_me)
+                {
+                 _me = true;
                 BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = true);
                 BetSlide.Dispatcher.Invoke(() => BetSlide.Value = 1);
                 CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Content = 1);
@@ -264,11 +290,13 @@ namespace Client
                 Bet.Dispatcher.Invoke(() => Bet.IsEnabled = true);
                 Call.Dispatcher.Invoke(() => Call.IsEnabled = true);
                 Fold.Dispatcher.Invoke(() => Fold.IsEnabled = true);
+                }
             }
             else
             {
                 _me = false;
                 BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = false);
+                BetSlide.Dispatcher.Invoke(() => BetSlide.Value = 1);
                 CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Visibility = Visibility.Hidden);
                 Bet.Dispatcher.Invoke(() => Bet.IsEnabled = false);
                 Call.Dispatcher.Invoke(() => Call.IsEnabled = false);
@@ -314,9 +342,9 @@ namespace Client
         }
 
 
-        private void UpdateCommunityCards(string[] cards, bool isOn)
+        private void UpdateCommunityCards(string[] cards, bool isOn, bool gameOver)
         {
-            if (!isOn)
+            if (!isOn && !gameOver)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -455,18 +483,21 @@ namespace Client
 
         private void UpdateChat(RoomState state)
         {
-            Chat.Dispatcher.Invoke(() => Chat.Text = "");
+            var tmpMsg = "";
+ //           Chat.Dispatcher.Invoke(() => Chat.Text = "");
             foreach (Player p in state.AllPlayers)
             {
                 if (p.PlayerName == SelfPlayerName)
                 {
                     foreach (string message in p.Messages)
                     {
-                        Chat.Dispatcher.Invoke(() => Chat.Text += message + "\n");
+                        tmpMsg = tmpMsg + message + "\n";
+                        //                      Chat.Dispatcher.Invoke(() => Chat.Text += message + "\n");
                     }
                 }
             }
-            ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
+            Msg = tmpMsg;
+    //        ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
             System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
                     {
