@@ -355,6 +355,7 @@ namespace TexasHoldem.Game
 
             foreach (var p in Players)
             {
+                p.UndoFold();
                 p.Hand[0] = null;
                 p.Hand[1] = null;
                 p.User.NumOfGames++;
@@ -688,7 +689,7 @@ namespace TexasHoldem.Game
             {
 
                 p.CurrentBet = 0;
-                p.UndoFold();
+               
             }
             for (var i = 0; i < 5; i++)
             {
