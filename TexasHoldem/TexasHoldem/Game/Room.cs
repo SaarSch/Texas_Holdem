@@ -352,7 +352,10 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-
+            for (var i = 0; i < 5; i++)
+            {
+                CommunityCards[i] = null;
+            }
             foreach (var p in Players)
             {
                 p.UndoFold();
@@ -690,10 +693,6 @@ namespace TexasHoldem.Game
 
                 p.CurrentBet = 0;
                
-            }
-            for (var i = 0; i < 5; i++)
-            {
-                CommunityCards[i] = null;
             }
             CurrentTurn = 0;
         }
