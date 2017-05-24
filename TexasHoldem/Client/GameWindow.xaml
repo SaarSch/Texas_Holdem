@@ -81,7 +81,7 @@
         <Label Name="C2Lbl"  HorizontalContentAlignment="Center" Content="0" HorizontalAlignment="Left" Margin="468,38,0,0" VerticalAlignment="Top" Width="150"/>
         <Image Name="Avatar1" HorizontalAlignment="Left" Height="76" Margin="312,71,0,0" VerticalAlignment="Top" Width="73" Source="Resources/profilePicture.png"/>
         <Image Name="P1Card2" HorizontalAlignment="Left" Height="50" Margin="351,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
-        <Image Name="P1Card1" HorizontalAlignment="Left" Height="50" Margin="312,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png" MouseEnter="Card_OnMouseEnter"/>
+        <Image Name="P1Card1" HorizontalAlignment="Left" Height="50" Margin="312,152,0,0" VerticalAlignment="Top" Width="43" Source="Resources/back.png"/>
         <Label Name="P1Lbl" Content="PlayerName" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="275,22,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="151" Foreground="White"/>
         <Label Name="C1Lbl" HorizontalContentAlignment="Center" Content="0" HorizontalAlignment="Left" Margin="275,40,0,0" VerticalAlignment="Top" Foreground="White" Width="151"/>
         <Image Name="Com2" HorizontalAlignment="Left" Height="50" Margin="465,47,0,0" VerticalAlignment="Top" Width="37" Source="Resources/back.png" Grid.Row="1"/>

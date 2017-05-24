@@ -37,6 +37,8 @@ namespace Client
         private bool _playing;
         private bool _got_win_msg;
         private bool _first_play;
+        private bool _me;
+
 
         public GameWindow(UserData user, string self, RoomState state, MainWindow main)
         {
@@ -51,6 +53,7 @@ namespace Client
             _playing = true;
             _got_win_msg = false;
             _first_play = true;
+            _me = false;
             InitGuiArrays();
             UpdateRoom(state);
             UpdateChat(state);
@@ -167,8 +170,8 @@ namespace Client
             EndOfGameUpdate(state);
 
 
-            if (!state.IsOn || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
-            {
+    //        if (!state.IsOn || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
+    //        {
                 System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
                 {
@@ -176,7 +179,7 @@ namespace Client
                     timer.Dispose();
                 },
                 null, 2000, System.Threading.Timeout.Infinite);
-            }
+   //         }
         }
 
         private void StatusRequest(bool roomUpdate)
@@ -251,8 +254,9 @@ namespace Client
 
         private void UpdateBetGui(RoomState state)
         {
-            if (SelfPlayerName == state.CurrentPlayer && state.IsOn)
+            if (SelfPlayerName == state.CurrentPlayer && state.IsOn &&!_me)
             {
+                _me = true;
                 BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = true);
                 BetSlide.Dispatcher.Invoke(() => BetSlide.Value = 1);
                 CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Content = 1);
@@ -263,6 +267,7 @@ namespace Client
             }
             else
             {
+                _me = false;
                 BetSlide.Dispatcher.Invoke(() => BetSlide.IsEnabled = false);
                 CurrentBet_Label.Dispatcher.Invoke(() => CurrentBet_Label.Visibility = Visibility.Hidden);
                 Bet.Dispatcher.Invoke(() => Bet.IsEnabled = false);
@@ -352,7 +357,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                UpdateRoom(roomState);
+     //           UpdateRoom(roomState);
             }
             else
             {
@@ -368,7 +373,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                UpdateRoom(roomState);
+      //          UpdateRoom(roomState);
             }
             else
             {
@@ -384,7 +389,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                UpdateRoom(roomState);
+     //           UpdateRoom(roomState);
             }
             else
             {
