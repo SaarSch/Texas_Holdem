@@ -16,11 +16,13 @@ namespace TexasHoldem.Game
         public IUser User { get; set; }
         public int PreviousRaise { get; set; }
         public bool BetInThisRound { get; set; }
+        public bool Exit { get; set; }
 
         public Player(string name, IUser user)
         {
             User = user ?? throw new Exception("illegal User");
             Name = name ?? throw new Exception("illegal player name");
+            Exit = false;
             Logger.Log(Severity.Action, "new player created for user:"+User.Username);
         }
 
