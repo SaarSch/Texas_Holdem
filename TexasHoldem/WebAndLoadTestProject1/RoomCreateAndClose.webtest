@@ -16,7 +16,7 @@
           </ValidationRules>
           <QueryStringParameters>
             <QueryStringParameter Name="userName" Value="{{Users.users#csv.username}}" RecordedValue="" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
-            <QueryStringParameter Name="gameName" Value="" RecordedValue="" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
+            <QueryStringParameter Name="gameName" Value="{{roomNameParam}}" RecordedValue="" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
             <QueryStringParameter Name="playerName" Value="{{Users.users#csv.username}}" RecordedValue="" CorrelationBinding="" UrlEncode="True" UseToGroupResults="False" />
             <QueryStringParameter Name="option" Value="leave" RecordedValue="" CorrelationBinding="" UrlEncode="False" UseToGroupResults="False" />
           </QueryStringParameters>
@@ -32,7 +32,7 @@
           </RuleParameters>
         </ValidationRule>
       </ValidationRules>
-      <StringHttpBody ContentType="application/json" InsertByteOrderMark="False">ewANAAoAIAAgACIAUgBvAG8AbQBOAGEAbQBlACIAOgAiAHsAewBVAHMAZQByAHMALgB1AHMAZQByAHMAIwBjAHMAdgAuAHIAbwBvAG0AbgBhAG0AZQB9AH0AIgAsAA0ACgAgACAAIgBDAHIAZQBhAHQAbwByAFUAcwBlAHIATgBhAG0AZQAiADoAIgB7AHsAVQBzAGUAcgBzAC4AdQBzAGUAcgBzACMAYwBzAHYALgB1AHMAZQByAG4AYQBtAGUAfQB9ACIALAANAAoAIAAgACIAQwByAGUAYQB0AG8AcgBQAGwAYQB5AGUAcgBOAGEAbQBlACIAOgAiAHsAewBVAHMAZQByAHMALgB1AHMAZQByAHMAIwBjAHMAdgAuAHUAcwBlAHIAbgBhAG0AZQB9AH0AIgAsAA0ACgAgACAAIgBHAGEAbQBlAFQAeQBwAGUAIgA6ACIATgBvAEwAaQBtAGkAdAAiACwADQAKACAAIAAiAEMAaABpAHAAUABvAGwAaQBjAHkAIgA6ADUALAANAAoAIAAgACIAQgB1AHkASQBuAFAAbwBsAGkAYwB5ACIAOgAwACwADQAKACAAIAAiAE0AaQBuAEIAZQB0ACIAOgAyACwADQAKACAAIAAiAE0AaQBuAFAAbABhAHkAZQByAHMAIgA6ADIALAANAAoAIAAgACIATQBhAHgAUABsAGEAeQBlAHIAcwAiADoAOQAsAA0ACgAgACAAIgBTAGUAcABjAHQAYQB0AGkAbgBnAEEAbABsAG8AdwBlAGQAIgA6AHQAcgB1AGUADQAKAH0A</StringHttpBody>
+      <StringHttpBody ContentType="application/json" InsertByteOrderMark="False">ewANAAoAIAAgACIAUgBvAG8AbQBOAGEAbQBlACIAOgAiAHsAewByAG8AbwBtAE4AYQBtAGUAUABhAHIAYQBtAH0AfQAiACwADQAKACAAIAAiAEMAcgBlAGEAdABvAHIAVQBzAGUAcgBOAGEAbQBlACIAOgAiAHsAewBVAHMAZQByAHMALgB1AHMAZQByAHMAIwBjAHMAdgAuAHUAcwBlAHIAbgBhAG0AZQB9AH0AIgAsAA0ACgAgACAAIgBDAHIAZQBhAHQAbwByAFAAbABhAHkAZQByAE4AYQBtAGUAIgA6ACIAewB7AFUAcwBlAHIAcwAuAHUAcwBlAHIAcwAjAGMAcwB2AC4AdQBzAGUAcgBuAGEAbQBlAH0AfQAiACwADQAKACAAIAAiAEcAYQBtAGUAVAB5AHAAZQAiADoAIgBOAG8ATABpAG0AaQB0ACIALAANAAoAIAAgACIAQwBoAGkAcABQAG8AbABpAGMAeQAiADoANQAsAA0ACgAgACAAIgBCAHUAeQBJAG4AUABvAGwAaQBjAHkAIgA6ADAALAANAAoAIAAgACIATQBpAG4AQgBlAHQAIgA6ADIALAANAAoAIAAgACIATQBpAG4AUABsAGEAeQBlAHIAcwAiADoAMgAsAA0ACgAgACAAIgBNAGEAeABQAGwAYQB5AGUAcgBzACIAOgA5ACwADQAKACAAIAAiAFMAZQBwAGMAdABhAHQAaQBuAGcAQQBsAGwAbwB3AGUAZAAiADoAdAByAHUAZQANAAoAfQA=</StringHttpBody>
     </Request>
   </Items>
   <DataSources>
@@ -43,6 +43,15 @@
     </DataSource>
   </DataSources>
   <ContextParameters>
-    <ContextParameter Name="roomName" Value="" />
+    <ContextParameter Name="roomNameParam" Value="" />
   </ContextParameters>
+  <WebTestPlugins>
+    <WebTestPlugin Classname="Microsoft.SystemCenter.Cloud.GsmPlugins.RandomIntGeneratorWebTestPlugin, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="Generate Random Integer" Description="Generates a random integer.">
+      <RuleParameters>
+        <RuleParameter Name="ContextParameterName" Value="roomNameParam" />
+        <RuleParameter Name="MaxValue" Value="99999999" />
+        <RuleParameter Name="MinValue" Value="1000" />
+      </RuleParameters>
+    </WebTestPlugin>
+  </WebTestPlugins>
 </WebTest>
