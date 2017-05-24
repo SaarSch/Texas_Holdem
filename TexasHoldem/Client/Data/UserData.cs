@@ -45,12 +45,22 @@ namespace Client.Data
             }
         }
 
+        public int Rank
+        {
+            get => _rank;
+            set
+            {
+                _rank = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _username;
         private string _password;
         private string _avatarPath;
         private string _email;
         private int _chips;
-        public int Rank;
+        private int _rank;
         public int Wins;
         public int Chips
         {

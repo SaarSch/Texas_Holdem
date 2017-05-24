@@ -73,6 +73,8 @@ namespace Client
                 ModeLbl.Content = "Log In to Texas Holdem!";
                 LogInButton.Visibility = Visibility.Visible;
                 RegisterButton.Visibility = Visibility.Hidden;
+                LoginPic.Visibility = Visibility.Visible;
+                RegisterPic.Visibility = Visibility.Hidden;
                 ChangeMode.Content = "Join us now!";
             }
             else
@@ -80,6 +82,8 @@ namespace Client
                 ModeLbl.Content = "Create a New Account";
                 LogInButton.Visibility = Visibility.Hidden;
                 RegisterButton.Visibility = Visibility.Visible;
+                LoginPic.Visibility = Visibility.Hidden;
+                RegisterPic.Visibility = Visibility.Visible;
                 ChangeMode.Content = "Back";
             }
         }
