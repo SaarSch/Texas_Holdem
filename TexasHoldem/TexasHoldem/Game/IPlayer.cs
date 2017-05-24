@@ -6,6 +6,7 @@ namespace TexasHoldem.Game
     {
         ICard[] Hand { get; set; }
         string Name { get; set; }
+        bool Exit { get; set; }
         int ChipsAmount { get; set; }
         int CurrentBet { get; set; }
         bool Folded { get; set; }

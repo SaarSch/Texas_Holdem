@@ -544,12 +544,7 @@ namespace TexasHoldem.Game
 
         public void ExitRoom(string player)
         {
-            if (IsOn)
-            {
-                var e = new Exception("can't exit while game is on");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
+           
 
             if (player == null)
             {
@@ -579,7 +574,13 @@ namespace TexasHoldem.Game
                             Players[i].User.Notifications.Remove(Players[i].User.Notifications[j]);
                         }
                     }              
-                    Players.Remove(Players[i]);
+                    if(!IsOn) Players.Remove(Players[i]);
+                    else
+                    {
+                        Players[i].Exit = true;
+                        Fold(Players[i]);
+                        
+                    }
                     break;
                 }
             }
@@ -669,8 +670,23 @@ namespace TexasHoldem.Game
         public void CleanGame()
         {
             this.GameStatus = GameStatus.PreFlop;
+            for (int i=0; i<Players.Count; i++)
+            {
+                if (Players[i].Exit)
+                {
+                    for (int j = 0; j < Players[i].User.Notifications.Count; j++)
+                    {
+                        if (Players[i].User.Notifications[j].Item1 ==Name)
+                        {
+                            Players[i].User.Notifications.Remove(Players[i].User.Notifications[j]);
+                        }
+                    }
+                    Players.Remove(Players[i]);
+                }
+            }
             foreach (var p in Players)
             {
+
                 p.CurrentBet = 0;
                 p.UndoFold();
             }
