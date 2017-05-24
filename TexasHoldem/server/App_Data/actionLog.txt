@@ -764,3 +764,14 @@
 24/05/2017 01:03: 1 community card dealed room name=aaaaa11community cards:14Hearts9Diamonds5Diamonds12Spades13Diamonds
 24/05/2017 01:03: the winners in roomaaaaa11isPlayers:User name: shacahr3333 Player name: shacahr3333 Chip amount:3999
 24/05/2017 01:03: current status in roomaaaaa11isPlayers:User name: shacahr3333 Player name: shacahr3333 Chip amount:6001User name: shacahr3210 Player name: kaki Chip amount:3999
+24/05/2017 11:30: Registration completed successfully!
+24/05/2017 11:30: shacahr3210 logged in successfully!
+24/05/2017 11:30: new player created for user:shacahr3210
+24/05/2017 11:30: new room was created room  name=aaaaa11 rank=-1
+24/05/2017 11:30: Room aaaaa11 created successfully by shacahr3210!
+24/05/2017 11:37: Room aaaaa11 deleted successfully!
+24/05/2017 11:37: last player exited, room closed
+24/05/2017 11:38: new player created for user:shacahr3210
+24/05/2017 11:38: new room was created room  name=aaaaa11 rank=-1
+24/05/2017 11:38: Room aaaaa11 created successfully by shacahr3210!
+24/05/2017 11:45: new player created for user:shacahr3210

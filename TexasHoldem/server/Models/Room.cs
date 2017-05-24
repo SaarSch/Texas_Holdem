@@ -12,6 +12,6 @@
         public int MinBet;
         public int MinPlayers;
         public int MaxPlayers;
-        public bool SepctatingAllowed;
+        public bool SpectatingAllowed;
     }
 }
