@@ -4,10 +4,14 @@
     <Scenario Name="Scenario1" DelayBetweenIterations="0" PercentNewUsers="0" IPSwitching="false" TestMixType="Sequential" ApplyDistributionToPacingDelay="true" MaxTestIterations="0" DisableDuringWarmup="false" DelayStartTime="0" AllowedAgents="">
       <ThinkProfile Value="0.2" Pattern="NormalDistribution" />
       <LoadProfile Pattern="Constant" InitialUsers="20" />
+      <InitializeTest>
+        <TestProfile Name="Login" Path="login.webtest" Id="0fc5adad-77ce-4cb7-9c7f-862e5a93c53b" Percentage="0.0" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      </InitializeTest>
+      <TerminateTest>
+        <TestProfile Name="Logout" Path="logout.webtest" Id="0d8edfb9-a292-47c3-b9fe-47df3dfa6a2d" Percentage="0.0" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      </TerminateTest>
       <TestMix>
-        <TestProfile Name="Login" Path="login.webtest" Id="0fc5adad-77ce-4cb7-9c7f-862e5a93c53b" Percentage="0" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-        <TestProfile Name="CreateRoom" Path="createroom.webtest" Id="84fdd879-603a-41a5-8e5b-bf071d0bb5a6" Percentage="0" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-        <TestProfile Name="Logout" Path="logout.webtest" Id="0d8edfb9-a292-47c3-b9fe-47df3dfa6a2d" Percentage="0" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+        <TestProfile Name="RoomCreateAndClose" Path="roomcreateandclose.webtest" Id="84fdd879-603a-41a5-8e5b-bf071d0bb5a6" Percentage="0" Type="Microsoft.VisualStudio.TestTools.WebStress.DeclarativeWebTestElement, Microsoft.VisualStudio.QualityTools.LoadTest, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
       </TestMix>
       <BrowserMix>
         <BrowserProfile Percentage="100">

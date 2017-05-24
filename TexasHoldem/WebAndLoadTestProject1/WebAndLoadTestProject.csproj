@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LoginCreateLogout200.loadtest">
@@ -61,7 +62,7 @@
     <None Include="Login.webtest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="CreateRoom.webtest">
+    <None Include="RoomCreateAndClose.webtest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Logout.webtest">
