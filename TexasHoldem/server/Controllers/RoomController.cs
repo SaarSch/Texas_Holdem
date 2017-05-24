@@ -135,7 +135,7 @@ namespace Server.Controllers
             var ans = new RoomState();
             try
             {
-                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SepctatingAllowed);
+                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SpectatingAllowed);
                 if (r != null)
                 {
                     var roomDic = new Dictionary<string, List<RoomState>>();

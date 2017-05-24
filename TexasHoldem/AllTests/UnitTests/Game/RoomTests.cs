@@ -1176,7 +1176,7 @@ namespace AllTests.UnitTests.Game
             _p1.SetBet(300);
             _p2.SetBet(300);
             r.IsOn = true;
-            r.CalcWinnersChips();
+            r.CalcWinnersChips(false);
 
             Assert.IsTrue(_p.ChipsAmount == 50600);
         }
@@ -1210,7 +1210,7 @@ namespace AllTests.UnitTests.Game
             _p2.SetBet(300);
 
 
-            r.CalcWinnersChips();
+            r.CalcWinnersChips(false);
 
             Assert.IsTrue(r.Players[0] == _p1 && r.Players[1] == _p2 && r.Players[2] == _p);
         }

@@ -353,8 +353,10 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
-            foreach(var p in Players)
+            foreach (var p in Players)
             {
+                p.Hand[0] = null;
+                p.Hand[1] = null;
                 p.User.NumOfGames++;
                 if (p.User.NumOfGames == 11)
                 {
@@ -451,7 +453,7 @@ namespace TexasHoldem.Game
                         DealCommunityThird();
                         break;
                     case GameStatus.River:
-                        CalcWinnersChips();
+                        CalcWinnersChips(false);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -570,6 +572,13 @@ namespace TexasHoldem.Game
                 if (Players[i].Name.Equals(player))
                 {
                     Players[i].User.ChipsAmount += Players[i].ChipsAmount;
+                    for(int j=0;j< Players[i].User.Notifications.Count; j++)
+                    {
+                        if (Players[i].User.Notifications[j].Item1 == this.Name)
+                        {
+                            Players[i].User.Notifications.Remove(Players[i].User.Notifications[j]);
+                        }
+                    }              
                     Players.Remove(Players[i]);
                     break;
                 }
@@ -625,10 +634,17 @@ namespace TexasHoldem.Game
             return playersNames;
         }
 
-        public void CalcWinnersChips()
+        public void CalcWinnersChips(bool folded)
         {
- 
-            List<IPlayer> winners = Winners();
+            List<IPlayer> winners = new List<IPlayer>();
+            if (folded)
+            {
+                foreach (Player p in Players)
+                {
+                    if (!p.Folded) winners.Add(p);
+                }
+            }
+            else winners = Winners();
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
             Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
@@ -655,8 +671,6 @@ namespace TexasHoldem.Game
             this.GameStatus = GameStatus.PreFlop;
             foreach (var p in Players)
             {
-                p.Hand[0] = null;
-                p.Hand[1] = null;
                 p.CurrentBet = 0;
                 p.UndoFold();
             }
@@ -711,7 +725,7 @@ namespace TexasHoldem.Game
                 p.Fold();
                 Logger.Log(Severity.Action, "player " + p.Name + " folded");
                 //Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
-                CalcWinnersChips();
+                CalcWinnersChips(true);
                 return this;
             }
 
