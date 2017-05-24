@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Threading;
+using System.Windows.Input;
 using System.Windows.Media;
 using Image = System.Windows.Controls.Image;
 using System.Windows.Shapes;
@@ -26,6 +27,7 @@ namespace Client
         public List<string> ChatComboBoxContent;
         public Label[] NameLabels;
         public Label[] ChipLabels;
+        public Image[] ChipImages;
         public Label[] BetLabels;
         public Image[] CommunityCards;
         public Image[] Avatars;
@@ -58,6 +60,7 @@ namespace Client
         {
             NameLabels = new[]{P1Lbl, P2Lbl, P3Lbl, P4Lbl, P5Lbl, P6Lbl, P7Lbl, P8Lbl, P9Lbl};
             ChipLabels = new[]{C1Lbl, C2Lbl, C3Lbl, C4Lbl, C5Lbl, C6Lbl, C7Lbl, C8Lbl, C9Lbl};
+            ChipImages = new[] { ChipImg1, ChipImg2, ChipImg3, ChipImg4, ChipImg5, ChipImg6, ChipImg7, ChipImg8, ChipImg9 };
             BetLabels = new[] { Bet1, Bet2, Bet3, Bet4, Bet5, Bet6, Bet7, Bet8, Bet9 };
             CommunityCards = new[] { Com1, Com2, Com3, Com4, Com5 };
             Avatars = new[] { Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6, Avatar7, Avatar8, Avatar9 };
@@ -95,12 +98,12 @@ namespace Client
         {
             if (state.IsOn == false)
             {
-                Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Visible);
+           //     Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Visible);
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
             }
             else
             {
-                Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
+           //     Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
                 _got_win_msg = false;
                 _first_play = false;
@@ -150,7 +153,7 @@ namespace Client
                     UpdatePlayer(playerVal, p);
                 }
 
-                UpdateCommunityCards(state.CommunityCards);
+                UpdateCommunityCards(state.CommunityCards, state.IsOn);
                 if (!state.IsOn)
                 {
                     ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.ItemsSource = ChatComboBoxContent);
@@ -207,6 +210,13 @@ namespace Client
 
         private void UpdatePlayer(int i, Player p)
         {
+            NameLabels[i - 1].Dispatcher.Invoke(() => NameLabels[i - 1].Visibility = Visibility.Visible);
+            ChipLabels[i - 1].Dispatcher.Invoke(() => ChipLabels[i - 1].Visibility = Visibility.Visible);
+            ChipImages[i - 1].Dispatcher.Invoke(() => ChipImages[i - 1].Visibility = Visibility.Visible);
+            BetLabels[i - 1].Dispatcher.Invoke(() => BetLabels[i - 1].Visibility = Visibility.Visible);
+            Avatars[i - 1].Dispatcher.Invoke(() => Avatars[i - 1].Visibility = Visibility.Visible);
+            TurnSymbol[i - 1]
+                .Dispatcher.Invoke(() => TurnSymbol[i - 1].Visibility = Visibility.Visible);
             NameLabels[i - 1].Dispatcher.Invoke(()=> NameLabels[i - 1].Content = p.PlayerName);
             ChipLabels[i - 1].Dispatcher.Invoke(()=> ChipLabels[i - 1].Content = p.ChipsAmount);
             BetLabels[i - 1].Dispatcher.Invoke(()=> BetLabels[i - 1].Content = p.CurrentBet);
@@ -215,20 +225,27 @@ namespace Client
             {
                 BetSlide.Dispatcher.Invoke(()=> BetSlide.Maximum = p.ChipsAmount);
             }
-            UpdateCards(i, p.PlayerHand);
+            UpdateCards(i, p.PlayerHand, true);
         }
 
         private void ResetPlayers(int startIndex)
         {
             for (int i = startIndex; i < NameLabels.Length; i++)
             {
+                NameLabels[i].Dispatcher.Invoke(() => NameLabels[i].Visibility = Visibility.Hidden);
+                ChipLabels[i].Dispatcher.Invoke(() => ChipLabels[i].Visibility = Visibility.Hidden);
+                ChipImages[i].Dispatcher.Invoke(() => ChipImages[i].Visibility = Visibility.Hidden);
+                BetLabels[i].Dispatcher.Invoke(() => BetLabels[i].Visibility = Visibility.Hidden);
+                Avatars[i].Dispatcher.Invoke(() => Avatars[i].Visibility = Visibility.Hidden);
+                TurnSymbol[i]
+                    .Dispatcher.Invoke(() => TurnSymbol[i].Visibility = Visibility.Hidden);
                 NameLabels[i].Dispatcher.Invoke(() => NameLabels[i].Content = "PlayerName");
                 ChipLabels[i].Dispatcher.Invoke(() => ChipLabels[i].Content = 0);
                 BetLabels[i].Dispatcher.Invoke(() => BetLabels[i].Content = "");
                 Avatars[i]
                     .Dispatcher.Invoke(() => Avatars[i].Source =
                         new BitmapImage(new Uri(@"Resources/profilePicture.png", UriKind.Relative)));
-                UpdateCards(i+1, null);
+                UpdateCards(i+1, null, false);
             }
         }
 
@@ -254,27 +271,61 @@ namespace Client
             }
         }
 
-        private void UpdateCards(int i, string[] hand)
+        private void UpdateCards(int i, string[] hand, bool display)
         {
-            if (hand!=null && hand[0] != null && hand[1] != null)
+            if (display)
             {
-                HandCards[i-1][0].Dispatcher.Invoke(()=> HandCards[i-1][0].Source = new BitmapImage(new Uri(@"Resources/_" + hand[0] + ".png", UriKind.Relative)));
-                HandCards[i-1][1].Dispatcher.Invoke(()=> HandCards[i-1][1].Source = new BitmapImage(new Uri(@"Resources/_" + hand[1] + ".png", UriKind.Relative)));
+                HandCards[i - 1][0]
+                    .Dispatcher.Invoke(() => HandCards[i - 1][0].Visibility = Visibility.Visible);
+                HandCards[i - 1][1]
+                    .Dispatcher.Invoke(() => HandCards[i - 1][1].Visibility = Visibility.Visible);
+                if (hand != null && hand[0] != null && hand[1] != null)
+                {
+                    HandCards[i - 1][0]
+                        .Dispatcher.Invoke(() => HandCards[i - 1][0].Source =
+                            new BitmapImage(new Uri(@"Resources/_" + hand[0] + ".png", UriKind.Relative)));
+                    HandCards[i - 1][1]
+                        .Dispatcher.Invoke(() => HandCards[i - 1][1].Source =
+                            new BitmapImage(new Uri(@"Resources/_" + hand[1] + ".png", UriKind.Relative)));
+                }
+                else
+                {
+                    HandCards[i - 1][0]
+                        .Dispatcher.Invoke(() => HandCards[i - 1][0].Source =
+                            new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                    HandCards[i - 1][1]
+                        .Dispatcher.Invoke(() => HandCards[i - 1][1].Source =
+                            new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                }
             }
             else
             {
-                HandCards[i - 1][0].Dispatcher.Invoke(() => HandCards[i - 1][0].Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
-                HandCards[i - 1][1].Dispatcher.Invoke(() => HandCards[i - 1][1].Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                HandCards[i - 1][0]
+                    .Dispatcher.Invoke(() => HandCards[i - 1][0].Visibility = Visibility.Hidden);
+                HandCards[i - 1][1]
+                    .Dispatcher.Invoke(() => HandCards[i - 1][1].Visibility = Visibility.Hidden);
             }
+
         }
 
 
-        private void UpdateCommunityCards(string[] cards)
+        private void UpdateCommunityCards(string[] cards, bool isOn)
         {
+            if (!isOn)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    CommunityCards[i]
+                        .Dispatcher.Invoke(() => CommunityCards[i].Visibility = Visibility.Hidden);
+                }
+                return;
+            }
             if (cards == null || cards.Length == 0)
             {
                 for (int i = 0; i < 5; i++)
                 {
+                    CommunityCards[i]
+                        .Dispatcher.Invoke(() => CommunityCards[i].Visibility = Visibility.Visible);
                     CommunityCards[i]
                         .Dispatcher.Invoke(() => CommunityCards[i].Source =
                             new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
@@ -283,6 +334,8 @@ namespace Client
             }
             for (int i=0; i<cards.Length;i++)
             {
+                CommunityCards[i]
+                    .Dispatcher.Invoke(() => CommunityCards[i].Visibility = Visibility.Visible);
                 if (cards[i] != null)
                     CommunityCards[i].Dispatcher.Invoke(()=>  CommunityCards[i].Source = new BitmapImage(new Uri(@"Resources/_" + cards[i] + ".png", UriKind.Relative)));
                 else
@@ -442,6 +495,11 @@ namespace Client
                 Message.Text = "";
                 RestClient.MakeGetRequest(controller);
             }
+        }
+
+        private void Card_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            
         }
     }
 }
