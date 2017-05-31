@@ -775,3 +775,4 @@
 24/05/2017 11:38: new room was created room  name=aaaaa11 rank=-1
 24/05/2017 11:38: Room aaaaa11 created successfully by shacahr3210!
 24/05/2017 11:45: new player created for user:shacahr3210
+27/05/2017 14:55: Registration completed successfully!

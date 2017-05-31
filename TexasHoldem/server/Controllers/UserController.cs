@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Web.Http;
 using Server.Models;
+using System.Security.Cryptography;
 
 namespace Server.Controllers
 {
     public class UserController : ApiController
     {
+ 
         // GetRank -->GET: api/User/elad
         public int Get(string username)
         {
@@ -45,7 +47,7 @@ namespace Server.Controllers
             return "";
         }
         // DeleteUser -->GET: api/User?username=elad&passwordOrRank=123456&mod=delete
-        //mode: delete | changerank | register
+        //mode: delete  | register
         public string Get(string username,string passwordOrRank ,string mode)
         {
             try
