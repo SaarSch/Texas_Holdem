@@ -63,7 +63,7 @@
     <Compile Include="UnitTests\Game\RoomTests.cs" />
     <Compile Include="UnitTests\Loggers\TestLogger.cs" />
     <Compile Include="UnitTests\Notifications\TestNotifier.cs" />
-    <Compile Include="UnitTests\UnitTest1.cs" />
+    <Compile Include="UnitTests\CryptoTest.cs" />
     <Compile Include="UnitTests\Users\TestUser.cs" />
   </ItemGroup>
   <ItemGroup>

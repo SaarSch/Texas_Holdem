@@ -5,7 +5,7 @@ using server;
 namespace AllTests.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class CryptoTest
     {
         [TestMethod]
         public void TestMethod1()
