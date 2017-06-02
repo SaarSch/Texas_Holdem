@@ -33,7 +33,7 @@ namespace Server
             {
                 throw new Exception("token:" + token + "does not exist!!");
             }
-            else if(GuidDic[new Guid(token)].Item2.AddHours(16)>DateTime.Now)
+            else if(GuidDic[new Guid(token)].Item2.AddHours(8)>DateTime.Now)
             {
                 throw new Exception("you are logged in too long, please log out");
             }
