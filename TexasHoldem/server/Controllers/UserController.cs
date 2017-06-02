@@ -7,30 +7,20 @@ namespace Server.Controllers
 {
     public class UserController : ApiController
     {
- 
-        // GetRank -->GET: api/User/elad
-        public int Get(string username)
-        {
-            try
-            {
-                return Server.UserFacade.GetRank(username);
-            }
-            catch
-            {
-                return -1;
-            }
-             
-        }
         // logout -->GET: api/User?username=elad&mode=logout
         //mode: logout | isloggedin
-        public string Get(string username, string mode)
+        public string Get(string username, string mode, string token)
         {
             try
             {
+                Server.CheckToken(token);
                 switch (mode)
                 {
                     case "logout":
-                        Server.UserFacade.Logout(username);
+                        if (Server.UserFacade.Logout(username))
+                        {
+                            Server.GuidDic.Remove(new Guid(token));
+                        }
                         break;
                     case "isloggedin":
                         Server.UserFacade.IsUserLoggedInn(username);
@@ -48,13 +38,14 @@ namespace Server.Controllers
         }
         // DeleteUser -->GET: api/User?username=elad&passwordOrRank=123456&mod=delete
         //mode: delete  | register
-        public string Get(string username,string passwordOrRank ,string mode)
+        public string Get(string username,string passwordOrRank ,string mode, string token)
         {
             try
             {
                 switch (mode)
                 {
                     case "delete":
+                        Server.CheckToken(token);
                         Server.UserFacade.DeleteUser(username, passwordOrRank);
                         break;
                     case "register":
@@ -108,6 +99,9 @@ namespace Server.Controllers
                 ret.Rank = u.League;
                 ret.Username = u.Username;
                 ret.Wins = u.Wins;
+                Guid g = Guid.NewGuid();
+                ret.token = g.ToString();
+                Server.GuidDic.Add(g, new Tuple<string, DateTime>(value.Username,DateTime.Now));
             }
             catch (Exception e)
             {
@@ -117,12 +111,13 @@ namespace Server.Controllers
             return ret;
         }
         //editUser --> POST: api/User?username=elad
-        public UserData Post([FromBody]UserData value, string username)
+        public UserData Post([FromBody]UserData value, string username, string token)
         {
             var ret = new UserData();
             try
             {
-               var u= Server.UserFacade.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
+                Server.CheckToken(token);
+                var u= Server.UserFacade.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
                 if (u != null)
                 {
                     ret.AvatarPath = u.AvatarPath;
@@ -144,9 +139,5 @@ namespace Server.Controllers
         }
 
 
-        // DELETE: api/User/5
-        public void Delete(int id)
-        {
-        }
     }
 }

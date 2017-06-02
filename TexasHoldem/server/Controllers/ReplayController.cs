@@ -7,8 +7,9 @@ namespace Server.Controllers
     public class ReplayController : ApiController
     {
         // GET: api/Replay?RoomName=="KAKI"&&Player="moshe"
-        public IEnumerable<RoomState> Get(string roomName, string player)
+        public IEnumerable<RoomState> Get(string roomName, string player,string token)
         {
+            Server.CheckToken(token);
             List<RoomState> ans = null;
             if(RoomController.Replays.ContainsKey(roomName) && RoomController.Replays[roomName].ContainsKey(player))
             ans = RoomController.Replays[roomName][player];
