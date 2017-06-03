@@ -45,9 +45,10 @@ namespace TexasHoldem
 
         private GameCenter()
         {
-            Users = new List<Tuple<IUser, bool>>();
+            
             Rooms = new List<IRoom>();
             UserLogic = new UserLogic();
+            Users = UserLogic.getAllUsers();
             ExpCriteria = 10;
         }
 
