@@ -155,7 +155,8 @@ namespace Client
             if (filter == null)
                 return;
 
-            const string controller = "Search";
+            string controller = "Search?token=" + LoggedUser.token;
+            filter.User = Crypto.Encrypt(filter.User);
             var data = new JavaScriptSerializer().Serialize(filter);
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
@@ -297,7 +298,8 @@ namespace Client
             if (room == null)
                 return;
 
-            const string controller = "Room";
+            string controller = "Room?token=" + LoggedUser.token;
+            room.CreatorUserName = Crypto.Encrypt(room.CreatorUserName);
             var data = new JavaScriptSerializer().Serialize(room);
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
@@ -352,8 +354,8 @@ namespace Client
             }
             else
             {
-                var controller = "Room?userName=" + LoggedUser.Username + "&gameName=" + room.RoomName +
-                                 "&playerName=" + JoinNameTxt.Text +"&option=join";
+                var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
+                                 "&playerName=" + JoinNameTxt.Text +"&option=join&token=" + LoggedUser.token;
                 var ans = RestClient.MakeGetRequest(controller);
                 var json = JObject.Parse(ans);
                 var roomState = json.ToObject<RoomState>();
@@ -383,7 +385,7 @@ namespace Client
 
         private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var controller = "User?username=" + LoggedUser.Username + "&mode=logout";
+            var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
             ans = ans.Normalize();
             if (ans != "\"\"")
