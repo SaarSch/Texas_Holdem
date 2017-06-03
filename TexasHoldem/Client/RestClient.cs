@@ -8,9 +8,11 @@ namespace Client
 {
     public class RestClient
     {
-        //const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
-        const string AZURE_ADDRESS = "http://localhost:57856/api/";
+
+        const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
+        //const string AZURE_ADDRESS = "http://localhost:57856/api/";
         //const string AZURE_ADDRESS = "http://192.168.1.4:57856/api/";
+
         private static string _endPoint = AZURE_ADDRESS;
 
         private static void WriteData(WebRequest request, string data)
@@ -32,7 +34,7 @@ namespace Client
             WriteData(request, data);
             var ans = PerformRequest(request);
             _endPoint = AZURE_ADDRESS;
-            return ans;
+            return ans;  
         }
 
         public static string MakeGetRequest(string controller)
@@ -55,7 +57,7 @@ namespace Client
             ans = PerformRequest(request);
             _endPoint = AZURE_ADDRESS;
             return ans;
-        }
+        }   
 
         private static string PerformRequest(WebRequest request)
         {

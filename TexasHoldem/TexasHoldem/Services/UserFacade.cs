@@ -26,9 +26,9 @@ namespace TexasHoldem.Services
             return _userLogic.Login(username, password, _gameCenter.Users);
         }
 
-        public void Logout(string username) // UC 3
+        public bool Logout(string username) // UC 3
         {
-            _userLogic.Logout(username, _gameCenter.Users);
+            return _userLogic.Logout(username, _gameCenter.Users);
         }
 
         public void EditProfileUsername(string username, string newusername) // UC 4

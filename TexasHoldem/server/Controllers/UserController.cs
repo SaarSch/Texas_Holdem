@@ -1,37 +1,30 @@
 ﻿using System;
 using System.Web.Http;
 using Server.Models;
+using System.Security.Cryptography;
+using server;
 
 namespace Server.Controllers
 {
     public class UserController : ApiController
     {
-        // GetRank -->GET: api/User/elad
-        public int Get(string username)
-        {
-            try
-            {
-                return Server.UserFacade.GetRank(username);
-            }
-            catch
-            {
-                return -1;
-            }
-             
-        }
         // logout -->GET: api/User?username=elad&mode=logout
         //mode: logout | isloggedin
-        public string Get(string username, string mode)
+        public string Get(string username, string mode, string token)
         {
             try
             {
+                Server.CheckToken(token);
                 switch (mode)
                 {
                     case "logout":
-                        Server.UserFacade.Logout(username);
+                        if (Server.UserFacade.Logout(Crypto.Decrypt(username)))
+                        {
+                            Server.GuidDic.Remove(new Guid(token));
+                        }
                         break;
                     case "isloggedin":
-                        Server.UserFacade.IsUserLoggedInn(username);
+                        Server.UserFacade.IsUserLoggedInn(Crypto.Decrypt(username));
                         break;
                     default:
                         throw new Exception("comunication error: unkown mode");
@@ -45,18 +38,19 @@ namespace Server.Controllers
             return "";
         }
         // DeleteUser -->GET: api/User?username=elad&passwordOrRank=123456&mod=delete
-        //mode: delete | changerank | register
-        public string Get(string username,string passwordOrRank ,string mode)
+        //mode: delete  | register
+        public string Get(string username,string passwordOrRank ,string mode, string token)
         {
             try
             {
                 switch (mode)
                 {
                     case "delete":
-                        Server.UserFacade.DeleteUser(username, passwordOrRank);
+                        Server.CheckToken(token);
+                        Server.UserFacade.DeleteUser(Crypto.Decrypt(username), Crypto.Decrypt(passwordOrRank));
                         break;
                     case "register":
-                        Server.UserFacade.Register(username, passwordOrRank);
+                        Server.UserFacade.Register(Crypto.Decrypt(username), Crypto.Decrypt(passwordOrRank));
                         break;
                     default:
                         throw new Exception("comunication error: unkown mode");
@@ -74,13 +68,13 @@ namespace Server.Controllers
             var ret = new UserData();
             try
             {
-                var u = Server.UserFacade.GetUser(userName);
+                var u = Server.UserFacade.GetUser(Crypto.Decrypt(userName));
                 ret.AvatarPath = u.AvatarPath;
                 ret.Chips = u.ChipsAmount;
-                ret.Email = u.Email;
-                ret.Password = u.Password;
+                ret.Email = Crypto.Encrypt(u.Email);
+                ret.Password = Crypto.Encrypt(u.Password);
                 ret.Rank = u.League;
-                ret.Username = u.Username;
+                ret.Username = Crypto.Encrypt(u.Username);
                 ret.Wins = u.Wins;
             }
             catch (Exception e)
@@ -98,14 +92,17 @@ namespace Server.Controllers
             var ret = new UserData();
             try
             {
-                var u = Server.UserFacade.Login(value.Username, value.Password);
+                var u = Server.UserFacade.Login(Crypto.Decrypt(value.Username), Crypto.Decrypt(value.Password));
                 ret.AvatarPath = u.AvatarPath;
                 ret.Chips = u.ChipsAmount;
-                ret.Email = u.Email;
-                ret.Password = u.Password;
+                ret.Email = Crypto.Encrypt(u.Email);
+                ret.Password = Crypto.Encrypt(u.Password);
                 ret.Rank = u.League;
-                ret.Username = u.Username;
+                ret.Username = Crypto.Encrypt(u.Username);
                 ret.Wins = u.Wins;
+                Guid g = Guid.NewGuid();
+                ret.token = g.ToString();
+                Server.GuidDic.Add(g, new Tuple<string, DateTime>(value.Username,DateTime.Now));
             }
             catch (Exception e)
             {
@@ -115,20 +112,21 @@ namespace Server.Controllers
             return ret;
         }
         //editUser --> POST: api/User?username=elad
-        public UserData Post([FromBody]UserData value, string username)
+        public UserData Post([FromBody]UserData value, string username, string token)
         {
             var ret = new UserData();
             try
             {
-               var u= Server.UserFacade.EditUser(username, value.Username, value.Password, value.AvatarPath, value.Email);
+                Server.CheckToken(token);
+                var u= Server.UserFacade.EditUser(Crypto.Decrypt(username), Crypto.Decrypt(value.Username), Crypto.Decrypt(value.Password), value.AvatarPath, Crypto.Decrypt(value.Email));
                 if (u != null)
                 {
                     ret.AvatarPath = u.AvatarPath;
                     ret.Chips = u.ChipsAmount;
-                    ret.Email = u.Email;
-                    ret.Password = u.Password;
+                    ret.Email = Crypto.Encrypt(u.Email);
+                    ret.Password = Crypto.Encrypt(u.Password);
                     ret.Rank = u.League;
-                    ret.Username = u.Username;
+                    ret.Username = Crypto.Encrypt(u.Username);
                     ret.Wins = u.Wins;
                 }
                
@@ -142,9 +140,5 @@ namespace Server.Controllers
         }
 
 
-        // DELETE: api/User/5
-        public void Delete(int id)
-        {
-        }
     }
 }

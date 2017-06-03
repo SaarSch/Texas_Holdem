@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
@@ -9,7 +10,14 @@ namespace TexasHoldem.Logics
 {
     public class UserLogic
     {
-        public void SetLeagues(List<Tuple<IUser, bool>> users)
+	    private DatabaseContext db;
+
+	    public UserLogic()
+	    {
+		    db = new DatabaseContext();
+	    }
+
+		public void SetLeagues(List<Tuple<IUser, bool>> users)
         {
             var tempUsers = users.Where(user => user.Item1.League != -1).ToList();
             double size = tempUsers.Count / 10;
@@ -53,17 +61,20 @@ namespace TexasHoldem.Logics
 
         public void Register(string username, string password, List<Tuple<IUser, bool>> users)
         {
-            for (var i = 0; i < users.Count; i++)
-            {
-                if (users[i].Item1.Username == username)
-                {
-                    var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
-                    Logger.Log(Severity.Error, e.Message);
-                    throw e;
-                }
-            }
+	        var query = from u in db.Users
+						where u.Username == username
+						select u;
+	        if (query.Any())
+	        {
+				var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
+		        Logger.Log(Severity.Error, e.Message);
+		        throw e;
+			}
 
-            users.Add(new Tuple<IUser, bool>(new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000), false));
+			User newUser = new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000);
+	        db.Users.Add(newUser);
+	        db.SaveChanges();
+            users.Add(new Tuple<IUser, bool>(newUser, false));
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
         }
@@ -108,7 +119,7 @@ namespace TexasHoldem.Logics
 
         }
 
-        public void Logout(string username, List<Tuple<IUser, bool>> users)
+        public bool Logout(string username, List<Tuple<IUser, bool>> users)
         {
             int i;
             var exist = false;
@@ -141,6 +152,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
             Logger.Log(Severity.Action, username + " logged out successfully!");
+            return true;
         }
 
         public void DeleteAllUsers(List<Tuple<IUser, bool>> users)

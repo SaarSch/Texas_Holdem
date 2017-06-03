@@ -63,12 +63,17 @@
     <Compile Include="UnitTests\Game\RoomTests.cs" />
     <Compile Include="UnitTests\Loggers\TestLogger.cs" />
     <Compile Include="UnitTests\Notifications\TestNotifier.cs" />
+    <Compile Include="UnitTests\CryptoTest.cs" />
     <Compile Include="UnitTests\Users\TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\server\Server.csproj">
+      <Project>{1DF740AE-5865-4AB0-B231-F17D1DFAE084}</Project>
+      <Name>Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TexasHoldem\TexasHoldem.csproj">
       <Project>{f37c86e4-baff-48e9-9428-14afc10f26dc}</Project>
       <Name>TexasHoldem</Name>
