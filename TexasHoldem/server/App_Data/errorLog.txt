@@ -251,3 +251,4 @@
 24/05/2017 11:30: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 24/05/2017 11:38: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 24/05/2017 11:45: Error: ERROR in CreateRoom: room name already taken!
+02-Jun-17 20:13: Error: Illegal password! Must contain at least 1 non-letter character.
