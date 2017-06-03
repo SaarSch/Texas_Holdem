@@ -94,7 +94,7 @@
         <Button Name="Call" Content="Call / Check" IsEnabled="False" HorizontalAlignment="Left" Margin="973,401,0,0" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Call_Click"/>
         <TextBox x:Name="Message" HorizontalAlignment="Left" Height="33" Margin="283,415,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="604" Grid.Row="1"/>
         <Button Name="Send" Content="Send" HorizontalAlignment="Left" Margin="892,415,0,0" VerticalAlignment="Top" Width="68" Height="33" Grid.Row="1" Click="Send_Click"/>
-        <ComboBox x:Name="ChatComboBox" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="149,415,0,0" VerticalAlignment="Top" Width="124" Height="33" SelectedIndex="0" Grid.Row="1">
+        <ComboBox x:Name="ChatComboBox" ItemsSource="{Binding  Path=ChatComboBoxContent, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="149,415,0,0" VerticalAlignment="Top" Width="124" Height="33" SelectedIndex="0" Grid.Row="1">
             <ComboBox.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FFF0F0F0" Offset="0"/>
