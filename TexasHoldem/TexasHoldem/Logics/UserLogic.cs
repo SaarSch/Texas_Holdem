@@ -17,7 +17,16 @@ namespace TexasHoldem.Logics
 		    db = new DatabaseContext();
 	    }
 
-		public void SetLeagues(List<Tuple<IUser, bool>> users)
+        public List<Tuple<IUser, bool>> getAllUsers()
+        {
+            List<Tuple<IUser, bool>> ans=new List<Tuple<IUser, bool>>();
+            foreach (var u in db.Users)
+            {
+                ans.Add(new Tuple<IUser, bool>(u,false));
+            }
+            return ans;
+        }
+        public void SetLeagues(List<Tuple<IUser, bool>> users)
         {
             var tempUsers = users.Where(user => user.Item1.League != -1).ToList();
             double size = tempUsers.Count / 10;
