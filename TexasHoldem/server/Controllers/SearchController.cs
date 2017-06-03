@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Http;
 using Server.Models;
+using server;
 
 namespace Server.Controllers
 {
@@ -13,7 +14,7 @@ namespace Server.Controllers
             try
             {
                 Server.CheckToken(token);
-                var rooms = Server.GameFacade.FindGames(value.User, new TexasHoldem.Game.RoomFilter(
+                var rooms = Server.GameFacade.FindGames(Crypto.Decrypt(value.User), new TexasHoldem.Game.RoomFilter(
                     value.PlayerName, value.PotSize, value.LeagueOnly, value.GameType, value.BuyInPolicy,
                     value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers,
                     value.SpectatingAllowed));
