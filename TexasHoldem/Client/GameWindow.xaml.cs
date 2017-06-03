@@ -51,7 +51,6 @@ namespace Client
         private bool _first_play;
         private bool _me;
         private string _msg;
-        private readonly object _syncRoot = new Object();
 
         public string Msg
         {
@@ -456,7 +455,6 @@ namespace Client
             if (roomState.Messege == null)
             {
                 _playing = false;
-                MessageBox.Show("Left game successfully!", "Bye bye", MessageBoxButton.OK, MessageBoxImage.Information);
                 Application.Current.MainWindow = Main;
                 Close();
                 Main.Show();

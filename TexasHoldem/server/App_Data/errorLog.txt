@@ -251,3 +251,66 @@
 24/05/2017 11:30: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 24/05/2017 11:38: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 24/05/2017 11:45: Error: ERROR in CreateRoom: room name already taken!
+6/3/2017 14:12: Error: Error in GetRoom: Room byebye222 doesn't exist!
+6/3/2017 14:13: Error: ERROR in GetUser: This User doesn't exist.
+6/3/2017 14:13: Error: ERROR in GetUser: This User doesn't exist.
+6/3/2017 14:14: Error: ERROR in GetUser: This User doesn't exist.
+6/3/2017 14:14: Error: ERROR in GetUser: This User doesn't exist.
+6/3/2017 14:15: Exception: cant bet lower then the higest bet
+6/3/2017 14:15: Error: can't bet less then previous raise in no limit mode
+6/3/2017 14:16: Error: ERROR in GetUser: This User doesn't exist.
+6/3/2017 14:23: Error: Error in GetRoom: Room byebye222 doesn't exist!
+6/3/2017 14:23: Error: Error in GetRoom: Room byebye222 doesn't exist!
+6/3/2017 14:26: Error: Error in GetRoom: Room byebye222 doesn't exist!
+6/3/2017 14:26: Error: ERROR in FindGames: No game rooms found.
+6/3/2017 15:03: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:04: Error: Error in GetRoom: Room hihihi111 doesn't exist!
+6/3/2017 15:09: Error: Error in GetRoom: Room hihihi111 doesn't exist!
+6/3/2017 15:13: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:13: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 15:16: Exception: cant bet lower then the higest bet
+6/3/2017 15:16: Error: can't bet less then previous raise in no limit mode
+6/3/2017 15:22: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 15:22: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 15:22: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 15:23: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:23: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:23: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:24: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:24: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:26: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:26: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:26: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:26: Error: ERROR in Login: Username does not exist!
+6/3/2017 15:26: Error: Illegal username! Length must be between 8 and 12.
+6/3/2017 15:26: Error: ERROR in Login: Wrong password!
+6/3/2017 15:27: Error: Error in GetRoom: Room vdvgjgfmf doesn't exist!
+6/3/2017 15:43: Error: can't log out before leaving all games
+6/3/2017 15:44: Error: can't log out before leaving all games
+6/3/2017 15:45: Error: ERROR in CreateRoom: room name already taken!
+6/3/2017 15:45: Error: Error in GetRoom: Room saahahah doesn't exist!
+6/3/2017 15:45: Error: Error in GetRoom: Room saahahah doesn't exist!
+6/3/2017 15:45: Error: Error in GetRoom: Room saahahah doesn't exist!
+6/3/2017 15:45: Error: can't log out before leaving all games
+6/3/2017 16:36: Error: ERROR in Login: Username does not exist!
+6/3/2017 16:36: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 16:37: Exception: cant bet lower then the higest bet
+6/3/2017 16:42: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 16:42: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 16:44: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 16:59: Error: ERROR in Login: Username does not exist!
+6/3/2017 17:00: Error: Error in GetRoom: Room seanoch111seanoch111 doesn't exist!
+6/3/2017 17:00: Error: Illegal password! Length must be between 8 and 12.
+6/3/2017 17:02: Error: Error in GetRoom: Room seanoch111seanoch111 doesn't exist!
+6/3/2017 17:02: Error: Error in GetRoom: Room seanoch111seanoch111 doesn't exist!
+6/3/2017 17:03: Error: Error in GetRoom: Room dfghjk doesn't exist!
+6/3/2017 17:03: Error: Error in GetRoom: Room dfghjk doesn't exist!
+6/3/2017 17:03: Error: Error in GetRoom: Room dfghjk doesn't exist!
+6/3/2017 17:03: Error: Error in GetRoom: Room seanoch111seanoch111 doesn't exist!
+6/3/2017 17:04: Error: can't play with less then min players
+6/3/2017 17:14: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 17:15: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 17:17: Error: ERROR in Login: Username does not exist!
+6/3/2017 17:17: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 17:19: Error: Error in GetRoom: Room sean1111 doesn't exist!
+6/3/2017 17:19: Error: ERROR in GetUser: This User doesn't exist.
