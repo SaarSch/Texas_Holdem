@@ -4,7 +4,6 @@ using System.Web.Http;
 using Server.Models;
 using Player = Server.Models.Player;
 using IRoom = TexasHoldem.Game.IRoom;
-using server;
 
 namespace Server.Controllers
 {
@@ -85,7 +84,7 @@ namespace Server.Controllers
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki&bet=100
-        public RoomState GET(string gameName, string playerName, int bet) //palce bet
+        public RoomState GET(string gameName, string playerName, int bet, string token) //palce bet
         {
             IRoom r = null;
             var ans = new RoomState();

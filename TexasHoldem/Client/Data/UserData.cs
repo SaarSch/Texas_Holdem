@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -72,6 +73,8 @@ namespace Client.Data
             }
         }
         public string Message;
+        public List<string> Messages = new List<string>();
+        public string token;
 
         public UserData(string username, string password, string avatarPath, string email, int rank, int wins, int chips, string message)
         {

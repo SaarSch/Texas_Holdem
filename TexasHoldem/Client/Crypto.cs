@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace Server
+namespace Client
 {
     public class Crypto
     {
