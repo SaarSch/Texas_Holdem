@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
+using System.ComponentModel.DataAnnotations;
 
 namespace TexasHoldem.Users
 {
     public class User : IUser
     {
         private string _username;
-        public string Username
+	    [Key]
+		public string Username
         {
             get => _username;
             set
@@ -185,6 +187,20 @@ namespace TexasHoldem.Users
 
         public const int PasswordLengthMin = 8;
         public const int PasswordLengthMax = 12;
+
+	    public User() // TODO: remove? used for queries
+
+	    {
+			League = -1;
+		    NumOfGames = 0;
+		    Wins = 0;
+		    Username = "abcd1234";
+		    Password = "abcd1234";
+		    AvatarPath = "default.png";
+		    Email = "mail@gmail.com";
+		    Notifications = new List<Tuple<string, string>>();
+		    ChipsAmount = 5000;
+		}
 
         public User(string username, string password, string avatarPath, string email, int chipsAmount)
         {
