@@ -119,7 +119,7 @@ namespace TexasHoldem.Logics
 
         }
 
-        public void Logout(string username, List<Tuple<IUser, bool>> users)
+        public bool Logout(string username, List<Tuple<IUser, bool>> users)
         {
             int i;
             var exist = false;
@@ -152,6 +152,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
             Logger.Log(Severity.Action, username + " logged out successfully!");
+            return true;
         }
 
         public void DeleteAllUsers(List<Tuple<IUser, bool>> users)

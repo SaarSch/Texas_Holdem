@@ -8,6 +8,7 @@ namespace Client
 {
     public class RestClient
     {
+        public static object thisLock = new Object();
         const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
         //const string AZURE_ADDRESS = "http://localhost:57856/api/";
         private static string _endPoint = AZURE_ADDRESS;
@@ -29,9 +30,12 @@ namespace Client
             var request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "POST";
             WriteData(request, data);
-            var ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
-            return ans;
+            lock (thisLock)
+            {
+                var ans = PerformRequest(request);
+                _endPoint = AZURE_ADDRESS;
+                return ans;
+            }         
         }
 
         public static string MakeGetRequest(string controller)
@@ -39,9 +43,12 @@ namespace Client
             SetController(controller);
             var request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "GET";
-            var ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
-            return ans;
+            lock (thisLock)
+            {
+                var ans = PerformRequest(request);
+                _endPoint = AZURE_ADDRESS;
+                return ans;
+            }
         }
 
         public static string MakePutRequest(string controller, string data)
@@ -51,10 +58,13 @@ namespace Client
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
             request.Method = "PUT";
             WriteData(request, data);
-            ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
-            return ans;
-        }
+            lock (thisLock)
+            {
+                ans = PerformRequest(request);
+                _endPoint = AZURE_ADDRESS;
+                return ans;
+            }
+        }   
 
         private static string PerformRequest(WebRequest request)
         {

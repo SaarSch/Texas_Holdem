@@ -2,17 +2,19 @@
 using System.Linq;
 using System.Web.Http;
 using Server.Models;
+using server;
 
 namespace Server.Controllers
 {
     public class SearchController : ApiController
         {
-            public RoomList Post([FromBody] RoomFilter value)
+            public RoomList Post([FromBody] RoomFilter value,string token)
         {
             var ret = new RoomList();
             try
             {
-                var rooms = Server.GameFacade.FindGames(value.User, new TexasHoldem.Game.RoomFilter(
+                Server.CheckToken(token);
+                var rooms = Server.GameFacade.FindGames(Crypto.Decrypt(value.User), new TexasHoldem.Game.RoomFilter(
                     value.PlayerName, value.PotSize, value.LeagueOnly, value.GameType, value.BuyInPolicy,
                     value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers,
                     value.SpectatingAllowed));

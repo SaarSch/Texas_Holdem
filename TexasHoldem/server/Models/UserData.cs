@@ -13,6 +13,7 @@ namespace Server.Models
         public int Chips;
         public string Message;
         public List<string> Messages = new List<string>();
+        public string token;
 
         public bool Equals(UserData other)
         {

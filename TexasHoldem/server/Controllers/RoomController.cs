@@ -4,6 +4,7 @@ using System.Web.Http;
 using Server.Models;
 using Player = Server.Models.Player;
 using IRoom = TexasHoldem.Game.IRoom;
+using server;
 
 namespace Server.Controllers
 {
@@ -12,12 +13,13 @@ namespace Server.Controllers
         public static Dictionary<string,Dictionary<string, List<RoomState>>> Replays =new Dictionary<string, Dictionary<string, List<RoomState>>>();
 
         // Put: /api/Room?game_name=moshe&player_name=kaki
-        public RoomState Put(string gameName, string playerName) //get current status
+        public RoomState Put(string gameName, string playerName, string token) //get current status
         {
             IRoom r = null;
             var ans = new RoomState();
             try
             {
+                Server.CheckToken(token);
                 r = Server.GameFacade.RoomStatus(gameName);
             }
             catch (Exception e)
@@ -30,12 +32,13 @@ namespace Server.Controllers
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki
-        public RoomState GET(string gameName, string playerName) //start game
+        public RoomState GET(string gameName, string playerName,string token) //start game
         {
             IRoom r = null;
             var ans = new RoomState();
             try
             {
+                Server.CheckToken(token);
                 r = Server.GameFacade.StartGame(gameName);
             }
             catch (Exception e)
@@ -47,27 +50,28 @@ namespace Server.Controllers
         }
 
         // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
-        public RoomState GET(string userName ,string gameName, string playerName, string option)// join/spectate// leave // leaveSpectator
+        public RoomState GET(string userName ,string gameName, string playerName, string option,string token)// join/spectate// leave // leaveSpectator
         {
             IRoom r = null;
             var ans = new RoomState();
             try
             {
+                Server.CheckToken(token);
                 switch (option)
                 {
                     case "join":
-                        r = Server.GameFacade.JoinGame(userName, gameName, playerName);
+                        r = Server.GameFacade.JoinGame(Crypto.Decrypt(userName), gameName, playerName);
                         if (r != null) Replays[r.Name].Add(playerName, new List<RoomState>());
                         break;
                     case "spectate":
-                        r = Server.GameFacade.SpectateGame(userName, gameName);
+                        r = Server.GameFacade.SpectateGame(Crypto.Decrypt(userName), gameName);
                         break;
                     case "leave":
-                        r = Server.GameFacade.LeaveGame(userName, gameName, playerName);
+                        r = Server.GameFacade.LeaveGame(Crypto.Decrypt(userName), gameName, playerName);
                         Replays[r.Name].Remove(playerName);
                         break;
                     case "leaveSpectator":
-                        r = Server.GameFacade.SpectatorExit(userName, gameName);
+                        r = Server.GameFacade.SpectatorExit(Crypto.Decrypt(userName), gameName);
                         break;
                 }
             }
@@ -99,12 +103,13 @@ namespace Server.Controllers
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki&option=call 
-        public RoomState GET(string gameName, string playerName, string option) //call / fold 
+        public RoomState GET(string gameName, string playerName, string option,string token) //call / fold 
         {
             IRoom r = null;
             var ans = new RoomState();
             try
             {
+                Server.CheckToken(token);
                 switch (option)
                 {
                     case "fold":
@@ -125,7 +130,7 @@ namespace Server.Controllers
         }
 
         // POST: api/Room   create room
-        public RoomState Post([FromBody]Models.Room value)
+        public RoomState Post([FromBody]Models.Room value, string token)
         {
             if(Server.ChangeLeagues.AddDays(7)<= DateTime.Now)
             {
@@ -135,7 +140,8 @@ namespace Server.Controllers
             var ans = new RoomState();
             try
             {
-                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, value.CreatorUserName, value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SpectatingAllowed);
+                Server.CheckToken(token);
+                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, Crypto.Decrypt(value.CreatorUserName), value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SpectatingAllowed);
                 if (r != null)
                 {
                     var roomDic = new Dictionary<string, List<RoomState>>();
