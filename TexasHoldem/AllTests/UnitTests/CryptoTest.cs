@@ -77,5 +77,34 @@ namespace AllTests.UnitTests
             Assert.AreNotEqual(test, encrypt);
             Assert.AreEqual(test, Convert.ToInt32(dec));
         }
+
+        [TestMethod]
+        public void TestMethod9()
+        {
+            string test = "you12345";
+            string encrypt = Crypto.Encrypt(test);
+            string dec = Crypto.Decrypt(encrypt);
+            Assert.AreNotEqual(test, encrypt);
+            Assert.AreEqual(test, dec);
+        }
+
+        [TestMethod]
+        public void TestMethod10()
+        {
+            string test = "";
+            string encrypt = Crypto.Encrypt(test);
+            string dec = Crypto.Decrypt(encrypt);
+            Assert.AreEqual(test, dec);
+        }
+
+        [TestMethod]
+        public void TestMethod11()
+        {
+            string test = "";
+            string encrypt = Crypto.Encrypt(test);
+            string dec = Crypto.Decrypt(null);
+            Assert.AreEqual(test, dec);
+        }
+
     }
 }
