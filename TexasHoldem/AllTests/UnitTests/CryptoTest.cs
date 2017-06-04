@@ -51,7 +51,7 @@ namespace AllTests.UnitTests
         [TestMethod]
         public void TestMethod7()
         {
-            string test = "!@#$%^&*()_+********";
+            string test = "!@#$%^&*()_+********1234";
             string encrypt = Crypto.Encrypt(test);
             string dec = Crypto.Decrypt(encrypt);
             Assert.AreNotEqual(test, encrypt);
@@ -61,7 +61,7 @@ namespace AllTests.UnitTests
         [TestMethod]
         public void TestMethod8()
         {
-            string test = "!@#$%^&*()_+**1234**asdasd**23452**";
+            string test = "!@#$%^&*()_+**1234**asdasd**23452**asdasd";
             string encrypt = Crypto.Encrypt(test);
             string dec = Crypto.Decrypt(encrypt);
             Assert.AreNotEqual(test, encrypt);
