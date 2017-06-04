@@ -241,7 +241,7 @@ namespace TexasHoldem.Logics
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
-                    db.Users.Remove((User)ans);
+                    db.Users.Remove(user);
                     ans.Username = newUserName;
                     db.Users.Add((User)ans);
                     user= db.Users.First(u => u.Username == newUserName);
