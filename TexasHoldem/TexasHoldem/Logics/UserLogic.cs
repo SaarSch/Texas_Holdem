@@ -234,17 +234,18 @@ namespace TexasHoldem.Logics
             {
                 if (newUserName != null && newUserName != username)
                 {
-                    query = from u in db.Users
-                            where u.Username == newUserName
-                            select u;
+                    query = db.Users.Where(u => u.Username == newUserName);
                     if (query.Any())
                     {
                         var e = new IllegalUsernameException("ERROR in Edit Profile: New username already exists!");
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
+                    db.Users.Remove((User)ans);
                     ans.Username = newUserName;
-                    user.Username = newUserName;
+                    db.Users.Add((User)ans);
+                    user= db.Users.First(u => u.Username == newUserName);
+                    //user.Username = newUserName;
                 }
                 if (newPassword != null)
                 {
