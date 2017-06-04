@@ -16,6 +16,13 @@ namespace Client
 
         public static string Encrypt(string plainText)
         {
+
+            int mod4 = plainText.Length % 4;
+            if (mod4 > 0)
+            {
+                plainText += new string('*', 4 - mod4);
+            }
+
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
             byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
@@ -77,7 +84,21 @@ namespace Client
             int decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
             memoryStream.Close();
             cryptoStream.Close();
-            return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
+            string ans = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
+            int mod = ans.Length % 4;
+            if (ans != null && ans.Length > 3)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (ans[ans.Length - 1] == '*')
+                    {
+                        ans = ans.Substring(0, ans.Length - 1 - i);
+                    }
+                }
+            }
+
+            return ans.ToString();
         }
+
     }
 }
