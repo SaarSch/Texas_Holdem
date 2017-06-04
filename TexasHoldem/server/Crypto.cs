@@ -35,12 +35,30 @@ namespace Server
                 }
                 memoryStream.Close();
             }
-            return Convert.ToBase64String(cipherTextBytes);
+            StringBuilder crypt = new StringBuilder(Convert.ToBase64String(cipherTextBytes));
+            for (int i = 0; i < 3; i++)
+            {
+                if (crypt[crypt.Length - 1 - i] == '=')
+                {
+                    crypt[crypt.Length - 1 - i] = '*';
+                }
+                else break;
+            }
+            return crypt.ToString();
         }
 
         public static string Decrypt(string encryptedText)
         {
-            byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
+            StringBuilder crypt = new StringBuilder(encryptedText);
+            for (int i = 0; i < 3; i++)
+            {
+                if (crypt[crypt.Length - 1 - i] == '*')
+                {
+                    crypt[crypt.Length - 1 - i] = '=';
+                }
+                else break;
+            }
+            byte[] cipherTextBytes = Convert.FromBase64String(crypt.ToString());
             byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
             var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
 
