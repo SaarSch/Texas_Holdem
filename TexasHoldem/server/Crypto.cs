@@ -36,13 +36,16 @@ namespace Server
                 memoryStream.Close();
             }
             StringBuilder crypt = new StringBuilder(Convert.ToBase64String(cipherTextBytes));
-            for (int i = 0; i < 3; i++)
+            if (crypt.Length > 0)
             {
-                if (crypt[crypt.Length - 1 - i] == '=')
+                for (int i = 0; i < 3; i++)
                 {
-                    crypt[crypt.Length - 1 - i] = '*';
+                    if (crypt[crypt.Length - 1 - i] == '=')
+                    {
+                        crypt[crypt.Length - 1 - i] = '*';
+                    }
+                    else break;
                 }
-                else break;
             }
             return crypt.ToString();
         }
@@ -50,13 +53,16 @@ namespace Server
         public static string Decrypt(string encryptedText)
         {
             StringBuilder crypt = new StringBuilder(encryptedText);
-            for (int i = 0; i < 3; i++)
+            if (crypt.Length > 0)
             {
-                if (crypt[crypt.Length - 1 - i] == '*')
+                for (int i = 0; i < 3; i++)
                 {
-                    crypt[crypt.Length - 1 - i] = '=';
+                    if (crypt[crypt.Length - 1 - i] == '*')
+                    {
+                        crypt[crypt.Length - 1 - i] = '=';
+                    }
+                    else break;
                 }
-                else break;
             }
             byte[] cipherTextBytes = Convert.FromBase64String(crypt.ToString());
             byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
