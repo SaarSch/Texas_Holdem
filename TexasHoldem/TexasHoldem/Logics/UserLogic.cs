@@ -112,16 +112,20 @@ namespace TexasHoldem.Logics
             }
 
             Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username && t.Item1.Password == password);
+           
             if (foundUser.Item2)
             {
                 var e = new IllegalUsernameException("ERROR in Login: This User is already logged in.");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            users.Where(u => u.Item1.Username == username).ToList().ForEach(i => i = new Tuple<IUser, bool>(foundUser.Item1, true));
+            IUser fuser = foundUser.Item1;
+            users.Remove(foundUser);
+            users.Add(new Tuple<IUser, bool>(fuser,true));
+            //users.Where(u => u.Item1.Username == username).ToList().ForEach(i => i = new Tuple<IUser, bool>(foundUser.Item1, true));
             Logger.Log(Severity.Action, username + " logged in successfully!");
 
-            return foundUser.Item1;
+            return fuser;
         }
 
 
@@ -153,8 +157,10 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            
-            users.Where(u => u.Item1.Username == username).ToList().ForEach(i=>i= new Tuple<IUser, bool>(foundUser.Item1, false));
+            IUser fuser = foundUser.Item1;
+            users.Remove(foundUser);
+            users.Add(new Tuple<IUser, bool>(fuser, false));
+           // users.Where(u => u.Item1.Username == username).ToList().ForEach(i=>i= new Tuple<IUser, bool>(foundUser.Item1, false));
             //for (i = 0; i < users.Count; i++)
             //{
             //    if (users[i].Item1.Username == username)
