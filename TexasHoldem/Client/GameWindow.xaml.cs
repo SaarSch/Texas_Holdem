@@ -27,7 +27,16 @@ namespace Client
         public UserData User;
         public Dictionary<string,int> PlayerMap;
         public int CountPlayers;
-        public List<string> ChatComboBoxContent;
+        private List<string> _chatComboBoxContent;
+        public List<string> ChatComboBoxContent
+        {
+            get { return _chatComboBoxContent; }
+            set
+            {
+                _chatComboBoxContent = value;
+                OnPropertyChanged();
+            }
+        }
         public Label[] NameLabels;
         public Label[] ChipLabels;
         public Image[] ChipImages;
@@ -80,7 +89,6 @@ namespace Client
             InitGuiArrays();
             UpdateRoom(state);
             DataContext = this;
-            UpdateChat(state);
         }
 
         private void InitGuiArrays()
@@ -181,16 +189,16 @@ namespace Client
                 }
 
                 UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners!=null && state.CurrentWinners !=""));
-                if (!state.IsOn)
+            /*    if (!state.IsOn)
                 {
                     ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.ItemsSource = ChatComboBoxContent);
                     ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
-                }
+                } */
             }
 
             ResetPlayers(CountPlayers);
             UpdateBetGui(state);
-
+            UpdateChat(state);
             EndOfGameUpdate(state);
 
 
@@ -199,16 +207,16 @@ namespace Client
                 System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
                 {
-                    StatusRequest(true);
+                    StatusRequest();
                     timer.Dispose();
                 },
                 null, 2000, System.Threading.Timeout.Infinite);
    //         }
         }
 
-        private void StatusRequest(bool roomUpdate)
+        private void StatusRequest()
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName;
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&token=" + User.token;
             var ans = RestClient.MakePutRequest(controller, "");
             try
             {
@@ -216,23 +224,23 @@ namespace Client
                 var roomState = json.ToObject<RoomState>();
                 if (roomState.Messege == null && roomState.RoomName == RoomName)
                 {
-                    if (roomUpdate)
-                        UpdateRoom(roomState);
-                    else
-                        UpdateChat(roomState);
+                    UpdateRoom(roomState);
                 }
                 else
                 {
-                    if(_playing)
+                    if (_playing)
+                    {
                         MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             catch
             {
-                if(_playing)
-                       MessageBox.Show("An error has occurred.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (_playing)
+                {
+                    MessageBox.Show("An error has occurred.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            
         }
 
         private void UpdatePlayer(int i, Player p)
@@ -379,13 +387,13 @@ namespace Client
         private void Bet_Click(object sender, RoutedEventArgs e)
         {
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName +
-                                "&bet=" + (int)BetSlide.Value;
+                             "&bet=" + (int)BetSlide.Value + "&token=" + User.token;
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-     //           UpdateRoom(roomState);
+                //           UpdateRoom(roomState);
             }
             else
             {
@@ -395,13 +403,13 @@ namespace Client
 
         private void Call_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=call";
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=call&token="+User.token;
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-      //          UpdateRoom(roomState);
+                //          UpdateRoom(roomState);
             }
             else
             {
@@ -411,13 +419,13 @@ namespace Client
 
         private void Fold_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=fold";
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=fold&token="+User.token;
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-     //           UpdateRoom(roomState);
+                //           UpdateRoom(roomState);
             }
             else
             {
@@ -427,7 +435,7 @@ namespace Client
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName;
+            var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName+"&token="+User.token;
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
             var roomState = json.ToObject<RoomState>();
@@ -439,24 +447,22 @@ namespace Client
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-                var controller = "Room?userName=" + User.Username + "&gameName=" + RoomName +
-                                 "&playerName=" + SelfPlayerName + "&option=leave";
-                var ans = RestClient.MakeGetRequest(controller);
-                var json = JObject.Parse(ans);
-                var roomState = json.ToObject<RoomState>();
-                if (roomState.Messege == null)
-                {
-                    _playing = false;
-                    MessageBox.Show("Left game successfully!", "Bye bye", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Application.Current.MainWindow = Main;
-                    Close();
-                    Main.Show();
-                }
-                else
-                {
-                    MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            
+            var controller = "Room?userName=" + Crypto.Encrypt(User.Username) + "&gameName=" + RoomName +
+                             "&playerName=" + SelfPlayerName + "&option=leave&token="+User.token;
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
+            if (roomState.Messege == null)
+            {
+                _playing = false;
+                Application.Current.MainWindow = Main;
+                Close();
+                Main.Show();
+            }
+            else
+            {
+                MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -469,8 +475,8 @@ namespace Client
             }
             else
             {
-                var controller = "User?userName=" + User.Username;
-                var ans = RestClient.MakePutRequest(controller,"");
+                var controller = "User?userName=" + Crypto.Encrypt(User.Username);
+                var ans = RestClient.MakePutRequest(controller, "");
                 var json = JObject.Parse(ans);
                 var data = json.ToObject<UserData>();
                 if (data.Message == null)
@@ -484,7 +490,6 @@ namespace Client
         private void UpdateChat(RoomState state)
         {
             var tmpMsg = "";
- //           Chat.Dispatcher.Invoke(() => Chat.Text = "");
             foreach (Player p in state.AllPlayers)
             {
                 if (p.PlayerName == SelfPlayerName)
@@ -492,19 +497,11 @@ namespace Client
                     foreach (string message in p.Messages)
                     {
                         tmpMsg = tmpMsg + message + "\n";
-                        //                      Chat.Dispatcher.Invoke(() => Chat.Text += message + "\n");
                     }
                 }
             }
             Msg = tmpMsg;
-    //        ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
-            System.Threading.Timer timer = null;
-            timer = new System.Threading.Timer((obj) =>
-                    {
-                        StatusRequest(false);
-                        timer.Dispose();
-                    },
-                    null, 2000, System.Threading.Timeout.Infinite);
+            ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
@@ -518,15 +515,15 @@ namespace Client
             else
             {
                 string controller;
-                if (ChatComboBox.SelectedIndex <= 0)
+                if (ChatComboBox.SelectedIndex <= 0 || ChatComboBox.SelectedIndex >= ChatComboBoxContent.Count)
                 {
                     controller = "Message?room=" + RoomName + "&sender=" + SelfPlayerName +
-                                 "&message=" + msg + "&status=player";
+                                 "&message=" + msg + "&status=player&token=" + User.token;
                 }
                 else
                 {
                     controller = "Message?room=" + RoomName + "&sender=" + SelfPlayerName +
-                                 "&reciver=" + ChatComboBoxContent[ChatComboBox.SelectedIndex] + "&message=" + msg + "&status=player";
+                                 "&reciver=" + ChatComboBoxContent[ChatComboBox.SelectedIndex] + "&message=" + msg + "&status=player&token=" + User.token;
                 }
                 Message.Text = "";
                 RestClient.MakeGetRequest(controller);

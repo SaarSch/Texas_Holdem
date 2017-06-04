@@ -2,7 +2,6 @@
 using System.Web.Http;
 using Server.Models;
 using System.Security.Cryptography;
-using server;
 
 namespace Server.Controllers
 {

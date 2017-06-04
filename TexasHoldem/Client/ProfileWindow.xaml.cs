@@ -64,19 +64,19 @@ namespace Client
         // POST: api/User?username=elad
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "User?username=" + _user.Username;
-            var data = "{\"Username\":\"" + UsernameTxt.Text + "\"," +
-                          "\"Password\":\"" + PasswordTxt.Text + "\","
+            var controller = "User?username=" + Crypto.Encrypt(_user.Username) + "&token=" +_user.token;
+            var data = "{\"Username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\"," +
+                          "\"Password\":\"" + Crypto.Encrypt(PasswordTxt.Text) + "\","
                           + "\"AvatarPath\":\"" + Picture + "\"," +
-                       "\"Email\":\"" + EmailTxt.Text + "\"}";
+                       "\"Email\":\"" + Crypto.Encrypt(EmailTxt.Text) + "\"}";
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
             var tmpUser = json.ToObject<UserData>();
             if (tmpUser.Message == null)
             {
-                _user.Username = tmpUser.Username;
-                _user.Password = tmpUser.Password;
-                _user.Email = tmpUser.Email;
+                _user.Username = Crypto.Decrypt(tmpUser.Username);
+                _user.Password = Crypto.Decrypt(tmpUser.Password);
+                _user.Email = Crypto.Decrypt(tmpUser.Email);
                 _user.AvatarPath = tmpUser.AvatarPath;
                 _mainWindow.UpdateAvatar(tmpUser.AvatarPath);
                 Close();

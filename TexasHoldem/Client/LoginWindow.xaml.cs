@@ -26,8 +26,8 @@ namespace Client
                 return;
             }
 
-            var controller = "User?username=" + UsernameTxt.Text + "&passwordOrRank=" + PasswordTxt.Password +
-                                "&mode=register";
+            var controller = "User?username=" + Crypto.Encrypt(UsernameTxt.Text) + "&passwordOrRank=" + Crypto.Encrypt(PasswordTxt.Password) +
+                                "&mode=register&token=nothing";
             var ans = RestClient.MakeGetRequest(controller);
             if (ans != "\"\"")
             {
@@ -44,13 +44,17 @@ namespace Client
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
-            var data = "{\"username\":\"" + UsernameTxt.Text + "\",\"password\":\"" + PasswordTxt.Password + "\"}";
+            var data = "{\"username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\",\"password\":\"" + Crypto.Encrypt(PasswordTxt.Password) + "\"}";
             const string controller = "user";
             var ans = RestClient.MakePostRequest(controller,data);
             var json = JObject.Parse(ans);
             var loggedUser = json.ToObject<UserData>();
+            
             if (loggedUser.Message == null)
             {
+                loggedUser.Username = Crypto.Decrypt(loggedUser.Username);
+                loggedUser.Password = Crypto.Decrypt(loggedUser.Password);
+                loggedUser.Email = Crypto.Decrypt(loggedUser.Email);
                 var main = new MainWindow(loggedUser);
                 Application.Current.MainWindow = main;
                 Close();
@@ -70,7 +74,7 @@ namespace Client
 
             if (_loginMode)
             {
-                ModeLbl.Content = "Log In to Texas Holdem!";
+                ModeLbl.Content = "Login to Texas Holdem!";
                 LogInButton.Visibility = Visibility.Visible;
                 RegisterButton.Visibility = Visibility.Hidden;
                 LoginPic.Visibility = Visibility.Visible;
