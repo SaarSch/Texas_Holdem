@@ -35,7 +35,8 @@ namespace Server
                 }
                 memoryStream.Close();
             }
-            StringBuilder crypt = new StringBuilder(Convert.ToBase64String(cipherTextBytes));
+           
+            StringBuilder crypt = new StringBuilder(Encoding.ASCII.GetString(cipherTextBytes));
             if (crypt.Length > 0)
             {
                 for (int i = 0; i < 3; i++)
@@ -64,7 +65,7 @@ namespace Server
                     else break;
                 }
             }
-            byte[] cipherTextBytes = Convert.FromBase64String(crypt.ToString());
+            byte[] cipherTextBytes = Encoding.ASCII.GetBytes(crypt.ToString());
             byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
             var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
 
