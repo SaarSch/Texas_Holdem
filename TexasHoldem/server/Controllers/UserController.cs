@@ -33,6 +33,13 @@ namespace Server.Controllers
             }
             catch (Exception e)
             {
+                if(e.Message.Equals("you are logged in too long, please log out"))
+                {
+                    if (Server.UserFacade.Logout(Crypto.Decrypt(username)))
+                    {
+                        Server.GuidDic.Remove(new Guid(token));
+                    }
+                }
                 return e.Message;
             }
             return "";

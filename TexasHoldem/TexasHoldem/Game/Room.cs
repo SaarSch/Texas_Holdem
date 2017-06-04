@@ -437,7 +437,7 @@ namespace TexasHoldem.Game
 
             var amount = p.CurrentBet;
             var allCall = true;
-            foreach (var p1 in Players) if (p1.CurrentBet != amount||!p1.BetInThisRound)
+            foreach (var p1 in Players) if (p1.CurrentBet != amount&&!p1.Folded||!p1.Folded&&!p1.BetInThisRound)
             {
                 allCall = false;
                 break;
