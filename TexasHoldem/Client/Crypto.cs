@@ -35,6 +35,7 @@ namespace Client
                 }
                 memoryStream.Close();
             }
+
             StringBuilder crypt = new StringBuilder(Convert.ToBase64String(cipherTextBytes));
             if (crypt.Length > 0)
             {
