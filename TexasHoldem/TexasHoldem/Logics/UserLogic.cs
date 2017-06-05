@@ -266,9 +266,10 @@ namespace TexasHoldem.Logics
                 }
                    
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                var e = new Exception("ERROR in Edit Profile: Invalid new user details!");
+                
+                var e = new Exception("ERROR in Edit Profile: Invalid new user details!"+ex.Message);
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
