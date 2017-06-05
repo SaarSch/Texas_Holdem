@@ -87,6 +87,12 @@ namespace Client
             _first_play = true;
             _me = false;
             InitGuiArrays();
+            if (SelfPlayerName == null)
+            {
+                P1Lbl.Foreground = System.Windows.Media.Brushes.Black;
+                P1Lbl.FontWeight = FontWeights.Normal;
+            }
+
             UpdateRoom(state);
             DataContext = this;
         }
@@ -160,7 +166,10 @@ namespace Client
                 CountPlayers = 1;
                 ChatComboBoxContent.Clear();
                 ChatComboBoxContent.Add("ALL");
-                PlayerMap.Add(SelfPlayerName, CountPlayers);
+                if (SelfPlayerName != null)
+                {
+                    PlayerMap.Add(SelfPlayerName, CountPlayers);
+                }
             }
             
 
@@ -170,7 +179,10 @@ namespace Client
                 {
                     CountPlayers++;
                     PlayerMap.Add(p.PlayerName, CountPlayers);
-                    ChatComboBoxContent.Add(p.PlayerName);
+                    if (SelfPlayerName != null)
+                    {
+                        ChatComboBoxContent.Add(p.PlayerName);
+                    }
                 }
                 PlayerMap.TryGetValue(p.PlayerName, out int playerVal);
                 if (p.PlayerName == state.CurrentPlayer && state.IsOn)
@@ -186,15 +198,26 @@ namespace Client
                 if (playerVal != -1)
                 {
                     UpdatePlayer(playerVal, p);
-                }
+                }    
+            }
 
-                UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners!=null && state.CurrentWinners !=""));
+            if (!state.IsOn)
+            {
+                foreach (UserData s in state.Spectators)
+                {
+                    if(!ChatComboBoxContent.Contains(s.Username) && s.Username != User.Username)
+                    {
+                        ChatComboBoxContent.Add(s.Username);
+                    }
+                }
+            }
+
+            UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners!=null && state.CurrentWinners !=""));
             /*    if (!state.IsOn)
                 {
                     ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.ItemsSource = ChatComboBoxContent);
                     ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
                 } */
-            }
 
             ResetPlayers(CountPlayers);
             UpdateBetGui(state);
