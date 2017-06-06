@@ -1,28 +1,28 @@
 @media (min-width: 544px) {
     .dataTable {
-        min-width: 540px;
-        max-width: 1000px;
-        width: 100%;
         margin: auto;
+        max-width: 1000px;
+        min-width: 540px;
+        width: 100%;
     }
 }
 
 @media (max-width: 1000px) {
     .dataTable {
-        width: 100%;
         margin: auto;
-  }
+        width: 100%;
+    }
 }
 
 body {
-    font-family: 'Myriad Pro', 'Trebuchet MS', sans-serif;
-    background-image: url("background.png");
-    font-size: 1em;
-    -webkit-user-select: none;
     /* Chrome all / Safari all */
     -moz-user-select: none;
     /* Firefox all */
     -ms-user-select: none;
+    -webkit-user-select: none;
+    background-image: url("background.png");
+    font-family: 'Myriad Pro', 'Trebuchet MS', sans-serif;
+    font-size: 1em;
     /* IE 10+ */
     user-select: none;
 }
@@ -32,30 +32,51 @@ body {
     padding: 10px 0 0;
 }
 
-.font-bold {
-    font-weight: bold;
-}
+.font-bold { font-weight: bold; }
 
-.title {
-    margin: 5px 0;
-}
+.title { margin: 5px 0; }
+
+.container { margin: auto; }
 
 .leader-pic {
     display: block;
     margin: auto;
-    width: 10%;
     padding: 15px;
+    width: 14%;
 }
 
 /*smallest line-height in rows*/
-.table-sm>thead>tr>th, .table-sm>tbody>tr>th, .table-sm>tfoot>tr>th, .table-sm>thead>tr>td, .table-sm>tbody>tr>td, .table-sm>tfoot>tr>td {
-    padding: 2px;
+
+.table-sm > thead > tr > th, .table-sm > tbody > tr > th, .table-sm > tfoot > tr > th, .table-sm > thead > tr > td, .table-sm > tbody > tr > td, .table-sm > tfoot > tr > td {
     background: #1ea167 -webkit-linear-gradient(90deg, #168d59, #1ea167);
+    padding: 2px;
 }
 
 .logo {
-    padding: 0;
-    margin: 0;
+    border-radius: 30%;
     height: 1.2em;
-    border-radius: 30%
+    margin: 0;
+    padding: 0;
+}
+
+.btn-back:active {
+    background-image: -webkit-linear-gradient(90deg, #ff8c00, #ff8c00);
+    border-bottom: none;
+}
+
+.btn-back {
+    -webkit-user-select: none;
+    background: #f6ba35 -webkit-linear-gradient(90deg, #eca418, #ffcd4e);
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: default;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 15px;
+    padding: 10px 0;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+    width: 80px;
 }
