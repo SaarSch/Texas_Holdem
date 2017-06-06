@@ -110,8 +110,8 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-
-            Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username && t.Item1.Password == password);
+          
+            Tuple<IUser, bool> foundUser = users.SingleOrDefault(t => t.Item1.Username == username && t.Item1.Password == password);
             if (foundUser == null)
             {
                 var e = new IllegalUsernameException("ERROR in Login: itsss nullll.");
@@ -227,7 +227,7 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            var user= query.First();
+            var user= db.Users.First(u => u.Username == username);
             Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
             IUser ans = foundUser.Item1;
             if (!foundUser.Item2)
@@ -250,7 +250,8 @@ namespace TexasHoldem.Logics
                     db.Users.Remove(user);
                     ans.Username = newUserName;
                     db.Users.Add((User)ans);
-                    user= db.Users.First(u => u.Username == newUserName);
+                    db.SaveChanges();
+                    user = db.Users.First(u => u.Username == newUserName);
                     //user.Username = newUserName;
                 }
                 if (newPassword != null)
