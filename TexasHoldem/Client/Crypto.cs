@@ -60,6 +60,7 @@ namespace Client
 
         public static string Decrypt(string encryptedText)
         {
+            encryptedText = encryptedText.Replace(' ', '+');
             StringBuilder crypt = new StringBuilder(encryptedText);
             if (crypt.Length > 0)
             {
