@@ -16,7 +16,6 @@ namespace Server
 
         public static string Encrypt(string plainText)
         {
-
             int mod4 = plainText.Length % 4;
             if (mod4 > 0)
             {
@@ -60,6 +59,7 @@ namespace Server
 
         public static string Decrypt(string encryptedText)
         {
+            encryptedText=encryptedText.Replace(' ', '+');
             StringBuilder crypt = new StringBuilder(encryptedText);
             if (crypt.Length > 0)
             {
