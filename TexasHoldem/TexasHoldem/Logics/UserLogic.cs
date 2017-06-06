@@ -112,13 +112,19 @@ namespace TexasHoldem.Logics
             }
 
             Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username && t.Item1.Password == password);
-           
+            if (foundUser == null)
+            {
+                var e = new IllegalUsernameException("ERROR in Login: itsss nullll.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
             if (foundUser.Item2)
             {
                 var e = new IllegalUsernameException("ERROR in Login: This User is already logged in.");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+            
             IUser fuser = foundUser.Item1;
             users.Remove(foundUser);
             users.Add(new Tuple<IUser, bool>(fuser,true));
