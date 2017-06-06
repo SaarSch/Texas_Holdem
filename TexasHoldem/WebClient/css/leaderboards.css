@@ -1,0 +1,61 @@
+@media (min-width: 544px) {
+    .dataTable {
+        min-width: 540px;
+        max-width: 1000px;
+        width: 100%;
+        margin: auto;
+    }
+}
+
+@media (max-width: 1000px) {
+    .dataTable {
+        width: 100%;
+        margin: auto;
+  }
+}
+
+body {
+    font-family: 'Myriad Pro', 'Trebuchet MS', sans-serif;
+    background-image: url("background.png");
+    font-size: 1em;
+    -webkit-user-select: none;
+    /* Chrome all / Safari all */
+    -moz-user-select: none;
+    /* Firefox all */
+    -ms-user-select: none;
+    /* IE 10+ */
+    user-select: none;
+}
+
+.alert {
+    margin: 0;
+    padding: 10px 0 0;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.title {
+    margin: 5px 0;
+}
+
+.leader-pic {
+    display: block;
+    margin: auto;
+    width: 10%;
+    padding: 15px;
+}
+
+/*smallest line-height in rows*/
+.table-sm>thead>tr>th, .table-sm>tbody>tr>th, .table-sm>tfoot>tr>th, .table-sm>thead>tr>td, .table-sm>tbody>tr>td, .table-sm>tfoot>tr>td {
+    padding: 2px;
+    background: #1ea167 -webkit-linear-gradient(90deg, #168d59, #1ea167);
+}
+
+.logo {
+    padding: 0;
+    margin: 0;
+    height: 1.2em;
+    border-radius: 30%
+}
