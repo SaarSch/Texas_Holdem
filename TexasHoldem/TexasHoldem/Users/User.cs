@@ -187,8 +187,9 @@ namespace TexasHoldem.Users
 
         public const int PasswordLengthMin = 8;
         public const int PasswordLengthMax = 12;
+        private IUser ans;
 
-	    public User() // TODO: remove? used for queries
+        public User() // TODO: remove? used for queries
 
 	    {
 			League = -1;
@@ -213,6 +214,20 @@ namespace TexasHoldem.Users
             Email = email;
             Notifications = new List<Tuple<string, string>>();
             ChipsAmount = chipsAmount;
+        }
+
+        public User(IUser ans,string username)
+        {
+            League = ans.League;
+            NumOfGames = ans.NumOfGames;
+            Wins = ans.Wins;
+            Username = username;
+            Password = ans.Password;
+            AvatarPath = ans.AvatarPath;
+            Email = ans.Email;
+            Notifications = new List<Tuple<string, string>>();
+            Notifications.AddRange(ans.Notifications);
+            ChipsAmount = ans.ChipsAmount;
         }
 
         public void AddNotification(string room, string notif)

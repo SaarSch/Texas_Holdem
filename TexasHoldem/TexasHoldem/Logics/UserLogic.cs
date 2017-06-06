@@ -247,8 +247,11 @@ namespace TexasHoldem.Logics
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
+                    ans=new User(ans,newUserName);
+                    users.Remove(foundUser);
                     db.Users.Remove(user);
-                    ans.Username = newUserName;
+                    users.Add(new Tuple<IUser, bool>(ans, true));
+                    foundUser = users.Single(t => t.Item1.Username == newUserName);
                     db.Users.Add((User)ans);
                     db.SaveChanges();
                     user = db.Users.First(u => u.Username == newUserName);
