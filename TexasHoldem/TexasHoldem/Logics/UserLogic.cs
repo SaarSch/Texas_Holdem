@@ -110,15 +110,21 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-
-            Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username && t.Item1.Password == password);
-           
+          
+            Tuple<IUser, bool> foundUser = users.SingleOrDefault(t => t.Item1.Username == username && t.Item1.Password == password);
+            if (foundUser == null)
+            {
+                var e = new IllegalUsernameException("ERROR in Login: itsss nullll.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
             if (foundUser.Item2)
             {
                 var e = new IllegalUsernameException("ERROR in Login: This User is already logged in.");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+            
             IUser fuser = foundUser.Item1;
             users.Remove(foundUser);
             users.Add(new Tuple<IUser, bool>(fuser,true));
@@ -221,7 +227,7 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            var user= query.First();
+            var user= db.Users.First(u => u.Username == username);
             Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
             IUser ans = foundUser.Item1;
             if (!foundUser.Item2)
@@ -241,10 +247,14 @@ namespace TexasHoldem.Logics
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
+                    ans=new User(ans,newUserName);
+                    users.Remove(foundUser);
                     db.Users.Remove(user);
-                    ans.Username = newUserName;
+                    users.Add(new Tuple<IUser, bool>(ans, true));
+                    foundUser = users.Single(t => t.Item1.Username == newUserName);
                     db.Users.Add((User)ans);
-                    user= db.Users.First(u => u.Username == newUserName);
+                    db.SaveChanges();
+                    user = db.Users.First(u => u.Username == newUserName);
                     //user.Username = newUserName;
                 }
                 if (newPassword != null)
