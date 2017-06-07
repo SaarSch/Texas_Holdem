@@ -30,6 +30,8 @@ namespace TexasHoldem
 	        Console.ReadKey();
         }
 
+        
+
         private static GameCenter _instance;
         public List<Tuple<IUser, bool>> Users { get; }
         public List<IRoom> Rooms;
@@ -43,12 +45,37 @@ namespace TexasHoldem
 
         public UserLogic UserLogic;
 
+        public List<string> getRanks()
+        {
+            List<User> users = new List<User>();
+            foreach(User u in users)
+            {
+                users.Add(u);
+            }
+            users.Sort(delegate (User x, User y)
+            {
+                if (x.Wins > y.Wins) return 1;
+                else if (y.Wins > x.Wins) return -1;
+                else return 0;
+            });
+            List<string> ans = new List<string>();
+            int i = 0;
+            foreach(User u in users)
+            {
+                ans.Add(u.Username);
+                ans.Add(""+u.Wins);
+
+            }
+            return ans;
+        }
+
+
         private GameCenter()
         {
             
             Rooms = new List<IRoom>();
             UserLogic = new UserLogic();
-            Users = UserLogic.getAllUsers();
+            Users = UserLogic.GetAllUsers();
             ExpCriteria = 10;
         }
 
