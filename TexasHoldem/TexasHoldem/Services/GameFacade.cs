@@ -18,6 +18,16 @@ namespace TexasHoldem.Services
             _userLogic = new UserLogic();
         }
 
+        public List<string> GetStasus(string userName)
+        {
+            return _userLogic.GetStatus(userName);
+        }
+
+        public List<string> GetRanks()
+        {
+            return _gameCenter.getRanks();
+        }
+
         public IRoom RoomStatus(string roomName)
         {
             return _gameCenter.GetRoom(roomName);

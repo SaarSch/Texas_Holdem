@@ -17,7 +17,7 @@ namespace TexasHoldem.Logics
 		    db = new DatabaseContext();
 	    }
 
-        public List<Tuple<IUser, bool>> getAllUsers()
+        public List<Tuple<IUser, bool>> GetAllUsers()
         {
             List<Tuple<IUser, bool>> ans=new List<Tuple<IUser, bool>>();
             foreach (var u in db.Users)
@@ -26,6 +26,20 @@ namespace TexasHoldem.Logics
             }
             return ans;
         }
+
+        public List<string> GetStatus(string userName)
+        {
+            IUser u = GetUser(userName, GetAllUsers());
+
+            List<string> ans = new List<string>();
+            ans.Add(u.Username);
+            ans.Add(""+u.League);
+            ans.Add(""+u.Wins);
+            ans.Add(""+(u.NumOfGames-u.Wins));
+            return ans;
+
+        }
+
         public void SetLeagues(List<Tuple<IUser, bool>> users)
         {
             var tempUsers = users.Where(user => user.Item1.League != -1).ToList();

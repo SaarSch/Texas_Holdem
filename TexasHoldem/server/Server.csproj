@@ -95,6 +95,7 @@
     <Compile Include="Controllers\ReplayController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Global.asax.cs">
