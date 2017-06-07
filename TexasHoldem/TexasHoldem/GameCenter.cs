@@ -15,7 +15,7 @@ namespace TexasHoldem
         {   
 			DatabaseContext db = new DatabaseContext();
 
-	        // Display all users from the database 
+	        // Display all users from the database - for debugging
 	        var query1 = from u in db.Users
 		        orderby u.Username
 		        select u;
@@ -45,14 +45,14 @@ namespace TexasHoldem
 
         public UserLogic UserLogic;
 
-        public List<string> getRanks()
+        public List<string> GetRanks()
         {
-            List<User> users = new List<User>();
-            foreach(User u in users)
+            List<IUser> users = new List<IUser>();
+            foreach(Tuple<IUser,Boolean> t in Users)
             {
-                users.Add(u);
+                users.Add(t.Item1);
             }
-            users.Sort(delegate (User x, User y)
+            users.Sort(delegate (IUser x, IUser y)
             {
                 if (x.Wins > y.Wins) return 1;
                 else if (y.Wins > x.Wins) return -1;
@@ -60,7 +60,7 @@ namespace TexasHoldem
             });
             List<string> ans = new List<string>();
             int i = 0;
-            foreach(User u in users)
+            foreach(IUser u in users)
             {
                 ans.Add(u.Username);
                 ans.Add(""+u.Wins);
@@ -72,7 +72,6 @@ namespace TexasHoldem
 
         private GameCenter()
         {
-            
             Rooms = new List<IRoom>();
             UserLogic = new UserLogic();
             Users = UserLogic.GetAllUsers();
@@ -171,11 +170,13 @@ namespace TexasHoldem
         public IRoom RemoveUserFromRoom(string username, string roomName, string playerName)
         {
             var room = GetRoom(roomName);
-            UserLogic.GetLoggedInUser(username, Users);
+            //IUser user = UserLogic.GetLoggedInUser(username, Users);
 
             if (room != null)
             {
                 room.ExitRoom(playerName);
+				IUser user = Users.First(u => u.Item1.Username == username).Item1;
+				UserLogic.UpdateUser(user); // update wins, chips, games played, league?
             }
             else
             {

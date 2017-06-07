@@ -25,7 +25,7 @@ namespace TexasHoldem.Services
 
         public List<string> GetRanks()
         {
-            return _gameCenter.getRanks();
+            return _gameCenter.GetRanks();
         }
 
         public IRoom RoomStatus(string roomName)

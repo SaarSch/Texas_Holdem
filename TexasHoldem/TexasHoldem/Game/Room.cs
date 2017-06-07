@@ -586,6 +586,7 @@ namespace TexasHoldem.Game
                         Fold(Players[i]);
                         
                     }
+					
                     break;
                 }
             }
