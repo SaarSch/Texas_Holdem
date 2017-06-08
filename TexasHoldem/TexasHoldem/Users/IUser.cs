@@ -14,6 +14,10 @@ namespace TexasHoldem.Users
         int Wins { get; set; }
         int ChipsAmount { get; set; }
         int NumOfGames { get; set; }
+        int GrossProfit { get; set; }//cfir
+        int AvgGrossProfit { get; set; }//cfir
+        int HighestCashGain { get; set; }//cfir
+        int AvgCashGain { get; set; }//cfir
         void AddNotification(string room, string notif);
         void RemoveNotification(string room, string notif);
     }

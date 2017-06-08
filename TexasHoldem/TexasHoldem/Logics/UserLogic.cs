@@ -16,7 +16,28 @@ namespace TexasHoldem.Logics
 	    {
 		    db = new DatabaseContext();
 	    }
+        public IUser WebLogin(string username, string password)//i will delete it later
+        {
+            var query = db.Users.Where(u => u.Username == username);
 
+            if (!query.Any())
+            {
+                var e = new IllegalUsernameException("ERROR in Login: Username does not exist!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            query = query.Where(u => u.Password == password);
+
+            if (!query.Any())
+            {
+                var e = new IllegalPasswordException("ERROR in Login: Wrong password!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+            IUser fuser = query.FirstOrDefault();
+            return fuser;
+        }
         public List<Tuple<IUser, bool>> GetAllUsers()
         {
             List<Tuple<IUser, bool>> ans=new List<Tuple<IUser, bool>>();
@@ -27,17 +48,9 @@ namespace TexasHoldem.Logics
             return ans;
         }
 
-        public List<string> GetStatus(string userName)
+        public IUser GetStat(string userName)
         {
-            IUser u = GetUser(userName, GetAllUsers());
-
-            List<string> ans = new List<string>();
-            ans.Add(u.Username);
-            ans.Add(""+u.League);
-            ans.Add(""+u.Wins);
-            ans.Add(""+(u.NumOfGames-u.Wins));
-            return ans;
-
+            return GetUser(userName);
         }
 
         public void SetLeagues(List<Tuple<IUser, bool>> users)
@@ -389,7 +402,7 @@ namespace TexasHoldem.Logics
             //throw e;
         }
 
-        public IUser GetUser(string username, List<Tuple<IUser, bool>> users)
+        public IUser GetUser(string username)
         {
             var query = db.Users.Where(u => u.Username == username);
 
@@ -399,9 +412,22 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            //Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
-            //IUser ans = foundUser.Item1;
             return query.First();
+        }
+        public IUser GetUser(string username, List<Tuple<IUser, bool>> users)
+        {
+            return GetUser(username);
+            //var query = db.Users.Where(u => u.Username == username);
+
+            //if (!query.Any())
+            //{
+            //    var e = new IllegalUsernameException("ERROR in GetLoggedInUser: Username does not exist!");
+            //    Logger.Log(Severity.Error, e.Message);
+            //    throw e;
+            //}
+            ////Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
+            ////IUser ans = foundUser.Item1;
+            //return query.First();
             //for (var i = 0; i < users.Count; i++)
             //{
             //    if (users[i].Item1.Username == username)

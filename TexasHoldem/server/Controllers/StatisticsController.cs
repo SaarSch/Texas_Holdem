@@ -4,22 +4,45 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using server.Models;
 
 
 namespace server.Controllers
 {
     public class StatisticsController : ApiController
     {
-        // GET: api/Statistics
-        public List<string> Get()
-        {
-            return Server.Server.GameFacade.GetRanks();
+        // GET: api/Statistics?userName=elad
+        public UserStat Get(string userName)
+        {   
+            var u= Server.Server.GameFacade.GetStat(userName);
+            var ans = new UserStat
+            {
+                Username = u.Username,
+                AvgCashGain = u.AvgCashGain,
+                AvgGrossProfit = u.AvgGrossProfit,
+                GrossProfit = u.GrossProfit,
+                HighestCashGain = u.HighestCashGain,
+                NumOfGames = u.NumOfGames
+            };
+
+            return ans;
         }
 
-        // GET: api/Statistics?userName=elad
-        public List<string> Get(string userName)
+        //login GET: api/Statistics?userName=elad&password=12345678
+        public UserStat Get(string userName,string password)
         {
-            return Server.Server.GameFacade.GetStasus(userName);
+            var u = Server.Server.GameFacade.WebLogin(userName, password);
+            var ans = new UserStat
+                {
+                    Username = u.Username,
+                    AvgCashGain = u.AvgCashGain,
+                    AvgGrossProfit = u.AvgGrossProfit,
+                    GrossProfit = u.GrossProfit,
+                    HighestCashGain = u.HighestCashGain,
+                    NumOfGames = u.NumOfGames
+                };
+            return ans;
         }
+
     }
 }

@@ -9,6 +9,10 @@ namespace TexasHoldem.Users
 {
     public class User : IUser
     {
+        public int GrossProfit { get; set; }//cfir
+        public int AvgGrossProfit { get; set; }//cfir
+        public int HighestCashGain { get; set; }//cfir
+        public int AvgCashGain { get; set; }//cfir
         private string _username;
 	    [Key]
 		public string Username
@@ -201,7 +205,13 @@ namespace TexasHoldem.Users
 		    Email = "mail@gmail.com";
 		    Notifications = new List<Tuple<string, string>>();
 		    ChipsAmount = 5000;
-		}
+	        NumOfGames=0;
+
+	        GrossProfit=0;
+	        AvgGrossProfit=0;
+	        HighestCashGain=0;
+	        AvgCashGain=0;
+        }
 
         public User(string username, string password, string avatarPath, string email, int chipsAmount)
         {
@@ -214,6 +224,11 @@ namespace TexasHoldem.Users
             Email = email;
             Notifications = new List<Tuple<string, string>>();
             ChipsAmount = chipsAmount;
+
+            GrossProfit = 0;
+            AvgGrossProfit = 0;
+            HighestCashGain = 0;
+            AvgCashGain = 0;
         }
 
         public User(IUser ans,string username)
@@ -228,6 +243,11 @@ namespace TexasHoldem.Users
             Notifications = new List<Tuple<string, string>>();
             Notifications.AddRange(ans.Notifications);
             ChipsAmount = ans.ChipsAmount;
+
+            GrossProfit = ans.GrossProfit;
+            AvgGrossProfit = ans.AvgGrossProfit;
+            HighestCashGain = ans.HighestCashGain;
+            AvgCashGain = ans.AvgCashGain;
         }
 
         public void AddNotification(string room, string notif)
