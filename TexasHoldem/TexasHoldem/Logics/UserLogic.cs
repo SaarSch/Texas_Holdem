@@ -463,5 +463,16 @@ namespace TexasHoldem.Logics
             db.SaveChanges();
             Logger.Log(Severity.Action, "User: " + username + " deleted successfully!");
         }
+
+	    public void UpdateUser(IUser user)
+	    {
+			var found = db.Users.First(u => u.Username == user.Username);
+			found.ChipsAmount = user.ChipsAmount;
+		    found.Wins = user.Wins;
+		    found.NumOfGames = user.NumOfGames;
+		    found.League = user.League; // TODO?
+
+			db.SaveChanges();
+	    }
     }
 }
