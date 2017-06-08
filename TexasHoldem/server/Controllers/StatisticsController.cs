@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using server.Models;
 
 
 namespace server.Controllers
@@ -11,15 +12,29 @@ namespace server.Controllers
     public class StatisticsController : ApiController
     {
         // GET: api/Statistics
-        public List<string> Get()
+        public List<UserStat> Get()
         {
-            return Server.Server.GameFacade.GetRanks();
+            List<UserStat> ans =new List<UserStat>();
+           // return Server.Server.GameFacade.GetRanks();
+            return ans;
         }
 
         // GET: api/Statistics?userName=elad
-        public List<string> Get(string userName)
+        public UserStat Get(string userName)
         {
-            return Server.Server.GameFacade.GetStasus(userName);
+            //return Server.Server.GameFacade.GetStat(userName);
+            UserStat ans=new UserStat();
+
+            return ans;
         }
+
+        // GET: api/Statistics?userName=elad&password=12345678
+        public UserStat Get(string userName,string password)
+        {
+            UserStat ans = new UserStat();
+
+            return ans;
+        }
+
     }
 }
