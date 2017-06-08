@@ -96,6 +96,7 @@
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\StatisticsLstController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="Global.asax.cs">
@@ -107,6 +108,7 @@
     <Compile Include="Models\RoomList.cs" />
     <Compile Include="Models\RoomState.cs" />
     <Compile Include="Models\UserData.cs" />
+    <Compile Include="Models\UserStat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
