@@ -28,9 +28,9 @@ namespace TexasHoldem.Services
             return _userLogic.GetStat(userName);
         }
 
-        public List<IUser> GetTopStat()
+        public List<IUser> GetTopStat(int kind)
         {
-            return _gameCenter.GetTopStat();
+            return _gameCenter.GetTopStat(kind);
         }
 
         public IRoom RoomStatus(string roomName)

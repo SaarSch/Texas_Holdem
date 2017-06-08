@@ -45,20 +45,38 @@ namespace TexasHoldem
 
         public UserLogic UserLogic;
 
-        public List<IUser> GetTopStat()
+        public List<IUser> GetTopStat(int kind)
         {
-            List<IUser> users = new List<IUser>();
-            foreach(Tuple<IUser,Boolean> t in Users)
+            var u = Users.Select(t => t.Item1).ToList();
+            switch (kind)
             {
-                users.Add(t.Item1);
+                case 1:
+                    u.Sort(delegate(IUser x, IUser y)
+                    {
+                        if (x.GrossProfit > y.GrossProfit) return 1;
+                        else if (y.GrossProfit > x.GrossProfit) return -1;
+                        else return 0;
+                    });
+                    break;
+                case 2:
+                    u.Sort(delegate(IUser x, IUser y)
+                    {
+                        if (x.HighestCashGain > y.HighestCashGain) return 1;
+                        else if (y.HighestCashGain > x.HighestCashGain) return -1;
+                        else return 0;
+                    });
+                    break;
+                case 3:
+                    u.Sort(delegate(IUser x, IUser y)
+                    {
+                        if (x.NumOfGames > y.NumOfGames) return 1;
+                        else if (y.NumOfGames > x.NumOfGames) return -1;
+                        else return 0;
+                    });
+                    break;
             }
-            users.Sort(delegate (IUser x, IUser y)
-            {
-                if (x.Wins > y.Wins) return 1;
-                else if (y.Wins > x.Wins) return -1;
-                else return 0;
-            });
-            return users;
+
+            return u.GetRange(0, 20); 
         }
 
 

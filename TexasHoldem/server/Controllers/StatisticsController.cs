@@ -11,27 +11,9 @@ namespace server.Controllers
 {
     public class StatisticsController : ApiController
     {
-        // GET: api/Statistics
-        public List<UserStat> Get()
-        {
-            var lst = Server.Server.GameFacade.GetTopStat();
-            return lst.Select(u => new UserStat
-                {
-                    Username = u.Username,
-                    AvgCashGain = u.AvgCashGain,
-                    AvgGrossProfit = u.AvgGrossProfit,
-                    GrossProfit = u.GrossProfit,
-                    HighestCashGain = u.HighestCashGain,
-                    NumOfGames = u.NumOfGames
-                })
-                .ToList();
-        }
-
         // GET: api/Statistics?userName=elad
         public UserStat Get(string userName)
-        {
-            //return Server.Server.GameFacade.GetStat(userName);
-            
+        {   
             var u= Server.Server.GameFacade.GetStat(userName);
             var ans = new UserStat
             {
@@ -49,7 +31,6 @@ namespace server.Controllers
         //login GET: api/Statistics?userName=elad&password=12345678
         public UserStat Get(string userName,string password)
         {
-            
             var u = Server.Server.GameFacade.WebLogin(userName, password);
             var ans = new UserStat
                 {
