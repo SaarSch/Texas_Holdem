@@ -45,7 +45,7 @@ namespace TexasHoldem
 
         public UserLogic UserLogic;
 
-        public List<string> GetRanks()
+        public List<IUser> GetTopStat()
         {
             List<IUser> users = new List<IUser>();
             foreach(Tuple<IUser,Boolean> t in Users)
@@ -58,15 +58,7 @@ namespace TexasHoldem
                 else if (y.Wins > x.Wins) return -1;
                 else return 0;
             });
-            List<string> ans = new List<string>();
-            int i = 0;
-            foreach(IUser u in users)
-            {
-                ans.Add(u.Username);
-                ans.Add(""+u.Wins);
-
-            }
-            return ans;
+            return users;
         }
 
 

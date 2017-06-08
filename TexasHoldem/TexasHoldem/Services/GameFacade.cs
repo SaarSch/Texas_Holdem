@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TexasHoldem.Game;
 using TexasHoldem.Logics;
+using TexasHoldem.Users;
 
 namespace TexasHoldem.Services
 {
@@ -18,14 +19,18 @@ namespace TexasHoldem.Services
             _userLogic = new UserLogic();
         }
 
-        public List<string> GetStasus(string userName)
+        public IUser WebLogin(string username, string password)
         {
-            return _userLogic.GetStatus(userName);
+            return _userLogic.WebLogin(username, password);
+        }
+        public IUser GetStat(string userName)
+        {
+            return _userLogic.GetStat(userName);
         }
 
-        public List<string> GetRanks()
+        public List<IUser> GetTopStat()
         {
-            return _gameCenter.GetRanks();
+            return _gameCenter.GetTopStat();
         }
 
         public IRoom RoomStatus(string roomName)
