@@ -107,7 +107,6 @@
     <Compile Include="Models\RoomList.cs" />
     <Compile Include="Models\RoomState.cs" />
     <Compile Include="Models\UserData.cs" />
-    <Compile Include="Models\UserStat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
