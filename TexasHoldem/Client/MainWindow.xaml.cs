@@ -335,12 +335,14 @@ namespace Client
                 Join.IsEnabled = true;
                 JoinNameLbl.Visibility = Visibility.Visible;
                 JoinNameTxt.Visibility = Visibility.Visible;
+                Spectate.IsEnabled = true;
             }
             else
             {
                 Join.IsEnabled = false;
                 JoinNameLbl.Visibility = Visibility.Hidden;
                 JoinNameTxt.Visibility = Visibility.Hidden;
+                Spectate.IsEnabled = false;
             }
         }
 
@@ -412,6 +414,26 @@ namespace Client
                 e.Cancel = true;
                 MessageBox.Show("Cannot exit before logging out!", "Error", MessageBoxButton.OK,
                     MessageBoxImage.Error);
+            }
+        }
+
+        private void Spectate_Click(object sender, RoutedEventArgs e)
+        {
+            Room room = RoomResults[RoomsGrid.SelectedIndex];
+            var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
+                             "&playerName=none&option=spectate&token=" + LoggedUser.token;
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
+            if (roomState.Messege == null)
+            {
+                var gameWindow = new GameWindow(LoggedUser, null, roomState, this);
+                Application.Current.MainWindow = gameWindow;
+                gameWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show(roomState.Messege, "Error in spectate", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

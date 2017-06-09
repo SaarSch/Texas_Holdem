@@ -233,9 +233,10 @@ namespace Server.Controllers
                 }   
                 
                 ans.Spectators = new UserData[r.SpectateUsers.Count];
-                var u1 = new UserData();
+                j = 0;
                 foreach(var u in r.SpectateUsers)
                 {
+                    var u1 = new UserData();
                     u1.Username = u.Username;
                     if (spectator&& player==u.Username)
                     {     
@@ -247,15 +248,19 @@ namespace Server.Controllers
                             }
                         }
                     }
+                    ans.Spectators[j] = u1;
+                    j++;
                 }
 
-                if (Replays[r.Name].ContainsKey(player)&&Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
+                if (player != null)
                 {
-                    Replays[r.Name][player].Add(ans);
+                    if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans))
+                    {
+                        Replays[r.Name][player].Add(ans);
+                    }
+
+                    else if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count == 0) Replays[r.Name][player].Add(ans);
                 }
-
-                else if(Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
-
             }
             catch (Exception e)
             {
