@@ -87,3 +87,8 @@
 
     window.addEventListener("load", init);
 }());
+
+function goto() {
+    window.location = "user.html"; // Redirecting to other page.
+    return false;
+}

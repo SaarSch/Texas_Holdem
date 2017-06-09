@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>User Statistics</title>
     <link rel="stylesheet" href="css/user.css">
+    <script src="js/user.js"></script>
 </head>
 <body>
 <div id="bg"></div>
+<div class="btn-logout" onclick="goto('login')">Logout</div>
 <div id="container">
     <h1>KillingHsX's Statistics</h1>
     <div class="card">
@@ -42,7 +44,7 @@
         </fieldset>
         <input type="submit" value="Search"/>
     </div>
-    <div class="btn-follow">Leaderboards</div>
+    <div class="btn-follow" onclick="goto('leaderboards')">Leaderboards</div>
 </div>
 </body>
 </html>

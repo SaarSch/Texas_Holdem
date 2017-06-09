@@ -5,6 +5,7 @@
     <title>Texas Hold'em</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js"></script>
     <style type="text/css">
         img {
             max-height: 250px;
@@ -18,10 +19,10 @@
 <div class="login">
     <h2>Log In</h2>
     <fieldset>
-        <input type="email" placeholder="Email"/>
-        <input type="password" placeholder="Password"/>
+        <input type="text" placeholder="Username" id="username" onkeydown="if (event.keyCode === 13) document.getElementById('submit').click();"/>
+        <input type="password" placeholder="Password" id="password" onkeydown="if (event.keyCode === 13) document.getElementById('submit').click();"/>
     </fieldset>
-    <input type="submit" value="Log In"/>
+    <input type="submit" value="Log In" onclick="validate()" id="submit"/>
 </div>
 </body>
 </html>
