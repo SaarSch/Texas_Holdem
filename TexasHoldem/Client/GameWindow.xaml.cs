@@ -258,16 +258,25 @@ namespace Client
                 {
                     if (_playing)
                     {
+                        if (roomState.Messege.Contains("exist"))
+                        {
+                            MessageBox.Show("This room is closed.", "Room is closed", MessageBoxButton.OK, MessageBoxImage.Information);
+                            _playing = false;
+                            Application.Current.Dispatcher.Invoke(()=> Application.Current.MainWindow = Main);
+                            Application.Current.Dispatcher.Invoke(() => Close());
+                            Application.Current.Dispatcher.Invoke(() => Main.Show());
+                        }
+                        else
                         MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
             catch
             {
-                if (_playing)
-                {
-                    MessageBox.Show(ans + "\nAn error has occurred.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+              /*  _playing = false;
+                Application.Current.MainWindow = Main;
+                Close();
+                Main.Show(); */
             }
         }
 

@@ -252,13 +252,15 @@ namespace Server.Controllers
                     j++;
                 }
 
-                if (Replays[r.Name].ContainsKey(player)&&Replays[r.Name][player].Count!=0&&!Replays[r.Name][player][Replays[r.Name][player].Count-1].Equals(ans))
+                if (player != null)
                 {
-                    Replays[r.Name][player].Add(ans);
+                    if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans))
+                    {
+                        Replays[r.Name][player].Add(ans);
+                    }
+
+                    else if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count == 0) Replays[r.Name][player].Add(ans);
                 }
-
-                else if(Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count ==0) Replays[r.Name][player].Add(ans);
-
             }
             catch (Exception e)
             {

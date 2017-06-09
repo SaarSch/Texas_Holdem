@@ -240,5 +240,21 @@ namespace TexasHoldem.Users
 
             Notifications.Remove(p);
         }
+
+        public override bool Equals(Object o)
+        {
+            if (!(o is User))
+                return false;
+            User other = (User)o;
+            if (other.Username == this.Username && other.Password == this.Password)
+                return true;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)(this.Username[0]) + (int)(this.Username[1]) + (int)(this.Password[0]) + (int)(this.Username[1]);
+        //    return base.GetHashCode();
+        }
     }
 }

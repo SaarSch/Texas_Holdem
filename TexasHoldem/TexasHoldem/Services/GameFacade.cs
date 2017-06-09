@@ -169,19 +169,8 @@ namespace TexasHoldem.Services
         public IRoom SpectatorWhisper(string room, string usernameSender, string usernameReceiver, string message)
         {
             Users.IUser reciever = null;
-            try
-            {
-                reciever = _userLogic.GetUser(usernameReceiver, _gameCenter.Users);
-
-                if (_gameCenter.GetRoom(room).SpectateUsers.Contains(reciever))
-                    return _messageLogic.SpectatorWhisper(message, _gameCenter.GetRoom(room).GetPlayer(usernameSender).User, reciever, _gameCenter.GetRoom(room));
-                else
-                    return _messageLogic.SpectatorWhisper(message, _gameCenter.GetRoom(room).GetPlayer(usernameSender).User, _gameCenter.GetRoom(room).GetPlayer(usernameReceiver).User, _gameCenter.GetRoom(room));
-            }
-            catch
-            {
-                return _messageLogic.SpectatorWhisper(message, _gameCenter.GetRoom(room).GetPlayer(usernameSender).User, _gameCenter.GetRoom(room).GetPlayer(usernameReceiver).User, _gameCenter.GetRoom(room));
-            }
+            reciever = _userLogic.GetUser(usernameReceiver, _gameCenter.Users);
+            return _messageLogic.SpectatorWhisper(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), reciever, _gameCenter.GetRoom(room));
         }
 
         public IRoom PlayerSendMessage(string room, string playerNameSender, string message)
