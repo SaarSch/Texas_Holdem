@@ -660,12 +660,19 @@ namespace TexasHoldem.Game
             foreach (var p in winners)
             {
                 CurrentWinners += p.Name + " ";
-                p.User.Wins++;
+                p.User.Wins++;   
             }
             var totalChips = 0;
             foreach (var p in Players) totalChips += p.CurrentBet;
             var chipsForPlayer = totalChips / winners.Count;
-            foreach (var p in winners) p.ChipsAmount += chipsForPlayer;
+            foreach (var p in winners)
+            {
+                p.ChipsAmount += chipsForPlayer;
+                p.User.GrossProfit += chipsForPlayer;
+                p.User.AvgGrossProfit = (p.User.GrossProfit/p.User.Wins);
+                if (p.User.HighestCashGain < chipsForPlayer) p.User.HighestCashGain = p.User.HighestCashGain;
+
+            }
             Logger.Log(Severity.Action, "current status in room" + Name + "is" + PlayersToString(Players));
 
             CleanGame(); 
@@ -692,7 +699,7 @@ namespace TexasHoldem.Game
             }
             foreach (var p in Players)
             {
-
+                p.User.AvgCashGain = p.User.GrossProfit / p.User.NumOfGames;
                 p.CurrentBet = 0;
                
             }
