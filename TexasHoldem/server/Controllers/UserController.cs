@@ -19,7 +19,7 @@ namespace Server.Controllers
                     case "logout":
                         if (Server.UserFacade.Logout(Crypto.Decrypt(username)))
                         {
-                            Server.GuidDic.Remove(new Guid(token));
+                            Server.GuidDic.Remove(token);
                         }
                         break;
                     case "isloggedin":
@@ -36,7 +36,7 @@ namespace Server.Controllers
                 {
                     if (Server.UserFacade.Logout(Crypto.Decrypt(username)))
                     {
-                        Server.GuidDic.Remove(new Guid(token));
+                        Server.GuidDic.Remove(token);
                     }
                 }
                 return e.Message;
@@ -108,7 +108,7 @@ namespace Server.Controllers
                 ret.Wins = u.Wins;
                 Guid g = Guid.NewGuid();
                 ret.token = g.ToString();
-                Server.GuidDic.Add(g, new Tuple<string, DateTime>(value.Username,DateTime.Now));
+                Server.GuidDic.Add(g.ToString(), new Tuple<string, DateTime>(value.Username,DateTime.Now));
             }
             catch (Exception e)
             {
