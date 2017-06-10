@@ -231,3 +231,25 @@ a {
     top: 200px;
     width: 250px;
 }
+
+.btn-logout:active {
+    background-image: -webkit-linear-gradient(90deg, #ff8c00, #ff8c00);
+    border-bottom: none;
+}
+
+.btn-logout {
+    -webkit-user-select: none;
+    background: #f6ba35 -webkit-linear-gradient(90deg, #eca418, #ffcd4e);
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: default;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 7px;
+    padding: 13px 0;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 1);
+    width: 80px;
+}
