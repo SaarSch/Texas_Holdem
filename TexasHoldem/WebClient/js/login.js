@@ -3,7 +3,8 @@
 function validate(){
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    if ( username === "admin" && password === "admin"){
+    if (username === "admin" && password === "admin") {
+        sessionStorage.setItem("user", username);
         window.location = "user.html"; // Redirecting to other page.
     }
     else{

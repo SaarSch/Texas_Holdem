@@ -10,7 +10,8 @@
 <div id="bg"></div>
 <div class="btn-logout" onclick="goto('login')">Logout</div>
 <div id="container">
-    <h1>KillingHsX's Statistics</h1>
+    <h1 id="header">error in script</h1>
+    <script>document.getElementById("header").innerHTML = sessionStorage.getItem("user") + "'s Statistics";</script>
     <div class="card">
         <div class="profile">
             <img src="css/avatar4.png" alt="avatar">
@@ -18,7 +19,8 @@
         </div>
         <div class="name">
             <p>
-                <a>KillingHsX</a>
+                <a id="cardheader">error in script</a>
+                <script>document.getElementById("cardheader").innerHTML = sessionStorage.getItem("user");</script>
             </p>
         </div>
         <div class="numbers">
