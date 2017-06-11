@@ -27,8 +27,8 @@ namespace Client
         public UserData User;
         public Dictionary<string, int> PlayerMap;
         public int CountPlayers;
-        private List<string> _chatComboBoxContent;
-        public List<string> ChatComboBoxContent
+        private BindingList<string> _chatComboBoxContent;
+        public BindingList<string> ChatComboBoxContent
         {
             get { return _chatComboBoxContent; }
             set
@@ -81,7 +81,7 @@ namespace Client
             RoomName = state.RoomName;
             RoomNameLbl.Content = RoomName;
             PlayerMap = new Dictionary<string, int>();
-            ChatComboBoxContent = new List<string>();
+            ChatComboBoxContent = new BindingList<string>();
             _playing = true;
             _got_win_msg = false;
             _first_play = true;
@@ -138,14 +138,15 @@ namespace Client
 
         private void StartOfGameUpdate(RoomState state)
         {
-            if (state.IsOn == false && SelfPlayerName != null)
+            if (state.IsOn == false)
             {
-                //     Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Visible);
-                Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
+                if (SelfPlayerName != null)
+                {
+                    Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
+                }
             }
             else
             {
-                //     Leave.Dispatcher.Invoke(() => Leave.Visibility = Visibility.Hidden);
                 Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
                 _got_win_msg = false;
                 _first_play = false;
@@ -154,6 +155,8 @@ namespace Client
 
         private void UpdateRoom(RoomState state)
         {
+            BindingList<string> tmpComboboxList = new BindingList<string>();
+
             StartOfGameUpdate(state);
 
             foreach (Rectangle r in TurnSymbol)
@@ -165,8 +168,7 @@ namespace Client
             {
                 PlayerMap.Clear();
                 CountPlayers = 0;
-                ChatComboBoxContent.Clear();
-                ChatComboBoxContent.Add("ALL");
+                tmpComboboxList.Add("ALL");
                 if (SelfPlayerName != null)
                 {
                     CountPlayers++;
@@ -183,7 +185,7 @@ namespace Client
                     PlayerMap.Add(p.PlayerName, CountPlayers);
                     if (SelfPlayerName != null)
                     {
-                        ChatComboBoxContent.Add(p.PlayerName);
+                        tmpComboboxList.Add(p.PlayerName);
                     }
                 }
                 PlayerMap.TryGetValue(p.PlayerName, out int playerVal);
@@ -207,13 +209,14 @@ namespace Client
             {
                 foreach (UserData s in state.Spectators)
                 {
-                    if (!ChatComboBoxContent.Contains(s.Username) && s.Username != User.Username)
+                    if (!tmpComboboxList.Contains(s.Username) && s.Username != User.Username)
                     {
-                        ChatComboBoxContent.Add(s.Username);
+                        tmpComboboxList.Add(s.Username);
                     }
                 }
             }
 
+            ChatComboBoxContent = tmpComboboxList;
             UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners != null && state.CurrentWinners != ""));
             /*    if (!state.IsOn)
                 {
@@ -370,10 +373,10 @@ namespace Client
                 {
                     HandCards[i - 1][0]
                         .Dispatcher.Invoke(() => HandCards[i - 1][0].Source =
-                            new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                            new BitmapImage(new Uri(@"Resources/new_back.png", UriKind.Relative)));
                     HandCards[i - 1][1]
                         .Dispatcher.Invoke(() => HandCards[i - 1][1].Source =
-                            new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                            new BitmapImage(new Uri(@"Resources/new_back.png", UriKind.Relative)));
                 }
             }
             else
@@ -406,7 +409,7 @@ namespace Client
                         .Dispatcher.Invoke(() => CommunityCards[i].Visibility = Visibility.Visible);
                     CommunityCards[i]
                         .Dispatcher.Invoke(() => CommunityCards[i].Source =
-                            new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                            new BitmapImage(new Uri(@"Resources/new_back.png", UriKind.Relative)));
                 }
                 return;
             }
@@ -417,7 +420,7 @@ namespace Client
                 if (cards[i] != null)
                     CommunityCards[i].Dispatcher.Invoke(() => CommunityCards[i].Source = new BitmapImage(new Uri(@"Resources/_" + cards[i] + ".png", UriKind.Relative)));
                 else
-                    CommunityCards[i].Dispatcher.Invoke(() => CommunityCards[i].Source = new BitmapImage(new Uri(@"Resources/back.png", UriKind.Relative)));
+                    CommunityCards[i].Dispatcher.Invoke(() => CommunityCards[i].Source = new BitmapImage(new Uri(@"Resources/new_back.png", UriKind.Relative)));
             }
         }
 
@@ -592,9 +595,15 @@ namespace Client
             }
         }
 
-        private void Card_OnMouseEnter(object sender, MouseEventArgs e)
+        private void Card_MouseEnter(object sender, MouseEventArgs e)
         {
+            Image card = sender as Image;
+            ZoomCard.Dispatcher.Invoke(() => ZoomCard.Source = card.Source);
+        }
 
+        private void Card_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ZoomCard.Dispatcher.Invoke(() => ZoomCard.Source = new BitmapImage(new Uri(@"Resources/new_back.png", UriKind.Relative)));
         }
     }
 }
