@@ -92,7 +92,7 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<IUser> { reciver };
+            var roomUsers = new List<IUser> { sender, reciver };
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Username + ": " + message);
             return r;
         }

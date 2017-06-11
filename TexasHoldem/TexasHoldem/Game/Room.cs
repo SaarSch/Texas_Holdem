@@ -790,6 +790,30 @@ namespace TexasHoldem.Game
             return ans;
         }
 
+        public IUser GetSpectator(string name)
+        {
+            IUser ans = null;
+            if (name == null)
+            {
+                var e = new Exception("name cant be null");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+
+            var found = false;
+            foreach (var s in SpectateUsers) if (s.Username.Equals(name)) found = true;
+            if (!found)
+            {
+                var e = new Exception("spectator is not found");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            foreach (var s in SpectateUsers) if (s.Username.Equals(name)) ans = s;
+
+            return ans;
+        }
+
         public bool IsInRoom(string name)
         {
             foreach (Player p in Players)

@@ -144,6 +144,10 @@ namespace Client
                 {
                     Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
                 }
+                else
+                {
+                    Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Hidden);
+                }
             }
             else
             {
@@ -216,7 +220,8 @@ namespace Client
                 }
             }
 
-            ChatComboBoxContent = tmpComboboxList;
+            if (!state.IsOn)
+                ChatComboBoxContent = tmpComboboxList;
             UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners != null && state.CurrentWinners != ""));
             /*    if (!state.IsOn)
                 {
@@ -230,8 +235,7 @@ namespace Client
             EndOfGameUpdate(state);
 
 
-            //        if (!state.IsOn || (state.IsOn && state.CurrentPlayer != SelfPlayerName))
-            //        {
+
             System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
                 {
@@ -239,7 +243,7 @@ namespace Client
                     timer.Dispose();
                 },
                 null, 2000, System.Threading.Timeout.Infinite);
-            //         }
+
         }
 
         private void StatusRequest()
@@ -263,11 +267,17 @@ namespace Client
                     {
                         if (roomState.Messege.Contains("exist"))
                         {
-                            MessageBox.Show("This room is closed.", "Room is closed", MessageBoxButton.OK, MessageBoxImage.Information);
-                            _playing = false;
-                            Application.Current.Dispatcher.Invoke(()=> Application.Current.MainWindow = Main);
-                            Application.Current.Dispatcher.Invoke(() => Close());
-                            Application.Current.Dispatcher.Invoke(() => Main.Show());
+                            if(roomState.Messege.Contains("player"))
+                                StatusRequest();
+                            else
+                            {
+                                MessageBox.Show(roomState+"\nThis room is closed.", "Room is closed", MessageBoxButton.OK, MessageBoxImage.Information);
+                                _playing = false;
+                                Application.Current.Dispatcher.Invoke(()=> Application.Current.MainWindow = Main);
+                                Application.Current.Dispatcher.Invoke(() => Close());
+                                Application.Current.Dispatcher.Invoke(() => Main.Show());
+                            }
+                            
                         }
                         else
                         MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -276,10 +286,7 @@ namespace Client
             }
             catch
             {
-              /*  _playing = false;
-                Application.Current.MainWindow = Main;
-                Close();
-                Main.Show(); */
+                StatusRequest();
             }
         }
 
