@@ -14,7 +14,8 @@
     <script>document.getElementById("header").innerHTML = sessionStorage.getItem("user") + "'s Statistics";</script>
     <div class="card">
         <div class="profile">
-            <img src="css/avatar4.png" alt="avatar">
+            <img id="avatarheader" alt="avatar">
+            <script>document.getElementById("avatarheader").src = `css/${sessionStorage.getItem("avatar").substring(10)}`;</script>
             <div class="border"></div>
         </div>
         <div class="name">
@@ -27,24 +28,26 @@
             <table id="stats">
                 <tbody>
                 <tr>
-                    <td>171K</td>
+                    <td id="grossheader">error in script</td>
                     <td>GROSS PROFIT</td>
                 </tr>
                 <tr>
-                    <td>14K</td>
+                    <td id="cashheader">error in script</td>
                     <td>WIN RATE</td>
                 </tr>
                 </tbody>
             </table>
             <div class="divider"></div>
+            <script>document.getElementById("grossheader").innerHTML = sessionStorage.getItem("gross");</script>
+            <script>document.getElementById("cashheader").innerHTML = sessionStorage.getItem("cash");</script>
         </div>
     </div>
     <div class="login">
         <h2>Find More Players</h2>
         <fieldset>
-            <input type="email" placeholder="Enter a username"/>
+            <input type="text" placeholder="Enter a username" id="newuser" onkeydown="if (event.keyCode === 13) document.getElementById('search').click();"/>
         </fieldset>
-        <input type="submit" value="Search"/>
+        <input type="submit" value="Search" onclick="getNewUser()" id="search"/>
     </div>
     <div class="btn-follow" onclick="goto('leaderboards')">Leaderboards</div>
 </div>

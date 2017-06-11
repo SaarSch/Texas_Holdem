@@ -13,5 +13,6 @@ namespace server.Models
         public int AvgGrossProfit;
         public int HighestCashGain;
         public int AvgCashGain;
+        public string AvatarPath;
     }
 }
