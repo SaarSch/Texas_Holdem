@@ -464,7 +464,6 @@ namespace TexasHoldem.Game
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            NextPlayer();
             return this;
         }
 
@@ -543,7 +542,7 @@ namespace TexasHoldem.Game
             p.SetBet(bet);
 
             //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
-            NextPlayer();
+            if(!smallBlind) NextPlayer();
             return this;
         }
 
