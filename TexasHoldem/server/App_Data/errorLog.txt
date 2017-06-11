@@ -289,3 +289,5 @@
 11/06/2017 16:14: Error: ERROR in GetLoggedInUser: Username does not exist!
 11/06/2017 17:27: Error: ERROR in Login: Username does not exist!
 11/06/2017 17:53: Error: ERROR in Login: Username does not exist!
+11/06/2017 18:49: Error: ERROR in Login: Username does not exist!
+11/06/2017 19:31: Error: ERROR in Login: Wrong password!

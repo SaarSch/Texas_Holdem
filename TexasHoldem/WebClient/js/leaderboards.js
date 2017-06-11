@@ -59,7 +59,7 @@
         for (let i = 0; i < dataSet.length; i++) {
             const name = `<a>${dataSet[i].Username}</a>`;
             res += `<tr><th class="col-xs-1 text-warning text-xs-center" scope="row">${i + 1}</th>`;
-            res += `<td class="col-xs-4 text-warning text-xs-left"><img class="logo" src="${dataSet[i].AvatarPath}" alt="avatar"> `;
+            res += `<td class="col-xs-4 text-warning text-xs-left"><img class="logo" src="css/${dataSet[i].AvatarPath.substring(10)}" alt="avatar"> `;
             res += ` &nbsp; ${name}</td>`;
             res += `<td class="col-xs-3 text-warning">${dataSet[i].GrossProfit}</td>`;
             res += `<td class="col-xs-2 text-warning">${dataSet[i].HighestCashGain}</td>`;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using server.Models;
 
 
@@ -22,7 +17,8 @@ namespace server.Controllers
                 AvgGrossProfit = u.AvgGrossProfit,
                 GrossProfit = u.GrossProfit,
                 HighestCashGain = u.HighestCashGain,
-                NumOfGames = u.NumOfGames
+                NumOfGames = u.NumOfGames,
+                AvatarPath = u.AvatarPath
             };
 
             return ans;
@@ -39,8 +35,9 @@ namespace server.Controllers
                     AvgGrossProfit = u.AvgGrossProfit,
                     GrossProfit = u.GrossProfit,
                     HighestCashGain = u.HighestCashGain,
-                    NumOfGames = u.NumOfGames
-                };
+                    NumOfGames = u.NumOfGames,
+                    AvatarPath = u.AvatarPath
+            };
             return ans;
         }
 

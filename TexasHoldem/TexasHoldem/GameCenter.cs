@@ -51,27 +51,27 @@ namespace TexasHoldem
             switch (kind)
             {
                 case 1:
-                    u.Sort(delegate(IUser x, IUser y)
+                    u.Sort(delegate (IUser x, IUser y)
                     {
-                        if (x.GrossProfit > y.GrossProfit) return 1;
-                        else if (y.GrossProfit > x.GrossProfit) return -1;
-                        else return 0;
+                        if (x.GrossProfit < y.GrossProfit) return 1;
+                        if (y.GrossProfit < x.GrossProfit) return -1;
+                        return 0;
                     });
                     break;
                 case 2:
-                    u.Sort(delegate(IUser x, IUser y)
+                    u.Sort(delegate (IUser x, IUser y)
                     {
-                        if (x.HighestCashGain > y.HighestCashGain) return 1;
-                        else if (y.HighestCashGain > x.HighestCashGain) return -1;
-                        else return 0;
+                        if (x.HighestCashGain < y.HighestCashGain) return 1;
+                        if (y.HighestCashGain < x.HighestCashGain) return -1;
+                        return 0;
                     });
                     break;
                 case 3:
-                    u.Sort(delegate(IUser x, IUser y)
+                    u.Sort(delegate (IUser x, IUser y)
                     {
-                        if (x.NumOfGames > y.NumOfGames) return 1;
-                        else if (y.NumOfGames > x.NumOfGames) return -1;
-                        else return 0;
+                        if (x.NumOfGames < y.NumOfGames) return 1;
+                        if (y.NumOfGames < x.NumOfGames) return -1;
+                        return 0;
                     });
                     break;
             }

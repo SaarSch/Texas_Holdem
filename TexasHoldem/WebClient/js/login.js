@@ -10,7 +10,6 @@ function validate(){
         sessionStorage.setItem("gross", userData.AvgGrossProfit);
         sessionStorage.setItem("cash", userData.AvgCashGain);
         sessionStorage.setItem("avatar", userData.AvatarPath);
-        alert("DEBUG: avatar path is " + userData.AvatarPath);
         window.location = "user.html"; // Redirecting to other page.
     } else {
         attempt --;// Decrementing by one.
