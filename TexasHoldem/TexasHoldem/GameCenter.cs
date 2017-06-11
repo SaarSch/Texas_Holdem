@@ -75,8 +75,7 @@ namespace TexasHoldem
                     });
                     break;
             }
-
-            return u.GetRange(0, 20); 
+            return u.Count > 20 ? u.GetRange(0, 20) : u;
         }
 
 

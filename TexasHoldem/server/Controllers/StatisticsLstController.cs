@@ -27,7 +27,8 @@ namespace server.Controllers
                     AvgGrossProfit = u.AvgGrossProfit,
                     GrossProfit = u.GrossProfit,
                     HighestCashGain = u.HighestCashGain,
-                    NumOfGames = u.NumOfGames
+                    NumOfGames = u.NumOfGames,
+                    AvatarPath = u.AvatarPath
                 })
                 .ToList();
         }

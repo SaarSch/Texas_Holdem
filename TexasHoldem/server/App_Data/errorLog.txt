@@ -250,4 +250,42 @@
 24/05/2017 01:02: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 24/05/2017 11:30: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
 24/05/2017 11:38: Error: Error in GetRoom: Room aaaaa11 doesn't exist!
-24/05/2017 11:45: Error: ERROR in CreateRoom: room name already taken!
+24/05/2017 11:45: Error: ERROR in CreateRoom: room name already taken!11/06/2017 13:01: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:02: Error: Illegal username! Length must be between 8 and 12.
+11/06/2017 13:02: Error: Illegal password! Length must be between 8 and 12.
+11/06/2017 13:12: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:12: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:29: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:30: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:30: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:30: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:30: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:31: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:32: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:32: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:32: Error: ERROR in Login: Wrong password!
+11/06/2017 13:32: Error: ERROR in Login: Wrong password!
+11/06/2017 13:32: Error: ERROR in Login: Wrong password!
+11/06/2017 13:35: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:35: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:35: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:38: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:38: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:42: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:44: Error: ERROR in Login: Wrong password!
+11/06/2017 13:47: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:50: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:50: Error: ERROR in Login: Username does not exist!
+11/06/2017 13:56: Error: ERROR in Login: Username does not exist!
+11/06/2017 14:00: Error: ERROR in Login: Username does not exist!
+11/06/2017 14:01: Error: ERROR in Login: Username does not exist!
+11/06/2017 14:01: Error: ERROR in Login: Username does not exist!
+11/06/2017 14:01: Error: ERROR in Login: Username does not exist!
+11/06/2017 15:04: Error: ERROR in Login: Wrong password!
+11/06/2017 15:24: Error: ERROR in GetLoggedInUser: Username does not exist!
+11/06/2017 16:05: Error: ERROR in Login: Username does not exist!
+11/06/2017 16:06: Error: ERROR in Login: Username does not exist!
+11/06/2017 16:12: Error: ERROR in GetLoggedInUser: Username does not exist!
+11/06/2017 16:14: Error: ERROR in GetLoggedInUser: Username does not exist!
+11/06/2017 17:27: Error: ERROR in Login: Username does not exist!
+11/06/2017 17:53: Error: ERROR in Login: Username does not exist!
