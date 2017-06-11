@@ -282,6 +282,12 @@ namespace Client
                     MessageBoxImage.Error);
                 return null;
             }
+            if (string.IsNullOrEmpty(PlayerNameTxt_Copy.Text))
+            {
+                MessageBox.Show("Player name cannot be empty!", "Error in creation", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
+            }
 
             var cond = SpectatingCombobox_Copy.SelectedIndex <= 0;
             room.SpectatingAllowed = cond;
