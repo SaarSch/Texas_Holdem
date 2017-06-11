@@ -431,8 +431,13 @@ namespace TexasHoldem.Game
             }
 
             var callAmount = maxCips - p.CurrentBet;
-            if(callAmount!=0) SetBet(p, callAmount, true);
-            else p.BetInThisRound = true;
+            if (callAmount != 0) SetBet(p, callAmount, true);
+            else
+            {
+                NextTurn();
+                p.BetInThisRound = true;
+            }
+
 
 
             var amount = p.CurrentBet;
@@ -542,7 +547,7 @@ namespace TexasHoldem.Game
             p.SetBet(bet);
 
             //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
-            if(!smallBlind) NextPlayer();
+            NextPlayer();
             return this;
         }
 
