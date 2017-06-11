@@ -431,8 +431,13 @@ namespace TexasHoldem.Game
             }
 
             var callAmount = maxCips - p.CurrentBet;
-            if(callAmount!=0) SetBet(p, callAmount, true);
-            else p.BetInThisRound = true;
+            if (callAmount != 0) SetBet(p, callAmount, true);
+            else
+            {
+                NextTurn();
+                p.BetInThisRound = true;
+            }
+
 
 
             var amount = p.CurrentBet;
@@ -464,7 +469,6 @@ namespace TexasHoldem.Game
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            NextPlayer();
             return this;
         }
 
@@ -782,6 +786,30 @@ namespace TexasHoldem.Game
             }
  
             foreach (var p in Players) if (p.Name.Equals(name)) ans = p;
+
+            return ans;
+        }
+
+        public IUser GetSpectator(string name)
+        {
+            IUser ans = null;
+            if (name == null)
+            {
+                var e = new Exception("name cant be null");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+
+            var found = false;
+            foreach (var s in SpectateUsers) if (s.Username.Equals(name)) found = true;
+            if (!found)
+            {
+                var e = new Exception("spectator is not found");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            foreach (var s in SpectateUsers) if (s.Username.Equals(name)) ans = s;
 
             return ans;
         }

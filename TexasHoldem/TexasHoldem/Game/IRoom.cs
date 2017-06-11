@@ -39,6 +39,7 @@ namespace TexasHoldem.Game
         IRoom ExitSpectator(IUser user);
         Room Fold(IPlayer p);
         IPlayer GetPlayer(string name);
+        IUser GetSpectator(string name);
         int CurrentTurn { get; set; }
     }
 }

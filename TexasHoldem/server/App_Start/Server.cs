@@ -11,7 +11,7 @@ namespace Server
         public static GameFacade GameFacade= new GameFacade();
         public static UserFacade UserFacade = new UserFacade();
         public static ReplayFacade ReplayFacade = new ReplayFacade();
-        public static Dictionary<Guid, Tuple<string, DateTime>> GuidDic = new Dictionary<Guid, Tuple<string, DateTime>>();
+        public static Dictionary<string, Tuple<string, DateTime>> GuidDic = new Dictionary<string, Tuple<string, DateTime>>();
 
         public static void Register(HttpConfiguration config)
         {
@@ -29,11 +29,11 @@ namespace Server
 
         public static void CheckToken(string token)
         {
-            if (!GuidDic.ContainsKey(new Guid(token)))
+            if (!GuidDic.ContainsKey(token))
             {
                 throw new Exception("token:" + token + "does not exist!!");
             }
-            else if(GuidDic[new Guid(token)].Item2.AddHours(8)<DateTime.Now)
+            else if(GuidDic[token].Item2.AddHours(8)<DateTime.Now)
             {
                 throw new Exception("you are logged in too long, please log out");
             }
