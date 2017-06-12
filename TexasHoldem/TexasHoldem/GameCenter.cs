@@ -74,6 +74,11 @@ namespace TexasHoldem
                         return 0;
                     });
                     break;
+                default:
+                    var err = new IllegalCriteriaException("ERROR in GetTopStat: kind out of bound!");
+                    Logger.Log(Severity.Error, err.Message);
+                    throw err;
+                   
             }
             return u.Count > 20 ? u.GetRange(0, 20) : u;
         }
