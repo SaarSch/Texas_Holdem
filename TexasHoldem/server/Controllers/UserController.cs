@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Server.Models;
 using System.Security.Cryptography;
+using System.Linq;
 
 namespace Server.Controllers
 {
@@ -107,6 +108,10 @@ namespace Server.Controllers
                 ret.Username = Crypto.Encrypt(u.Username);
                 ret.Wins = u.Wins;
                 Guid g = Guid.NewGuid();
+                while(g.ToString().Contains('&')|| g.ToString().Contains('+')|| g.ToString().Contains('='))
+                {
+                    g = Guid.NewGuid();
+                }
                 ret.token = g.ToString();
                 Server.GuidDic.Add(g.ToString(), new Tuple<string, DateTime>(value.Username,DateTime.Now));
             }
