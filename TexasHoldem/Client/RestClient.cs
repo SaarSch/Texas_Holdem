@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
 
@@ -9,12 +10,11 @@ namespace Client
     public class RestClient
     {
 
-        //const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
-        const string AZURE_ADDRESS = "http://localhost:57856/api/";
-        //const string AZURE_ADDRESS = "http://192.168.1.4:57856/api/";
-        //const string AZURE_ADDRESS = "http://192.168.43.174:57856/api/";
+        //private static string _endPoint =  "http://texasholdem2017.azurewebsites.net/api/";
+        private static string _endPoint = "http://localhost:57856/api/";
+        //private static string _endPoint =  "http://192.168.1.4:57856/api/";
+        //private static string _endPoint =  "http://192.168.43.174:57856/api/";
 
-        private static string _endPoint = AZURE_ADDRESS;
 
         private static void WriteData(WebRequest request, string data)
         {
@@ -29,34 +29,28 @@ namespace Client
 
         public static string MakePostRequest(string controller, string data)
         {
-            SetController(controller);
-            var request = (HttpWebRequest)WebRequest.Create(_endPoint);
+            var request = (HttpWebRequest)WebRequest.Create(_endPoint + controller);
             request.Method = "POST";
             WriteData(request, data);
             var ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
             return ans;  
         }
 
         public static string MakeGetRequest(string controller)
         {
-            SetController(controller);
-            var request = (HttpWebRequest)WebRequest.Create(_endPoint);
+            var request = (HttpWebRequest)WebRequest.Create(_endPoint + controller);
             request.Method = "GET";
             var ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
             return ans;
         }
 
         public static string MakePutRequest(string controller, string data)
         {
             string ans = "";
-            SetController(controller);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_endPoint + controller);
             request.Method = "PUT";
             WriteData(request, data);
             ans = PerformRequest(request);
-            _endPoint = AZURE_ADDRESS;
             return ans;
         }   
 
@@ -87,11 +81,6 @@ namespace Client
                 return "Failed to connect to remote server";
             }
             return strResponseValue;
-        }
-
-        private static void SetController(string suffix)
-        {
-            _endPoint = _endPoint + suffix;
         }
 
         public static string GetEndPoint()

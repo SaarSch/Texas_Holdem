@@ -9,6 +9,17 @@
     <Window.Background>
         <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
     </Window.Background>
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style TargetType="{x:Type TabControl}">
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="0,0,17.6,15.4">
         <Grid.RowDefinitions>
             <RowDefinition Height="401*"/>
@@ -16,7 +27,7 @@
             <RowDefinition Height="143*"/>
         </Grid.RowDefinitions>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="150" Margin="176,10,0,0" VerticalAlignment="Top" Width="773">
-            <TabItem Header="Search rooms" Margin="-2,2,-2,0">
+            <TabItem Header="Search rooms" Margin="-2,2,-2,0" Height="22" VerticalAlignment="Top">
                 <Grid Background="#FFE4E4E4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="131*"/>
@@ -102,6 +113,7 @@
             </Label.Effect>
         </Label>
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="25,305,0,0" VerticalAlignment="Top" Width="115" x:Name="EditProfileButton" Click="EditProfileButton_Click" Background="#FFE29797" BorderBrush="#FF9E1616" Height="23" FontWeight="Bold" FontSize="14"/>
+        
         <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="293" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}" SelectionChanged="RoomsGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding RoomName}" Header="Name"/>
