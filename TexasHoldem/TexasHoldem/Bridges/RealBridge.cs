@@ -14,8 +14,8 @@ namespace TexasHoldem.Bridges
 
         public RealBridge()
         {
-            _userManager = new UserFacade();
-            _gameManager = new GameFacade();
+            _userManager = new UserFacade("TestDatabase"); // Acceptance tests use a seperate test-db
+            _gameManager = new GameFacade("TestDatabase");
             _replayManager = new ReplayFacade();
         }
 

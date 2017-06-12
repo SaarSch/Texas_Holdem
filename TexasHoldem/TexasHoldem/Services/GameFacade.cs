@@ -12,11 +12,11 @@ namespace TexasHoldem.Services
         private readonly MessageLogic _messageLogic;
         private readonly UserLogic _userLogic;
 
-        public GameFacade()
+        public GameFacade(string dbName = "TexasDatabase")
         {
-            _gameCenter = GameCenter.GetGameCenter();
-            _messageLogic = new MessageLogic();
-            _userLogic = new UserLogic();
+            _gameCenter = GameCenter.GetGameCenter(dbName);
+            _messageLogic = new MessageLogic(); // TODO change?
+	        _userLogic = _gameCenter.UserLogic;
         }
 
         public IUser WebLogin(string username, string password)

@@ -13,7 +13,7 @@ namespace TexasHoldem
     {
         private static void Main()
         {   
-			DatabaseContext db = new DatabaseContext();
+			/*DatabaseContext db = new DatabaseContext();
 
 	        // Display all users from the database - for debugging
 	        var query1 = from u in db.Users
@@ -25,7 +25,7 @@ namespace TexasHoldem
 	        foreach (var item in res)
 	        {
 		        Console.WriteLine(item.Username);
-	        }
+	        }*/
 			Console.WriteLine("Press any key to exit...");
 	        Console.ReadKey();
         }
@@ -79,18 +79,18 @@ namespace TexasHoldem
         }
 
 
-        private GameCenter()
+        private GameCenter(string dbName)
         {
             Rooms = new List<IRoom>();
-            UserLogic = new UserLogic();
-            Users = UserLogic.GetAllUsers();
-            ExpCriteria = 10;
+            UserLogic = new UserLogic(dbName);
+			Users = UserLogic.GetAllUsers();
+			ExpCriteria = 10;
         }
 
         // Implementation according to the Singleton Pattern
-        public static GameCenter GetGameCenter()
+        public static GameCenter GetGameCenter(string dbName = "TexasDatabase")
         {
-            return _instance ?? (_instance = new GameCenter());
+            return _instance ?? (_instance = new GameCenter(dbName));
         }
 
         public void DeleteAllRooms()

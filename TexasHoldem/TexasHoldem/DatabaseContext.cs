@@ -5,8 +5,8 @@ namespace TexasHoldem
 {
 	class DatabaseContext : DbContext
 	{
-		public DatabaseContext() 
-			: base("TexasDatabase") 
+		public DatabaseContext(string dbName) 
+			: base(dbName) 
 		{
 		}
 		public DbSet<User> Users { get; set; }

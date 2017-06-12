@@ -10,15 +10,15 @@ namespace TexasHoldem.Services
         private readonly GameCenter _gameCenter;
         private readonly UserLogic _userLogic;
 
-        public UserFacade()
+        public UserFacade(string dbName = "TexasDatabase")
         {
-            _gameCenter = GameCenter.GetGameCenter();
-            _userLogic = new UserLogic();
+            _gameCenter = GameCenter.GetGameCenter(dbName);
+	        _userLogic = _gameCenter.UserLogic;
         }
 
         public void Register(string username, string password) // UC 1
         {
-            _userLogic.Register(username, password, _gameCenter.Users);
+	        _userLogic.Register(username, password, _gameCenter.Users);
         }
 
         public IUser Login(string username, string password) // UC 2
