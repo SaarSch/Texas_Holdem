@@ -96,15 +96,5 @@ namespace AllTests.UnitTests
             string dec = Crypto.Decrypt(encrypt);
             Assert.AreEqual(test, dec);
         }
-
-        [TestMethod]
-        public void TestMethod11()
-        {
-            string test = "";
-            string encrypt = Crypto.Encrypt(test);
-            string dec = Crypto.Decrypt(null);
-            Assert.AreEqual(test, dec);
-        }
-
     }
 }
