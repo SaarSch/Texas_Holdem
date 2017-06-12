@@ -47,22 +47,29 @@ namespace Client
             var data = "{\"username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\",\"password\":\"" + Crypto.Encrypt(PasswordTxt.Password) + "\"}";
             const string controller = "user";
             var ans = RestClient.MakePostRequest(controller,data);
-            var json = JObject.Parse(ans);
-            var loggedUser = json.ToObject<UserData>();
-            
-            if (loggedUser.Message == null)
+            try
             {
-                loggedUser.Username = Crypto.Decrypt(loggedUser.Username);
-                loggedUser.Password = Crypto.Decrypt(loggedUser.Password);
-                loggedUser.Email = Crypto.Decrypt(loggedUser.Email);
-                var main = new MainWindow(loggedUser);
-                Application.Current.MainWindow = main;
-                Close();
-                main.Show();
+                var json = JObject.Parse(ans);
+                var loggedUser = json.ToObject<UserData>();
+
+                if (loggedUser.Message == null)
+                {
+                    loggedUser.Username = Crypto.Decrypt(loggedUser.Username);
+                    loggedUser.Password = Crypto.Decrypt(loggedUser.Password);
+                    loggedUser.Email = Crypto.Decrypt(loggedUser.Email);
+                    var main = new MainWindow(loggedUser);
+                    Application.Current.MainWindow = main;
+                    Close();
+                    main.Show();
+                }
+                else
+                {
+                    MessageBox.Show(loggedUser.Message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(loggedUser.Message, "Error in login", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Server is not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

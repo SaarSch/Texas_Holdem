@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Client.Annotations;
+using System.Web.Script.Serialization;
 
 namespace Client
 {
@@ -51,6 +52,8 @@ namespace Client
         private bool _first_play;
         private bool _me;
         private string _msg;
+        private bool _replay;
+        private RoomState[] _replayStates;
 
         public string Msg
         {
@@ -72,7 +75,7 @@ namespace Client
 
 
 
-        public GameWindow(UserData user, string self, RoomState state, MainWindow main)
+        public GameWindow(UserData user, string self, RoomState state, MainWindow main, bool replay)
         {
             InitializeComponent();
             Main = main;
@@ -86,6 +89,7 @@ namespace Client
             _got_win_msg = false;
             _first_play = true;
             _me = false;
+            _replay = replay;
             InitGuiArrays();
             if (SelfPlayerName == null)
             {
@@ -93,10 +97,72 @@ namespace Client
              //   P1Lbl.FontWeight = FontWeights.Normal;
                 C1Lbl.Foreground = System.Windows.Media.Brushes.Black;
             }
-
-            UpdateRoom(state);
             DataContext = this;
+
+            if (!replay)
+            {
+                UpdateRoom(state);
+            }
+            else
+            {
+                Chat.Visibility = Visibility.Hidden;
+                ChatScroll.Visibility = Visibility.Hidden;
+                ChatComboBox.Visibility = Visibility.Hidden;
+                Message.Visibility = Visibility.Hidden;
+                Send.Visibility = Visibility.Hidden;
+                Bet.Visibility = Visibility.Hidden;
+                Call.Visibility = Visibility.Hidden;
+                Fold.Visibility = Visibility.Hidden;
+                BetSlide.Visibility = Visibility.Hidden;
+                CurrentBet_Label.Visibility = Visibility.Hidden;
+                ReplayMsg.Visibility = Visibility.Visible;
+                ReplayLbl.Visibility = Visibility.Visible;
+                Replay();
+            }
+
         }
+
+        private void Replay()
+        {
+            var controller = "Replay?roomName=" + RoomName + "&player=" + SelfPlayerName + "&token=" + User.token;
+            var ans = RestClient.MakeGetRequest(controller);
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                _replayStates = js.Deserialize<RoomState[]>(ans);
+                CountPlayers =1;
+                PlayerMap.Add(SelfPlayerName, CountPlayers);
+                UpdateAllPlayers(_replayStates[0]);
+                UpdateCommunityCards(_replayStates[0].CommunityCards, _replayStates[0].IsOn, (_replayStates[0].CurrentWinners != null && _replayStates[0].CurrentWinners != ""));
+                ResetPlayers(CountPlayers);
+            }
+            catch
+            {
+                MessageBox.Show("\nWe are sorry, replay cannot be viewed for now.", "Replay is not available", MessageBoxButton.OK, MessageBoxImage.Error);
+                _playing = false;
+                Application.Current.MainWindow = Main;
+                Close();
+                Main.Show();
+            }
+        }
+
+        private void DrawReplayStates()
+        {
+            for (int i = 0; i < _replayStates.Length; i++)
+            {
+                UpdateAllPlayers(_replayStates[i]);
+                UpdateCommunityCards(_replayStates[i].CommunityCards, _replayStates[i].IsOn, (_replayStates[i].CurrentWinners != null && _replayStates[i].CurrentWinners != ""));
+                ResetPlayers(CountPlayers);
+                Thread.Sleep(2000);
+                if (!string.IsNullOrEmpty(_replayStates[i].CurrentWinners))
+                {
+                    MessageBox.Show(_replayStates[i].CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
+                    break;
+                }
+            }
+        }
+
 
         private void InitGuiArrays()
         {
@@ -127,8 +193,20 @@ namespace Client
         {
             if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg && !_first_play)
             {
-                MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
                 _got_win_msg = true;
+                MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (SelfPlayerName != null)
+                {
+                    MessageBoxResult replay = MessageBox.Show("Would you like to watch a replay?", "Game Over!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (replay == MessageBoxResult.Yes)
+                    {
+                        GameWindow replayWindow = null;
+                        Application.Current.Dispatcher.Invoke(() => replayWindow = new GameWindow(User, SelfPlayerName, state, Main, true));
+                        Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow = replayWindow);
+                        Application.Current.Dispatcher.Invoke(() => replayWindow.Show());
+                    }
+                }
+
                 foreach (Rectangle r in TurnSymbol)
                 {
                     r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
@@ -157,18 +235,16 @@ namespace Client
             }
         }
 
-        private void UpdateRoom(RoomState state)
+        private void UpdateAllPlayers(RoomState state)
         {
             BindingList<string> tmpComboboxList = new BindingList<string>();
-
-            StartOfGameUpdate(state);
 
             foreach (Rectangle r in TurnSymbol)
             {
                 r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
             }
 
-            if (!state.IsOn)
+            if (!state.IsOn && !_replay) // add self to player-related lists
             {
                 PlayerMap.Clear();
                 CountPlayers = 0;
@@ -180,14 +256,13 @@ namespace Client
                 }
             }
 
-
-            foreach (var p in state.AllPlayers)
+            foreach (var p in state.AllPlayers)     // modify all participating players
             {
                 if (!PlayerMap.ContainsKey(p.PlayerName))
                 {
                     CountPlayers++;
                     PlayerMap.Add(p.PlayerName, CountPlayers);
-                    if (SelfPlayerName != null)
+                    if (SelfPlayerName != null && !_replay)
                     {
                         tmpComboboxList.Add(p.PlayerName);
                     }
@@ -199,7 +274,7 @@ namespace Client
                         .Dispatcher.Invoke(() => TurnSymbol[playerVal - 1].Fill = System.Windows.Media.Brushes.Red);
                 }
                 if (p.PlayerName == SelfPlayerName && state.IsOn == false &&
-                    !string.IsNullOrEmpty(state.CurrentWinners))
+                    !string.IsNullOrEmpty(state.CurrentWinners) && !_replay)
                 {
                     User.Chips = p.ChipsAmount;
                 }
@@ -209,7 +284,7 @@ namespace Client
                 }
             }
 
-            if (!state.IsOn)
+            if (!state.IsOn && !_replay) // add spectators to chat combobox
             {
                 foreach (UserData s in state.Spectators)
                 {
@@ -218,23 +293,21 @@ namespace Client
                         tmpComboboxList.Add(s.Username);
                     }
                 }
-            }
-
-            if (!state.IsOn)
                 ChatComboBoxContent = tmpComboboxList;
-            UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners != null && state.CurrentWinners != ""));
-            /*    if (!state.IsOn)
-                {
-                    ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.ItemsSource = ChatComboBoxContent);
-                    ChatComboBox.Dispatcher.Invoke(() => ChatComboBox.Items.Refresh());
-                } */
+            }
+            
+        }
 
+        private void UpdateRoom(RoomState state)
+        {
+            
+            StartOfGameUpdate(state);
+            UpdateAllPlayers(state);
+            UpdateCommunityCards(state.CommunityCards, state.IsOn, (state.CurrentWinners != null && state.CurrentWinners != ""));
             ResetPlayers(CountPlayers);
             UpdateBetGui(state);
             UpdateChat(state);
             EndOfGameUpdate(state);
-
-
 
             System.Threading.Timer timer = null;
             timer = new System.Threading.Timer((obj) =>
@@ -267,17 +340,11 @@ namespace Client
                     {
                         if (roomState.Messege.Contains("exist"))
                         {
-                            if(roomState.Messege.Contains("player"))
-                                StatusRequest();
-                            else
-                            {
-                                MessageBox.Show(roomState+"\nThis room is closed.", "Room is closed", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show(roomState.Messege+"\nThis room is closed.", "Room is closed", MessageBoxButton.OK, MessageBoxImage.Information);
                                 _playing = false;
                                 Application.Current.Dispatcher.Invoke(()=> Application.Current.MainWindow = Main);
                                 Application.Current.Dispatcher.Invoke(() => Close());
-                                Application.Current.Dispatcher.Invoke(() => Main.Show());
-                            }
-                            
+                                Application.Current.Dispatcher.Invoke(() => Main.Show());     
                         }
                         else
                         MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -482,6 +549,17 @@ namespace Client
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            if (_replay)
+            {
+                if (_replayStates != null)
+                {
+                    Thread drawStates = new Thread(DrawReplayStates);
+                    Start.Visibility = Visibility.Hidden;
+                    drawStates.Start();
+                }
+                return;
+            }
+
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&token=" + User.token;
             var ans = RestClient.MakeGetRequest(controller);
             var json = JObject.Parse(ans);
@@ -494,6 +572,15 @@ namespace Client
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
+            if(_replay)
+            {
+                _playing = false;
+                Application.Current.MainWindow = Main;
+                Close();
+                Main.Show();
+                return;
+            }
+
             var option = "leave";
             if (SelfPlayerName == null)
                 option = "leaveSpectator";
@@ -517,6 +604,8 @@ namespace Client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (_replay)
+                return;
             if (_playing)
             {
                 e.Cancel = true;

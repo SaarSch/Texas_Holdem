@@ -44,7 +44,14 @@ namespace Server.Controllers
             {
                 ans.Messege = e.Message;
             }
-            if (r != null) CreateRoomState(playerName, r, ans);
+            if (r != null)
+            {
+                foreach(TexasHoldem.Game.Player p in r.Players)
+                {
+                    Replays[gameName][p.Name] = new List<RoomState>();
+                }
+                CreateRoomState(playerName, r, ans);
+            }
             return ans;
         }
 
@@ -252,7 +259,7 @@ namespace Server.Controllers
                     j++;
                 }
 
-                if (player != null)
+                if (player != null && (ans.IsOn || !string.IsNullOrEmpty(ans.CurrentWinners)) && string.IsNullOrEmpty(ans.Messege))
                 {
                     if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans))
                     {

@@ -323,7 +323,7 @@ namespace Client
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, this);
+                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, this, false);
                 Application.Current.MainWindow = gameWindow;
 
                 gameWindow.Show();
@@ -380,7 +380,7 @@ namespace Client
                     }
                     MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, this);
+                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, this, false);
                     Application.Current.MainWindow = gameWindow;
                     gameWindow.Show();
                 }
@@ -433,7 +433,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                var gameWindow = new GameWindow(LoggedUser, null, roomState, this);
+                var gameWindow = new GameWindow(LoggedUser, null, roomState, this, false);
                 Application.Current.MainWindow = gameWindow;
                 gameWindow.Show();
             }
