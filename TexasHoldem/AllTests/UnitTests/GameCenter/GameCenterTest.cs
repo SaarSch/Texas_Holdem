@@ -63,6 +63,71 @@ namespace AllTests.UnitTests.GameCenter
                 count++;
             }
         }
+        [TestMethod]
+        public void GameCenter_GetStat()
+        {
+            var ans = _ul.GetStat("aaaaaaa0");
+            Assert.AreEqual(ans.Username, "aaaaaaa0");
+            Assert.AreEqual(ans.Password, "12345678");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GameCenter_GetStat_fail()
+        {
+            var ans = _ul.GetStat("123");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GameCenter_GetTopStat_fail()
+        {
+            _gc.Users.AddRange(_u);
+            var ans = _gc.GetTopStat(8);
+        }
+        [TestMethod]
+        public void GameCenter_GetTopStat1()
+        {
+            var i = 0;
+            _gc.Users.AddRange(_u);
+            foreach (var u in _u)
+            {
+                u.Item1.GrossProfit = i++;
+            }
+            var ans = _gc.GetTopStat(1);
+            for (var j = 0; j < ans.Count; j++)
+            {
+                Assert.AreEqual(ans[j].GrossProfit, --i);
+            }
+        }
+        [TestMethod]
+        public void GameCenter_GetTopStat2()
+        {
+            int i = 0;
+            _gc.Users.AddRange(_u);
+            foreach (var u in _u)
+            {
+                u.Item1.HighestCashGain = i++;
+            }
+            List<IUser> ans = _gc.GetTopStat(2);
+            for (int j = 0; j < ans.Count; j++)
+            {
+                Assert.AreEqual(ans[j].HighestCashGain, --i);
+            }
+        }
+        [TestMethod]
+        public void GameCenter_GetTopStat3()
+        {
+            int i = 0;
+            _gc.Users.AddRange(_u);
+            foreach (var u in _u)
+            {
+                u.Item1.NumOfGames = i++;
+            }
+            List<IUser> ans = _gc.GetTopStat(3);
+            for (int j = 0; j < ans.Count; j++)
+            {
+                Assert.AreEqual(ans[j].NumOfGames,--i);
+            }
+        }
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_not_Full()

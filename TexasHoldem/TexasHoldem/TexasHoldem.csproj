@@ -69,6 +69,7 @@
     <Compile Include="Bridges\IBridge.cs" />
     <Compile Include="Bridges\ProxyBridge.cs" />
     <Compile Include="Bridges\RealBridge.cs" />
+    <Compile Include="Crypto.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="Exceptions\IllegalLeagueException.cs" />
     <Compile Include="GameReplay\Replayer.cs" />
