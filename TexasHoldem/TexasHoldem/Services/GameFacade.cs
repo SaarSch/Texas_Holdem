@@ -167,13 +167,17 @@ namespace TexasHoldem.Services
         public IRoom PlayerWhisper(string room, string playernameSender, string usernameReceiver, string message)
         {
             Users.IUser reciever = null;
-            try {
-                reciever = _gameCenter.GetRoom(room).GetSpectator(usernameReceiver);
-                return _messageLogic.PlayerWhisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), reciever, _gameCenter.GetRoom(room));
+	        IRoom roomObj = null;
+
+			try {
+				roomObj = _gameCenter.GetRoom(room);
+				reciever = _gameCenter.GetRoom(room).GetSpectator(usernameReceiver);
+                return _messageLogic.PlayerWhisper(message, roomObj.GetPlayer(playernameSender), reciever, roomObj);
             }
             catch
             {
-                return _messageLogic.PlayerWhisper(message, _gameCenter.GetRoom(room).GetPlayer(playernameSender), _gameCenter.GetRoom(room).GetPlayer(usernameReceiver).User, _gameCenter.GetRoom(room));
+	            roomObj = _gameCenter.GetRoom(room);
+				return _messageLogic.PlayerWhisper(message, roomObj.GetPlayer(playernameSender), roomObj.GetPlayer(usernameReceiver).User, roomObj);
             }
         }
 

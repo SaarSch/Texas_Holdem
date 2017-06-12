@@ -185,7 +185,7 @@ namespace TexasHoldem
             {
                 room.ExitRoom(playerName);
 				IUser user = Users.First(u => u.Item1.Username == username).Item1;
-				UserLogic.UpdateUser(user); // update wins, chips, games played, league?
+				UserLogic.UpdateDB();
             }
             else
             {

@@ -363,7 +363,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorRoyalStraightTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
             var win = new List<Card>
             {
@@ -393,7 +393,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraight4OfTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
             var win = new List<Card>
             {
@@ -423,7 +423,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator4OfFullTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
             var win = new List<Card>
             {
@@ -453,7 +453,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorFullFlushTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -484,7 +484,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorFlushStraightTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -515,7 +515,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraight3OfTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -546,7 +546,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator3Of2PairsTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -577,7 +577,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator2PairsPairTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -640,7 +640,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorPairPairTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -672,7 +672,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculator2Pair2PairTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -704,7 +704,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorHighHighTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -738,7 +738,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, gp1);
 
 
@@ -772,7 +772,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, gp1);
             try
             {
@@ -789,7 +789,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, gp1);
             try
             {
@@ -806,7 +806,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.NoLimit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, gp1);
             try
             {
@@ -825,7 +825,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, gp1);
             try
             {
@@ -842,7 +842,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, gp1)
             {
                 CommunityCards =
@@ -873,8 +873,8 @@ namespace AllTests.UnitTests.Game
                 MinBet = 10,
                 MinPlayers = 3
             };
-            //var p = new Player("shachar", _u);
-            //var p2 = new Player("shachar1", _u);
+            
+            
             var r = new Room("aaaa", _p, gp);
             r.AddPlayer(_p1);
             _p1.CurrentBet = 500;
@@ -900,8 +900,8 @@ namespace AllTests.UnitTests.Game
             };
 
 
-            //var p = new Player("shachar", _u);
-            //var p2 = new Player("shachar2", _u);
+            
+            
             var r = new Room("aaaa", _p, gp);
             r.AddPlayer(_p2);
             _p.ChipsAmount = 60000;
@@ -913,7 +913,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraightStraightTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -945,7 +945,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraightStraightTest1()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -977,7 +977,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraightStraightTest2()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -1009,7 +1009,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraightStraightTest3()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -1095,10 +1095,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void WinnersSameHandRankTest()
         {
-          //  var p = new Player("shachar", _u);
             var r = new Room("aaaa", _p, _gp);
-           // var p1 = new Player("shachar2", _u1);
-            //var p2 = new Player("shachar1", _u2);
             r.AddPlayer(_p2);
             r.CommunityCards[0] = new Card(13, CardType.Diamonds);
             r.CommunityCards[1] = new Card(11, CardType.Spades);
@@ -1123,10 +1120,8 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void WinnersTieTest()
         {
-            //var p = new Player("shachar", _u);
+            
             var r = new Room("aaaa", _p, _gp);
-            //var p1 = new Player("shachar2", _u1);
-            //var p2 = new Player("shachar3", _u2);
             r.AddPlayer(_p2);
             r.CommunityCards[0] = new Card(13, CardType.Diamonds);
             r.CommunityCards[1] = new Card(11, CardType.Spades);
@@ -1151,10 +1146,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void ChipsTest()
         {
-            //var p = new Player("shachar1", _u);
             var r = new Room("aaaa", _p, _gp);
-            //var p1 = new Player("shachar2", _u1);
-            //var p2 = new Player("shachar3", _u2);
             r.AddPlayer(_p1);
             r.AddPlayer(_p2);
             r.CommunityCards[0] = new Card(13, CardType.Diamonds);
@@ -1184,10 +1176,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void NextTurnTest()
         {
-            //var p = new Player("shachar1", _u);
             var r = new Room("aaaa", _p, _gp);
-            //var p1 = new Player("shachar2", _u1);
-            //var p2 = new Player("shachar3", _u2);
             r.AddPlayer(_p1);
             r.AddPlayer(_p2);
             r.CommunityCards[0] = new Card(13, CardType.Diamonds);
@@ -1218,10 +1207,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SmallBigBlindTest()
         {
-            //var p = new Player("shachar1", _u);
             var r = new Room("aaaa", _p, _gp);
-            //var p1 = new Player("shachar2", _u1);
-            //var p2 = new Player("shachar3", _u2);
             r.AddPlayer(_p1);
             r.AddPlayer(_p2);
             r.StartGame();
@@ -1233,9 +1219,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SmallBigBlind2PlayersTest()
         {
-        //    var p = new Player("shachar1", _u);
             var r = new Room("aaaa", _p, _gp);
-          //  var p1 = new Player("shachar2", _u1);
             r.AddPlayer(_p1);
             r.StartGame();
 
@@ -1246,7 +1230,6 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void SpectateTest()
         {
-        //    var p = new Player("shachar1", _u);
             var r = new Room("aaaa", _p, _gp);
             r.Spectate(_u);
             Assert.IsTrue(r.SpectateUsers.Contains(_u));
@@ -1257,11 +1240,7 @@ namespace AllTests.UnitTests.Game
         {
             var ml = new MessageLogic();
             const string message = "wow you are so cool!";
-            //var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
-            //var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
-            //var p = new Player("shachar1", yossi);
             var r = new Room("aaaa", _p, _gp);
-            //var p1 = new Player("shachar2", kobi);
             r.AddPlayer(_p1);
             ml.PlayerSendMessage(message, _p1, r);
 
