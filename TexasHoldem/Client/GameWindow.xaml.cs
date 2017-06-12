@@ -138,7 +138,7 @@ namespace Client
             }
             catch
             {
-                MessageBox.Show("\nWe are sorry, replay cannot be viewed for now.", "Replay is not available", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ans+"\nWe are sorry, replay cannot be viewed for now.", "Replay is not available", MessageBoxButton.OK, MessageBoxImage.Error);
                 _playing = false;
                 Application.Current.MainWindow = Main;
                 Close();
@@ -202,8 +202,16 @@ namespace Client
                     {
                         GameWindow replayWindow = null;
                         Application.Current.Dispatcher.Invoke(() => replayWindow = new GameWindow(User, SelfPlayerName, state, Main, true));
-                        Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow = replayWindow);
-                        Application.Current.Dispatcher.Invoke(() => replayWindow.Show());
+                        try
+                        {
+                            Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow = replayWindow);
+                            try
+                            {
+                                Application.Current.Dispatcher.Invoke(() => replayWindow.Show());
+                            }
+                            catch { }
+                        }
+                        catch { }
                     }
                 }
 
@@ -309,14 +317,16 @@ namespace Client
             UpdateChat(state);
             EndOfGameUpdate(state);
 
-            System.Threading.Timer timer = null;
-            timer = new System.Threading.Timer((obj) =>
-                {
-                    StatusRequest();
-                    timer.Dispose();
-                },
-                null, 2000, System.Threading.Timeout.Infinite);
-
+            if (_playing)
+            {
+                System.Threading.Timer timer = null;
+                timer = new System.Threading.Timer((obj) =>
+                    {
+                        StatusRequest();
+                        timer.Dispose();
+                    },
+                    null, 2000, System.Threading.Timeout.Infinite);
+            }
         }
 
         private void StatusRequest()

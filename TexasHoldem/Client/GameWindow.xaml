@@ -170,7 +170,7 @@
         </ScrollViewer>
         <Image Name="ZoomCard" HorizontalAlignment="Left" Height="171" Margin="16,277,0,0" VerticalAlignment="Top" Width="124" Source="Resources/new_back.png" Grid.Row="1"/>
         <Image Name="ReplayMsg" Visibility="Hidden" HorizontalAlignment="Left" Height="905" Margin="180,220,0,-651" Grid.Row="1" VerticalAlignment="Top" Width="919" Source="Resources/replay_msg.png"/>
-        <Label Name="ReplayLbl" Visibility="Visible" Content=">> Replay" HorizontalAlignment="Left" Margin="16,81,0,0" VerticalAlignment="Top" Width="192" Foreground="White" FontSize="18" FontFamily="Serpentine-BoldOblique" HorizontalContentAlignment="Center"/>
+        <Label Name="ReplayLbl" Visibility="Hidden" Content=">> Replay" HorizontalAlignment="Left" Margin="16,81,0,0" VerticalAlignment="Top" Width="192" Foreground="White" FontSize="18" FontFamily="Serpentine-BoldOblique" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Window>
