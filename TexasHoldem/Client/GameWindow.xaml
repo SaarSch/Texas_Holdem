@@ -21,7 +21,7 @@
         </Image>
         <Image HorizontalAlignment="Left" Height="311" Margin="204,140,0,0" VerticalAlignment="Top" Width="638" Source="Resources/table_bg.png" Grid.RowSpan="2"/>
 
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="165" Opacity="0.5">
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="64" Margin="16,13,0,0" Stroke="Black" StrokeThickness="5" VerticalAlignment="Top" Width="192" Opacity="0.5">
             <Rectangle.Effect>
                 <BlurEffect/>
             </Rectangle.Effect>
@@ -89,7 +89,7 @@
         <Image Name="Com3" HorizontalAlignment="Left" Height="50" Margin="512,47,0,0" VerticalAlignment="Top" Width="42" Source="Resources/new_back.png" Grid.Row="1" MouseEnter="Card_MouseEnter" MouseLeave="Card_MouseLeave"/>
         <Image Name="Com4" HorizontalAlignment="Left" Height="50" Margin="559,47,0,0" VerticalAlignment="Top" Width="44" Source="Resources/new_back.png" Grid.Row="1" MouseEnter="Card_MouseEnter" MouseLeave="Card_MouseLeave"/>
         <Image Name="Com5" HorizontalAlignment="Left" Height="50" Margin="608,47,0,0" VerticalAlignment="Top" Width="48" Source="Resources/new_back.png" Grid.Row="1" MouseEnter="Card_MouseEnter" MouseLeave="Card_MouseLeave"/>
-        <Label Name="RoomNameLbl" Content="Room Name" HorizontalAlignment="Left" Margin="39,25,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18" Foreground="White"/>
+        <Label Name="RoomNameLbl" Content="Room Name" HorizontalAlignment="Left" Margin="16,29,0,0" VerticalAlignment="Top" FontSize="20" Foreground="White" Width="192" HorizontalContentAlignment="Center" FontFamily="Serpentine-BoldOblique"/>
         <Label Name="CurrentBet_Label" Visibility="Visible" HorizontalContentAlignment="Center" Content="1" HorizontalAlignment="Left" Margin="973,328,0,0" VerticalAlignment="Top" Width="73" Foreground="White" Grid.Row="1" FontSize="20" FontWeight="Bold" FontStyle="Italic"/>
         <Button Name="Call" Content="Call / Check" IsEnabled="False" HorizontalAlignment="Left" Margin="973,401,0,0" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Call_Click"/>
         <TextBox x:Name="Message" HorizontalAlignment="Left" Height="33" Margin="283,415,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="604" Grid.Row="1"/>
@@ -169,6 +169,8 @@
             </TextBlock>
         </ScrollViewer>
         <Image Name="ZoomCard" HorizontalAlignment="Left" Height="171" Margin="16,277,0,0" VerticalAlignment="Top" Width="124" Source="Resources/new_back.png" Grid.Row="1"/>
+        <Image Name="ReplayMsg" Visibility="Hidden" HorizontalAlignment="Left" Height="905" Margin="180,220,0,-651" Grid.Row="1" VerticalAlignment="Top" Width="919" Source="Resources/replay_msg.png"/>
+        <Label Name="ReplayLbl" Visibility="Visible" Content=">> Replay" HorizontalAlignment="Left" Margin="16,81,0,0" VerticalAlignment="Top" Width="192" Foreground="White" FontSize="18" FontFamily="Serpentine-BoldOblique" HorizontalContentAlignment="Center"/>
 
     </Grid>
 </Window>

@@ -713,6 +713,16 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap replay_msg {
+            get {
+                object obj = ResourceManager.GetObject("replay_msg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap table_bg {
             get {
                 object obj = ResourceManager.GetObject("table_bg", resourceCulture);

@@ -377,5 +377,8 @@
   <ItemGroup>
     <Resource Include="Resources\new_back.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\replay_msg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

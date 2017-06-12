@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -12,6 +12,7 @@ namespace Client
         //const string AZURE_ADDRESS = "http://texasholdem2017.azurewebsites.net/api/";
         const string AZURE_ADDRESS = "http://localhost:57856/api/";
         //const string AZURE_ADDRESS = "http://192.168.1.4:57856/api/";
+        //const string AZURE_ADDRESS = "http://192.168.43.174:57856/api/";
 
         private static string _endPoint = AZURE_ADDRESS;
 
