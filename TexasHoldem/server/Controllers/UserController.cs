@@ -108,7 +108,10 @@ namespace Server.Controllers
                 ret.Username = Crypto.Encrypt(u.Username);
                 ret.Wins = u.Wins;
                 Guid g = Guid.NewGuid();
-                while(g.ToString().Contains('&')|| g.ToString().Contains('+')|| g.ToString().Contains('='))
+                while (g.ToString().Contains('&')|| g.ToString().Contains('+')|| g.ToString().Contains('=')|| g.ToString().Contains(':')
+                    ||g.ToString().Contains('/') || g.ToString().Contains('?') || g.ToString().Contains('#')|| g.ToString().Contains('@') || g.ToString().Contains('!')
+                    || g.ToString().Contains('$') || g.ToString().Contains('\'') || g.ToString().Contains('(') || g.ToString().Contains(')')
+                    || g.ToString().Contains('*') || g.ToString().Contains(',') || g.ToString().Contains(';'))
                 {
                     g = Guid.NewGuid();
                 }
