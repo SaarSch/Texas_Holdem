@@ -23,22 +23,21 @@ namespace TexasHoldem.Logics
 
             if (!query.Any())
             {
-                var e = new IllegalUsernameException("ERROR in Login: Username does not exist!");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
+                Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
+                return null;
             }
 
             query = query.Where(u => u.Password == password);
 
             if (!query.Any())
             {
-                var e = new IllegalPasswordException("ERROR in Login: Wrong password!");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
+                Logger.Log(Severity.Error, "ERROR in Login: Wrong password!");
+                return null;
             }
             IUser fuser = query.FirstOrDefault();
             return fuser;
         }
+
         public List<Tuple<IUser, bool>> GetAllUsers()
         {
             List<Tuple<IUser, bool>> ans=new List<Tuple<IUser, bool>>();
@@ -51,7 +50,14 @@ namespace TexasHoldem.Logics
 
         public IUser GetStat(string userName)
         {
-            return GetUser(userName);
+            var query = db.Users.Where(u => u.Username == userName);
+
+            if (!query.Any())
+            {
+                Logger.Log(Severity.Error, "ERROR in GetLoggedInUser: Username does not exist!");
+                return null;
+            }
+            return query.First();
         }
 
         public void SetLeagues(List<Tuple<IUser, bool>> users)
@@ -415,6 +421,7 @@ namespace TexasHoldem.Logics
             }
             return query.First();
         }
+
         public IUser GetUser(string username, List<Tuple<IUser, bool>> users)
         {
             return GetUser(username);
