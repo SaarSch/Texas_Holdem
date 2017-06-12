@@ -12,10 +12,11 @@ namespace TexasHoldem.Logics
     {
 	    private DatabaseContext db;
 
-	    public UserLogic()
+	    public UserLogic(string dbName = "TexasDatabase")
 	    {
-		    db = new DatabaseContext();
+		    db = new DatabaseContext(dbName);
 	    }
+
         public IUser WebLogin(string username, string password)//i will delete it later
         {
             var query = db.Users.Where(u => u.Username == username);
