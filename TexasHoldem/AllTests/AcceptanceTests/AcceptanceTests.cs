@@ -19,8 +19,9 @@ namespace AllTests.AcceptanceTests
         public void Initialize()
         {
             _bridge = new ProxyBridge();
-	        
-			for (int i = 1; i < 10; i++)
+
+			_bridge.Register(LegalUserName, LegalPass);
+			for (int i = 0; i < 10; i++)
 	        {
 				_bridge.Register(LegalUserName + i, LegalPass);
 			}
@@ -472,7 +473,7 @@ namespace AllTests.AcceptanceTests
             _bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer);
             _bridge.JoinGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
 
-            _bridge.SendWhisper(LegalRoomName, false, LegalPlayer, LegalUserName + "1", "Hiiii!");
+            _bridge.SendWhisper(LegalRoomName, false, LegalPlayer, LegalPlayer + "1", "Hiiii!");
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(1, messages.Count);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TexasHoldem.Game;
@@ -11,53 +12,54 @@ namespace AllTests.UnitTests.GameCenter
     [TestClass]
     public class GameCenterTest
     {
-        private readonly TexasHoldem.GameCenter _gc = TexasHoldem.GameCenter.GetGameCenter();
-        private readonly UserLogic _ul = new UserLogic();
-        private List<Tuple<IUser, bool>> _u;
-        private List<Tuple<IUser, bool>> moqlist;
+        private static readonly TexasHoldem.GameCenter _gc = TexasHoldem.GameCenter.GetGameCenter("TestDatabase");
+	    private static readonly UserLogic _ul = _gc.UserLogic;
+		private List<Tuple<IUser, bool>> _u;
         [TestInitialize]
         public void Initialize()
         {
             _u=new List<Tuple<IUser, bool>>();
-            moqlist = new List<Tuple<IUser, bool>>();
-        }
+	        registerMoqUsers(60);
+			_ul.UpdateDB();
+		}
 
-        [TestMethod]
+	    [TestCleanup] // happens after each test
+	    public void Cleanup()
+	    {
+		    _ul.DeleteAllUsers(_u);
+	    }
+
+		[TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full()
         {
             var i = 0;
-            setMoqUsers(20,false);
             _ul.SetLeagues(_u);
             foreach (var u in _u)
             {
-                Assert.IsTrue(u.Item1.League == Math.Floor((double)i / 2) + 1);
+                Assert.AreEqual(u.Item1.League, Math.Floor((double)i / 6) + 1);
                 i++;
             }
         }
 
-        private void setMoqUsers(int num,bool b)
-        {
-            _u.Clear();
-            for (var i = 0; i < num; i++)
-            {
-                var userMock = new Mock<IUser>();
-                userMock.SetupAllProperties();
-                userMock.Setup(us => us.Password).Returns("12345678");
-                userMock.Setup(us => us.Username).Returns("aaaaaaa" + i);
-                userMock.Setup(us => us.Wins).Returns(i);
-                userMock.Setup(us => us.ChipsAmount).Returns(50000);
-                _u.Add(new Tuple<IUser, bool>(userMock.Object, b));
-            }
-        }
+	    private void registerMoqUsers(int num)
+	    {
+			for (int i = 0; i < num; i++)
+			{
+				_ul.Register("aaaaaaa" + i, "12345678", _u);
+				_u[i].Item1.Wins = i;
+				_u[i].Item1.ChipsAmount = 50000;
+				_u[i].Item1.League = 0;
+			}
+		}
+
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full1()
         {
             var count = 0;
-            setMoqUsers(60, false);
             _ul.SetLeagues(_u);
             foreach (var u in _u)
             {
-                Assert.IsTrue(u.Item1.League == Math.Floor((double)count / 6) + 1);
+                Assert.AreEqual(u.Item1.League, Math.Floor((double)count / 6) + 1);
                 count++;
             }
         }
@@ -66,25 +68,30 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_SetLeagues_all_leagues_not_Full()
         {
             var count = 0;
-            setMoqUsers(8, false);
+			_ul.DeleteAllUsers(_u);
+			registerMoqUsers(8);
             _ul.SetLeagues(_u);
             foreach (var u in _u)
             {
-                Assert.IsTrue(u.Item1.League == Math.Floor((double)count / 2) + 7);
+                Assert.AreEqual(Math.Floor((double)count / 2) + 7, u.Item1.League);
                 count++;
             }
         }
 
         [TestMethod]
-        public void GameCenter_SetLeagues_all_leagues_Od()
+        public void GameCenter_SetLeagues_all_leagues_Odd()
         {
-            setMoqUsers(21, false);
-            _ul.SetLeagues(_u);
-            for (var i = 1; i < 21; i++)
+			_ul.Register("aaaaaaa60", "12345678", _u);
+	        IUser user = _u.First(u => u.Item1.Username == "aaaaaaa60").Item1;
+	        user.Wins = 60;
+	        user.ChipsAmount = 50000;
+	        user.League = 0;
+			_ul.SetLeagues(_u);
+            for (var i = 1; i < 61; i++)
             {
-                Assert.IsTrue(_u[i].Item1.League == Math.Ceiling((double)i / 2));
+                Assert.AreEqual(_u[i].Item1.League, Math.Ceiling((double)i / 6));
             }
-            Assert.IsTrue(_u[0].Item1.League == 1);
+            Assert.AreEqual(_u[0].Item1.League, 1);
         }
 
 
@@ -96,7 +103,7 @@ namespace AllTests.UnitTests.GameCenter
             
             try
             {
-                _ul.Register("1234 5", "ssssssss", moqlist);
+                _ul.Register("1234 5", "ssssssss", _u);
             }
             catch
             {
@@ -111,7 +118,7 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _ul.Register("seanocheri", "sssssssss", moqlist);
+                _ul.Register("seanocheri", "sssssssss", _u);
             }
             catch
             {
@@ -126,7 +133,7 @@ namespace AllTests.UnitTests.GameCenter
             var succ = true;
             try
             {
-                _ul.Register("seanocheri", "123sean123", moqlist);
+                _ul.Register("seanocheri", "123sean123", _u);
             }
             catch
             {
@@ -139,10 +146,10 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_Register_SameOneTwice()
         {
             var succ = true;
-            _ul.Register("example123", "123exm123", moqlist);
+            _ul.Register("example123", "123exm123", _u);
             try
             {
-                _ul.Register("example123", "123exm123", moqlist);
+                _ul.Register("example123", "123exm123", _u);
             }
             catch
             {
@@ -155,7 +162,6 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_Login_WrongPassword()
         {
             var succ = true;
-            setMoqUsers(1, false);
             try
             {
                 _ul.Login("aaaaaaa0", "12345679", _u);
@@ -171,7 +177,6 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_Login_OK()
         {
             var succ = true;
-            setMoqUsers(1, false);
             try
             {
                 _ul.Login("aaaaaaa0", "12345678", _u);
@@ -188,8 +193,9 @@ namespace AllTests.UnitTests.GameCenter
         public void GameCenter_Logout_OK()
         {
             var succ = true;
-            setMoqUsers(1,true);
-            try
+	        _ul.Login("aaaaaaa0", "12345678", _u);
+
+			try
             {
                 _ul.Logout("aaaaaaa0", _u);
             }
