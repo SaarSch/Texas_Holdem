@@ -107,8 +107,9 @@ namespace TexasHoldem.Users
         private string _password;
         public string Password
         {
-            get => Crypto.Decrypt(_password);
-            set
+	        get => _password;//Crypto.Decrypt(_password);
+
+			set
             {
                 if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
                 {
@@ -141,7 +142,7 @@ namespace TexasHoldem.Users
                     throw e;
                 }
 
-                _password = Crypto.Encrypt(value);
+	            _password = value; //Crypto.Encrypt(value);
             }
         }
 

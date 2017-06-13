@@ -198,12 +198,13 @@ namespace TexasHoldem.Services
             return _messageLogic.SpectatorsSendMessage(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _gameCenter.GetRoom(room));
         }
 
-        public bool RestartGameCenter()
+        public bool RestartGameCenter(bool deleteUsers)
         {
             try
             {
                 _gameCenter.DeleteAllRooms();
-                _userLogic.DeleteAllUsers(_gameCenter.Users);
+                if (deleteUsers)
+					_userLogic.DeleteAllUsers(_gameCenter.Users);
             }
             catch (Exception)
             {

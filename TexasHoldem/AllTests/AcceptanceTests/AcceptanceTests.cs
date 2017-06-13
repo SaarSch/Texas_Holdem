@@ -9,7 +9,7 @@ namespace AllTests.AcceptanceTests
     [TestClass]
     public class AcceptanceTests
     {
-        private IBridge _bridge;
+		private IBridge _bridge;
         private const string LegalPass = "123456789";
         private const string LegalPlayer = "eladkaminGameName";
         private const string LegalUserName = "eladkamin";
@@ -27,11 +27,11 @@ namespace AllTests.AcceptanceTests
 			}
         }
 
-        [TestCleanup] // happens after each test
-        public void Cleanup() 
-        {
-            _bridge.RestartGameCenter();
-		}
+	    [TestCleanup]
+	    public void TestCleanup() // happens after each test
+	    {
+		    _bridge.RestartGameCenter(true);
+	    }
 
         [TestMethod]
         public void TestRegisterToTheSystem_Good()
@@ -164,7 +164,9 @@ namespace AllTests.AcceptanceTests
             _bridge.LogOut(LegalUserName);
 
             Assert.IsTrue(_bridge.Login(LegalUserName, "9876543210"));
-        }
+	        _bridge.EditPassword(LegalUserName, LegalPass);
+	        _bridge.LogOut(LegalUserName);
+		}
 
         [TestMethod]
         public void TestEditPassword_Sad_IllegalPass()
@@ -213,6 +215,7 @@ namespace AllTests.AcceptanceTests
 
             Assert.IsTrue(_bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer));
             Assert.IsTrue(_bridge.IsGameExist(LegalRoomName));
+	        _bridge.LeaveGame(LegalUserName, LegalRoomName, LegalPlayer);
         }
 
         [TestMethod]
@@ -365,7 +368,9 @@ namespace AllTests.AcceptanceTests
             Assert.IsTrue(activeGames.Contains("Good Game Name564"));
             Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
 
-            
+	        _bridge.LeaveGame(LegalUserName, "Good Game Name564", LegalPlayer);
+	        _bridge.LeaveGame(LegalUserName, "Game Not In Rank", LegalPlayer);
+
         }
 
         [TestMethod]
@@ -408,10 +413,10 @@ namespace AllTests.AcceptanceTests
             //round 4-afterriver
             Assert.IsTrue(_bridge.FoldInGame(LegalRoomName, LegalPlayer));
 	        _bridge.LeaveGame(LegalUserName, LegalRoomName, LegalPlayer);
+	        _bridge.LeaveGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
+		}
 
-        }
-
-        [TestMethod]
+		[TestMethod]
         public void TestGameFull_Sad_IllegalBet()
         {
             //login 2 players

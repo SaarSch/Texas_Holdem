@@ -81,7 +81,7 @@ namespace AllTests.UnitTests
         [TestMethod]
         public void TestMethod9()
         {
-            string test = "sean1111";
+            string test = "9876543210";
             string encrypt = Crypto.Encrypt(test);
             string dec = Crypto.Decrypt(encrypt);
             Assert.AreNotEqual(test, encrypt);

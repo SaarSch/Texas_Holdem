@@ -134,9 +134,9 @@ namespace TexasHoldem.Bridges
             return s;
         }
 
-        public bool RestartGameCenter()
+        public bool RestartGameCenter(bool deleteUsers)
         {
-            return _real == null || _real.RestartGameCenter();
+            return _real == null || _real.RestartGameCenter(deleteUsers);
         }
 
         public bool StartGame(string roomName)
