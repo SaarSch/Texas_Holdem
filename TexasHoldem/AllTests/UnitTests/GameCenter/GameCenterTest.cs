@@ -20,7 +20,7 @@ namespace AllTests.UnitTests.GameCenter
         {
             _u=new List<Tuple<IUser, bool>>();
 	        registerMoqUsers(60);
-			_ul.UpdateDB();
+			//_ul.UpdateDB();
 		}
 
 	    [TestCleanup] // happens after each test
@@ -28,19 +28,7 @@ namespace AllTests.UnitTests.GameCenter
 	    {
 		    _ul.DeleteAllUsers(_u);
 	    }
-
-		[TestMethod]
-        public void GameCenter_SetLeagues_all_leagues_full()
-        {
-            var i = 0;
-            _ul.SetLeagues(_u);
-            foreach (var u in _u)
-            {
-                Assert.AreEqual(u.Item1.League, Math.Floor((double)i / 6) + 1);
-                i++;
-            }
-        }
-
+		
 	    private void registerMoqUsers(int num)
 	    {
 			for (int i = 0; i < num; i++)
@@ -52,30 +40,22 @@ namespace AllTests.UnitTests.GameCenter
 			}
 		}
 
-        [TestMethod]
-        public void GameCenter_SetLeagues_all_leagues_full1()
-        {
-            var count = 0;
-            _ul.SetLeagues(_u);
-            foreach (var u in _u)
-            {
-                Assert.AreEqual(u.Item1.League, Math.Floor((double)count / 6) + 1);
-                count++;
-            }
-        }
-        [TestMethod]
+		
+		[TestMethod]
         public void GameCenter_GetStat()
         {
             var ans = _ul.GetStat("aaaaaaa0");
             Assert.AreEqual(ans.Username, "aaaaaaa0");
             Assert.AreEqual(ans.Password, "12345678");
         }
+
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void GameCenter_GetStat_fail()
         {
             var ans = _ul.GetStat("123");
         }
+
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void GameCenter_GetTopStat_fail()
@@ -83,6 +63,7 @@ namespace AllTests.UnitTests.GameCenter
             _gc.Users.AddRange(_u);
             var ans = _gc.GetTopStat(8);
         }
+
         [TestMethod]
         public void GameCenter_GetTopStat1()
         {
@@ -98,6 +79,7 @@ namespace AllTests.UnitTests.GameCenter
                 Assert.AreEqual(ans[j].GrossProfit, --i);
             }
         }
+
         [TestMethod]
         public void GameCenter_GetTopStat2()
         {
@@ -113,6 +95,7 @@ namespace AllTests.UnitTests.GameCenter
                 Assert.AreEqual(ans[j].HighestCashGain, --i);
             }
         }
+
         [TestMethod]
         public void GameCenter_GetTopStat3()
         {
@@ -126,6 +109,18 @@ namespace AllTests.UnitTests.GameCenter
             for (int j = 0; j < ans.Count; j++)
             {
                 Assert.AreEqual(ans[j].NumOfGames,--i);
+            }
+        }
+
+		[TestMethod]
+        public void GameCenter_SetLeagues_all_leagues_full()
+        {
+            var i = 0;
+            _ul.SetLeagues(_u);
+            foreach (var u in _u)
+            {
+                Assert.AreEqual(u.Item1.League, Math.Floor((double)i / 6) + 1);
+                i++;
             }
         }
 
@@ -159,8 +154,7 @@ namespace AllTests.UnitTests.GameCenter
             Assert.AreEqual(_u[0].Item1.League, 1);
         }
 
-
-        [TestMethod]
+		[TestMethod]
         public void GameCenter_Register_UsernameWithSpaces()
         {
             
