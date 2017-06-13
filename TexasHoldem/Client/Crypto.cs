@@ -17,11 +17,6 @@ namespace Client
         public static string Encrypt(string plainText)
         {
 
-            int mod4 = plainText.Length % 4;
-            if (mod4 > 0)
-            {
-                plainText += new string('*', 4 - mod4);
-            }
 
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
@@ -86,17 +81,7 @@ namespace Client
             memoryStream.Close();
             cryptoStream.Close();
             string ans = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
-            int mod = ans.Length % 4;
-            if (ans != null && ans.Length > 3)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (ans[ans.Length - 1] == '*')
-                    {
-                        ans = ans.Substring(0, ans.Length - 1 - i);
-                    }
-                }
-            }
+           
 
             return ans.ToString();
         }

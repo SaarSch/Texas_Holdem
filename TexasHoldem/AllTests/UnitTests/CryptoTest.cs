@@ -41,7 +41,7 @@ namespace AllTests.UnitTests
         [TestMethod]
         public void TestMethod4()
         {
-            string test = "123456789";
+            string test = "1234567890";
             string encrypt = Crypto.Encrypt(test);
             string dec = Crypto.Decrypt(encrypt);
             Assert.AreNotEqual(test, encrypt);
