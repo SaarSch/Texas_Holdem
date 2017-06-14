@@ -43,7 +43,7 @@
                 <DropShadowEffect/>
             </Label.Effect>
         </Label>
-        <CheckBox Name="ChangePsswd" Content="Change Password" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top" Width="138" Foreground="White" Checked="CheckBox_Checked"/>
+        <CheckBox Name="ChangePsswd" Content="Change Password" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top" Width="138" Foreground="White" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
 
     </Grid>
 </Window>

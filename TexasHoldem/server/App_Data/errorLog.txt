@@ -301,3 +301,4 @@
 13/06/2017 01:52: Error: ERROR in Login: Username does not exist!
 13/06/2017 01:53: Error: ERROR in GetLoggedInUser: Username does not exist!
 13/06/2017 01:53: Error: ERROR in GetLoggedInUser: Username does not exist!
+6/14/2017 12:47 PM: Error: ERROR in Register: Username already exists!
