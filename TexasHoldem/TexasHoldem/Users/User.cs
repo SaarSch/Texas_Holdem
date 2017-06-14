@@ -108,46 +108,49 @@ namespace TexasHoldem.Users
         private string _password;
         public string Password
         {
-
             get => _password;
             set
             {
-                if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
-                {
-                    Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
-                    Logger.Log(Severity.Error, e.Message);
-                    throw e;
-                }
-
-                var hasNonLetterChar = false;
-                int i;
-
-                for (i = 0; i < value.Length && !hasNonLetterChar; i++)
-                {
-                    if (value[i] == ' ')
-                    {
-                        Exception e = new IllegalPasswordException("Illegal password! Space is not allowed.");
-                        Logger.Log(Severity.Error, e.Message);
-                        throw e;
-                    }
-                    if (!char.IsLetter(value[i]))
-                    {
-                        hasNonLetterChar = true;
-                    }
-                }
-
-                if (!hasNonLetterChar)
-                {
-                    Exception e = new IllegalPasswordException("Illegal password! Must contain at least 1 non-letter character.");
-                    Logger.Log(Severity.Error, e.Message);
-                    throw e;
-                }
-
-	            _password = value; //Crypto.Encrypt(value);
+	            _password = value;
             }
         }
 
- 
+        public static  void CheckPassWord(string value)
+        {
+            if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
+            {
+                Exception e = new IllegalPasswordException("Illegal password! Length must be between 8 and 12.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            var hasNonLetterChar = false;
+            int i;
+
+            for (i = 0; i < value.Length && !hasNonLetterChar; i++)
+            {
+                if (value[i] == ' ')
+                {
+                    Exception e = new IllegalPasswordException("Illegal password! Space is not allowed.");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
+                }
+                if (!char.IsLetter(value[i]))
+                {
+                    hasNonLetterChar = true;
+                }
+            }
+
+            if (!hasNonLetterChar)
+            {
+                Exception e = new IllegalPasswordException("Illegal password! Must contain at least 1 non-letter character.");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+           
+        }
+
+
         private string _avatarPath = "Resources/profilePicture.png";
         public string AvatarPath
         {

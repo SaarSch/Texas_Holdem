@@ -52,18 +52,27 @@ namespace AllTests.UnitTests.GameCenter
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        //[ExpectedException(typeof(Exception))]
         public void GameCenter_GetStat_fail()
         {
             var ans = _ul.GetStat("123");
+            Assert.IsNull(ans);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        //[ExpectedException(typeof(Exception))]
         public void GameCenter_GetTopStat_fail()
         {
-            _gc.Users.AddRange(_u);
-            var ans = _gc.GetTopStat(8);
+            try
+            {
+                _gc.Users.AddRange(_u);
+                var ans = _gc.GetTopStat(8);
+                Assert.Fail();
+            }
+            catch
+            {
+                
+            }
         }
 
         [TestMethod]
