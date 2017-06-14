@@ -820,3 +820,67 @@
 6/14/2017 12:59 PM: po123456 logged out successfully!
 6/14/2017 12:59 PM: po123456 logged in successfully!
 6/14/2017 12:59 PM: po123456 logged out successfully!
+14-Jun-17 13:47: Registration completed successfully!
+14-Jun-17 13:47: asdsadadsad4 logged in successfully!
+14-Jun-17 13:47: asdsadadsad4 logged out successfully!
+14-Jun-17 14:06: Registration completed successfully!
+14-Jun-17 14:06: sean1111 logged in successfully!
+14-Jun-17 14:06: new player created for user:sean1111
+14-Jun-17 14:06: new room was created room  name=meee rank=-1
+14-Jun-17 14:06: Room meee created successfully by sean1111!
+14-Jun-17 14:07: Registration completed successfully!
+14-Jun-17 14:07: saar1111 logged in successfully!
+14-Jun-17 14:07: Found the following game rooms: meee.
+14-Jun-17 14:07: Found the following game rooms: meee.
+14-Jun-17 14:07: saar1111 logged out successfully!
+14-Jun-17 14:07: Room meee deleted successfully!
+14-Jun-17 14:07: last player exited, room closed
+14-Jun-17 14:08: sean1111 logged out successfully!
+14-Jun-17 14:08: sean1111 logged in successfully!
+14-Jun-17 14:08: sean1111 logged out successfully!
+14-Jun-17 14:17: sean1111 logged in successfully!
+14-Jun-17 14:17: sean1111's profile edited successfully!
+14-Jun-17 14:17: sean1111 logged out successfully!
+14-Jun-17 14:17: sean1111 logged in successfully!
+14-Jun-17 14:17: new player created for user:sean1111
+14-Jun-17 14:17: new room was created room  name=MyRoom rank=-1
+14-Jun-17 14:17: Room MyRoom created successfully by sean1111!
+14-Jun-17 14:18: saar1111 logged in successfully!
+14-Jun-17 14:18: saar1111's profile edited successfully!
+14-Jun-17 14:18: Found the following game rooms: MyRoom.
+14-Jun-17 14:18: new player created for user:saar1111
+14-Jun-17 14:18: new player joined the room: room name=MyRoomplayer name=saar1111
+14-Jun-17 14:19: Registration completed successfully!
+14-Jun-17 14:19: elad1111 logged in successfully!
+14-Jun-17 14:19: new player created for user:elad1111
+14-Jun-17 14:19: new room was created room  name=elad1111 rank=-1
+14-Jun-17 14:19: Room elad1111 created successfully by elad1111!
+14-Jun-17 14:19: Room elad1111 deleted successfully!
+14-Jun-17 14:19: last player exited, room closed
+14-Jun-17 14:19: Found the following game rooms: MyRoom.
+14-Jun-17 14:19: new player created for user:elad1111
+14-Jun-17 14:19: new player joined the room: room name=MyRoomplayer name=elad1111
+14-Jun-17 14:20: new game started in roomMyRoom dealerUser name: sean1111 Player name: sean1111 Chip amount:1000small blind-User name: saar1111 Player name: saar1111 Chip amount:1000big blind-User name: elad1111 Player name: elad1111 Chip amount:1000Players:User name: sean1111 Player name: sean1111 Chip amount:1000User name: saar1111 Player name: saar1111 Chip amount:1000User name: elad1111 Player name: elad1111 Chip amount:1000
+14-Jun-17 14:20: User: saar1111 player: saar1111 set Bets= 2 current Chips Amount=998
+14-Jun-17 14:20: User: elad1111 player: elad1111 set Bets= 4 current Chips Amount=996
+14-Jun-17 14:20: user: sean1111 player: sean1111 got 2 cards: 5, 3
+14-Jun-17 14:20: playersean1111got 2 cards:5Diamonds3Clubs
+14-Jun-17 14:20: user: saar1111 player: saar1111 got 2 cards: 5, 4
+14-Jun-17 14:20: playersaar1111got 2 cards:5Spades4Diamonds
+14-Jun-17 14:20: user: elad1111 player: elad1111 got 2 cards: 2, 2
+14-Jun-17 14:20: playerelad1111got 2 cards:2Hearts2Clubs
+14-Jun-17 14:21: User: sean1111 player: sean1111 set Bets= 4 current Chips Amount=996
+14-Jun-17 14:21: User: saar1111 player: saar1111 set Bets= 4 current Chips Amount=996
+14-Jun-17 14:21: 3 community cards dealed room name=MyRoomcommunity cards:14Diamonds8Clubs11Clubs
+14-Jun-17 14:21: User: elad1111 player: elad1111 set Bets= 204 current Chips Amount=796
+14-Jun-17 14:21: User: sean1111 player: sean1111 set Bets= 204 current Chips Amount=796
+14-Jun-17 14:21: User: saar1111 player: saar1111 set Bets= 204 current Chips Amount=796
+14-Jun-17 14:21: 1 community card dealed room name=MyRoomcommunity cards:14Diamonds8Clubs11Clubs9Clubs
+14-Jun-17 14:22: 1 community card dealed room name=MyRoomcommunity cards:14Diamonds8Clubs11Clubs9Clubs10Spades
+14-Jun-17 14:22: the winners in roomMyRoomisPlayers:User name: elad1111 Player name: elad1111 Chip amount:796
+14-Jun-17 14:22: current status in roomMyRoomisPlayers:User name: saar1111 Player name: saar1111 Chip amount:796User name: elad1111 Player name: elad1111 Chip amount:1408User name: sean1111 Player name: sean1111 Chip amount:796
+14-Jun-17 14:23: Room MyRoom deleted successfully!
+14-Jun-17 14:23: last player exited, room closed
+14-Jun-17 14:24: elad1111 logged out successfully!
+14-Jun-17 14:24: saar1111 logged out successfully!
+14-Jun-17 14:24: sean1111 logged out successfully!

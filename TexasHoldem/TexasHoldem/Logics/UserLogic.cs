@@ -25,8 +25,8 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
                 return null;
             }
-
-            query = query.Where(u => u.Password == password);
+			password= Crypto.Encrypt(password);
+			query = query.Where(u => u.Password == password);
 
             if (!query.Any())
             {

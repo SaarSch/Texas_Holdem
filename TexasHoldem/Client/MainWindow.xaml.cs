@@ -224,8 +224,8 @@ namespace Client
             var room = new Room
             {
                 CreatorUserName = LoggedUser.Username,
-                CreatorPlayerName = PlayerNameTxt_Copy.Text,
-                GameType = GameTypeCombobox_Copy.Text
+                CreatorPlayerName = LoggedUser.Username,
+				GameType = GameTypeCombobox_Copy.Text
             };
             try
             {
@@ -282,12 +282,6 @@ namespace Client
                     MessageBoxImage.Error);
                 return null;
             }
-            if (string.IsNullOrEmpty(PlayerNameTxt_Copy.Text))
-            {
-                MessageBox.Show("Player name cannot be empty!", "Error in creation", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                return null;
-            }
 
             var cond = SpectatingCombobox_Copy.SelectedIndex <= 0;
             room.SpectatingAllowed = cond;
@@ -323,7 +317,7 @@ namespace Client
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var gameWindow = new GameWindow(LoggedUser, PlayerNameTxt_Copy.Text, roomState, this, false);
+                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, false);
                 Application.Current.MainWindow = gameWindow;
 
                 gameWindow.Show();
@@ -339,59 +333,48 @@ namespace Client
             if (RoomsGrid.SelectedIndex >= 0)
             {
                 Join.IsEnabled = true;
-                JoinNameLbl.Visibility = Visibility.Visible;
-                JoinNameTxt.Visibility = Visibility.Visible;
                 Spectate.IsEnabled = true;
             }
             else
             {
                 Join.IsEnabled = false;
-                JoinNameLbl.Visibility = Visibility.Hidden;
-                JoinNameTxt.Visibility = Visibility.Hidden;
                 Spectate.IsEnabled = false;
             }
         }
 
-        private void Join_Click(object sender, RoutedEventArgs e)
-        {
-            Room room = RoomResults[RoomsGrid.SelectedIndex];
-            if (string.IsNullOrEmpty(JoinNameTxt.Text))
-            {
-                MessageBox.Show("Player name cannot be empty!", "Error in join", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else
-            {
-                var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
-                                 "&playerName=" + JoinNameTxt.Text +"&option=join&token=" + LoggedUser.token;
-                var ans = RestClient.MakeGetRequest(controller);
-                var json = JObject.Parse(ans);
-                var roomState = json.ToObject<RoomState>();
-                if (roomState.Messege == null)
-                {
-                    var chip = (int)chipsLabel.Content;
-                    if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
-                    {
-                        LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
-                    }
-                    else
-                    {
-                        LoggedUser.Chips = 0;
-                    }
-                    MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+	    private void Join_Click(object sender, RoutedEventArgs e)
+	    {
+		    Room room = RoomResults[RoomsGrid.SelectedIndex];
+		    var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
+		                     "&playerName=" + LoggedUser.Username + "&option=join&token=" + LoggedUser.token;
+		    var ans = RestClient.MakeGetRequest(controller);
+		    var json = JObject.Parse(ans);
+		    var roomState = json.ToObject<RoomState>();
+		    if (roomState.Messege == null)
+		    {
+			    var chip = (int) chipsLabel.Content;
+			    if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
+			    {
+				    LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+			    }
+			    else
+			    {
+				    LoggedUser.Chips = 0;
+			    }
+			    MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    var gameWindow = new GameWindow(LoggedUser, JoinNameTxt.Text, roomState, this, false);
-                    Application.Current.MainWindow = gameWindow;
-                    gameWindow.Show();
-                }
-                else
-                {
-                    MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
+			    var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, false);
+			    Application.Current.MainWindow = gameWindow;
+			    gameWindow.Show();
+		    }
+		    else
+		    {
+			    MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
+		    }
 
-        private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
+	    }
+
+	    private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
         {
             var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);

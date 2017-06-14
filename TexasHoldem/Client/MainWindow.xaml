@@ -64,7 +64,7 @@
                     <TextBox x:Name ="MinBetTxt" Text="4" HorizontalAlignment="Left" Height="17" Margin="378,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" IsEnabled="False" Grid.Column="2"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Create a room" Height="24" VerticalAlignment="Top" Margin="-2,0">
+            <TabItem Header="Create a room" Margin="-2.4,0,-2,0">
                 <Grid Background="#FFE4E4E4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="36*"/>
@@ -99,10 +99,8 @@
                     <TextBox x:Name ="MaxPlayersTxt_Copy" Text="8" HorizontalAlignment="Left" Height="15" Margin="269,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Column="1"/>
                     <TextBox x:Name ="MinPlayersTxt_Copy" Text="2" HorizontalAlignment="Left" Height="16" Margin="269,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Column="1"/>
                     <TextBox x:Name ="MinBetTxt_Copy" Text="4" HorizontalAlignment="Left" Height="17" Margin="269,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Grid.Column="1"/>
-                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="473,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True" Grid.Column="1"/>
-                    <Label Content="Room Name" HorizontalAlignment="Left" Margin="391,39,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-                    <TextBox x:Name="PlayerNameTxt_Copy" HorizontalAlignment="Left" Height="19" Margin="473,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True" Grid.Column="1"/>
-                    <Label Content="Player Name" HorizontalAlignment="Left" Margin="391,74,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="RoomNameTxt" HorizontalAlignment="Left" Height="19" Margin="470,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" IsEnabled="True" Grid.Column="1"/>
+                    <Label Content="Room Name" HorizontalAlignment="Left" Margin="389,54,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -113,7 +111,7 @@
             </Label.Effect>
         </Label>
         <Button Content="Edit Profile" HorizontalAlignment="Left" Margin="25,305,0,0" VerticalAlignment="Top" Width="115" x:Name="EditProfileButton" Click="EditProfileButton_Click" Background="#FFE29797" BorderBrush="#FF9E1616" Height="23" FontWeight="Bold" FontSize="14"/>
-        
+
         <DataGrid x:Name="RoomsGrid" IsReadOnly="True" HorizontalAlignment="Left" Height="293" Margin="176,173,0,0" VerticalAlignment="Top" Width="773" Grid.RowSpan="3" AutoGenerateColumns="False" ItemsSource ="{Binding}" SelectionChanged="RoomsGrid_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding RoomName}" Header="Name"/>
@@ -157,8 +155,6 @@
             </TextBlock.Triggers><Run Text="Welcome back!"/></TextBlock>
         <Button Name="Join" IsEnabled="False" Content="Join!" HorizontalAlignment="Left" Height="31" Margin="639,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="150" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616" Click="Join_Click"/>
         <Button Name="Spectate" IsEnabled="False" Content="Spectate!" HorizontalAlignment="Left" Height="31" Margin="800,85,0,0" Grid.Row="2" VerticalAlignment="Top" Width="149" Background="#FFE29797" FontWeight="Bold" FontSize="16" BorderBrush="#FF9E1616" Click="Spectate_Click"/>
-        <Label Name ="JoinNameLbl" Visibility="Hidden" Content="Player Name" HorizontalAlignment="Left" Margin="340,85,0,0" Grid.Row="2" VerticalAlignment="Top" Foreground="White" FontSize="16" Height="31" Width="99"/>
-        <TextBox Name="JoinNameTxt" Visibility="Hidden"  HorizontalAlignment="Left" Height="31" Margin="448,85,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" FontSize="16"/>
         <Button Content="Log Out" HorizontalAlignment="Left" Margin="25,336,0,0" VerticalAlignment="Top" Width="115" Name="LogoutButton" Click="LogoutButton_OnClick" Background="#FFE29797" BorderBrush="#FF9E1616" Height="23" FontWeight="Bold" FontSize="14"/>
         <Label Content="League: " Margin="17,263,869.4,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" Height="31" FontSize="14">
             <Label.Effect>
