@@ -9,11 +9,7 @@ namespace Client
 {
     public class RestClient
     {
-
-        //private static string _endPoint =  "http://texasholdem2017.azurewebsites.net/api/";
-        private static string _endPoint = "http://localhost:57856/api/";
-        //private static string _endPoint =  "http://192.168.1.4:57856/api/";
-        //private static string _endPoint =  "http://192.168.43.174:57856/api/";
+        private static string _endPoint =  "http://132.73.197.182:3000/api/";
 
 
         private static void WriteData(WebRequest request, string data)

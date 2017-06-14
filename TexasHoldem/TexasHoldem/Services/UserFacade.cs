@@ -33,22 +33,22 @@ namespace TexasHoldem.Services
 
         public void EditProfileUsername(string username, string newusername) // UC 4
         {
-            _userLogic.EditUser(username, newusername, null, null, null, _gameCenter.Users);
+            _userLogic.EditUser(username, newusername, "", "", "", _gameCenter.Users);
         }
 
         public void EditProfilePassword(string username, string newPassword) // UC 4
         {
-            _userLogic.EditUser(username, null, newPassword, null, null, _gameCenter.Users);
+            _userLogic.EditUser(username, "", newPassword, "", "", _gameCenter.Users);
         }
 
         public void EditProfileEmail(string username, string newEmail) // UC 4
         {
-            _userLogic.EditUser(username, null, null, null, newEmail, _gameCenter.Users);
+            _userLogic.EditUser(username, "", "", "", newEmail, _gameCenter.Users);
         }
 
         public void EditProfileAvatarPath(string username, string newAvatarPath) // UC 4
         {
-            _userLogic.EditUser(username, null, null, newAvatarPath, null, _gameCenter.Users);
+            _userLogic.EditUser(username, "", "", newAvatarPath, "", _gameCenter.Users);
         }
         public IUser EditUser(string username, string newusername, string newPassword, string newAvatarPath, string newEmail)
         {
