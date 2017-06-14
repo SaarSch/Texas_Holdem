@@ -6,6 +6,8 @@ using Moq;
 using TexasHoldem.Game;
 using TexasHoldem.Logics;
 using TexasHoldem.Users;
+using TexasHoldem;
+
 
 namespace AllTests.UnitTests.GameCenter
 {
@@ -68,7 +70,7 @@ namespace AllTests.UnitTests.GameCenter
         {
             var ans = _ul.GetStat("aaaaaaa0");
             Assert.AreEqual(ans.Username, "aaaaaaa0");
-            Assert.AreEqual(ans.Password, "12345678");
+            Assert.AreEqual(ans.Password, Crypto.Encrypt("12345678"));
         }
         [TestMethod]
         [ExpectedException(typeof(Exception))]
