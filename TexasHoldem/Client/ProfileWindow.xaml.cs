@@ -22,8 +22,8 @@ namespace Client
             InitializeComponent();
             _user = user;
             _mainWindow = mainWindow;
-            UsernameTxt.Text = "";
-            PasswordTxt.Text = user.Password;
+            UsernameTxt.Text = user.Username;
+            PasswordTxt.Text = "";
             EmailTxt.Text = user.Email;
             Picture = user.AvatarPath;
             ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));

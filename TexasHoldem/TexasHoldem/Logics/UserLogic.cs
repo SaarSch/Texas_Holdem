@@ -246,15 +246,15 @@ namespace TexasHoldem.Logics
         public IUser EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
         {
 
-            if (newEmail != null)
+            if (newEmail != "")
             {
                 User.CanSetMail(newEmail);
             }
-            if (newUserName != null)
+            if (newUserName != "")
             {
                 User.CanSetUserName(newUserName);
             }
-            if (newPassword != null)
+            if (newPassword != "")
             {
                 User.CanSetPass(newPassword);
                 newPassword = Crypto.Encrypt(newPassword);
@@ -279,7 +279,7 @@ namespace TexasHoldem.Logics
             }
             try
             {
-                if (newUserName != null && newUserName != username)
+                if (newUserName != "" && newUserName != username)
                 {
                     query = db.Users.Where(u => u.Username == newUserName);
                     if (query.Any())
@@ -298,19 +298,19 @@ namespace TexasHoldem.Logics
                     user = db.Users.First(u => u.Username == newUserName);
                     //user.Username = newUserName;
                 }
-                if (newPassword != null)
+                if (newPassword != "")
                 {
                     ans.Password = newPassword;//check if it changes
                     user.Password = newPassword;
                 }
                   
-                if (newAvatarPath != null)
+                if (newAvatarPath != "")
                 {
                     ans.AvatarPath = newAvatarPath;
                     user.AvatarPath = newAvatarPath;
                 }
                    
-                if (newEmail != null)
+                if (newEmail != "")
                 {
                     ans.Email = newEmail;
                     user.Email = newEmail;
