@@ -22,7 +22,7 @@ namespace Client
             InitializeComponent();
             _user = user;
             _mainWindow = mainWindow;
-            UsernameTxt.Text = user.Username;
+            UsernameTxt.Text = "";
             PasswordTxt.Text = user.Password;
             EmailTxt.Text = user.Email;
             Picture = user.AvatarPath;
@@ -120,6 +120,20 @@ namespace Client
         {
             Picture = "Resources/avatar4.png";
             ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (ChangePsswd.IsChecked == true)
+            {
+                PasswordLbl.Visibility = Visibility.Visible;
+                PasswordTxt.Visibility = Visibility.Visible;
+            }
+            if (ChangePsswd.IsChecked == false)
+            {
+                PasswordLbl.Visibility = Visibility.Hidden;
+                PasswordTxt.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
