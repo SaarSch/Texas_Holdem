@@ -108,6 +108,7 @@ namespace TexasHoldem.Users
         private string _password;
         public string Password
         {
+
             get => _password;
             set
             {
@@ -142,7 +143,7 @@ namespace TexasHoldem.Users
                     throw e;
                 }
 
-                _password = Crypto.Encrypt(value);
+	            _password = value; //Crypto.Encrypt(value);
             }
         }
 

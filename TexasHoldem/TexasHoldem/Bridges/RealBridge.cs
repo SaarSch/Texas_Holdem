@@ -310,9 +310,9 @@ namespace TexasHoldem.Bridges
             return _userManager.GetMessages(username, roomName);
         }
 
-        public bool RestartGameCenter()
+        public bool RestartGameCenter(bool deleteUsers)
         {
-            return _gameManager.RestartGameCenter();
+            return _gameManager.RestartGameCenter(deleteUsers);
         }
 
         public bool StartGame(string roomName)

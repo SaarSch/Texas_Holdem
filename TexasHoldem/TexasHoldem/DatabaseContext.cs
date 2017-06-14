@@ -3,7 +3,7 @@ using TexasHoldem.Users;
 
 namespace TexasHoldem
 {
-	class DatabaseContext : DbContext
+	public class DatabaseContext : DbContext
 	{
 		public DatabaseContext(string dbName) 
 			: base(dbName) 

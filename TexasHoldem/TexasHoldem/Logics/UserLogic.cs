@@ -126,8 +126,10 @@ namespace TexasHoldem.Logics
 
         public IUser Login(string username, string password, List<Tuple<IUser, bool>> users)
         {
+
             password = Crypto.Encrypt(password);
             var query = db.Users.Where(u => u.Username == username);
+
 
             if (!query.Any())
             {
@@ -136,7 +138,8 @@ namespace TexasHoldem.Logics
                 throw e;
             }
 
-            query = query.Where(u => u.Password ==password);
+            query = query.Where(u => u.Item1.Password == password);
+
 
             if (!query.Any())
             {
