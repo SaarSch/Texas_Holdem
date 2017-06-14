@@ -18,6 +18,7 @@ namespace AllTests.AcceptanceTests
         [TestInitialize]
         public void Initialize()
         {
+            _bridge.RestartGameCenter(true);
             _bridge = new ProxyBridge();
 
 			_bridge.Register(LegalUserName, LegalPass);
