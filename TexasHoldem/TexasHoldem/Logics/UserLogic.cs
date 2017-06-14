@@ -138,7 +138,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
 
-            query = query.Where(u => u.Item1.Password == password);
+            query = query.Where(u => u.Password == password);
 
 
             if (!query.Any())
