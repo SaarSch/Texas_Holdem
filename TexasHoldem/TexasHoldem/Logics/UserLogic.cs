@@ -106,6 +106,7 @@ namespace TexasHoldem.Logics
 
         public void Register(string username, string password, List<Tuple<IUser, bool>> users)
         {
+            
 	        var query = from u in db.Users
 						where u.Username == username
 						select u;
@@ -115,8 +116,10 @@ namespace TexasHoldem.Logics
 		        Logger.Log(Severity.Error, e.Message);
 		        throw e;
 			}
+            User.CheckPassWord(password);
+            password = Crypto.Encrypt(password);
 
-			User newUser = new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000);
+            User newUser = new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000);
 	        db.Users.Add(newUser);
 	        db.SaveChanges();
             users.Add(new Tuple<IUser, bool>(newUser, false));
@@ -138,7 +141,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
 
-            query = query.Where(u => u.Item1.Password == password);
+            query = query.Where(u => u.Password == password);
 
 
             if (!query.Any())
@@ -254,6 +257,7 @@ namespace TexasHoldem.Logics
             if (newPassword != null)
             {
                 User.CanSetPass(newPassword);
+                newPassword = Crypto.Encrypt(newPassword);
             }
             //IUser ans= null;
             var query = db.Users.Where(u => u.Username == username);
