@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
@@ -127,7 +126,10 @@ namespace TexasHoldem.Logics
 
         public IUser Login(string username, string password, List<Tuple<IUser, bool>> users)
         {
-            var query = users.Where(u => u.Item1.Username == username);
+
+            password = Crypto.Encrypt(password);
+            var query = db.Users.Where(u => u.Username == username);
+
 
             if (!query.Any())
             {
@@ -137,6 +139,7 @@ namespace TexasHoldem.Logics
             }
 
             query = query.Where(u => u.Item1.Password == password);
+
 
             if (!query.Any())
             {
@@ -451,6 +454,7 @@ namespace TexasHoldem.Logics
 
         public void DeleteUser(string username, string password, List<Tuple<IUser, bool>> users)
         {
+            password = Crypto.Encrypt(password);
             var query = db.Users.Where(u => u.Username == username);
 
             if (!query.Any())

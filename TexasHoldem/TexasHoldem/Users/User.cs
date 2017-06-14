@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using TexasHoldem.Exceptions;
 using TexasHoldem.Loggers;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 namespace TexasHoldem.Users
 {
@@ -107,9 +108,9 @@ namespace TexasHoldem.Users
         private string _password;
         public string Password
         {
-	        get => _password;//Crypto.Decrypt(_password);
 
-			set
+            get => _password;
+            set
             {
                 if (value.Length > PasswordLengthMax || value.Length < PasswordLengthMin)
                 {
@@ -146,6 +147,7 @@ namespace TexasHoldem.Users
             }
         }
 
+ 
         private string _avatarPath = "Resources/profilePicture.png";
         public string AvatarPath
         {
