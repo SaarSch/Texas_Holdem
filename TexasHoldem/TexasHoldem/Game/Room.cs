@@ -84,6 +84,13 @@ namespace TexasHoldem.Game
                 throw e;
             }
 
+            if (gamePreferences.GameType == Gametype.Limit && creator.User.ChipsAmount < 6 * gamePreferences.MinBet)
+            {
+                var e = new Exception("Limit mode, player chips amount is too low to join");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }       
+
             if (gamePreferences.ChipPolicy == 0)
             {
                 creator.ChipsAmount = creator.User.ChipsAmount;
@@ -114,6 +121,20 @@ namespace TexasHoldem.Game
                     return true;
             }
             return false;
+        }
+
+        private bool CanBeInRoom(Player p)
+        {
+            if (p.User.ChipsAmount < GamePreferences.MinBet || (p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0) || p.User.ChipsAmount < GamePreferences.BuyInPolicy)
+            {
+                return false;
+            }
+
+            if (GamePreferences.GameType == Gametype.Limit && p.User.ChipsAmount < 6 * GamePreferences.MinBet)
+            {
+                return false;
+            }
+            return true;
         }
 
         public Room AddPlayer(IPlayer p)
@@ -340,6 +361,15 @@ namespace TexasHoldem.Game
 
         public Room StartGame()
         {
+            foreach (Player p in Players)
+            {
+                if (!CanBeInRoom(p))
+                {
+                    var e = new Exception("cant start because player: "+p.Name+" cant be in this room");
+                    Logger.Log(Severity.Error, e.Message);
+                    throw e;
+                }
+            }
             if (Players.Count < GamePreferences.MinPlayers)
             {
                 var e = new Exception("can't play with less then min players");
@@ -375,7 +405,7 @@ namespace TexasHoldem.Game
             Deck = new Deck();
 
             // 0 = dealer 1=small blind 2=big blind
-         //   Replayer.Save(GameReplay, _turn, Players, Pot, null, "start of turn");
+            //   Replayer.Save(GameReplay, _turn, Players, Pot, null, "start of turn");
             if (Players.Count == 2)
             {
                 Logger.Log(Severity.Action, "new game started in room " + Name + " dealer and small blind-" + Players[0]+ "big blind-"+Players[1]);
