@@ -425,5 +425,15 @@ namespace Client
                 MessageBox.Show(roomState.Messege, "Error in spectate", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-    }
+
+		private void Watch_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void ReplayGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+
+		}
+	}
 }

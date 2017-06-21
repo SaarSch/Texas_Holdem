@@ -9,9 +9,9 @@ namespace Client
 {
     public class RestClient
     {
-        //private static string _endPoint =  "http://132.73.197.182:3000/api/";
+
         private static string _endPoint = "http://localhost:57856/api/";
-           
+          
         private static void WriteData(WebRequest request, string data)
         {
             var buffer = Encoding.ASCII.GetBytes(data);
