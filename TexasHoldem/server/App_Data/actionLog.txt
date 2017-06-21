@@ -884,3 +884,130 @@
 14-Jun-17 14:24: elad1111 logged out successfully!
 14-Jun-17 14:24: saar1111 logged out successfully!
 14-Jun-17 14:24: sean1111 logged out successfully!
+20/06/2017 09:35: Registration completed successfully!
+20/06/2017 09:35: qweqwe11 logged in successfully!
+20/06/2017 09:35: new player created for user:qweqwe11
+20/06/2017 09:35: new player created for user:qweqwe11
+20/06/2017 09:35: new room was created room  name=qweqwe11 rank=-1
+20/06/2017 09:35: Room qweqwe11 created successfully by qweqwe11!
+20/06/2017 09:35: Registration completed successfully!
+20/06/2017 09:35: qweqwe22 logged in successfully!
+20/06/2017 09:35: Found the following game rooms: qweqwe11.
+20/06/2017 09:35: new player created for user:qweqwe22
+20/06/2017 09:35: new player joined the room: room name=qweqwe11player name=qweqwe22
+20/06/2017 09:36: new game started in room qweqwe11 dealer and small blind-User name: qweqwe11 Player name: qweqwe11 Chip amount:1000big blind-User name: qweqwe22 Player name: qweqwe22 Chip amount:1000
+20/06/2017 09:36: User: qweqwe11 player: qweqwe11 set Bets= 2 current Chips Amount=998
+20/06/2017 09:36: User: qweqwe22 player: qweqwe22 set Bets= 4 current Chips Amount=996
+20/06/2017 09:36: user: qweqwe11 player: qweqwe11 got 2 cards: 12, 10
+20/06/2017 09:36: playerqweqwe11got 2 cards:12Spades10Clubs
+20/06/2017 09:36: user: qweqwe22 player: qweqwe22 got 2 cards: 6, 9
+20/06/2017 09:36: playerqweqwe22got 2 cards:6Diamonds9Clubs
+20/06/2017 09:36: User: qweqwe11 player: qweqwe11 set Bets= 325 current Chips Amount=675
+20/06/2017 09:36: User: qweqwe22 player: qweqwe22 set Bets= 325 current Chips Amount=675
+20/06/2017 09:36: 3 community cards dealed room name=qweqwe11community cards:5Spades13Diamonds13Spades
+20/06/2017 09:36: 1 community card dealed room name=qweqwe11community cards:5Spades13Diamonds13Spades10Spades
+20/06/2017 09:36: 1 community card dealed room name=qweqwe11community cards:5Spades13Diamonds13Spades10Spades5Diamonds
+20/06/2017 09:36: the winners in roomqweqwe11isPlayers:User name: qweqwe11 Player name: qweqwe11 Chip amount:675
+20/06/2017 09:36: current status in roomqweqwe11isPlayers:User name: qweqwe11 Player name: qweqwe11 Chip amount:1325User name: qweqwe22 Player name: qweqwe22 Chip amount:675
+20/06/2017 09:40: Registration completed successfully!
+20/06/2017 09:40: qwe123321 logged in successfully!
+20/06/2017 09:40: new player created for user:qwe123321
+20/06/2017 09:40: new room was created room  name=qwe123321 rank=-1
+20/06/2017 09:40: Room qwe123321 created successfully by qwe123321!
+20/06/2017 09:41: Registration completed successfully!
+20/06/2017 09:41: qweasd123 logged in successfully!
+20/06/2017 09:41: Found the following game rooms: qwe123321.
+20/06/2017 09:41: new player created for user:qweasd123
+20/06/2017 09:41: new player joined the room: room name=qwe123321player name=qweasd123
+20/06/2017 09:41: new game started in room qwe123321 dealer and small blind-User name: qwe123321 Player name: qwe123321 Chip amount:1000big blind-User name: qweasd123 Player name: qweasd123 Chip amount:1000
+20/06/2017 09:41: User: qwe123321 player: qwe123321 set Bets= 2 current Chips Amount=998
+20/06/2017 09:41: User: qweasd123 player: qweasd123 set Bets= 4 current Chips Amount=996
+20/06/2017 09:41: user: qwe123321 player: qwe123321 got 2 cards: 7, 11
+20/06/2017 09:41: playerqwe123321got 2 cards:7Spades11Spades
+20/06/2017 09:41: user: qweasd123 player: qweasd123 got 2 cards: 5, 4
+20/06/2017 09:41: playerqweasd123got 2 cards:5Spades4Diamonds
+20/06/2017 09:41: User: qwe123321 player: qwe123321 set Bets= 4 current Chips Amount=996
+20/06/2017 09:41: 3 community cards dealed room name=qwe123321community cards:4Spades13Clubs6Hearts
+20/06/2017 09:41: 1 community card dealed room name=qwe123321community cards:4Spades13Clubs6Hearts12Spades
+20/06/2017 09:41: 1 community card dealed room name=qwe123321community cards:4Spades13Clubs6Hearts12Spades3Clubs
+20/06/2017 09:41: the winners in roomqwe123321isPlayers:User name: qweasd123 Player name: qweasd123 Chip amount:996
+20/06/2017 09:41: current status in roomqwe123321isPlayers:User name: qwe123321 Player name: qwe123321 Chip amount:996User name: qweasd123 Player name: qweasd123 Chip amount:1004
+20/06/2017 09:45: Registration completed successfully!
+20/06/2017 09:45: qwe123r123 logged in successfully!
+20/06/2017 09:45: new player created for user:qwe123r123
+20/06/2017 09:45: new room was created room  name=qwe123r123 rank=-1
+20/06/2017 09:45: Room qwe123r123 created successfully by qwe123r123!
+20/06/2017 09:46: Registration completed successfully!
+20/06/2017 09:46: qwe123r12 logged in successfully!
+20/06/2017 09:46: new player created for user:qwe123r12
+20/06/2017 09:46: new room was created room  name=qwe123r12 rank=-1
+20/06/2017 09:46: Room qwe123r12 created successfully by qwe123r12!
+20/06/2017 09:46: Room qwe123r12 deleted successfully!
+20/06/2017 09:46: last player exited, room closed
+20/06/2017 09:46: Found the following game rooms: qwe123r123.
+20/06/2017 09:46: new player created for user:qwe123r12
+20/06/2017 09:46: new player joined the room: room name=qwe123r123player name=qwe123r12
+20/06/2017 09:46: new game started in room qwe123r123 dealer and small blind-User name: qwe123r123 Player name: qwe123r123 Chip amount:1000big blind-User name: qwe123r12 Player name: qwe123r12 Chip amount:1000
+20/06/2017 09:46: User: qwe123r123 player: qwe123r123 set Bets= 2 current Chips Amount=998
+20/06/2017 09:46: User: qwe123r12 player: qwe123r12 set Bets= 4 current Chips Amount=996
+20/06/2017 09:46: user: qwe123r123 player: qwe123r123 got 2 cards: 12, 2
+20/06/2017 09:46: playerqwe123r123got 2 cards:12Diamonds2Clubs
+20/06/2017 09:46: user: qwe123r12 player: qwe123r12 got 2 cards: 8, 2
+20/06/2017 09:46: playerqwe123r12got 2 cards:8Clubs2Hearts
+20/06/2017 09:46: User: qwe123r123 player: qwe123r123 set Bets= 4 current Chips Amount=996
+20/06/2017 09:46: 3 community cards dealed room name=qwe123r123community cards:5Hearts7Spades12Spades
+20/06/2017 09:46: 1 community card dealed room name=qwe123r123community cards:5Hearts7Spades12Spades6Spades
+20/06/2017 09:46: 1 community card dealed room name=qwe123r123community cards:5Hearts7Spades12Spades6Spades3Clubs
+20/06/2017 09:46: the winners in roomqwe123r123isPlayers:User name: qwe123r123 Player name: qwe123r123 Chip amount:996
+20/06/2017 09:46: current status in roomqwe123r123isPlayers:User name: qwe123r12 Player name: qwe123r12 Chip amount:996User name: qwe123r123 Player name: qwe123r123 Chip amount:1004
+21/06/2017 18:41: Registration completed successfully!
+21/06/2017 18:41: qweqwe321 logged in successfully!
+21/06/2017 18:41: new player created for user:qweqwe321
+21/06/2017 18:41: new room was created room  name=qweqwe321 rank=-1
+21/06/2017 18:41: Room qweqwe321 created successfully by qweqwe321!
+21/06/2017 18:41: Registration completed successfully!
+21/06/2017 18:41: qweqwe32 logged in successfully!
+21/06/2017 18:41: Found the following game rooms: qweqwe321.
+21/06/2017 18:41: new player created for user:qweqwe32
+21/06/2017 18:41: new player joined the room: room name=qweqwe321player name=qweqwe32
+21/06/2017 18:41: new game started in room qweqwe321 dealer and small blind-User name: qweqwe321 Player name: qweqwe321 Chip amount:1000big blind-User name: qweqwe32 Player name: qweqwe32 Chip amount:1000
+21/06/2017 18:41: User: qweqwe321 player: qweqwe321 set Bets= 2 current Chips Amount=998
+21/06/2017 18:41: User: qweqwe32 player: qweqwe32 set Bets= 4 current Chips Amount=996
+21/06/2017 18:41: user: qweqwe321 player: qweqwe321 got 2 cards: 13, 8
+21/06/2017 18:41: playerqweqwe321got 2 cards:13Hearts8Spades
+21/06/2017 18:41: user: qweqwe32 player: qweqwe32 got 2 cards: 7, 5
+21/06/2017 18:41: playerqweqwe32got 2 cards:7Clubs5Hearts
+21/06/2017 18:42: User: qweqwe321 player: qweqwe321 set Bets= 134 current Chips Amount=866
+21/06/2017 18:42: User: qweqwe32 player: qweqwe32 set Bets= 134 current Chips Amount=866
+21/06/2017 18:42: 3 community cards dealed room name=qweqwe321community cards:9Spades10Hearts10Spades
+21/06/2017 18:42: 1 community card dealed room name=qweqwe321community cards:9Spades10Hearts10Spades12Hearts
+21/06/2017 18:42: 1 community card dealed room name=qweqwe321community cards:9Spades10Hearts10Spades12Hearts12Clubs
+21/06/2017 18:42: the winners in roomqweqwe321isPlayers:User name: qweqwe321 Player name: qweqwe321 Chip amount:866
+21/06/2017 18:42: current status in roomqweqwe321isPlayers:User name: qweqwe321 Player name: qweqwe321 Chip amount:1134User name: qweqwe32 Player name: qweqwe32 Chip amount:866
+21/06/2017 19:08: Registration completed successfully!
+21/06/2017 19:08: sean1111 logged in successfully!
+21/06/2017 19:09: new player created for user:sean1111
+21/06/2017 19:09: new room was created room  name=sdfhj rank=-1
+21/06/2017 19:09: Room sdfhj created successfully by sean1111!
+21/06/2017 19:09: Registration completed successfully!
+21/06/2017 19:09: kaka9999 logged in successfully!
+21/06/2017 19:09: Found the following game rooms: sdfhj.
+21/06/2017 19:10: new player created for user:kaka9999
+21/06/2017 19:10: new player joined the room: room name=sdfhjplayer name=kaka9999
+21/06/2017 19:10: new game started in room sdfhj dealer and small blind-User name: sean1111 Player name: sean1111 Chip amount:1000big blind-User name: kaka9999 Player name: kaka9999 Chip amount:1000
+21/06/2017 19:10: User: sean1111 player: sean1111 set Bets= 2 current Chips Amount=998
+21/06/2017 19:10: User: kaka9999 player: kaka9999 set Bets= 4 current Chips Amount=996
+21/06/2017 19:10: user: sean1111 player: sean1111 got 2 cards: 10, 2
+21/06/2017 19:10: playersean1111got 2 cards:10Spades2Spades
+21/06/2017 19:10: user: kaka9999 player: kaka9999 got 2 cards: 11, 3
+21/06/2017 19:10: playerkaka9999got 2 cards:11Diamonds3Clubs
+21/06/2017 19:10: User: sean1111 player: sean1111 set Bets= 4 current Chips Amount=996
+21/06/2017 19:10: 3 community cards dealed room name=sdfhjcommunity cards:4Diamonds9Hearts7Diamonds
+21/06/2017 19:10: 1 community card dealed room name=sdfhjcommunity cards:4Diamonds9Hearts7Diamonds8Hearts
+21/06/2017 19:10: 1 community card dealed room name=sdfhjcommunity cards:4Diamonds9Hearts7Diamonds8Hearts10Diamonds
+21/06/2017 19:10: the winners in roomsdfhjisPlayers:User name: kaka9999 Player name: kaka9999 Chip amount:996
+21/06/2017 19:10: current status in roomsdfhjisPlayers:User name: sean1111 Player name: sean1111 Chip amount:996User name: kaka9999 Player name: kaka9999 Chip amount:1004
+21/06/2017 19:10: Room sdfhj deleted successfully!
+21/06/2017 19:10: last player exited, room closed
+21/06/2017 19:10: kaka9999 logged out successfully!
+21/06/2017 19:11: sean1111 logged out successfully!

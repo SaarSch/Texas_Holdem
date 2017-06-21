@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Web.Http;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using Server.Models;
 using Player = Server.Models.Player;
 using IRoom = TexasHoldem.Game.IRoom;
@@ -259,14 +263,26 @@ namespace Server.Controllers
                     j++;
                 }
 
+                bool saved = false;
                 if (player != null && (ans.IsOn || !string.IsNullOrEmpty(ans.CurrentWinners)) && string.IsNullOrEmpty(ans.Messege))
                 {
                     if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans))
                     {
+                        saved = true;
                         Replays[r.Name][player].Add(ans);
                     }
 
-                    else if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count == 0) Replays[r.Name][player].Add(ans);
+                    else if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count == 0)
+                    {
+                        saved = true;
+                        Replays[r.Name][player].Add(ans);
+                    }
+                
+                }
+
+                if (!ans.IsOn && (ans.CommunityCards[0] != null||ans.AllPlayers[1].CurrentBet>0)&& saved) //this is the last roomState.
+                {
+                    SaveReaply(Replays[r.Name][player], player,ans.RoomName);
                 }
             }
             catch (Exception e)
@@ -275,6 +291,18 @@ namespace Server.Controllers
             }
         }
 
-
+        public static void SaveReaply(List<RoomState> roomStates, string player, string roomName)
+        {
+            string AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory;
+            string path= AppDataPath+ "\\"+"User_Name"+player+"#" +DateTime.Now.ToString("dd_MM_yyyy hh_mm_ss") + "#" + roomName +".json";
+            //write string to file
+            MemoryStream stream1 = new MemoryStream();
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<RoomState>));
+            ser.WriteObject(stream1, roomStates);
+            FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write);
+            stream1.WriteTo(file);
+            file.Close();
+            stream1.Close();
+        }
     }
 }
