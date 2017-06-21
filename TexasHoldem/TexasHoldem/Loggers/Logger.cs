@@ -27,7 +27,7 @@ namespace TexasHoldem.Loggers
             {
                 // if 'log' was called from the server project
                 AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory;
-                ErrorPath = AppDataPath + "\\errorLog.txt";
+                ErrorPath = AppDataPath + " \\errorLog.txt";
                 ActionPath = AppDataPath + "\\actionLog.txt";
 
                 if (msg == "")
