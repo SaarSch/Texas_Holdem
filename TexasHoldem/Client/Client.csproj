@@ -380,5 +380,8 @@
   <ItemGroup>
     <Resource Include="Resources\replay_msg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\replays.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
