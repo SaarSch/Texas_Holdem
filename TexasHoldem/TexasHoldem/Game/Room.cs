@@ -37,39 +37,39 @@ namespace TexasHoldem.Game
         public HandLogic HandLogic { get; }
 
         public const int MinNameLength = 4;
-        public const int MaxNameLength = 30;
+        public const int MaxNameLength = 15;
 
         public Room(string name, IPlayer creator, GamePreferences gamePreferences)
         {
             if (name == null)
             {
-                Exception e = new ArgumentException("room name can't be null");
+                Exception e = new ArgumentException("Room name can't be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
 
             if (!Regex.IsMatch(name, "^[a-zA-Z0-9 ]*$"))
             {
-                Exception e = new IllegalRoomNameException("room name contains illegal characters");
+                Exception e = new IllegalRoomNameException("Room name contains illegal characters");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
             if (name.Length > MaxNameLength || name.Length < MinNameLength)
             {
-                Exception e = new IllegalRoomNameException("room name must be between 4 and 30 characters long");
+                Exception e = new IllegalRoomNameException("Room name must be between 4 and 15 characters long");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
             if (creator == null)
             {
-                Exception e = new ArgumentException("creator player can't be null");
+                Exception e = new ArgumentException("Creator player can't be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
 
             if (gamePreferences == null)
             {
-                Exception e = new ArgumentException("game preferences can't be null");
+                Exception e = new ArgumentException("Game preferences can't be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -79,7 +79,7 @@ namespace TexasHoldem.Game
 
             if (creator.User.ChipsAmount < gamePreferences.MinBet || (creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0) || creator.User.ChipsAmount < gamePreferences.BuyInPolicy)
             {
-                var e = new Exception("player chips amount is too low to join");
+                var e = new Exception("Player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -110,7 +110,7 @@ namespace TexasHoldem.Game
 
          //   GameReplay = Replayer.CreateReplay();
             HandLogic = new HandLogic();
-            Logger.Log(Severity.Action, "new room was created room  name="+name+" rank="+League );
+            Logger.Log(Severity.Action, "New room was created room  name="+name+" rank="+League );
         }
 
         public bool HasPlayer(string name)
@@ -143,7 +143,7 @@ namespace TexasHoldem.Game
             {
                 if (p1.Name.Equals(p.Name))
                 {
-                    var e = new Exception("can't join, player name is already exist");
+                    var e = new Exception("Can't join, player name is already exist");
                     Logger.Log(Severity.Exception, e.Message);
                     throw e;
                 }
@@ -152,38 +152,38 @@ namespace TexasHoldem.Game
             {
                 if (u.Username.Equals(p.Name))
                 {
-                    var e = new Exception("can't join, player name is already exist");
+                    var e = new Exception("Can't join, player name is already exist");
                     Logger.Log(Severity.Exception, e.Message);
                     throw e;
                 }
             }
             if (IsOn)
             {
-                var e = new Exception("can't join, game is on");
+                var e = new Exception("Can't join, game is on");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
             if (p == null)
             {
-                var e = new Exception("can't add a null player to the room");
+                var e = new Exception("Can't add a null player to the room");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
             if (Players.Count > GamePreferences.MaxPlayers)
             {
-                var e = new Exception("room is full, can't add the player");
+                var e = new Exception("Room is full, can't add the player");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
             if (p.User.League != League && p.User.League!=-1)
             {
-                var e = new Exception("player is in diffrent league join");
+                var e = new Exception("Player is in diffrent league join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
             if (p.User.ChipsAmount < GamePreferences.MinBet || (p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)|| p.User.ChipsAmount<GamePreferences.BuyInPolicy)
             {
-                var e = new Exception("player chips amount is too low to join");
+                var e = new Exception("Player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -199,7 +199,7 @@ namespace TexasHoldem.Game
                 p.User.ChipsAmount -= GamePreferences.ChipPolicy;
             }
             Players.Add(p);
-            Logger.Log(Severity.Action, "new player joined the room: room name=" + Name + "player name=" + p.Name);
+            Logger.Log(Severity.Action, "New player joined the room: room name=" + Name + "player name=" + p.Name);
             return this;
         }
   
@@ -207,14 +207,14 @@ namespace TexasHoldem.Game
         {
             if (!GamePreferences.Spectating)
             {
-                var e = new Exception("can't spectate at this room");
+                var e = new Exception("Can't spectate at this room");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
 
             if(user is null)
             {
-                var e = new Exception("can't add a null user to the room");
+                var e = new Exception("Can't add a null user to the room");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -222,7 +222,7 @@ namespace TexasHoldem.Game
             {
                 if (p.Name == user.Username)
                 {
-                    var e = new Exception("can't spectate at this room");
+                    var e = new Exception("Can't spectate at this room");
                     Logger.Log(Severity.Exception, e.Message);
                     throw e;
                 }
@@ -234,7 +234,7 @@ namespace TexasHoldem.Game
         {
             if (user is null)
             {
-                var e = new Exception("can't add a null user to the room");
+                var e = new Exception("Can't add a null user to the room");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -257,7 +257,7 @@ namespace TexasHoldem.Game
             {
 
                 p.SetCards(Deck.Draw(), Deck.Draw());
-                Logger.Log(Severity.Action, "player"+p.Name+"got 2 cards:" +p.Hand[0]+p.Hand[1]);
+                Logger.Log(Severity.Action, "Player "+p.Name+" got 2 cards: " +p.Hand[0]+p.Hand[1]);
             }
         }
 
@@ -280,7 +280,7 @@ namespace TexasHoldem.Game
             }
             if (AllFold())
             {
-                var e = new Exception("all players folded, no need to deal community cards");
+                var e = new Exception("All players folded, no need to deal community cards");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -341,7 +341,7 @@ namespace TexasHoldem.Game
             }
             if (AllFold())
             {
-                var e = new Exception("all players folded, no need to deal community cards");
+                var e = new Exception("All players folded, no need to deal community cards");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -365,20 +365,20 @@ namespace TexasHoldem.Game
             {
                 if (!CanBeInRoom(p))
                 {
-                    var e = new Exception("cant start because player: "+p.Name+" cant be in this room");
+                    var e = new Exception("Can not start because player "+p.Name+" can not be in this room!");
                     Logger.Log(Severity.Error, e.Message);
                     throw e;
                 }
             }
             if (Players.Count < GamePreferences.MinPlayers)
             {
-                var e = new Exception("can't play with less then min players");
+                var e = new Exception("Can not play with less then min players");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
             if (IsOn)
             {
-                var e = new Exception("game has already started");
+                var e = new Exception("Game has already started");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -408,13 +408,13 @@ namespace TexasHoldem.Game
             //   Replayer.Save(GameReplay, _turn, Players, Pot, null, "start of turn");
             if (Players.Count == 2)
             {
-                Logger.Log(Severity.Action, "new game started in room " + Name + " dealer and small blind-" + Players[0]+ "big blind-"+Players[1]);
+                Logger.Log(Severity.Action, "New game started in room " + Name + " dealer and small blind-" + Players[0]+ "big blind-"+Players[1]);
                 SetBet(Players[0], smallBlind,true);
                 SetBet(Players[1], GamePreferences.MinBet, true);
             }
             else
             {
-                Logger.Log(Severity.Action, "new game started in room"+Name+" dealer" + Players[0]+ "small blind-" + Players[1] + "big blind-" + Players[2] +PlayersToString(Players));
+                Logger.Log(Severity.Action, "New game started in room"+Name+" dealer" + Players[0]+ "small blind-" + Players[1] + "big blind-" + Players[2] +PlayersToString(Players));
                 SetBet(Players[1], smallBlind,true);
                 SetBet(Players[2], GamePreferences.MinBet, true);
             }
@@ -440,13 +440,13 @@ namespace TexasHoldem.Game
         {
             if (!Players.Contains(p))
             {
-                var e = new Exception("invalid player");
+                var e = new Exception("Invalid player");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
             if (p == null)
             {
-                var e = new Exception("player can't be null");
+                var e = new Exception("Player can't be null");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -455,7 +455,7 @@ namespace TexasHoldem.Game
             foreach (var p1 in Players) if (p1.CurrentBet > maxCips) maxCips = p1.CurrentBet;
             if (p.CurrentBet >maxCips)
             {
-                var e = new Exception("player can't call, he has the high bet!");
+                var e = new Exception("Player can't call, he has the high bet!");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -508,33 +508,33 @@ namespace TexasHoldem.Game
             foreach (var p1 in Players) if (p1.CurrentBet > maxCips) maxCips = p1.CurrentBet;
             if (p == null)
             {
-                var e = new Exception("player can't be null");
+                var e = new Exception("Player can't be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
             if (!Players.Contains(p))
             {
-                var e = new Exception("invalid player");
+                var e = new Exception("Invalid player");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
             if (bet + p.CurrentBet < maxCips)
             {
-                var e = new Exception("cant bet lower then the higest bet");
+                var e = new Exception("Can not bet lower then the higest bet");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
 
             if ((bet < GamePreferences.MinBet&&!smallBlind))
             {
-                var e = new IllegalBetException("can't bet less then min bet");
+                var e = new IllegalBetException("Can not bet less then min bet");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
 
             if (!smallBlind&& GamePreferences.GameType == Gametype.NoLimit && p.BetInThisRound && p.PreviousRaise > bet) // no limit mode
             {
-                var e = new IllegalBetException("can't bet less then previous raise in no limit mode");
+                var e = new IllegalBetException("Can not bet less then previous raise in no limit mode");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -545,7 +545,7 @@ namespace TexasHoldem.Game
                 {
                     if(bet!= GamePreferences.MinBet)
                     {
-                        var e = new IllegalBetException("in pre flop/flop in limit mode bet must be equal to big blind");
+                        var e = new IllegalBetException("In pre flop/flop in limit mode bet must be equal to big blind");
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
@@ -555,7 +555,7 @@ namespace TexasHoldem.Game
                 {
                     if (bet*2 != GamePreferences.MinBet)
                     {
-                        var e = new IllegalBetException("in pre turn/river in limit mode bet must be equal to 2*big blind");
+                        var e = new IllegalBetException("In pre turn/river in limit mode bet must be equal to 2*big blind");
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
@@ -568,7 +568,7 @@ namespace TexasHoldem.Game
                 foreach (var p1 in Players) pot += p1.CurrentBet;
                 if (bet > pot)
                 {
-                    var e = new IllegalBetException("in limit pot mode bet must lower then pot");
+                    var e = new IllegalBetException("In limit pot mode bet must lower then pot");
                     Logger.Log(Severity.Error, e.Message);
                     throw e;
                 }
@@ -587,7 +587,7 @@ namespace TexasHoldem.Game
 
             if (player == null)
             {
-                var e = new Exception("can't exit from room, player is invalid");
+                var e = new Exception("Can not exit from room, player is invalid");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -596,7 +596,7 @@ namespace TexasHoldem.Game
             foreach (var p in Players) if (p.Name.Equals(player)) found = true;
             if (!found)
             {
-                var e = new Exception("can't exit from room, player is not found");
+                var e = new Exception("Can not exit from room, player is not found");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -628,7 +628,7 @@ namespace TexasHoldem.Game
             if (Players.Count == 0)
             {
                 GameCenter.GetGameCenter().DeleteRoom(Name);
-                Logger.Log(Severity.Action, "last player exited, room closed");
+                Logger.Log(Severity.Action, "Last player exited, room closed");
             }
 
         }
@@ -688,7 +688,7 @@ namespace TexasHoldem.Game
             else winners = Winners();
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, CommunityCards, "end of turn");
-            Logger.Log(Severity.Action, "the winners in room" + Name +"is"+PlayersToString(winners));
+            Logger.Log(Severity.Action, "The winners in room " + Name +" is "+PlayersToString(winners));
             if (winners.Count > 1) CurrentWinners += "The winners are: ";
             else CurrentWinners += "The winner is: ";
             foreach (var p in winners)
@@ -707,7 +707,7 @@ namespace TexasHoldem.Game
                 if (p.User.HighestCashGain < chipsForPlayer) p.User.HighestCashGain = p.User.HighestCashGain;
 
             }
-            Logger.Log(Severity.Action, "current status in room" + Name + "is" + PlayersToString(Players));
+            Logger.Log(Severity.Action, "Current status in room " + Name + " is " + PlayersToString(Players));
 
             CleanGame(); 
             IsOn = false;
@@ -753,20 +753,20 @@ namespace TexasHoldem.Game
             
             if (p == null)
             {
-                var e = new Exception("player can't be null");
+                var e = new Exception("Player can't be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
 
             if (!Players.Contains(p))
             {
-                var e = new Exception("invalid player");
+                var e = new Exception("Invalid player");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
             if (p.Folded)
             {
-                var e = new Exception("player already folded");
+                var e = new Exception("Player already folded");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -782,14 +782,14 @@ namespace TexasHoldem.Game
             if (Players.Count - 2 == folded) 
             {
                 p.Fold();
-                Logger.Log(Severity.Action, "player " + p.Name + " folded");
+                Logger.Log(Severity.Action, "Player " + p.Name + " folded");
                 //Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
                 CalcWinnersChips(true);
                 return this;
             }
 
             p.Fold();
-            Logger.Log(Severity.Action, "player "+p.Name+" folded");
+            Logger.Log(Severity.Action, "Player "+p.Name+" folded");
 
         //    Replayer.Save(GameReplay, _turn, Players, Pot, null, null);
             NextPlayer();
@@ -801,7 +801,7 @@ namespace TexasHoldem.Game
             IPlayer ans = null;
             if(name == null)
             {
-                var e = new Exception("name cant be null");
+                var e = new Exception("Name cant be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -810,7 +810,7 @@ namespace TexasHoldem.Game
             foreach (var p in Players) if (p.Name.Equals(name)) found = true;
             if (!found)
             {
-                var e = new Exception("player is not found");
+                var e = new Exception("Player is not found");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -825,7 +825,7 @@ namespace TexasHoldem.Game
             IUser ans = null;
             if (name == null)
             {
-                var e = new Exception("name cant be null");
+                var e = new Exception("Name cant be null");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
@@ -834,7 +834,7 @@ namespace TexasHoldem.Game
             foreach (var s in SpectateUsers) if (s.Username.Equals(name)) found = true;
             if (!found)
             {
-                var e = new Exception("spectator is not found");
+                var e = new Exception("Spectator is not found");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }

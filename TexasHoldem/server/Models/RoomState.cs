@@ -23,7 +23,7 @@
             {
                 if (CommunityCards[i] != other.CommunityCards[i])
                 {
-                    return false;
+                    return false; 
                 }
             }
             if (AllPlayers.Length != other.AllPlayers.Length) return false;

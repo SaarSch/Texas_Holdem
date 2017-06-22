@@ -87,6 +87,9 @@ namespace Client.Data
             Chips = chips;
             Message = message;
         }
+        public UserData()
+        {
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -266,7 +266,7 @@ namespace Server.Controllers
                 bool saved = false;
                 if (player != null && (ans.IsOn || !string.IsNullOrEmpty(ans.CurrentWinners)) && string.IsNullOrEmpty(ans.Messege))
                 {
-                    if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans))
+                    if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans)&& string.IsNullOrEmpty(Replays[r.Name][player][Replays[r.Name][player].Count - 1].CurrentWinners))
                     {
                         saved = true;
                         Replays[r.Name][player].Add(ans);
@@ -280,7 +280,7 @@ namespace Server.Controllers
                 
                 }
 
-                if (!ans.IsOn && (ans.CommunityCards[0] != null||ans.AllPlayers[1].CurrentBet>0)&& saved) //this is the last roomState.
+                if (!ans.IsOn && (ans.CommunityCards[0] != null||(ans.AllPlayers.Length>1&&ans.AllPlayers[1].CurrentBet>0))&& saved) //this is the last roomState.
                 {
                     SaveReaply(Replays[r.Name][player], player,ans.RoomName);
                 }

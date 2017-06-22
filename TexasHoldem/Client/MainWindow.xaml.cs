@@ -19,6 +19,7 @@ namespace Client
     {
         public UserData LoggedUser;
         public List<Room> RoomResults;
+        public List<TupleModel<string, string>> Replays;
         private bool _loggedIn;
 
         public MainWindow(UserData user)
@@ -26,6 +27,7 @@ namespace Client
             RoomResults = new List<Room>();
             InitializeComponent();
             RoomsGrid.ItemsSource = RoomResults;
+            ReplayGrid.ItemsSource = Replays;
             LoggedUser = user;
             _loggedIn = true;
             DataContext = LoggedUser;
@@ -142,7 +144,7 @@ namespace Client
             }
             if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value)
             {
-                var cond = SpectatingCombobox.SelectedIndex<=0;
+                var cond = SpectatingCombobox.SelectedIndex <= 0;
                 filter.SpectatingAllowed = cond;
             }
             return filter;
@@ -208,7 +210,7 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-             var profile = new ProfileWindow(LoggedUser, this);
+            var profile = new ProfileWindow(LoggedUser, this);
             Application.Current.MainWindow = profile;
             profile.Show();
             Hide();
@@ -225,7 +227,7 @@ namespace Client
             {
                 CreatorUserName = LoggedUser.Username,
                 CreatorPlayerName = LoggedUser.Username,
-				GameType = GameTypeCombobox_Copy.Text
+                GameType = GameTypeCombobox_Copy.Text
             };
             try
             {
@@ -309,7 +311,7 @@ namespace Client
                 var chip = (int)chipsLabel.Content;
                 if (room.ChipPolicy != 0)
                 {
-                   LoggedUser.Chips = chip - room.ChipPolicy;
+                    LoggedUser.Chips = chip - room.ChipPolicy;
                 }
                 else
                 {
@@ -317,7 +319,7 @@ namespace Client
                 }
                 MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, false);
+                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
                 Application.Current.MainWindow = gameWindow;
 
                 gameWindow.Show();
@@ -342,39 +344,39 @@ namespace Client
             }
         }
 
-	    private void Join_Click(object sender, RoutedEventArgs e)
-	    {
-		    Room room = RoomResults[RoomsGrid.SelectedIndex];
-		    var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
-		                     "&playerName=" + LoggedUser.Username + "&option=join&token=" + LoggedUser.token;
-		    var ans = RestClient.MakeGetRequest(controller);
-		    var json = JObject.Parse(ans);
-		    var roomState = json.ToObject<RoomState>();
-		    if (roomState.Messege == null)
-		    {
-			    var chip = (int) chipsLabel.Content;
-			    if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
-			    {
-				    LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
-			    }
-			    else
-			    {
-				    LoggedUser.Chips = 0;
-			    }
-			    MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+        private void Join_Click(object sender, RoutedEventArgs e)
+        {
+            Room room = RoomResults[RoomsGrid.SelectedIndex];
+            var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
+                             "&playerName=" + LoggedUser.Username + "&option=join&token=" + LoggedUser.token;
+            var ans = RestClient.MakeGetRequest(controller);
+            var json = JObject.Parse(ans);
+            var roomState = json.ToObject<RoomState>();
+            if (roomState.Messege == null)
+            {
+                var chip = (int)chipsLabel.Content;
+                if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
+                {
+                    LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+                }
+                else
+                {
+                    LoggedUser.Chips = 0;
+                }
+                MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-			    var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, false);
-			    Application.Current.MainWindow = gameWindow;
-			    gameWindow.Show();
-		    }
-		    else
-		    {
-			    MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
-		    }
+                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
+                Application.Current.MainWindow = gameWindow;
+                gameWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-	    }
+        }
 
-	    private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
+        private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
         {
             var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
@@ -392,7 +394,7 @@ namespace Client
                 _loggedIn = false;
                 Close();
                 login.Show();
-                
+
             }
         }
 
@@ -416,7 +418,7 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                var gameWindow = new GameWindow(LoggedUser, null, roomState, this, false);
+                var gameWindow = new GameWindow(LoggedUser, null, roomState, this, null);
                 Application.Current.MainWindow = gameWindow;
                 gameWindow.Show();
             }
@@ -426,14 +428,53 @@ namespace Client
             }
         }
 
-		private void Watch_Click(object sender, RoutedEventArgs e)
-		{
+        private void Watch_Click(object sender, RoutedEventArgs e)
+        {
+            TupleModel<string, string> selection = Replays[ReplayGrid.SelectedIndex];
+            var controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&roomName=" + selection.m_Item2 +
+                             "&date=" + selection.m_Item1 + "&token=" + LoggedUser.token;
+            var ans = RestClient.MakeGetRequest(controller);
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            try
+            {
+                var replayStates = js.Deserialize<List<RoomState>>(ans);
+                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, replayStates[0], this, replayStates);
+                Application.Current.MainWindow = gameWindow;
+                gameWindow.Show();
+            }
+            catch
+            {
+                MessageBox.Show("Replay is not available.", "Error in replay", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-		}
+        }
 
-		private void ReplayGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
+        private void ReplayGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ReplayGrid.SelectedIndex >= 0)
+            {
+                Watch.IsEnabled = true;
+            }
+            else
+            {
+                Watch.IsEnabled = false;
+            }
+        }
 
-		}
-	}
+        private void GameTypeCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            string controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&&token=" + LoggedUser.token;
+            var ans = RestClient.MakeGetRequest(controller);
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            var replayAns = js.Deserialize<List<TupleModel<string, string>>>(ans);
+            Replays = replayAns.ToList();
+            ReplayGrid.ItemsSource = Replays;
+            ReplayGrid.Items.Refresh();
+        }
+    }
 }
