@@ -251,6 +251,17 @@ namespace TexasHoldem.Game
             return this;
         }
 
+        public void ExitSpectator(string username)
+        {
+            for (int i = 0; i < SpectateUsers.Count; i++)
+            {
+                if (SpectateUsers[i].Username == username)
+                {
+                    SpectateUsers.Remove(SpectateUsers[i]);
+                }
+            }
+        }
+
         public void DealTwo()
         {
             foreach (var p in Players)
@@ -854,6 +865,16 @@ namespace TexasHoldem.Game
             foreach (User u in SpectateUsers)
             {
                 if (u.Username == name) return true;
+            }
+
+            return false;
+        }
+
+        public bool Isspectator(string username)
+        {
+            foreach (User u in SpectateUsers)
+            {
+                if (u.Username == username) return true;
             }
 
             return false;

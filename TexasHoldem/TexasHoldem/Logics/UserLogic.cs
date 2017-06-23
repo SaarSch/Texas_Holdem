@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TexasHoldem.Exceptions;
+using TexasHoldem.Game;
 using TexasHoldem.Loggers;
 using TexasHoldem.Users;
 
@@ -188,13 +189,6 @@ namespace TexasHoldem.Logics
                 throw e;
             }
 
-            var UserRooms = GameCenter.GetGameCenter().Rooms.Where(r => r.IsInRoom(username)).ToList();
-            if (UserRooms.Count > 0)
-            {
-                var e = new Exception("can't log out before leaving all games");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
 
             Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
             if (!foundUser.Item2)
@@ -203,6 +197,19 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+
+            var userRooms = GameCenter.GetGameCenter().Rooms.Where(r => r.IsInRoom(username)).ToList();
+            foreach (Room r in userRooms)
+            {
+                r.ExitRoom(username);
+            }
+
+            var userRoomsSpectate = GameCenter.GetGameCenter().Rooms.Where(r => r.Isspectator(username)).ToList();
+            foreach (Room r in userRoomsSpectate)
+            {
+                r.ExitSpectator(username);
+            }
+
             IUser fuser = foundUser.Item1;
             users.Remove(foundUser);
             users.Add(new Tuple<IUser, bool>(fuser, false));

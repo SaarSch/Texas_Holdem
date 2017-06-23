@@ -28,6 +28,7 @@ namespace TexasHoldem.Game
         void DealCommunitySecond();
         void DealCommunityThird();
         bool IsInRoom(string name);
+        bool Isspectator(string username);
         Room StartGame();
         Room Call(IPlayer p);
         Room SetBet(IPlayer p, int bet, bool smallBlind);
