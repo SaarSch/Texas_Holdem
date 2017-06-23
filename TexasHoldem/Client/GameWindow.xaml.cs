@@ -52,8 +52,7 @@ namespace Client
         private bool _first_play;
         private bool _me;
         private string _msg;
-        private bool _replay;
-        private RoomState[] _replayStates;
+        private List<RoomState> _replayStates;
 
         public string Msg
         {
@@ -75,7 +74,7 @@ namespace Client
 
 
 
-        public GameWindow(UserData user, string self, RoomState state, MainWindow main, bool replay)
+        public GameWindow(UserData user, string self, RoomState state, MainWindow main, List<RoomState> replayStates)
         {
             InitializeComponent();
             Main = main;
@@ -89,17 +88,16 @@ namespace Client
             _got_win_msg = false;
             _first_play = true;
             _me = false;
-            _replay = replay;
+            _replayStates = replayStates;
             InitGuiArrays();
             if (SelfPlayerName == null)
             {
                 P1Lbl.Foreground = System.Windows.Media.Brushes.Black;
-             //   P1Lbl.FontWeight = FontWeights.Normal;
                 C1Lbl.Foreground = System.Windows.Media.Brushes.Black;
             }
             DataContext = this;
 
-            if (!replay)
+            if (_replayStates == null)
             {
                 UpdateRoom(state);
             }
@@ -124,37 +122,22 @@ namespace Client
 
         private void Replay()
         {
-            var controller = "Replay?roomName=" + RoomName + "&player=" + SelfPlayerName + "&token=" + User.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            try
-            {
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                _replayStates = js.Deserialize<RoomState[]>(ans);
                 CountPlayers =1;
                 PlayerMap.Add(SelfPlayerName, CountPlayers);
                 UpdateAllPlayers(_replayStates[0]);
                 UpdateCommunityCards(_replayStates[0].CommunityCards, _replayStates[0].IsOn, (_replayStates[0].CurrentWinners != null && _replayStates[0].CurrentWinners != ""));
                 ResetPlayers(CountPlayers);
-            }
-            catch
-            {
-                MessageBox.Show(ans+"\nWe are sorry, replay cannot be viewed for now.", "Replay is not available", MessageBoxButton.OK, MessageBoxImage.Error);
-                _playing = false;
-                Application.Current.MainWindow = Main;
-                Close();
-                Main.Show();
-            }
         }
 
         private void DrawReplayStates()
         {
-            for (int i = 0; i < _replayStates.Length; i++)
+            for (int i = 0; i < _replayStates.Count; i++)
             {
                 UpdateAllPlayers(_replayStates[i]);
                 UpdateCommunityCards(_replayStates[i].CommunityCards, _replayStates[i].IsOn, (_replayStates[i].CurrentWinners != null && _replayStates[i].CurrentWinners != ""));
                 ResetPlayers(CountPlayers);
                 Thread.Sleep(2000);
-                if (!string.IsNullOrEmpty(_replayStates[i].CurrentWinners))
+                if (!string.IsNullOrEmpty(_replayStates[i].CurrentWinners) && _playing)
                 {
                     MessageBox.Show(_replayStates[i].CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
                     Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
@@ -195,7 +178,7 @@ namespace Client
             {
                 _got_win_msg = true;
                 MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
-                if (SelfPlayerName != null)
+            /*    if (SelfPlayerName != null)
                 {
                     MessageBoxResult replay = MessageBox.Show("Would you like to watch a replay?", "Game Over!", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (replay == MessageBoxResult.Yes)
@@ -214,7 +197,7 @@ namespace Client
                         catch { }
                     }
                 }
-
+                */
                 foreach (Rectangle r in TurnSymbol)
                 {
                     r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
@@ -252,7 +235,7 @@ namespace Client
                 r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
             }
 
-            if (!state.IsOn && !_replay) // add self to player-related lists
+            if (!state.IsOn && _replayStates==null) // add self to player-related lists
             {
                 PlayerMap.Clear();
                 CountPlayers = 0;
@@ -270,7 +253,7 @@ namespace Client
                 {
                     CountPlayers++;
                     PlayerMap.Add(p.PlayerName, CountPlayers);
-                    if (SelfPlayerName != null && !_replay)
+                    if (SelfPlayerName != null && _replayStates == null)
                     {
                         tmpComboboxList.Add(p.PlayerName);
                     }
@@ -282,7 +265,7 @@ namespace Client
                         .Dispatcher.Invoke(() => TurnSymbol[playerVal - 1].Fill = System.Windows.Media.Brushes.Red);
                 }
                 if (p.PlayerName == SelfPlayerName && state.IsOn == false &&
-                    !string.IsNullOrEmpty(state.CurrentWinners) && !_replay)
+                    !string.IsNullOrEmpty(state.CurrentWinners) && _replayStates == null)
                 {
                     User.Chips = p.ChipsAmount;
                 }
@@ -292,7 +275,7 @@ namespace Client
                 }
             }
 
-            if (!state.IsOn && !_replay) // add spectators to chat combobox
+            if (!state.IsOn && _replayStates == null) // add spectators to chat combobox
             {
                 foreach (UserData s in state.Spectators)
                 {
@@ -559,14 +542,11 @@ namespace Client
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            if (_replay)
+            if (_replayStates != null)
             {
-                if (_replayStates != null)
-                {
-                    Thread drawStates = new Thread(DrawReplayStates);
-                    Start.Visibility = Visibility.Hidden;
-                    drawStates.Start();
-                }
+                Thread drawStates = new Thread(DrawReplayStates);
+                Start.Visibility = Visibility.Hidden;
+                drawStates.Start();
                 return;
             }
 
@@ -582,7 +562,7 @@ namespace Client
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-            if(_replay)
+            if(_replayStates != null)
             {
                 _playing = false;
                 Application.Current.MainWindow = Main;
@@ -614,7 +594,7 @@ namespace Client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (_replay)
+            if (_replayStates != null)
                 return;
             if (_playing)
             {

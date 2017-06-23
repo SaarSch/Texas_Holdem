@@ -38,6 +38,7 @@ namespace Client
                 UsernameTxt.Text = "";
                 PasswordTxt.Password = "";
                 MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                ChangeModeHelper();
             }
 
         }
@@ -74,6 +75,11 @@ namespace Client
         }
 
         private void ChangeMode_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeModeHelper();
+        }
+
+        private void ChangeModeHelper()
         {
             _loginMode = !_loginMode;
             UsernameTxt.Text = "";

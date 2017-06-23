@@ -29,7 +29,7 @@ namespace Server.Controllers
             string AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory;
             foreach (string f in Directory.GetFiles(AppDataPath))
             {
-                if (f.EndsWith(".json")&&f.Contains("User_Name"+ user))
+                if (f.EndsWith(".json")&&f.Contains("User_Name"+ Crypto.Decrypt(user)))
                 {
                     string[] split = f.Split('#');
                     string date=split[1];
@@ -48,7 +48,7 @@ namespace Server.Controllers
             string AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory;
             foreach (string f in Directory.GetFiles(AppDataPath))
             {
-                if (f.EndsWith(".json") && f.Contains("User_Name" + user)&&f.Contains(roomName) && f.Contains(date))
+                if (f.EndsWith(".json") && f.Contains("User_Name" + Crypto.Decrypt(user))&&f.Contains(roomName) && f.Contains(date))
                 {
                     MemoryStream stream1 = new MemoryStream();
                     using (FileStream fs = File.OpenRead(f))
@@ -57,7 +57,7 @@ namespace Server.Controllers
                     }
                     stream1.Position = 0;
                     DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<RoomState>));
-                    List<RoomState> p2 = (List<RoomState>)ser.ReadObject(stream1);
+                    ans = (List<RoomState>)ser.ReadObject(stream1);
                 }
             }
             return ans;
