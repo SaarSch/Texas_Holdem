@@ -41,13 +41,6 @@ namespace TexasHoldem.Game
 
         public Room(string name, IPlayer creator, GamePreferences gamePreferences)
         {
-            if (name == null)
-            {
-                Exception e = new ArgumentException("Room name can't be null");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-
             if (!Regex.IsMatch(name, "^[a-zA-Z0-9 ]*$"))
             {
                 Exception e = new IllegalRoomNameException("Room name contains illegal characters");
@@ -60,19 +53,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            if (creator == null)
-            {
-                Exception e = new ArgumentException("Creator player can't be null");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-
-            if (gamePreferences == null)
-            {
-                Exception e = new ArgumentException("Game preferences can't be null");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
+       
             //chipPolicy- amount of chips eace player is given, 0== all in.  
             //minBet- the minimum bet
             //buy-in- the minimum chip to join the game
@@ -123,9 +104,9 @@ namespace TexasHoldem.Game
             return false;
         }
 
-        private bool CanBeInRoom(Player p)
+        private bool CanBeInRoom(IPlayer p)
         {
-            if (p.User.ChipsAmount < GamePreferences.MinBet || (p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0) || p.User.ChipsAmount < GamePreferences.BuyInPolicy)
+            if (p.ChipsAmount < GamePreferences.MinBet || (p.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0) || p.ChipsAmount < GamePreferences.BuyInPolicy)
             {
                 return false;
             }
@@ -139,7 +120,15 @@ namespace TexasHoldem.Game
 
         public Room AddPlayer(IPlayer p)
         {
-            foreach(var p1 in Players)
+
+            if (p == null)
+            {
+                var e = new Exception("Can't add a null player to the room");
+                Logger.Log(Severity.Exception, e.Message);
+                throw e;
+            }
+            
+            foreach (var p1 in Players)
             {
                 if (p1.Name.Equals(p.Name))
                 {
@@ -150,7 +139,7 @@ namespace TexasHoldem.Game
             }
             foreach (var u in SpectateUsers)
             {
-                if (u.Username.Equals(p.Name))
+                if (u.Username.Equals(p.User.Username))
                 {
                     var e = new Exception("Can't join, player name is already exist");
                     Logger.Log(Severity.Exception, e.Message);
@@ -163,13 +152,8 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
-            if (p == null)
-            {
-                var e = new Exception("Can't add a null player to the room");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-            if (Players.Count > GamePreferences.MaxPlayers)
+           
+            if (Players.Count +1> GamePreferences.MaxPlayers)
             {
                 var e = new Exception("Room is full, can't add the player");
                 Logger.Log(Severity.Exception, e.Message);
@@ -218,15 +202,7 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
-            foreach (var p in Players)
-            {
-                if (p.Name == user.Username)
-                {
-                    var e = new Exception("Can't spectate at this room");
-                    Logger.Log(Severity.Exception, e.Message);
-                    throw e;
-                }
-            }
+  
             SpectateUsers.Add(user);
         }
 
@@ -283,26 +259,7 @@ namespace TexasHoldem.Game
 
         public void DealCommunityFirst()
         {
-            if (!IsOn)
-            {
-                var e = new Exception("The game has not yet started, can't deal community first");
-                Logger.Log(Severity.Exception, e.Message);
-                throw e;
-            }
-            if (AllFold())
-            {
-                var e = new Exception("All players folded, no need to deal community cards");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-        
-            if (GameStatus!=GameStatus.PreFlop)
-            {
-                var e = new Exception("Already distributed first 3 community cards");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-
+         
             CommunityCards[0] = Deck.Draw();
             CommunityCards[1] = Deck.Draw();
             CommunityCards[2] = Deck.Draw();
@@ -315,25 +272,7 @@ namespace TexasHoldem.Game
 
         public void DealCommunitySecond()
         {
-            if (!IsOn)
-            {
-                var e = new Exception("The game has not yet started, can't deal community second");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            if (AllFold())
-            {
-                var e = new Exception("all players folded, no need to deal community cards");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-      
-            if (GameStatus!=GameStatus.Flop)
-            {
-                var e = new Exception("Already distributed 4 community cards");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
+           
             CommunityCards[3] = Deck.Draw();
             foreach (var p in Players) p.BetInThisRound = false;
             GameStatus = GameStatus.Turn;
@@ -343,25 +282,7 @@ namespace TexasHoldem.Game
         }
 
         public void DealCommunityThird()
-        {
-            if (!IsOn)
-            {
-                var e = new Exception("The game has not yet started, can't deal community third");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            if (AllFold())
-            {
-                var e = new Exception("All players folded, no need to deal community cards");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
-            if (GameStatus != GameStatus.Turn)
-            {
-                var e = new Exception("Already distributed 5 community cards");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
+        {     
             CommunityCards[4] = Deck.Draw();
             foreach (var p in Players) p.BetInThisRound = false;
             GameStatus = GameStatus.River;
@@ -372,7 +293,7 @@ namespace TexasHoldem.Game
 
         public Room StartGame()
         {
-            foreach (Player p in Players)
+            foreach (IPlayer p in Players)
             {
                 if (!CanBeInRoom(p))
                 {
@@ -449,18 +370,21 @@ namespace TexasHoldem.Game
 
         public Room Call(IPlayer p)
         {
-            if (!Players.Contains(p))
-            {
-                var e = new Exception("Invalid player");
-                Logger.Log(Severity.Error, e.Message);
-                throw e;
-            }
+
             if (p == null)
             {
                 var e = new Exception("Player can't be null");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+
+            if (!Players.Contains(p))
+            {
+                var e = new Exception("Invalid player");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+           
 
             var maxCips = 0;
             foreach (var p1 in Players) if (p1.CurrentBet > maxCips) maxCips = p1.CurrentBet;
@@ -691,7 +615,7 @@ namespace TexasHoldem.Game
             List<IPlayer> winners = new List<IPlayer>();
             if (folded)
             {
-                foreach (Player p in Players)
+                foreach (IPlayer p in Players)
                 {
                     if (!p.Folded) winners.Add(p);
                 }
@@ -857,12 +781,12 @@ namespace TexasHoldem.Game
 
         public bool IsInRoom(string name)
         {
-            foreach (Player p in Players)
+            foreach (IPlayer p in Players)
             {
                 if (p.User.Username == name) return true;
             }
 
-            foreach (User u in SpectateUsers)
+            foreach (IUser u in SpectateUsers)
             {
                 if (u.Username == name) return true;
             }
@@ -872,7 +796,7 @@ namespace TexasHoldem.Game
 
         public bool Isspectator(string username)
         {
-            foreach (User u in SpectateUsers)
+            foreach (IUser u in SpectateUsers)
             {
                 if (u.Username == username) return true;
             }

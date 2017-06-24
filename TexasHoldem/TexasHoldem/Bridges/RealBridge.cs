@@ -176,7 +176,7 @@ namespace TexasHoldem.Bridges
                 }
                 return ans;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new List<string>();
             }
