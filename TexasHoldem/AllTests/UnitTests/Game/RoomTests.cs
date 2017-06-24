@@ -779,20 +779,15 @@ namespace AllTests.UnitTests.Game
         }
 
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void SetBetTest()
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
             
             var r = new Room("aaaa", _p, gp1);
-            try
-            {
-                r.SetBet(null, 1000,false);
-            }
-            catch (Exception e)
-            {
-                Assert.IsTrue(e.Message.Equals("player can't be null"));
-            }
+
+                r.SetBet(null, 1000,false);   
         }
 
         [TestMethod]
@@ -802,14 +797,18 @@ namespace AllTests.UnitTests.Game
             var gp1 = new GamePreferences();
             
             var r = new Room("aaaa", _p, gp1);
+
             try
             {
                 r.SetBet(_p, 0, false);
+
             }
+
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("can't bet less then min bet"));
+                Assert.IsTrue(true);
             }
+
         }
 
         [TestMethod]
@@ -827,7 +826,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("can't bet less then previous raise in no limit mode"));
+                Assert.IsTrue(e.Message.Equals("Can not bet less then previous raise in no limit mode"));
             }
         }
 
@@ -895,7 +894,7 @@ namespace AllTests.UnitTests.Game
             }
             catch (Exception e)
             {
-                Assert.IsTrue(e.Message.Equals("in limit pot mode bet must lower then pot"));
+                Assert.IsTrue(e.Message.Equals("In limit pot mode bet must lower then pot"));
             }
         }
 
@@ -910,9 +909,7 @@ namespace AllTests.UnitTests.Game
                 MinPlayers = 3
             };
 
-
-            
-            
+    
             var r = new Room("aaaa", _p, gp);
             r.AddPlayer(_p2);
             _p.ChipsAmount = 60000;
@@ -1246,6 +1243,283 @@ namespace AllTests.UnitTests.Game
             Assert.IsTrue(r.SpectateUsers.Contains(_u));
         }
 
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void FoldTest()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.Fold(null);  
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void FoldTest1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.Fold(_p1);
+        }
+
+        [TestMethod]
+        public void FoldTest3()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.Fold(_p1);
+            Assert.IsTrue(!_p1.Folded);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void FoldTest5()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            _p1.Folded = true;
+            r.Fold(_p1);
+        }
+
+        [TestMethod]
+        public void FoldTest6()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            _p1.Folded = true;
+            Assert.AreEqual(r.Fold(_p),r);
+        }
+
+       
+
+        [TestMethod]
+        public void FoldTest7()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            Assert.AreEqual(r.Fold(_p), r);
+        }
+
+        [TestMethod]
+        public void FoldTest4()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.AddPlayer(_p2);
+            r.Fold(_p1);
+            Assert.IsTrue(!_p1.Folded);
+        }
+
+        [TestMethod]
+        public void GetPlayer()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            Assert.AreEqual(_p, r.GetPlayer(_p.Name));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GetPlayer1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.GetPlayer(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GetPlayer2()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.GetPlayer("");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GetSpectator()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.GetSpectator("");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void GetSpectator1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.GetSpectator(null);
+        }
+
+        [TestMethod]
+        public void Isspectator()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.Spectate(_p1.User);
+            Assert.IsTrue(r.Isspectator(_p1.User.Username));
+        }
+
+        [TestMethod]
+        public void Isspectator1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p1);
+            r.Spectate(_p1.User);
+            Assert.IsFalse(r.Isspectator(_p.User.Username));
+        }
+
+        [TestMethod]
+        public void IsInRoom()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.Spectate(_p1.User);
+            Assert.IsTrue(r.IsInRoom(_p1.User.Username));
+            Assert.IsFalse(r.IsInRoom(_p2.User.Username));
+        }
+
+        [TestMethod]
+        public void GetSpectator2()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.Spectate(_p1.User);
+            Assert.AreEqual(_p1.User,r.GetSpectator(_p1.User.Username));
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer2()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.AddPlayer(_p);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer3()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.IsOn = true;
+            r.AddPlayer(_p1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer4()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.League = 2;
+            r.AddPlayer(_p1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer5()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.GamePreferences.MaxPlayers = 1;
+            r.AddPlayer(_p1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer7()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.Spectate(_p1.User);
+            r.AddPlayer(_p1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void AddPlayer6()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.GamePreferences.MinBet = 1000000;
+            r.AddPlayer(_p1);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Spectate()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.Spectate(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Spectate1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.GamePreferences.Spectating = false;
+            r.Spectate(_p1.User);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ExitSpectator()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.ExitSpectator((IUser)null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ExitSpectator1()
+        {   
+            var r = new Room("aaaa", _p, _gp);
+            r.ExitSpectator(_p1.User);
+        }
+
+        [TestMethod]     
+        public void ExitSpectator2()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.Spectate(_p1.User);
+            r.ExitSpectator(_p1.User.Username);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Startgame()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.GamePreferences.MinPlayers = 3;
+            r.StartGame();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Startgame1()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            r.GamePreferences.MinPlayers = 1;
+            r.IsOn = true;
+            r.StartGame();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void Startgame2()
+        {
+            var r = new Room("aaaa", _p, _gp);
+            _p.ChipsAmount = 0;
+            r.GamePreferences.MinBet = 1000;
+            r.StartGame();
+        }
+
         [TestMethod]
         public void NotifyTestPlayerToAllRoom()
         {
@@ -1262,6 +1536,8 @@ namespace AllTests.UnitTests.Game
                     ": " + message,
                     p2.User.Notifications[0].Item2);
             }
+            _p1.Exit = true;
+            r.CleanGame();
         }
 
         [TestMethod]
@@ -1346,6 +1622,47 @@ namespace AllTests.UnitTests.Game
                 Assert.AreEqual(
                    e.Message, "cant send empty message / curses");
             }
+        }
+
+        [TestMethod]
+        public void CallTest()
+        {
+
+                var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+                var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+                var p = new Player("shachar1", yossi);
+                var r = new Room("aaaa", p, _gp);
+                var p1 = new Player("shachar2", kobi);
+                r.AddPlayer(p1);
+                r.Call(p);
+      
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void CallTest1()
+        {
+
+            var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+            var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+            var p = new Player("shachar1", yossi);
+            var r = new Room("aaaa", p, _gp);
+            var p1 = new Player("shachar2", kobi);
+            r.AddPlayer(p1);
+            r.Call(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void CallTest2()
+        {
+
+            var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+            var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+            var p = new Player("shachar1", yossi);
+            var r = new Room("aaaa", p, _gp);
+            var p1 = new Player("shachar2", kobi);
+            r.Call(p1);
         }
 
         [TestMethod]
