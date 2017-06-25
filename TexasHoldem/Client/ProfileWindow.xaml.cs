@@ -13,6 +13,7 @@ namespace Client
     /// </summary>
     public partial class ProfileWindow
     {
+        public bool Open;
         private UserData _user;
         private readonly MainWindow _mainWindow;
         private string Picture;
@@ -20,6 +21,7 @@ namespace Client
         public ProfileWindow(UserData user, MainWindow mainWindow)
         {
             InitializeComponent();
+            Open = true;
             _user = user;
             _mainWindow = mainWindow;
             UsernameTxt.Text = user.Username;
@@ -33,32 +35,6 @@ namespace Client
         {
             Picture = _user.AvatarPath;
             ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
-            /* Create OpenFileDialog 
-            var dlg = new Microsoft.Win32.OpenFileDialog
-            {
-                DefaultExt = ".png",
-                Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg"
-            };
-
-            // Set filter for file extension and default file extension 
-
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            var result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox 
-            if (result == true)
-            {
-                // Open document 
-                var avatarStream = dlg.OpenFile();
-                var content = new StreamContent(avatarStream);
-                content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg"); // TODO: change jpeg
-          //      RestClient.MakePostRequest("somecontroller", content.ToString());
-            }
-            else
-            {
-                // handle
-            } */
         }
 
         // POST: api/User?username=elad
@@ -94,8 +70,12 @@ namespace Client
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Application.Current.MainWindow = _mainWindow;
-            _mainWindow.Show();
+            if (Open)
+            {
+                _mainWindow.ProfileWindow = null;
+                Application.Current.MainWindow = _mainWindow;
+                _mainWindow.Show();
+            }
         }
 
         private void Opt1_Click(object sender, RoutedEventArgs e)

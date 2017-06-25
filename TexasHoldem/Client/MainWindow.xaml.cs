@@ -20,11 +20,16 @@ namespace Client
         public UserData LoggedUser;
         public List<Room> RoomResults;
         public List<TupleModel<string, string>> Replays;
+        public ProfileWindow ProfileWindow;
         private bool _loggedIn;
+        public List<GameWindow> OpenWindows;
 
         public MainWindow(UserData user)
         {
             RoomResults = new List<Room>();
+            OpenWindows = new List<GameWindow>();
+            Replays = new List<TupleModel<string, string>>();
+            ProfileWindow = null;
             InitializeComponent();
             RoomsGrid.ItemsSource = RoomResults;
             ReplayGrid.ItemsSource = Replays;
@@ -32,6 +37,7 @@ namespace Client
             _loggedIn = true;
             DataContext = LoggedUser;
             UpdateAvatar(LoggedUser.AvatarPath);
+            ReplayRequest();
         }
 
         public void UpdateAvatar(string path)
@@ -210,10 +216,13 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            var profile = new ProfileWindow(LoggedUser, this);
-            Application.Current.MainWindow = profile;
-            profile.Show();
-            Hide();
+            if (ProfileWindow== null)
+            {
+                ProfileWindow = new ProfileWindow(LoggedUser, this);
+            }
+            Application.Current.MainWindow = ProfileWindow;
+            ProfileWindow.Show();
+
         }
 
         private void GameTypeCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -317,11 +326,10 @@ namespace Client
                 {
                     LoggedUser.Chips = 0;
                 }
-                MessageBox.Show("Room created successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                RoomNameTxt.Text = "";
                 var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
+                OpenWindows.Add(gameWindow);
                 Application.Current.MainWindow = gameWindow;
-
                 gameWindow.Show();
             }
             else
@@ -363,9 +371,9 @@ namespace Client
                 {
                     LoggedUser.Chips = 0;
                 }
-                MessageBox.Show("Joined room successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
+                OpenWindows.Add(gameWindow);
                 Application.Current.MainWindow = gameWindow;
                 gameWindow.Show();
             }
@@ -378,33 +386,38 @@ namespace Client
 
         private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" + LoggedUser.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            ans = ans.Normalize();
-            if (ans != "\"\"")
-            {
-                MessageBox.Show(ans, "Error in logout", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else
-            {
-                MessageBox.Show("Logged out successfully!", "Success", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                var login = new LoginWindow();
-                Application.Current.MainWindow = login;
-                _loggedIn = false;
-                Close();
-                login.Show();
-
-            }
+            Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (_loggedIn)
             {
-                e.Cancel = true;
-                MessageBox.Show("Cannot exit before logging out!", "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" + LoggedUser.token;
+                var ans = RestClient.MakeGetRequest(controller);
+                ans = ans.Normalize();
+                if (ans != "\"\"")
+                {
+                    MessageBox.Show(ans, "Error in logout", MessageBoxButton.OK, MessageBoxImage.Error);
+                    e.Cancel = true;
+                }
+                else
+                {
+                    foreach(GameWindow w in OpenWindows)
+                    {
+                        w.Playing = false;
+                        w.Close();
+                    }
+                    if (ProfileWindow != null)
+                    {
+                        ProfileWindow.Open = false;
+                        ProfileWindow.Close();
+                    }
+                    var login = new LoginWindow();
+                    Application.Current.MainWindow = login;
+                    _loggedIn = false;
+                    login.Show();
+                }
             }
         }
 
@@ -419,6 +432,7 @@ namespace Client
             if (roomState.Messege == null)
             {
                 var gameWindow = new GameWindow(LoggedUser, null, roomState, this, null);
+                OpenWindows.Add(gameWindow);
                 Application.Current.MainWindow = gameWindow;
                 gameWindow.Show();
             }
@@ -431,14 +445,16 @@ namespace Client
         private void Watch_Click(object sender, RoutedEventArgs e)
         {
             TupleModel<string, string> selection = Replays[ReplayGrid.SelectedIndex];
+            var dateAndTime = selection.m_Item1.Split(' ');
             var controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&roomName=" + selection.m_Item2 +
-                             "&date=" + selection.m_Item1 + "&token=" + LoggedUser.token;
+                             "&date=" + dateAndTime[0].Replace('/','_') + ' ' + dateAndTime[1].Replace(':', '_') + "&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
             JavaScriptSerializer js = new JavaScriptSerializer();
             try
             {
                 var replayStates = js.Deserialize<List<RoomState>>(ans);
                 var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, replayStates[0], this, replayStates);
+                OpenWindows.Add(gameWindow);
                 Application.Current.MainWindow = gameWindow;
                 gameWindow.Show();
             }
@@ -468,11 +484,25 @@ namespace Client
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
+            ReplayRequest();
+        }
+
+        private void ReplayRequest()
+        {
             string controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
             JavaScriptSerializer js = new JavaScriptSerializer();
             var replayAns = js.Deserialize<List<TupleModel<string, string>>>(ans);
-            Replays = replayAns.ToList();
+            var tmpList = replayAns.ToList();
+            Replays.Clear();
+            foreach (TupleModel<string, string> pair in tmpList)
+            {
+                TupleModel<string, string> tmpTpl = new TupleModel<string, string>();
+                var dateAndTime = pair.m_Item1.Split(' ');
+                tmpTpl.m_Item1 = dateAndTime[0].Replace('_', '/') + ' ' + dateAndTime[1].Replace('_', ':');
+                tmpTpl.m_Item2 = pair.m_Item2;
+                Replays.Add(tmpTpl);
+            }
             ReplayGrid.ItemsSource = Replays;
             ReplayGrid.Items.Refresh();
         }
