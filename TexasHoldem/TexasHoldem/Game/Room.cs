@@ -41,9 +41,18 @@ namespace TexasHoldem.Game
             //minBet- the minimum bet
             //buy-in- the minimum chip to join the game
 
+            if (creator.User.ChipsAmount < gamePreferences.BuyInPolicy)
+
+            {
+                var e = new Exception("Player chips amount is low the the buy in");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            creator.User.ChipsAmount -= gamePreferences.BuyInPolicy;
+
             if (creator.User.ChipsAmount < gamePreferences.MinBet ||
-                creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0 ||
-                creator.User.ChipsAmount < gamePreferences.BuyInPolicy)
+                creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0)
             {
                 var e = new Exception("Player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
@@ -144,9 +153,19 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
+
+            if ( p.User.ChipsAmount < GamePreferences.BuyInPolicy)
+            {
+                var e = new Exception("Player chips amount is low then buy in");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            p.User.ChipsAmount -= GamePreferences.BuyInPolicy;
+
+
             if (p.User.ChipsAmount < GamePreferences.MinBet ||
-                p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0 ||
-                p.User.ChipsAmount < GamePreferences.BuyInPolicy)
+                p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)
             {
                 var e = new Exception("Player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
