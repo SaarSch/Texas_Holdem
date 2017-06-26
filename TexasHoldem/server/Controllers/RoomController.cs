@@ -263,7 +263,7 @@ namespace Server.Controllers
                 if (!ans.IsOn && (ans.CommunityCards[0] != null ||
                                   ans.AllPlayers.Length > 1 && ans.AllPlayers[1].CurrentBet > 0) &&
                     saved) //this is the last roomState.
-                    SaveReaply(Replays[r.Name][player], player, ans.RoomName);
+                    SaveReplay(Replays[r.Name][player], player, ans.RoomName);
             }
             catch (Exception e)
             {
@@ -271,12 +271,12 @@ namespace Server.Controllers
             }
         }
 
-        public static void SaveReaply(List<RoomState> roomStates, string player, string roomName)
+        public static void SaveReplay(List<RoomState> roomStates, string player, string roomName)
         {
             var AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null
                 ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString()
                 : AppDomain.CurrentDomain.BaseDirectory;
-            var path = AppDataPath + "\\" + "User_Name" + player + "#" + DateTime.Now.ToString("dd_MM_yyyy hh_mm_ss") +
+            var path = AppDataPath + "\\" + "User_Name" + player + "#" + DateTime.Now.ToString("dd_MM_yyyy HH_mm_ss") +
                        "#" + roomName + ".json";
             //write string to file
             var stream1 = new MemoryStream();

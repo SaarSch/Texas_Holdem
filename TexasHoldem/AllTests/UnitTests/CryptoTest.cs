@@ -105,7 +105,7 @@ namespace AllTests.UnitTests
         [TestMethod]
         public void TestMethod11()
         {
-            RoomController.SaveReaply(new List<RoomState>(), "PlayerName", "roomName");
+            RoomController.SaveReplay(new List<RoomState>(), "PlayerName", "roomName");
         }
 
         [TestMethod]
