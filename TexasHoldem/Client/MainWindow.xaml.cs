@@ -153,21 +153,28 @@ namespace Client
             var controller = "Search?token=" + LoggedUser.token;
             filter.User = Crypto.Encrypt(filter.User);
             var data = new JavaScriptSerializer().Serialize(filter);
-            var ans = RestClient.MakePostRequest(controller, data);
-            var json = JObject.Parse(ans);
-            var roomList = json.ToObject<RoomList>();
-            if (roomList.Message == null)
+            try
             {
-                RoomResults = roomList.Rooms.ToList();
-                RoomsGrid.ItemsSource = RoomResults;
-                RoomsGrid.Items.Refresh();
+                var ans = RestClient.MakePostRequest(controller, data);
+                var json = JObject.Parse(ans);
+                var roomList = json.ToObject<RoomList>();
+                if (roomList.Message == null)
+                {
+                    RoomResults = roomList.Rooms.ToList();
+                    RoomsGrid.ItemsSource = RoomResults;
+                    RoomsGrid.Items.Refresh();
+                }
+                else
+                {
+                    MessageBox.Show("No rooms to show!", "No results", MessageBoxButton.OK, MessageBoxImage.Information);
+                    RoomResults.Clear();
+                    RoomsGrid.ItemsSource = RoomResults;
+                    RoomsGrid.Items.Refresh();
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("No rooms to show!", "No results", MessageBoxButton.OK, MessageBoxImage.Information);
-                RoomResults.Clear();
-                RoomsGrid.ItemsSource = RoomResults;
-                RoomsGrid.Items.Refresh();
+                HandleCrashing();
             }
         }
 
@@ -296,25 +303,32 @@ namespace Client
             var controller = "Room?token=" + LoggedUser.token;
             room.CreatorUserName = Crypto.Encrypt(room.CreatorUserName);
             var data = new JavaScriptSerializer().Serialize(room);
-            var ans = RestClient.MakePostRequest(controller, data);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                var chip = (int) chipsLabel.Content;
-                if (room.ChipPolicy != 0)
-                    LoggedUser.Chips = chip - room.ChipPolicy;
+                var ans = RestClient.MakePostRequest(controller, data);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    var chip = (int)chipsLabel.Content;
+                    if (room.ChipPolicy != 0)
+                        LoggedUser.Chips = chip - room.ChipPolicy;
+                    else
+                        LoggedUser.Chips = 0;
+                    RoomNameTxt.Text = "";
+                    var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
+                    OpenWindows.Add(gameWindow);
+                    Application.Current.MainWindow = gameWindow;
+                    gameWindow.Show();
+                }
                 else
-                    LoggedUser.Chips = 0;
-                RoomNameTxt.Text = "";
-                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
-                OpenWindows.Add(gameWindow);
-                Application.Current.MainWindow = gameWindow;
-                gameWindow.Show();
+                {
+                    MessageBox.Show(roomState.Messege, "Error in creation", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "Error in creation", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandleCrashing();
             }
         }
 
@@ -337,25 +351,32 @@ namespace Client
             var room = RoomResults[RoomsGrid.SelectedIndex];
             var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
                              "&playerName=" + LoggedUser.Username + "&option=join&token=" + LoggedUser.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                var chip = (int) chipsLabel.Content;
-                if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
-                    LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
-                else
-                    LoggedUser.Chips = 0;
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    var chip = (int)chipsLabel.Content;
+                    if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
+                        LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
+                    else
+                        LoggedUser.Chips = 0;
 
-                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
-                OpenWindows.Add(gameWindow);
-                Application.Current.MainWindow = gameWindow;
-                gameWindow.Show();
+                    var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
+                    OpenWindows.Add(gameWindow);
+                    Application.Current.MainWindow = gameWindow;
+                    gameWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandleCrashing();
             }
         }
 
@@ -370,19 +391,21 @@ namespace Client
             {
                 var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" +
                                  LoggedUser.token;
-                var ans = RestClient.MakeGetRequest(controller);
-                ans = ans.Normalize();
-                if (ans != "\"\"")
+                try
                 {
-                    MessageBox.Show(ans, "Error in logout", MessageBoxButton.OK, MessageBoxImage.Error);
-                    e.Cancel = true;
+                    RestClient.MakeGetRequest(controller);
                 }
-                else
+                catch
+                { }
+                finally
                 {
                     foreach (var w in OpenWindows)
                     {
-                        w.Playing = false;
-                        w.Close();
+                        if (w != null && w.Playing)
+                        {
+                            w.Playing = false;
+                            w.Close();
+                        }
                     }
                     if (ProfileWindow != null)
                     {
@@ -402,19 +425,26 @@ namespace Client
             var room = RoomResults[RoomsGrid.SelectedIndex];
             var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
                              "&playerName=none&option=spectate&token=" + LoggedUser.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                var gameWindow = new GameWindow(LoggedUser, null, roomState, this, null);
-                OpenWindows.Add(gameWindow);
-                Application.Current.MainWindow = gameWindow;
-                gameWindow.Show();
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    var gameWindow = new GameWindow(LoggedUser, null, roomState, this, null);
+                    OpenWindows.Add(gameWindow);
+                    Application.Current.MainWindow = gameWindow;
+                    gameWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in spectate", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "Error in spectate", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandleCrashing();
             }
         }
 
@@ -425,20 +455,27 @@ namespace Client
             var controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&roomName=" + selection.m_Item2 +
                              "&date=" + dateAndTime[0].Replace('/', '_') + ' ' + dateAndTime[1].Replace(':', '_') +
                              "&token=" + LoggedUser.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var js = new JavaScriptSerializer();
             try
             {
-                var replayStates = js.Deserialize<List<RoomState>>(ans);
-                var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, replayStates[0], this, replayStates);
-                OpenWindows.Add(gameWindow);
-                Application.Current.MainWindow = gameWindow;
-                gameWindow.Show();
+                var ans = RestClient.MakeGetRequest(controller);
+                var js = new JavaScriptSerializer();
+                try
+                {
+                    var replayStates = js.Deserialize<List<RoomState>>(ans);
+                    var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, replayStates[0], this, replayStates);
+                    OpenWindows.Add(gameWindow);
+                    Application.Current.MainWindow = gameWindow;
+                    gameWindow.Show();
+                }
+                catch
+                {
+                    MessageBox.Show("Replay is not available.", "Error in replay", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
             }
             catch
             {
-                MessageBox.Show("Replay is not available.", "Error in replay", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                HandleCrashing();
             }
         }
 
@@ -462,21 +499,34 @@ namespace Client
         private void ReplayRequest()
         {
             var controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&&token=" + LoggedUser.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var js = new JavaScriptSerializer();
-            var replayAns = js.Deserialize<List<TupleModel<string, string>>>(ans);
-            var tmpList = replayAns.ToList();
-            Replays.Clear();
-            foreach (var pair in tmpList)
+            try
             {
-                var tmpTpl = new TupleModel<string, string>();
-                var dateAndTime = pair.m_Item1.Split(' ');
-                tmpTpl.m_Item1 = dateAndTime[0].Replace('_', '/') + ' ' + dateAndTime[1].Replace('_', ':');
-                tmpTpl.m_Item2 = pair.m_Item2;
-                Replays.Add(tmpTpl);
+                var ans = RestClient.MakeGetRequest(controller);
+                var js = new JavaScriptSerializer();
+                var replayAns = js.Deserialize<List<TupleModel<string, string>>>(ans);
+                var tmpList = replayAns.ToList();
+                Replays.Clear();
+                foreach (var pair in tmpList)
+                {
+                    var tmpTpl = new TupleModel<string, string>();
+                    var dateAndTime = pair.m_Item1.Split(' ');
+                    tmpTpl.m_Item1 = dateAndTime[0].Replace('_', '/') + ' ' + dateAndTime[1].Replace('_', ':');
+                    tmpTpl.m_Item2 = pair.m_Item2;
+                    Replays.Add(tmpTpl);
+                }
+                ReplayGrid.ItemsSource = Replays;
+                ReplayGrid.Items.Refresh();
             }
-            ReplayGrid.ItemsSource = Replays;
-            ReplayGrid.Items.Refresh();
+            catch
+            {
+                HandleCrashing();
+            }
+        }
+
+        public void HandleCrashing()
+        {
+            MessageBox.Show("Server cannot be found. You are logged out automatically.", "Server Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+            Close();
         }
     }
 }

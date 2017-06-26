@@ -29,18 +29,25 @@ namespace Client
             var controller = "User?username=" + Crypto.Encrypt(UsernameTxt.Text) + "&passwordOrRank=" +
                              Crypto.Encrypt(PasswordTxt.Password) +
                              "&mode=register&token=nothing";
-            var ans = RestClient.MakeGetRequest(controller);
-            if (ans != "\"\"")
+            try
             {
-                MessageBox.Show(ans, "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
+                var ans = RestClient.MakeGetRequest(controller);
+                if (ans != "\"\"")
+                {
+                    MessageBox.Show(ans, "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    UsernameTxt.Text = "";
+                    PasswordTxt.Password = "";
+                    MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    ChangeModeHelper();
+                }
             }
-            else
+            catch
             {
-                UsernameTxt.Text = "";
-                PasswordTxt.Password = "";
-                MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                ChangeModeHelper();
+                MessageBox.Show("Server is not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -49,9 +56,9 @@ namespace Client
             var data = "{\"username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\",\"password\":\"" +
                        Crypto.Encrypt(PasswordTxt.Password) + "\"}";
             const string controller = "user";
-            var ans = RestClient.MakePostRequest(controller, data);
             try
             {
+                var ans = RestClient.MakePostRequest(controller, data);
                 var json = JObject.Parse(ans);
                 var loggedUser = json.ToObject<UserData>();
 
