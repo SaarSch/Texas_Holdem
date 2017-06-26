@@ -10,7 +10,6 @@ namespace Server
         public static DateTime ChangeLeagues;
         public static GameFacade GameFacade = new GameFacade();
         public static UserFacade UserFacade = new UserFacade();
-        public static ReplayFacade ReplayFacade = new ReplayFacade();
 
         public static Dictionary<string, Tuple<string, DateTime>> GuidDic =
             new Dictionary<string, Tuple<string, DateTime>>();

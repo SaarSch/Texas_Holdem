@@ -37,19 +37,6 @@ namespace TexasHoldem
 
         private static void Main()
         {
-            /*DatabaseContext db = new DatabaseContext();
-
-            // Display all users from the database - for debugging
-            var query1 = from u in db.Users
-                orderby u.Username
-                select u;
-
-            Console.WriteLine("All users in the database:");
-            List<User> res = query1.ToList();
-            foreach (var item in res)
-            {
-                Console.WriteLine(item.Username);
-            }*/
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
@@ -237,11 +224,6 @@ namespace TexasHoldem
             }
 
             return ans;
-        }
-
-        public string GetReplayFilename(string roomName)
-        {
-            return GetRoom(roomName).GameReplay;
         }
 
         public List<string> GetMessages(string username, string roomName)
