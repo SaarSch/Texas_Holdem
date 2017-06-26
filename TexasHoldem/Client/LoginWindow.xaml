@@ -29,6 +29,6 @@
             </Label.Effect>
         </Label>
         <Button Content="Join us now!" HorizontalAlignment="Left" Margin="0,270,0,0" VerticalAlignment="Top" Width="98"  x:Name="ChangeMode" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1" Click="ChangeMode_Click"/>
-        <Label Content="Created by: Daniel Margalit, Elad Kamin, Saar Scheinkman, Shachr Cfir, Sean Ocheri" HorizontalAlignment="Left" Margin="10,339,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="446" Foreground="White" FontSize="9"/>
+        <Label Content="Created by: Daniel Margalit, Elad Kamin, Saar Scheinkman, Shachar Cfir, Sean Ocheri" HorizontalAlignment="Left" Margin="10,339,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="446" Foreground="White" FontSize="9"/>
     </Grid>
 </Window>

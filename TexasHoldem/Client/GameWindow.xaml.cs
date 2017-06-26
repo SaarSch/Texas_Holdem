@@ -47,7 +47,7 @@ namespace Client
         public Image[][] HandCards;
         public Rectangle[] TurnSymbol;
         public MainWindow Main;
-        private bool _playing;
+        public bool Playing;
         private bool _got_win_msg;
         private bool _first_play;
         private bool _me;
@@ -84,7 +84,7 @@ namespace Client
             RoomNameLbl.Content = RoomName;
             PlayerMap = new Dictionary<string, int>();
             ChatComboBoxContent = new BindingList<string>();
-            _playing = true;
+            Playing = true;
             _got_win_msg = false;
             _first_play = true;
             _me = false;
@@ -137,7 +137,7 @@ namespace Client
                 UpdateCommunityCards(_replayStates[i].CommunityCards, _replayStates[i].IsOn, (_replayStates[i].CurrentWinners != null && _replayStates[i].CurrentWinners != ""));
                 ResetPlayers(CountPlayers);
                 Thread.Sleep(2000);
-                if (!string.IsNullOrEmpty(_replayStates[i].CurrentWinners) && _playing)
+                if (!string.IsNullOrEmpty(_replayStates[i].CurrentWinners) && Playing)
                 {
                     MessageBox.Show(_replayStates[i].CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
                     Start.Dispatcher.Invoke(() => Start.Visibility = Visibility.Visible);
@@ -174,30 +174,10 @@ namespace Client
 
         private void EndOfGameUpdate(RoomState state)
         {
-            if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg && !_first_play)
+            if (state.IsOn == false && !string.IsNullOrEmpty(state.CurrentWinners) && !_got_win_msg && !_first_play && Playing)
             {
                 _got_win_msg = true;
                 MessageBox.Show(state.CurrentWinners, "Game Over!", MessageBoxButton.OK, MessageBoxImage.Information);
-            /*    if (SelfPlayerName != null)
-                {
-                    MessageBoxResult replay = MessageBox.Show("Would you like to watch a replay?", "Game Over!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (replay == MessageBoxResult.Yes)
-                    {
-                        GameWindow replayWindow = null;
-                        Application.Current.Dispatcher.Invoke(() => replayWindow = new GameWindow(User, SelfPlayerName, state, Main, true));
-                        try
-                        {
-                            Application.Current.Dispatcher.Invoke(() => Application.Current.MainWindow = replayWindow);
-                            try
-                            {
-                                Application.Current.Dispatcher.Invoke(() => replayWindow.Show());
-                            }
-                            catch { }
-                        }
-                        catch { }
-                    }
-                }
-                */
                 foreach (Rectangle r in TurnSymbol)
                 {
                     r.Dispatcher.Invoke(() => r.Fill = System.Windows.Media.Brushes.White);
@@ -300,7 +280,7 @@ namespace Client
             UpdateChat(state);
             EndOfGameUpdate(state);
 
-            if (_playing)
+            if (Playing)
             {
                 System.Threading.Timer timer = null;
                 timer = new System.Threading.Timer((obj) =>
@@ -329,15 +309,12 @@ namespace Client
                 }
                 else
                 {
-                    if (_playing)
+                    if (Playing)
                     {
                         if (roomState.Messege.Contains("exist"))
                         {
                                 MessageBox.Show(roomState.Messege+"\nThis room is closed.", "Room is closed", MessageBoxButton.OK, MessageBoxImage.Information);
-                                _playing = false;
-                                Application.Current.Dispatcher.Invoke(()=> Application.Current.MainWindow = Main);
-                                Application.Current.Dispatcher.Invoke(() => Close());
-                                Application.Current.Dispatcher.Invoke(() => Main.Show());     
+                                Application.Current.Dispatcher.Invoke(() => Close());  
                         }
                         else
                         MessageBox.Show(roomState.Messege, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -562,57 +539,55 @@ namespace Client
 
         private void Leave_Click(object sender, RoutedEventArgs e)
         {
-            if(_replayStates != null)
-            {
-                _playing = false;
-                Application.Current.MainWindow = Main;
-                Close();
-                Main.Show();
-                return;
-            }
-
-            var option = "leave";
-            if (SelfPlayerName == null)
-                option = "leaveSpectator";
-            var controller = "Room?userName=" + Crypto.Encrypt(User.Username) + "&gameName=" + RoomName +
-                             "&playerName=" + SelfPlayerName + "&option=" + option + "&token=" + User.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
-            {
-                _playing = false;
-                Application.Current.MainWindow = Main;
-                Close();
-                Main.Show();
-            }
-            else
-            {
-                MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            Close();   
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (_replayStates != null)
-                return;
-            if (_playing)
+            if (Playing)
             {
-                e.Cancel = true;
-                MessageBox.Show("Cannot exit before leaving the game!", "Error", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else
-            {
-                var controller = "User?userName=" + Crypto.Encrypt(User.Username);
-                var ans = RestClient.MakePutRequest(controller, "");
-                var json = JObject.Parse(ans);
-                var data = json.ToObject<UserData>();
-                if (data.Message == null)
+                if (_replayStates != null)
                 {
-                    User.Chips = data.Chips;
-                    User.Rank = data.Rank;
+                    Playing = false;
+                    Main.OpenWindows.Remove(this);
+                    Application.Current.MainWindow = Main;
+                    Main.Show();
+                    return;
                 }
+            
+                var option = "leave";
+                if (SelfPlayerName == null)
+                    option = "leaveSpectator";
+                var controller = "Room?userName=" + Crypto.Encrypt(User.Username) + "&gameName=" + RoomName +
+                                 "&playerName=" + SelfPlayerName + "&option=" + option + "&token=" + User.token;
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    Playing = false;
+                    UpdateUserDataOnExit();
+                    Main.OpenWindows.Remove(this);
+                    Application.Current.MainWindow = Main;
+                    Main.Show();
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void UpdateUserDataOnExit()
+        {
+            var controller = "User?userName=" + Crypto.Encrypt(User.Username);
+            var ans = RestClient.MakePutRequest(controller, "");
+            var json = JObject.Parse(ans);
+            var data = json.ToObject<UserData>();
+            if (data.Message == null)
+            {
+                User.Chips = data.Chips;
+                User.Rank = data.Rank;
             }
         }
 
