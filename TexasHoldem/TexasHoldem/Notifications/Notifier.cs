@@ -8,12 +8,16 @@ namespace TexasHoldem.Notifications
     public class Notifier
     {
         private static Notifier _instance;
-        private Notifier() { }
+
+        private Notifier()
+        {
+        }
+
         public static Notifier Instance => _instance ?? (_instance = new Notifier());
 
         public void Notify(List<IUser> users, string room, string msg)
         {
-            if(msg == "")
+            if (msg == "")
             {
                 var e = new Exception("message is empty.");
                 Logger.Log(Severity.Exception, e.Message);
@@ -23,9 +27,7 @@ namespace TexasHoldem.Notifications
             var notif = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + msg;
 
             foreach (var u in users)
-            {
-                u.AddNotification(room ,notif);
-            }
+                u.AddNotification(room, notif);
         }
     }
 }

@@ -9,32 +9,39 @@ namespace TexasHoldem.GameReplay
 {
     public class Replayer
     {
-    //    private static readonly string CounterPath = Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt";
+        //    private static readonly string CounterPath = Directory.GetCurrentDirectory() + "\\gameReplayCounter.txt";
 
-        private static readonly string CounterPath = (AppDomain.CurrentDomain.GetData("DataDirectory") != null ? 
-        AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory) + "\\gameReplayCounter.txt";
+        private static readonly string CounterPath = (AppDomain.CurrentDomain.GetData("DataDirectory") != null
+                                                         ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString()
+                                                         : AppDomain.CurrentDomain.BaseDirectory) +
+                                                     "\\gameReplayCounter.txt";
 
-        private Replayer() { }
+        private Replayer()
+        {
+        }
 
         public static string CreateReplay()
         {
             var counter = 1;
             if (File.Exists(CounterPath))
-            {
                 counter = int.Parse(File.ReadAllText(CounterPath));
-            }
 
             var filename = "gameReplay#" + counter + ".csv";
-            File.AppendAllText(filename, Resources.Replayer_CreateReplay_turn_no___seat0__seat1__seat2__seat3__seat4__seat5__seat6__seat7__seat8__pot__community___ + Environment.NewLine);
+            File.AppendAllText(filename,
+                Resources
+                    .Replayer_CreateReplay_turn_no___seat0__seat1__seat2__seat3__seat4__seat5__seat6__seat7__seat8__pot__community___ +
+                Environment.NewLine);
             File.WriteAllText(CounterPath, "" + ++counter);
 
             return filename;
         }
 
-        public static void Save(string filename, int round, List<IPlayer> players, int pot, Card[] community, string comment)
+        public static void Save(string filename, int round, List<IPlayer> players, int pot, Card[] community,
+            string comment)
         {
-            var path = (AppDomain.CurrentDomain.GetData("DataDirectory") != null ?
-                           AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory) + "\\" + filename;
+            var path = (AppDomain.CurrentDomain.GetData("DataDirectory") != null
+                           ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString()
+                           : AppDomain.CurrentDomain.BaseDirectory) + "\\" + filename;
             if (!File.Exists(path))
             {
                 var e = new Exception("gameReplay file does not exists");
@@ -68,35 +75,19 @@ namespace TexasHoldem.GameReplay
 
             var entry = round + ",";
             foreach (var p in players)
-            {
                 if (!p.Folded)
-                {
                     entry += p.CurrentBet + ",";
-                }
                 else
-                {
                     entry += "fold,";
-                }
-            }
-            for (var i = 0; i <= 8-players.Count; i++)
-            {
+            for (var i = 0; i <= 8 - players.Count; i++)
                 entry += "undef,";
-            }
             entry += pot + ",";
             if (community != null)
-            {
                 for (var i = 0; i < community.Length; i++)
-                {
                     if (community[i] != null)
-                    {
                         entry += community[i].Value + community[i].Type.ToString().Substring(0, 1) + ";";
-                    }
-                }
-            }
             else
-            {
                 entry += "-";
-            }
             entry += ",,," + comment;
 
             File.AppendAllText(path, entry + Environment.NewLine);

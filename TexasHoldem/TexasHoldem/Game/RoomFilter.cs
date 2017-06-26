@@ -2,15 +2,15 @@
 {
     public class RoomFilter
     {
-        public string PlayerName;
-        public int? PotSize;
-        public bool? LeagueOnly;
-        public string GameType;
         public int? BuyInPolicy;
         public int? ChipPolicy;
+        public string GameType;
+        public bool? LeagueOnly;
+        public int? MaxPlayers;
         public int? MinBet;
         public int? MinPlayers;
-        public int? MaxPlayers;
+        public string PlayerName;
+        public int? PotSize;
         public bool? SepctatingAllowed;
 
 

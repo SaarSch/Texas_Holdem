@@ -1011,3 +1011,12 @@
 21/06/2017 19:10: last player exited, room closed
 21/06/2017 19:10: kaka9999 logged out successfully!
 21/06/2017 19:11: sean1111 logged out successfully!
+26/06/2017 10:46: kaka4567 logged in successfully!
+26/06/2017 10:47: new player created for user:kaka4567
+26/06/2017 10:47: New room was created room  name=kaka rank=-1
+26/06/2017 10:47: Room kaka created successfully by kaka4567!
+26/06/2017 10:47: Room kaka deleted successfully!
+26/06/2017 10:47: Last player exited, room closed
+26/06/2017 10:47: kaka4567's profile edited successfully!
+26/06/2017 10:47: kaka456''s profile edited successfully!
+26/06/2017 10:47: kaka4567 logged out successfully!

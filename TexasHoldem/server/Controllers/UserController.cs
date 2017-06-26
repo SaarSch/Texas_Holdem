@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
 using Server.Models;
-using System.Security.Cryptography;
-using System.Linq;
 
 namespace Server.Controllers
 {
@@ -19,9 +18,7 @@ namespace Server.Controllers
                 {
                     case "logout":
                         if (Server.UserFacade.Logout(Crypto.Decrypt(username)))
-                        {
                             Server.GuidDic.Remove(token);
-                        }
                         break;
                     case "isloggedin":
                         Server.UserFacade.IsUserLoggedInn(Crypto.Decrypt(username));
@@ -29,24 +26,20 @@ namespace Server.Controllers
                     default:
                         throw new Exception("comunication error: unkown mode");
                 }
-                
             }
             catch (Exception e)
             {
-                if(e.Message.Equals("you are logged in too long, please log out"))
-                {
+                if (e.Message.Equals("you are logged in too long, please log out"))
                     if (Server.UserFacade.Logout(Crypto.Decrypt(username)))
-                    {
                         Server.GuidDic.Remove(token);
-                    }
-                }
                 return e.Message;
             }
             return "";
         }
+
         // DeleteUser -->GET: api/User?username=elad&passwordOrRank=123456&mod=delete
         //mode: delete  | register
-        public string Get(string username,string passwordOrRank ,string mode, string token)
+        public string Get(string username, string passwordOrRank, string mode, string token)
         {
             try
             {
@@ -94,7 +87,7 @@ namespace Server.Controllers
 
 
         // login -->POST: api/User
-        public UserData Post([FromBody]UserData value)
+        public UserData Post([FromBody] UserData value)
         {
             var ret = new UserData();
             try
@@ -107,16 +100,17 @@ namespace Server.Controllers
                 ret.Rank = u.League;
                 ret.Username = Crypto.Encrypt(u.Username);
                 ret.Wins = u.Wins;
-                Guid g = Guid.NewGuid();
-                while (g.ToString().Contains('&')|| g.ToString().Contains('+')|| g.ToString().Contains('=')|| g.ToString().Contains(':')
-                    ||g.ToString().Contains('/') || g.ToString().Contains('?') || g.ToString().Contains('#')|| g.ToString().Contains('@') || g.ToString().Contains('!')
-                    || g.ToString().Contains('$') || g.ToString().Contains('\'') || g.ToString().Contains('(') || g.ToString().Contains(')')
-                    || g.ToString().Contains('*') || g.ToString().Contains(',') || g.ToString().Contains(';'))
-                {
+                var g = Guid.NewGuid();
+                while (g.ToString().Contains('&') || g.ToString().Contains('+') || g.ToString().Contains('=') ||
+                       g.ToString().Contains(':')
+                       || g.ToString().Contains('/') || g.ToString().Contains('?') || g.ToString().Contains('#') ||
+                       g.ToString().Contains('@') || g.ToString().Contains('!')
+                       || g.ToString().Contains('$') || g.ToString().Contains('\'') || g.ToString().Contains('(') ||
+                       g.ToString().Contains(')')
+                       || g.ToString().Contains('*') || g.ToString().Contains(',') || g.ToString().Contains(';'))
                     g = Guid.NewGuid();
-                }
                 ret.token = g.ToString();
-                Server.GuidDic.Add(g.ToString(), new Tuple<string, DateTime>(value.Username,DateTime.Now));
+                Server.GuidDic.Add(g.ToString(), new Tuple<string, DateTime>(value.Username, DateTime.Now));
             }
             catch (Exception e)
             {
@@ -125,14 +119,16 @@ namespace Server.Controllers
 
             return ret;
         }
+
         //editUser --> POST: api/User?username=elad
-        public UserData Post([FromBody]UserData value, string username, string token)
+        public UserData Post([FromBody] UserData value, string username, string token)
         {
             var ret = new UserData();
             try
             {
                 Server.CheckToken(token);
-                var u= Server.UserFacade.EditUser(Crypto.Decrypt(username), Crypto.Decrypt(value.Username), Crypto.Decrypt(value.Password), value.AvatarPath, Crypto.Decrypt(value.Email));
+                var u = Server.UserFacade.EditUser(Crypto.Decrypt(username), Crypto.Decrypt(value.Username),
+                    Crypto.Decrypt(value.Password), value.AvatarPath, Crypto.Decrypt(value.Email));
                 if (u != null)
                 {
                     ret.AvatarPath = u.AvatarPath;
@@ -143,16 +139,13 @@ namespace Server.Controllers
                     ret.Username = Crypto.Encrypt(u.Username);
                     ret.Wins = u.Wins;
                 }
-               
             }
             catch (Exception e)
             {
-               ret.Message=e.Message;
+                ret.Message = e.Message;
             }
 
             return ret;
         }
-
-
     }
 }

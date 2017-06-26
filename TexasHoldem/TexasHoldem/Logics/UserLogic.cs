@@ -10,14 +10,14 @@ namespace TexasHoldem.Logics
 {
     public class UserLogic
     {
-	    private DatabaseContext db;
+        private readonly DatabaseContext db;
 
-	    public UserLogic(string dbName = "TexasDatabase")
-	    {
-		    db = new DatabaseContext(dbName);
-	    }
+        public UserLogic(string dbName = "TexasDatabase")
+        {
+            db = new DatabaseContext(dbName);
+        }
 
-        public IUser WebLogin(string username, string password)//i will delete it later
+        public IUser WebLogin(string username, string password) //i will delete it later
         {
             var query = db.Users.Where(u => u.Username == username);
 
@@ -26,8 +26,8 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "ERROR in Login: Username does not exist!");
                 return null;
             }
-			password= Crypto.Encrypt(password);
-			query = query.Where(u => u.Password == password);
+            password = Crypto.Encrypt(password);
+            query = query.Where(u => u.Password == password);
 
             if (!query.Any())
             {
@@ -40,11 +40,9 @@ namespace TexasHoldem.Logics
 
         public List<Tuple<IUser, bool>> GetAllUsers()
         {
-            List<Tuple<IUser, bool>> ans=new List<Tuple<IUser, bool>>();
+            var ans = new List<Tuple<IUser, bool>>();
             foreach (var u in db.Users)
-            {
-                ans.Add(new Tuple<IUser, bool>(u,false));
-            }
+                ans.Add(new Tuple<IUser, bool>(u, false));
             return ans;
         }
 
@@ -64,7 +62,7 @@ namespace TexasHoldem.Logics
         {
             var tempUsers = users.Where(user => user.Item1.League != -1).ToList();
             double size = tempUsers.Count / 10;
-            var leagueSize = (int)Math.Ceiling(size);
+            var leagueSize = (int) Math.Ceiling(size);
             if (leagueSize == 0) leagueSize = 1;
             var currentSize = 0;
             var league = 10;
@@ -75,13 +73,11 @@ namespace TexasHoldem.Logics
             for (var i = 0; i < tempUsers.Count; i++)
             {
                 foreach (var u in tempUsers)
-                {
                     if (u.Item1.Wins > maxWins && !done.Contains(u.Item1))
                     {
                         maxWins = u.Item1.Wins;
                         current = u.Item1;
                     }
-                }
                 if (current != null)
                 {
                     current.League = league;
@@ -91,15 +87,13 @@ namespace TexasHoldem.Logics
                     done.Add(current);
                 }
                 usersNum++;
-                if ((currentSize == leagueSize && leagueSize >= 2) || (currentSize > leagueSize))
+                if (currentSize == leagueSize && leagueSize >= 2 || currentSize > leagueSize)
                 {
                     currentSize = 0;
                     league--;
                 }
                 if (tempUsers.Count == usersNum + 1 && tempUsers.Count % 2 == 1)
-                {
                     league++;
-                }
                 maxWins = -1;
             }
             db.SaveChanges();
@@ -107,22 +101,21 @@ namespace TexasHoldem.Logics
 
         public void Register(string username, string password, List<Tuple<IUser, bool>> users)
         {
-            
-	        var query = from u in db.Users
-						where u.Username == username
-						select u;
-	        if (query.Any())
-	        {
-				var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
-		        Logger.Log(Severity.Error, e.Message);
-		        throw e;
-			}
+            var query = from u in db.Users
+                where u.Username == username
+                select u;
+            if (query.Any())
+            {
+                var e = new IllegalUsernameException("ERROR in Register: Username already exists!");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
             User.CheckPassWord(password);
             password = Crypto.Encrypt(password);
 
-            User newUser = new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000);
-	        db.Users.Add(newUser);
-	        db.SaveChanges();
+            var newUser = new User(username, password, "Resources/profilePicture.png", "default@gmail.com", 5000);
+            db.Users.Add(newUser);
+            db.SaveChanges();
             users.Add(new Tuple<IUser, bool>(newUser, false));
             // USERNAME & PASSWORD CONFIRMED
             Logger.Log(Severity.Action, "Registration completed successfully!");
@@ -130,7 +123,6 @@ namespace TexasHoldem.Logics
 
         public IUser Login(string username, string password, List<Tuple<IUser, bool>> users)
         {
-
             password = Crypto.Encrypt(password);
             var query = db.Users.Where(u => u.Username == username);
 
@@ -151,8 +143,8 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-          
-            Tuple<IUser, bool> foundUser = users.SingleOrDefault(t => t.Item1.Username == username && t.Item1.Password == password);
+
+            var foundUser = users.SingleOrDefault(t => t.Item1.Username == username && t.Item1.Password == password);
             if (foundUser == null)
             {
                 var e = new IllegalUsernameException("ERROR in Login: itsss nullll.");
@@ -165,10 +157,10 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            
-            IUser fuser = foundUser.Item1;
+
+            var fuser = foundUser.Item1;
             users.Remove(foundUser);
-            users.Add(new Tuple<IUser, bool>(fuser,true));
+            users.Add(new Tuple<IUser, bool>(fuser, true));
             //users.Where(u => u.Item1.Username == username).ToList().ForEach(i => i = new Tuple<IUser, bool>(foundUser.Item1, true));
             Logger.Log(Severity.Action, username + " logged in successfully!");
 
@@ -190,7 +182,7 @@ namespace TexasHoldem.Logics
             }
 
 
-            Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
+            var foundUser = users.Single(t => t.Item1.Username == username);
             if (!foundUser.Item2)
             {
                 var e = new IllegalUsernameException("ERROR in Logout: User is already logged off.");
@@ -200,20 +192,16 @@ namespace TexasHoldem.Logics
 
             var userRooms = GameCenter.GetGameCenter().Rooms.Where(r => r.IsInRoom(username)).ToList();
             foreach (Room r in userRooms)
-            {
                 r.ExitRoom(username);
-            }
 
             var userRoomsSpectate = GameCenter.GetGameCenter().Rooms.Where(r => r.Isspectator(username)).ToList();
             foreach (Room r in userRoomsSpectate)
-            {
                 r.ExitSpectator(username);
-            }
 
-            IUser fuser = foundUser.Item1;
+            var fuser = foundUser.Item1;
             users.Remove(foundUser);
             users.Add(new Tuple<IUser, bool>(fuser, false));
-           // users.Where(u => u.Item1.Username == username).ToList().ForEach(i=>i= new Tuple<IUser, bool>(foundUser.Item1, false));
+            // users.Where(u => u.Item1.Username == username).ToList().ForEach(i=>i= new Tuple<IUser, bool>(foundUser.Item1, false));
             //for (i = 0; i < users.Count; i++)
             //{
             //    if (users[i].Item1.Username == username)
@@ -242,25 +230,19 @@ namespace TexasHoldem.Logics
         public void DeleteAllUsers(List<Tuple<IUser, bool>> users)
         {
             foreach (var u in users)
-            {
-                db.Users.Remove((User)u.Item1);
-            }
+                db.Users.Remove((User) u.Item1);
 
             users.Clear();
             db.SaveChanges();
         }
 
-        public IUser EditUser(string username, string newUserName, string newPassword, string newAvatarPath, string newEmail, List<Tuple<IUser, bool>> users)
+        public IUser EditUser(string username, string newUserName, string newPassword, string newAvatarPath,
+            string newEmail, List<Tuple<IUser, bool>> users)
         {
-
             if (newEmail != "")
-            {
                 User.CanSetMail(newEmail);
-            }
             if (newUserName != "")
-            {
                 User.CanSetUserName(newUserName);
-            }
             if (newPassword != "")
             {
                 User.CanSetPass(newPassword);
@@ -275,9 +257,9 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            var user= db.Users.First(u => u.Username == username);
-            Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
-            IUser ans = foundUser.Item1;
+            var user = db.Users.First(u => u.Username == username);
+            var foundUser = users.Single(t => t.Item1.Username == username);
+            var ans = foundUser.Item1;
             if (!foundUser.Item2)
             {
                 var e = new IllegalUsernameException("ERROR in Edit Profile: This User is not logged in.");
@@ -295,39 +277,37 @@ namespace TexasHoldem.Logics
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
-                    ans=new User(ans,newUserName);
+                    ans = new User(ans, newUserName);
                     users.Remove(foundUser);
                     db.Users.Remove(user);
                     users.Add(new Tuple<IUser, bool>(ans, true));
                     foundUser = users.Single(t => t.Item1.Username == newUserName);
-                    db.Users.Add((User)ans);
+                    db.Users.Add((User) ans);
                     db.SaveChanges();
                     user = db.Users.First(u => u.Username == newUserName);
                     //user.Username = newUserName;
                 }
                 if (newPassword != "")
                 {
-                    ans.Password = newPassword;//check if it changes
+                    ans.Password = newPassword; //check if it changes
                     user.Password = newPassword;
                 }
-                  
+
                 if (newAvatarPath != "")
                 {
                     ans.AvatarPath = newAvatarPath;
                     user.AvatarPath = newAvatarPath;
                 }
-                   
+
                 if (newEmail != "")
                 {
                     ans.Email = newEmail;
                     user.Email = newEmail;
                 }
-                   
             }
             catch (Exception ex)
             {
-                
-                var e = new Exception("ERROR in Edit Profile: Invalid new user details!"+ex.Message);
+                var e = new Exception("ERROR in Edit Profile: Invalid new user details!" + ex.Message);
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -386,7 +366,7 @@ namespace TexasHoldem.Logics
             return ans;
         }
 
-        public IUser GetLoggedInUser(string username,List<Tuple<IUser, bool>> users)
+        public IUser GetLoggedInUser(string username, List<Tuple<IUser, bool>> users)
         {
             var query = db.Users.Where(u => u.Username == username);
 
@@ -396,8 +376,8 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username);
-            IUser ans = foundUser.Item1;
+            var foundUser = users.Single(t => t.Item1.Username == username);
+            var ans = foundUser.Item1;
             if (!foundUser.Item2)
             {
                 var e = new IllegalUsernameException("ERROR in GetLoggedInUser: This User is not logged in.");
@@ -506,16 +486,16 @@ namespace TexasHoldem.Logics
             //    Logger.Log(Severity.Error, e.Message);
             //    throw e;
             //}
-            Tuple<IUser, bool> foundUser = users.Single(t => t.Item1.Username == username && t.Item1.Password == password);
+            var foundUser = users.Single(t => t.Item1.Username == username && t.Item1.Password == password);
             users.Remove(foundUser);
             db.Users.Remove(query.First());
             db.SaveChanges();
             Logger.Log(Severity.Action, "User: " + username + " deleted successfully!");
         }
 
-	    public void UpdateDB()
-	    {
-		    db.SaveChanges();
-	    }
+        public void UpdateDB()
+        {
+            db.SaveChanges();
+        }
     }
 }

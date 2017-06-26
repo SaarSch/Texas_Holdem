@@ -13,7 +13,7 @@ namespace TexasHoldem.Logics
             HandRank handRank;
             var hand = new List<Card>();
             var orderByValue = cards.OrderBy(card => card.Value).ToList();
-            var boost = (int)Math.Pow(10, 6);
+            var boost = (int) Math.Pow(10, 6);
 
             //Look for simillar cards:
             var threesList = new List<Card>();
@@ -46,32 +46,30 @@ namespace TexasHoldem.Logics
 
             //Look for simillar shape:
             var sameShapeList = cards.Where(card => card.Type == CardType.Clubs).OrderBy(card => card.Value).ToList();
-            if (sameShapeList.Count < 5) sameShapeList = cards.Where(card => card.Type == CardType.Diamonds).OrderBy(card => card.Value).ToList();
-            if (sameShapeList.Count < 5) sameShapeList = cards.Where(card => card.Type == CardType.Hearts).OrderBy(card => card.Value).ToList();
-            if (sameShapeList.Count < 5) sameShapeList = cards.Where(card => card.Type == CardType.Spades).OrderBy(card => card.Value).ToList();
+            if (sameShapeList.Count < 5)
+                sameShapeList = cards.Where(card => card.Type == CardType.Diamonds)
+                    .OrderBy(card => card.Value)
+                    .ToList();
+            if (sameShapeList.Count < 5)
+                sameShapeList = cards.Where(card => card.Type == CardType.Hearts).OrderBy(card => card.Value).ToList();
+            if (sameShapeList.Count < 5)
+                sameShapeList = cards.Where(card => card.Type == CardType.Spades).OrderBy(card => card.Value).ToList();
 
             //Look for ascending
             var ascending = new List<Card>();
             for (var j = 0; j < 6; j++)
+            for (var q = j + 1; q < 7; q++)
             {
+                var tempOrderd = new List<Card>();
+                tempOrderd.AddRange(orderByValue);
+                tempOrderd.RemoveAt(q);
+                tempOrderd.RemoveAt(j);
 
-                for (var q = j + 1; q < 7; q++)
-                {
-                    var tempOrderd = new List<Card>();
-                    tempOrderd.AddRange(orderByValue);
-                    tempOrderd.RemoveAt(q);
-                    tempOrderd.RemoveAt(j);
-
-                    var tempAscending = 0;
-                    for (var m = 0; m < 4; m++)
-                    {
-                        if (tempOrderd[m].Value + 1 == tempOrderd[m + 1].Value) tempAscending++;
-                    }
-                    if (tempAscending == 4 && SumListCard(ascending) < SumListCard(tempOrderd))
-                    {
-                        ascending = tempOrderd;
-                    }
-                }
+                var tempAscending = 0;
+                for (var m = 0; m < 4; m++)
+                    if (tempOrderd[m].Value + 1 == tempOrderd[m + 1].Value) tempAscending++;
+                if (tempAscending == 4 && SumListCard(ascending) < SumListCard(tempOrderd))
+                    ascending = tempOrderd;
             }
 
             //Decide Hand
@@ -117,27 +115,30 @@ namespace TexasHoldem.Logics
                 hand.AddRange(threesList);
                 handValue = CalculateHandValue(hand, 3 * boost);
             }
-            else switch (pairsList.Count)
+            else
             {
-                case 4:
-                    handRank = HandRank.TwoPair;
-                    orderByValue.RemoveAll(card => pairsList.Contains(card));
-                    hand.Add(orderByValue.ElementAt(2));
-                    hand.AddRange(pairsList);
-                    handValue = CalculateHandValue(hand, 2 * boost);
-                    break;
-                case 2:
-                    handRank = HandRank.Pair;
-                    orderByValue.RemoveAll(card => pairsList.Contains(card));
-                    hand.AddRange(orderByValue.GetRange(2, 3));
-                    hand.AddRange(pairsList);
-                    handValue = CalculateHandValue(hand, boost);
-                    break;
-                default:
-                    handRank = HandRank.HighCard;
-                    hand.AddRange(orderByValue.GetRange(2, 5));
-                    handValue = CalculateHandValue(hand, 0);
-                    break;
+                switch (pairsList.Count)
+                {
+                    case 4:
+                        handRank = HandRank.TwoPair;
+                        orderByValue.RemoveAll(card => pairsList.Contains(card));
+                        hand.Add(orderByValue.ElementAt(2));
+                        hand.AddRange(pairsList);
+                        handValue = CalculateHandValue(hand, 2 * boost);
+                        break;
+                    case 2:
+                        handRank = HandRank.Pair;
+                        orderByValue.RemoveAll(card => pairsList.Contains(card));
+                        hand.AddRange(orderByValue.GetRange(2, 3));
+                        hand.AddRange(pairsList);
+                        handValue = CalculateHandValue(hand, boost);
+                        break;
+                    default:
+                        handRank = HandRank.HighCard;
+                        hand.AddRange(orderByValue.GetRange(2, 5));
+                        handValue = CalculateHandValue(hand, 0);
+                        break;
+                }
             }
             return new HandStrength(handValue, handRank, hand);
         }
@@ -146,9 +147,7 @@ namespace TexasHoldem.Logics
         {
             var ans = boost;
             for (var i = 0; i < 5; i++)
-            {
-                ans = ans + (int)Math.Pow(10, i) * hand.ElementAt(i).Value;
-            }
+                ans = ans + (int) Math.Pow(10, i) * hand.ElementAt(i).Value;
             return ans;
         }
 

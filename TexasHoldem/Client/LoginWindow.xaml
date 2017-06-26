@@ -7,28 +7,44 @@
         mc:Ignorable="d"
         Title="Login" Height="400" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
-        <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
+        <ImageBrush ImageSource="Resources/background.png" />
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="72*"/>
-            <ColumnDefinition Width="445*"/>
+            <ColumnDefinition Width="72*" />
+            <ColumnDefinition Width="445*" />
         </Grid.ColumnDefinitions>
-        <Image Name="RegisterPic" Grid.Column="1" Visibility="Hidden" HorizontalAlignment="Left" Height="316" Margin="187,94,-46,-39" VerticalAlignment="Top" Width="284" Source="Resources/registration.png"/>
-        <Image Name="LoginPic" Grid.Column="1" HorizontalAlignment="Left" Height="342" Margin="219,104,-99,-75" VerticalAlignment="Top" Width="305" Source="Resources/login.png"/>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="67,174,0,0" VerticalAlignment="Top" Foreground="White" Grid.ColumnSpan="2"/>
-        <TextBox Name="UsernameTxt" MaxLength="12" HorizontalAlignment="Left" Height="23" Margin="75,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="67,211,0,0" VerticalAlignment="Top" Foreground="White" Grid.ColumnSpan="2"/>
-        <PasswordBox Name="PasswordTxt" MaxLength="12" HorizontalAlignment="Left" Margin="75,215,0,0" VerticalAlignment="Top" Width="120" Height="22" Grid.Column="1"/>
-        <Button Content="Log in" HorizontalAlignment="Left" Margin="110,270,0,0" VerticalAlignment="Top" Width="98" Click="LogInButtonClick" Name="LogInButton" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"/>
-        <Button Visibility="Hidden" Content="Register" HorizontalAlignment="Left" Margin="110,270,0,0" VerticalAlignment="Top" Width="98" Click="RegisterButtonClick" x:Name="RegisterButton" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Height="118" Margin="52,10,0,0" VerticalAlignment="Top" Width="248" Source="Resources/gamelogo.png"/>
-        <Label Name="ModeLbl" Content="Log In to Texas Holdem!" HorizontalAlignment="Left" Margin="50,116,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" Grid.ColumnSpan="2">
+        <Image Name="RegisterPic" Grid.Column="1" Visibility="Hidden" HorizontalAlignment="Left" Height="316"
+               Margin="187,94,-46,-39" VerticalAlignment="Top" Width="284" Source="Resources/registration.png" />
+        <Image Name="LoginPic" Grid.Column="1" HorizontalAlignment="Left" Height="342" Margin="219,104,-99,-75"
+               VerticalAlignment="Top" Width="305" Source="Resources/login.png" />
+        <Label Content="Username" HorizontalAlignment="Left" Margin="67,174,0,0" VerticalAlignment="Top"
+               Foreground="White" Grid.ColumnSpan="2" />
+        <TextBox Name="UsernameTxt" MaxLength="12" HorizontalAlignment="Left" Height="23" Margin="75,178,0,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" />
+        <Label Content="Password" HorizontalAlignment="Left" Margin="67,211,0,0" VerticalAlignment="Top"
+               Foreground="White" Grid.ColumnSpan="2" />
+        <PasswordBox Name="PasswordTxt" MaxLength="12" HorizontalAlignment="Left" Margin="75,215,0,0"
+                     VerticalAlignment="Top" Width="120" Height="22" Grid.Column="1" />
+        <Button Content="Log in" HorizontalAlignment="Left" Margin="110,270,0,0" VerticalAlignment="Top" Width="98"
+                Click="LogInButtonClick" Name="LogInButton" Background="#FFC15252" BorderBrush="#FFE67474"
+                Grid.Column="1" />
+        <Button Visibility="Hidden" Content="Register" HorizontalAlignment="Left" Margin="110,270,0,0"
+                VerticalAlignment="Top" Width="98" Click="RegisterButtonClick" x:Name="RegisterButton"
+                Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1" />
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="118" Margin="52,10,0,0" VerticalAlignment="Top"
+               Width="248" Source="Resources/gamelogo.png" />
+        <Label Name="ModeLbl" Content="Log In to Texas Holdem!" HorizontalAlignment="Left" Margin="50,116,0,0"
+               VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" Grid.ColumnSpan="2">
             <Label.Effect>
-                <DropShadowEffect/>
+                <DropShadowEffect />
             </Label.Effect>
         </Label>
-        <Button Content="Join us now!" HorizontalAlignment="Left" Margin="0,270,0,0" VerticalAlignment="Top" Width="98"  x:Name="ChangeMode" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1" Click="ChangeMode_Click"/>
-        <Label Content="Created by: Daniel Margalit, Elad Kamin, Saar Scheinkman, Shachar Cfir, Sean Ocheri" HorizontalAlignment="Left" Margin="10,339,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="446" Foreground="White" FontSize="9"/>
+        <Button Content="Join us now!" HorizontalAlignment="Left" Margin="0,270,0,0" VerticalAlignment="Top" Width="98"
+                x:Name="ChangeMode" Background="#FFC15252" BorderBrush="#FFE67474" Grid.Column="1"
+                Click="ChangeMode_Click" />
+        <Label Content="Created by: Daniel Margalit, Elad Kamin, Saar Scheinkman, Shachar Cfir, Sean Ocheri"
+               HorizontalAlignment="Left" Margin="10,339,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="446"
+               Foreground="White" FontSize="9" />
     </Grid>
 </Window>

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace server.Models
+﻿namespace server.Models
 {
     public class UserStat
     {
-        public string Username;
-        public int NumOfGames;
-        public int GrossProfit;
-        public int AvgGrossProfit;
-        public int HighestCashGain;
-        public int AvgCashGain;
         public string AvatarPath;
+        public int AvgCashGain;
+        public int AvgGrossProfit;
+        public int GrossProfit;
+        public int HighestCashGain;
+        public int NumOfGames;
+        public string Username;
     }
 }

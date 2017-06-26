@@ -1,38 +1,34 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 using TexasHoldem.Game;
-using TexasHoldem.Services;
 
 namespace AllTests.AcceptanceTests
 {
     [TestClass]
     public class AcceptanceTests
     {
-		private IBridge _bridge;
         private const string LegalPass = "123456789";
         private const string LegalPlayer = "eladkaminGameName";
         private const string LegalUserName = "eladkamin";
         private const string LegalRoomName = "Good Room Name";
+        private IBridge _bridge;
 
         [TestInitialize]
         public void Initialize()
         {
             _bridge = new ProxyBridge();
-	        _bridge.RestartGameCenter(true);
+            _bridge.RestartGameCenter(true);
 
-			_bridge.Register(LegalUserName, LegalPass);
-			for (int i = 0; i < 10; i++)
-	        {
-				_bridge.Register(LegalUserName + i, LegalPass);
-			}
+            _bridge.Register(LegalUserName, LegalPass);
+            for (var i = 0; i < 10; i++)
+                _bridge.Register(LegalUserName + i, LegalPass);
         }
 
-	    [TestCleanup]
-	    public void TestCleanup() // happens after each test
-	    {
-		    _bridge.RestartGameCenter(true);
-	    }
+        [TestCleanup]
+        public void TestCleanup() // happens after each test
+        {
+            _bridge.RestartGameCenter(true);
+        }
 
         [TestMethod]
         public void TestRegisterToTheSystem_Good()
@@ -44,7 +40,7 @@ namespace AllTests.AcceptanceTests
         [TestMethod]
         public void TestRegisterToTheSystem_Sad_ExistingUserName()
         {
-	        Assert.IsFalse(_bridge.Register(LegalUserName, LegalPass));
+            Assert.IsFalse(_bridge.Register(LegalUserName, LegalPass));
         }
 
         [TestMethod]
@@ -107,7 +103,7 @@ namespace AllTests.AcceptanceTests
         public void TestLoginToTheSystem_Bad_SQLInjection()
         {
             Assert.IsFalse(_bridge.Login(LegalUserName, "OR 'a'='a'"));
-	        Assert.IsFalse(_bridge.IsLoggedIn(LegalUserName, LegalPass));
+            Assert.IsFalse(_bridge.IsLoggedIn(LegalUserName, LegalPass));
         }
 
         [TestMethod]
@@ -165,9 +161,9 @@ namespace AllTests.AcceptanceTests
             _bridge.LogOut(LegalUserName);
 
             Assert.IsTrue(_bridge.Login(LegalUserName, "9876543210"));
-	        _bridge.EditPassword(LegalUserName, LegalPass);
-	        _bridge.LogOut(LegalUserName);
-		}
+            _bridge.EditPassword(LegalUserName, LegalPass);
+            _bridge.LogOut(LegalUserName);
+        }
 
         [TestMethod]
         public void TestEditPassword_Sad_IllegalPass()
@@ -206,8 +202,8 @@ namespace AllTests.AcceptanceTests
         {
             _bridge.Login(LegalUserName, LegalPass);
 
-	        Assert.IsFalse(_bridge.EditAvatar(LegalUserName, "newVIRUSavatar.jpg"));
-		}
+            Assert.IsFalse(_bridge.EditAvatar(LegalUserName, "newVIRUSavatar.jpg"));
+        }
 
         [TestMethod]
         public void TestCreateNewTexasHoldemGame_Good()
@@ -216,7 +212,7 @@ namespace AllTests.AcceptanceTests
 
             Assert.IsTrue(_bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer));
             Assert.IsTrue(_bridge.IsGameExist(LegalRoomName));
-	        _bridge.LeaveGame(LegalUserName, LegalRoomName, LegalPlayer);
+            _bridge.LeaveGame(LegalUserName, LegalRoomName, LegalPlayer);
         }
 
         [TestMethod]
@@ -226,22 +222,18 @@ namespace AllTests.AcceptanceTests
 
             Assert.IsFalse(_bridge.CreateNewGame("Illegal Game Name                  35", LegalUserName, LegalPlayer));
             Assert.IsFalse(_bridge.IsGameExist("Illegal Game Name                  35"));
-
-            
         }
 
         [TestMethod]
         public void
             TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers()
         {
-            
             _bridge.Login(LegalUserName, LegalPass);
 
-            Assert.IsFalse(_bridge.CreateNewGameWithPrefrences("Good Game Name2", LegalUserName, LegalPlayer, "NoLimit", 1, 0, 4, 2, 11,
+            Assert.IsFalse(_bridge.CreateNewGameWithPrefrences("Good Game Name2", LegalUserName, LegalPlayer, "NoLimit",
+                1, 0, 4, 2, 11,
                 true));
             Assert.IsFalse(_bridge.IsGameExist("Good Game Name2"));
-
-            
         }
 
         [TestMethod]
@@ -270,7 +262,6 @@ namespace AllTests.AcceptanceTests
         [TestMethod]
         public void TestJoinExistingGame_Sad_IllegalGame()
         {
-            
             _bridge.Register("GoodName", LegalPass);
 
             _bridge.Login(LegalUserName, LegalPass);
@@ -285,7 +276,6 @@ namespace AllTests.AcceptanceTests
         [TestMethod]
         public void TestJoinExistingGame_bad_MultiplejoiningAttemptsToFullRoom()
         {
-            
             _bridge.Register("GoodName", LegalPass);
             _bridge.Register("AnotherGoodName", LegalPass);
 
@@ -309,12 +299,10 @@ namespace AllTests.AcceptanceTests
         [TestMethod]
         public void TestJoinExistingGame_Bad_IllegalGame()
         {
-            
             _bridge.Login(LegalUserName, LegalPass);
 
-            Assert.IsFalse(_bridge.JoinGame(LegalUserName, "", LegalPlayer)); // the room shouldn't exist because it's name is illegal
-
-            
+            Assert.IsFalse(_bridge.JoinGame(LegalUserName, "",
+                LegalPlayer)); // the room shouldn't exist because it's name is illegal
         }
 
 
@@ -358,34 +346,38 @@ namespace AllTests.AcceptanceTests
         [TestMethod]
         public void TestFindGames_Good()
         {
-            
             _bridge.Login(LegalUserName, LegalPass);
             _bridge.CreateNewGame("Good Game Name564", LegalUserName, LegalPlayer);
             _bridge.CreateNewGame("Game Not In Rank", LegalUserName, LegalPlayer);
 
-            var rf = new RoomFilter {LeagueOnly = true , GameType = "NoLimit", BuyInPolicy = 1, ChipPolicy = 0, MinBet = 4, MinPlayers = 2, SepctatingAllowed = true};
+            var rf = new RoomFilter
+            {
+                LeagueOnly = true,
+                GameType = "NoLimit",
+                BuyInPolicy = 1,
+                ChipPolicy = 0,
+                MinBet = 4,
+                MinPlayers = 2,
+                SepctatingAllowed = true
+            };
             var activeGames = _bridge.FindGames(LegalUserName, rf);
 
             Assert.IsTrue(activeGames.Contains("Good Game Name564"));
             Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
 
-	        _bridge.LeaveGame(LegalUserName, "Good Game Name564", LegalPlayer);
-	        _bridge.LeaveGame(LegalUserName, "Game Not In Rank", LegalPlayer);
-
+            _bridge.LeaveGame(LegalUserName, "Good Game Name564", LegalPlayer);
+            _bridge.LeaveGame(LegalUserName, "Game Not In Rank", LegalPlayer);
         }
 
         [TestMethod]
         public void TestFindGames_Sad_NoGamesFound()
         {
-            
             _bridge.Login(LegalUserName, LegalPass);
 
-            var rf = new RoomFilter { LeagueOnly = true };
+            var rf = new RoomFilter {LeagueOnly = true};
             var activeGames = _bridge.FindGames(LegalUserName, rf);
 
             Assert.IsTrue(activeGames.Count == 0);
-
-            
         }
 
         [TestMethod]
@@ -413,11 +405,11 @@ namespace AllTests.AcceptanceTests
 
             //round 4-afterriver
             Assert.IsTrue(_bridge.FoldInGame(LegalRoomName, LegalPlayer));
-	        _bridge.LeaveGame(LegalUserName, LegalRoomName, LegalPlayer);
-	        _bridge.LeaveGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
-		}
+            _bridge.LeaveGame(LegalUserName, LegalRoomName, LegalPlayer);
+            _bridge.LeaveGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
+        }
 
-		[TestMethod]
+        [TestMethod]
         public void TestGameFull_Sad_IllegalBet()
         {
             //login 2 players
@@ -429,7 +421,7 @@ namespace AllTests.AcceptanceTests
             _bridge.JoinGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
             //play the game-round 1
             _bridge.StartGame(LegalRoomName);
-            Assert.IsFalse(_bridge.RaiseInGame(Int32.MaxValue, LegalRoomName, LegalPlayer));
+            Assert.IsFalse(_bridge.RaiseInGame(int.MaxValue, LegalRoomName, LegalPlayer));
         }
 
         [TestMethod]
@@ -551,7 +543,7 @@ namespace AllTests.AcceptanceTests
 
             _bridge.SendWhisper(LegalRoomName, true, LegalPlayer + "1", LegalPlayer, "Hiiii!");
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
-	        Assert.AreEqual(0, messages.Count);
+            Assert.AreEqual(0, messages.Count);
         }
 
         [TestMethod]
@@ -595,7 +587,5 @@ namespace AllTests.AcceptanceTests
             messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "2");
             Assert.AreEqual(0, messages.Count);
         }
-
-
     }
 }

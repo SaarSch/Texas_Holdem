@@ -15,13 +15,18 @@
     <div class="card">
         <div class="profile">
             <img id="avatarheader" alt="avatar">
-            <script>document.getElementById("avatarheader").src = `css/${sessionStorage.getItem("avatar").substring(10)}`;</script>
+            <script>
+                document
+                    .getElementById("avatarheader").src = `css/${sessionStorage.getItem("avatar").substring(10)}`;
+            </script>
             <div class="border"></div>
         </div>
         <div class="name">
             <p>
                 <a id="cardheader">error in script</a>
-                <script>document.getElementById("cardheader").innerHTML = sessionStorage.getItem("user");</script>
+                <script>
+                    document.getElementById("cardheader").innerHTML = sessionStorage.getItem("user");
+                </script>
             </p>
         </div>
         <div class="numbers">
@@ -38,8 +43,12 @@
                 </tbody>
             </table>
             <div class="divider"></div>
-            <script>document.getElementById("grossheader").innerHTML = sessionStorage.getItem("gross");</script>
-            <script>document.getElementById("cashheader").innerHTML = sessionStorage.getItem("cash");</script>
+            <script>
+                document.getElementById("grossheader").innerHTML = sessionStorage.getItem("gross");
+            </script>
+            <script>
+                document.getElementById("cashheader").innerHTML = sessionStorage.getItem("cash");
+            </script>
         </div>
     </div>
     <div class="login">

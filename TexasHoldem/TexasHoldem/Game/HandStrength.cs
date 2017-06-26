@@ -19,9 +19,9 @@ namespace TexasHoldem.Game
 
     public class HandStrength
     {
-        public int HandStrongessValue;
-        public HandRank Handrank;
         public List<Card> HandCards;
+        public HandRank Handrank;
+        public int HandStrongessValue;
 
         public HandStrength(int handValue, HandRank handRank, List<Card> cards)
         {
@@ -29,7 +29,5 @@ namespace TexasHoldem.Game
             HandCards = cards;
             Handrank = handRank;
         }
-
-
     }
 }

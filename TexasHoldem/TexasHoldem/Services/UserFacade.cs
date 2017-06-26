@@ -13,12 +13,12 @@ namespace TexasHoldem.Services
         public UserFacade(string dbName = "TexasDatabase")
         {
             _gameCenter = GameCenter.GetGameCenter(dbName);
-	        _userLogic = _gameCenter.UserLogic;
+            _userLogic = _gameCenter.UserLogic;
         }
 
         public void Register(string username, string password) // UC 1
         {
-	        _userLogic.Register(username, password, _gameCenter.Users);
+            _userLogic.Register(username, password, _gameCenter.Users);
         }
 
         public IUser Login(string username, string password) // UC 2
@@ -50,10 +50,13 @@ namespace TexasHoldem.Services
         {
             _userLogic.EditUser(username, "", "", newAvatarPath, "", _gameCenter.Users);
         }
-        public IUser EditUser(string username, string newusername, string newPassword, string newAvatarPath, string newEmail)
+
+        public IUser EditUser(string username, string newusername, string newPassword, string newAvatarPath,
+            string newEmail)
         {
             return _userLogic.EditUser(username, newusername, newPassword, newAvatarPath, newEmail, _gameCenter.Users);
         }
+
         public void DeleteUser(string username, string password)
         {
             _userLogic.DeleteUser(username, password, _gameCenter.Users);
@@ -74,12 +77,12 @@ namespace TexasHoldem.Services
 
         public void IsUserLoggedInn(string userName)
         {
-                _userLogic.GetLoggedInUser(userName, _gameCenter.Users);
+            _userLogic.GetLoggedInUser(userName, _gameCenter.Users);
         }
 
         public int GetRank(string userName)
         {
-           return _userLogic.GetUser(userName, _gameCenter.Users).League;
+            return _userLogic.GetUser(userName, _gameCenter.Users).League;
         }
 
         public IUser GetUser(string userName)

@@ -6,8 +6,8 @@ using Server.Models;
 namespace Server.Controllers
 {
     public class SearchController : ApiController
-        {
-            public RoomList Post([FromBody] RoomFilter value,string token)
+    {
+        public RoomList Post([FromBody] RoomFilter value, string token)
         {
             var ret = new RoomList();
             try
@@ -18,8 +18,7 @@ namespace Server.Controllers
                     value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers,
                     value.SpectatingAllowed));
                 ret.Rooms = new Room[rooms.Count];
-                for (var i = 0; i<rooms.Count; i++)
-                {
+                for (var i = 0; i < rooms.Count; i++)
                     ret.Rooms[i] = new Room
                     {
                         RoomName = rooms.ElementAt(i).Name,
@@ -32,7 +31,6 @@ namespace Server.Controllers
                         SpectatingAllowed = rooms.ElementAt(i).GamePreferences.Spectating,
                         ChipPolicy = rooms.ElementAt(i).GamePreferences.ChipPolicy
                     };
-                }
             }
             catch (Exception e)
             {

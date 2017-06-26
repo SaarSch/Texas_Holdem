@@ -6,11 +6,11 @@ using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
-    public class RealBridge:IBridge
+    public class RealBridge : IBridge
     {
-        private readonly UserFacade _userManager;
         private readonly GameFacade _gameManager;
         private readonly ReplayFacade _replayManager;
+        private readonly UserFacade _userManager;
 
         public RealBridge()
         {
@@ -55,7 +55,7 @@ namespace TexasHoldem.Bridges
             }
             catch (Exception)
             {
-               return false;
+                return false;
             }
             return true;
         }
@@ -143,7 +143,8 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
+        public bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType,
+            int buyInPolicy,
             int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
         {
             try
@@ -167,13 +168,11 @@ namespace TexasHoldem.Bridges
         public IList FindGames(string username, RoomFilter filter)
         {
             try
-            { 
+            {
                 var tmp = _gameManager.FindGames(username, filter);
                 var ans = new List<string>();
                 foreach (var r in tmp)
-                {
                     ans.Add(r.Name);
-                }
                 return ans;
             }
             catch (Exception e)
@@ -270,13 +269,9 @@ namespace TexasHoldem.Bridges
             try
             {
                 if (isSpectator)
-                {
                     _gameManager.SpectatorsSendMessage(roomName, senderPlayerName, message);
-                }
                 else
-                {
                     _gameManager.PlayerSendMessage(roomName, senderPlayerName, message);
-                }
             }
             catch (Exception)
             {
@@ -285,18 +280,15 @@ namespace TexasHoldem.Bridges
             return true;
         }
 
-        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message)
+        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName,
+            string message)
         {
             try
             {
                 if (isSpectator)
-                {
                     _gameManager.SpectatorWhisper(roomName, senderPlayerName, receiverPlayerName, message);
-                }
                 else
-                {
                     _gameManager.PlayerWhisper(roomName, senderPlayerName, receiverPlayerName, message);
-                }
             }
             catch (Exception)
             {
@@ -332,7 +324,7 @@ namespace TexasHoldem.Bridges
         {
             try
             {
-                _gameManager.PlaceBet(roomName,playerName,bet);
+                _gameManager.PlaceBet(roomName, playerName, bet);
             }
             catch (Exception)
             {

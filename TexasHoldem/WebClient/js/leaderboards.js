@@ -25,7 +25,7 @@
                 populateTable(cashData);
             });
         document.getElementById("thead3").addEventListener("click",
-            function () {
+            function() {
                 populateTable(numData);
             });
     }
@@ -41,8 +41,7 @@
         } else if (dataSet === cashData) {
             orderedByCash = '<img class="arrow" ' +
                 'src="https://raw.githubusercontent.com/brusbilis/freeCodeCamp/master/old-v1/2-data/react/leaderboard/images/arrowDown20x20.png">';
-        }
-        else if (dataSet === numData) {
+        } else if (dataSet === numData) {
             orderedByNum = '<img class="arrow" ' +
                 'src="https://raw.githubusercontent.com/brusbilis/freeCodeCamp/master/old-v1/2-data/react/leaderboard/images/arrowDown20x20.png">';
         }
@@ -59,7 +58,8 @@
         for (let i = 0; i < dataSet.length; i++) {
             const name = `<a>${dataSet[i].Username}</a>`;
             res += `<tr><th class="col-xs-1 text-warning text-xs-center" scope="row">${i + 1}</th>`;
-            res += `<td class="col-xs-4 text-warning text-xs-left"><img class="logo" src="css/${dataSet[i].AvatarPath.substring(10)}" alt="avatar"> `;
+            res += `<td class="col-xs-4 text-warning text-xs-left"><img class="logo" src="css/${dataSet[i].AvatarPath
+                .substring(10)}" alt="avatar"> `;
             res += ` &nbsp; ${name}</td>`;
             res += `<td class="col-xs-3 text-warning">${dataSet[i].GrossProfit}</td>`;
             res += `<td class="col-xs-2 text-warning">${dataSet[i].HighestCashGain}</td>`;

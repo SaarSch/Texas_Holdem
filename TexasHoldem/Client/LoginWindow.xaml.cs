@@ -5,11 +5,10 @@ using Newtonsoft.Json.Linq;
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    ///     Interaction logic for LoginWindow.xaml
     /// </summary>
     public partial class LoginWindow
     {
-
         private bool _loginMode;
 
         public LoginWindow()
@@ -22,12 +21,14 @@ namespace Client
         {
             if (string.IsNullOrEmpty(UsernameTxt.Text) || string.IsNullOrEmpty(PasswordTxt.Password))
             {
-                MessageBox.Show("Username and password cannot be empty!", "Error in registration", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Username and password cannot be empty!", "Error in registration", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
                 return;
             }
 
-            var controller = "User?username=" + Crypto.Encrypt(UsernameTxt.Text) + "&passwordOrRank=" + Crypto.Encrypt(PasswordTxt.Password) +
-                                "&mode=register&token=nothing";
+            var controller = "User?username=" + Crypto.Encrypt(UsernameTxt.Text) + "&passwordOrRank=" +
+                             Crypto.Encrypt(PasswordTxt.Password) +
+                             "&mode=register&token=nothing";
             var ans = RestClient.MakeGetRequest(controller);
             if (ans != "\"\"")
             {
@@ -37,17 +38,18 @@ namespace Client
             {
                 UsernameTxt.Text = "";
                 PasswordTxt.Password = "";
-                MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("User " + UsernameTxt.Text + " registered succefully!", "Success", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
                 ChangeModeHelper();
             }
-
         }
 
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
-            var data = "{\"username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\",\"password\":\"" + Crypto.Encrypt(PasswordTxt.Password) + "\"}";
+            var data = "{\"username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\",\"password\":\"" +
+                       Crypto.Encrypt(PasswordTxt.Password) + "\"}";
             const string controller = "user";
-            var ans = RestClient.MakePostRequest(controller,data);
+            var ans = RestClient.MakePostRequest(controller, data);
             try
             {
                 var json = JObject.Parse(ans);

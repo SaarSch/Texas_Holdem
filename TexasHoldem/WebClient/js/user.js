@@ -10,6 +10,7 @@
 }
 
 var userData = [];
+
 // Below function Executes on click of search button.
 function getNewUser() {
     const username = document.getElementById("newuser").value;
@@ -35,7 +36,7 @@ function getNewUser() {
 function getData(username) {
     const url = `http://localhost:57856/api/Statistics?userName=${username}`;
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function() {
 
         const done = 4;
         if (xhr.readyState === done) {

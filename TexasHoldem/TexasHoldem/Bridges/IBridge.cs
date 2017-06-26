@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using TexasHoldem.Game;
-using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
@@ -16,7 +15,10 @@ namespace TexasHoldem.Bridges
         bool EditPassword(string username, string newPass);
         bool EditAvatar(string username, string newPath);
         bool CreateNewGame(string gameName, string username, string creatorName);
-        bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating);
+
+        bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType,
+            int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating);
+
         bool IsGameExist(string gameName);
         bool JoinGame(string username, string roomName, string playerName);
         bool SpectateGame(string username, string roomName, string playerName);
@@ -28,7 +30,10 @@ namespace TexasHoldem.Bridges
         bool FoldInGame(string goodGameName, string legalPlayer);
 
         bool SendMessageToEveryone(string roomName, bool isSpectator, string senderPlayerName, string message);
-        bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message);
+
+        bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName,
+            string message);
+
         IList GetMessages(string roomName, string username);
 
         bool RestartGameCenter(bool deleteUsers);

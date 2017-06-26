@@ -17,7 +17,7 @@ namespace AllTests.UnitTests.Notifications
         public void Initialize()
         {
             _users = new List<IUser>();
-            var mockuser1=new Mock<IUser>();
+            var mockuser1 = new Mock<IUser>();
             var mockuser2 = new Mock<IUser>();
             mockuser1.SetupAllProperties();
             mockuser2.SetupAllProperties();
@@ -25,8 +25,8 @@ namespace AllTests.UnitTests.Notifications
             var b = mockuser2.Object;
             a.Notifications = new List<Tuple<string, string>>();
             b.Notifications = new List<Tuple<string, string>>();
-            mockuser1.Setup(r=>r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
-                .Callback<string,string>((s1,s2)=>a.Notifications.Add(new Tuple<string, string>(s1, s2)));
+            mockuser1.Setup(r => r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
+                .Callback<string, string>((s1, s2) => a.Notifications.Add(new Tuple<string, string>(s1, s2)));
             mockuser2.Setup(r => r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((s1, s2) => b.Notifications.Add(new Tuple<string, string>(s1, s2)));
             _users.Add(a);
@@ -38,7 +38,7 @@ namespace AllTests.UnitTests.Notifications
         {
             const string message = "wow you are so cool!";
 
-            _notifier.Notify(_users,"a", message);
+            _notifier.Notify(_users, "a", message);
 
             foreach (var u in _users)
                 Assert.AreEqual(
@@ -52,7 +52,7 @@ namespace AllTests.UnitTests.Notifications
         {
             const string message2 = "";
 
-            _notifier.Notify(_users,"a", message2);
+            _notifier.Notify(_users, "a", message2);
         }
     }
 }

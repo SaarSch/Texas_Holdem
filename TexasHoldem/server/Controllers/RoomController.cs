@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Web.Http;
-using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 using Server.Models;
-using Player = Server.Models.Player;
-using IRoom = TexasHoldem.Game.IRoom;
+using TexasHoldem.Game;
+using Player = TexasHoldem.Game.Player;
+using Room = Server.Models.Room;
 
 namespace Server.Controllers
 {
     public class RoomController : ApiController
     {
-        public static Dictionary<string,Dictionary<string, List<RoomState>>> Replays =new Dictionary<string, Dictionary<string, List<RoomState>>>();
+        public static Dictionary<string, Dictionary<string, List<RoomState>>> Replays =
+            new Dictionary<string, Dictionary<string, List<RoomState>>>();
 
         // Put: /api/Room?game_name=moshe&player_name=kaki
         public RoomState Put(string gameName, string playerName, string token) //get current status
@@ -35,7 +35,7 @@ namespace Server.Controllers
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki
-        public RoomState GET(string gameName, string playerName,string token) //start game
+        public RoomState GET(string gameName, string playerName, string token) //start game
         {
             IRoom r = null;
             var ans = new RoomState();
@@ -50,17 +50,16 @@ namespace Server.Controllers
             }
             if (r != null)
             {
-                foreach(TexasHoldem.Game.Player p in r.Players)
-                {
+                foreach (Player p in r.Players)
                     Replays[gameName][p.Name] = new List<RoomState>();
-                }
                 CreateRoomState(playerName, r, ans);
             }
             return ans;
         }
 
         // GET: /api/Room?user_name=sean&game_name=moshe&player_name=kaki&option=join
-        public RoomState GET(string userName ,string gameName, string playerName, string option,string token)// join/spectate// leave // leaveSpectator
+        public RoomState GET(string userName, string gameName, string playerName, string option,
+            string token) // join/spectate// leave // leaveSpectator
         {
             IRoom r = null;
             var ans = new RoomState();
@@ -107,13 +106,13 @@ namespace Server.Controllers
             {
                 ans.Messege = e.Message;
             }
-            if(r!=null) CreateRoomState(playerName, r, ans);
+            if (r != null) CreateRoomState(playerName, r, ans);
             return ans;
         }
 
 
         // GET: /api/Room?game_name=moshe&player_name=kaki&option=call 
-        public RoomState GET(string gameName, string playerName, string option,string token) //call / fold 
+        public RoomState GET(string gameName, string playerName, string option, string token) //call / fold 
         {
             IRoom r = null;
             var ans = new RoomState();
@@ -140,9 +139,9 @@ namespace Server.Controllers
         }
 
         // POST: api/Room   create room
-        public RoomState Post([FromBody]Models.Room value, string token)
+        public RoomState Post([FromBody] Room value, string token)
         {
-            if(Server.ChangeLeagues.AddDays(7)<= DateTime.Now)
+            if (Server.ChangeLeagues.AddDays(7) <= DateTime.Now)
             {
                 Server.GameFacade.SetLeagues();
                 Server.ChangeLeagues = DateTime.Now;
@@ -151,17 +150,17 @@ namespace Server.Controllers
             try
             {
                 Server.CheckToken(token);
-                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName, Crypto.Decrypt(value.CreatorUserName), value.CreatorPlayerName, value.GameType, value.BuyInPolicy, value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SpectatingAllowed);
+                IRoom r = Server.GameFacade.CreateGameWithPreferences(value.RoomName,
+                    Crypto.Decrypt(value.CreatorUserName), value.CreatorPlayerName, value.GameType, value.BuyInPolicy,
+                    value.ChipPolicy, value.MinBet, value.MinPlayers, value.MaxPlayers, value.SpectatingAllowed);
                 if (r != null)
                 {
                     var roomDic = new Dictionary<string, List<RoomState>>();
                     var userList = new List<RoomState>();
                     if (Replays.ContainsKey(r.Name))
-                    {
                         Replays.Remove(r.Name);
-                    }
                     roomDic.Add(value.CreatorPlayerName, userList);
-                    Replays.Add(r.Name,roomDic);
+                    Replays.Add(r.Name, roomDic);
                     CreateRoomState(value.CreatorPlayerName, r, ans);
                 }
                 return ans;
@@ -172,7 +171,6 @@ namespace Server.Controllers
                 ans.Messege = e.Message;
                 return ans;
             }
-
         }
 
         public static void CreateRoomState(string player, IRoom r, RoomState ans)
@@ -181,9 +179,7 @@ namespace Server.Controllers
             {
                 var spectator = false;
                 foreach (var u in r.SpectateUsers)
-                {
                     if (u.Username == player) spectator = true;
-                }
                 ans.MinPlayers = r.GamePreferences.MinPlayers;
                 ans.MaxPlayers = r.GamePreferences.MaxPlayers;
                 ans.RoomName = r.Name;
@@ -191,8 +187,9 @@ namespace Server.Controllers
                 ans.Pot = r.Pot;
                 ans.GameStatus = r.GameStatus.ToString();
                 ans.CommunityCards = new string[5];
-                ans.AllPlayers = new Player[r.Players.Count];
-                if(r.Players.Count>0 && r.CurrentTurn < r.Players.Count) ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
+                ans.AllPlayers = new Models.Player[r.Players.Count];
+                if (r.Players.Count > 0 && r.CurrentTurn < r.Players.Count)
+                    ans.CurrentPlayer = r.Players[r.CurrentTurn].Name;
                 ans.CurrentWinners = r.CurrentWinners;
                 for (var i = 0; i < 5; i++)
                 {
@@ -202,7 +199,7 @@ namespace Server.Controllers
                 var j = 0;
                 foreach (var p in r.Players)
                 {
-                    var p1 = new Player
+                    var p1 = new Models.Player
                     {
                         PlayerName = p.Name,
                         CurrentBet = p.CurrentBet,
@@ -211,62 +208,47 @@ namespace Server.Controllers
                         PlayerHand = new string[2],
                         folded = p.Folded
                     };
-                    if (player == p.Name&&r.IsOn)
+                    if (player == p.Name && r.IsOn)
                     {
                         if (p.Hand[0] != null) p1.PlayerHand[0] = p.Hand[0].ToString();
                         if (p.Hand[1] != null) p1.PlayerHand[1] = p.Hand[1].ToString();
                         foreach (var pa in p.User.Notifications)
-                        {
                             if (pa.Item1 == r.Name)
-                            {
                                 p1.Messages.Add(pa.Item2);
-                            }
-                        }
                     }
-                    else if(!r.IsOn)
+                    else if (!r.IsOn)
                     {
-
-                        if (p.Hand[0] != null&&!p.Folded) p1.PlayerHand[0] = p.Hand[0].ToString();
-                        if (p.Hand[1] != null&&!p.Folded) p1.PlayerHand[1] = p.Hand[1].ToString();
-                        if(player == p.Name)
-                        {
+                        if (p.Hand[0] != null && !p.Folded) p1.PlayerHand[0] = p.Hand[0].ToString();
+                        if (p.Hand[1] != null && !p.Folded) p1.PlayerHand[1] = p.Hand[1].ToString();
+                        if (player == p.Name)
                             foreach (var pa in p.User.Notifications)
-                            {
                                 if (pa.Item1 == r.Name)
-                                {
                                     p1.Messages.Add(pa.Item2);
-                                }
-                            }
-                        }
                     }
                     ans.AllPlayers[j] = p1;
                     j++;
-                }   
-                
+                }
+
                 ans.Spectators = new UserData[r.SpectateUsers.Count];
                 j = 0;
-                foreach(var u in r.SpectateUsers)
+                foreach (var u in r.SpectateUsers)
                 {
                     var u1 = new UserData();
                     u1.Username = u.Username;
-                    if (spectator&& player==u.Username)
-                    {     
+                    if (spectator && player == u.Username)
                         foreach (var pa in u.Notifications)
-                        {
                             if (pa.Item1 == r.Name)
-                            {
                                 u1.Messages.Add(pa.Item2);
-                            }
-                        }
-                    }
                     ans.Spectators[j] = u1;
                     j++;
                 }
 
-                bool saved = false;
-                if (player != null && (ans.IsOn || !string.IsNullOrEmpty(ans.CurrentWinners)) && string.IsNullOrEmpty(ans.Messege))
-                {
-                    if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 && !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans)&& string.IsNullOrEmpty(Replays[r.Name][player][Replays[r.Name][player].Count - 1].CurrentWinners))
+                var saved = false;
+                if (player != null && (ans.IsOn || !string.IsNullOrEmpty(ans.CurrentWinners)) &&
+                    string.IsNullOrEmpty(ans.Messege))
+                    if (Replays[r.Name].ContainsKey(player) && Replays[r.Name][player].Count != 0 &&
+                        !Replays[r.Name][player][Replays[r.Name][player].Count - 1].Equals(ans) && string.IsNullOrEmpty(
+                            Replays[r.Name][player][Replays[r.Name][player].Count - 1].CurrentWinners))
                     {
                         saved = true;
                         Replays[r.Name][player].Add(ans);
@@ -277,13 +259,11 @@ namespace Server.Controllers
                         saved = true;
                         Replays[r.Name][player].Add(ans);
                     }
-                
-                }
 
-                if (!ans.IsOn && (ans.CommunityCards[0] != null||(ans.AllPlayers.Length>1&&ans.AllPlayers[1].CurrentBet>0))&& saved) //this is the last roomState.
-                {
-                    SaveReaply(Replays[r.Name][player], player,ans.RoomName);
-                }
+                if (!ans.IsOn && (ans.CommunityCards[0] != null ||
+                                  ans.AllPlayers.Length > 1 && ans.AllPlayers[1].CurrentBet > 0) &&
+                    saved) //this is the last roomState.
+                    SaveReaply(Replays[r.Name][player], player, ans.RoomName);
             }
             catch (Exception e)
             {
@@ -293,13 +273,16 @@ namespace Server.Controllers
 
         public static void SaveReaply(List<RoomState> roomStates, string player, string roomName)
         {
-            string AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString() : AppDomain.CurrentDomain.BaseDirectory;
-            string path= AppDataPath+ "\\"+"User_Name"+player+"#" +DateTime.Now.ToString("dd_MM_yyyy hh_mm_ss") + "#" + roomName +".json";
+            var AppDataPath = AppDomain.CurrentDomain.GetData("DataDirectory") != null
+                ? AppDomain.CurrentDomain.GetData("DataDirectory").ToString()
+                : AppDomain.CurrentDomain.BaseDirectory;
+            var path = AppDataPath + "\\" + "User_Name" + player + "#" + DateTime.Now.ToString("dd_MM_yyyy hh_mm_ss") +
+                       "#" + roomName + ".json";
             //write string to file
-            MemoryStream stream1 = new MemoryStream();
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<RoomState>));
+            var stream1 = new MemoryStream();
+            var ser = new DataContractJsonSerializer(typeof(List<RoomState>));
             ser.WriteObject(stream1, roomStates);
-            FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write);
+            var file = new FileStream(path, FileMode.Create, FileAccess.Write);
             stream1.WriteTo(file);
             file.Close();
             stream1.Close();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,16 +6,14 @@ namespace TexasHoldem
 {
     public class Crypto
     {
-
         public static string Encrypt(string password)
         {
-            using (SHA256 hash = SHA256Managed.Create())
+            using (var hash = SHA256.Create())
             {
-                return String.Concat(hash
+                return string.Concat(hash
                     .ComputeHash(Encoding.UTF8.GetBytes(password))
                     .Select(item => item.ToString("x2")));
             }
-        }   
+        }
     }
-
 }
