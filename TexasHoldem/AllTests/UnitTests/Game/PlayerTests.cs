@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TexasHoldem.Bridges;
 using TexasHoldem.Game;
 using TexasHoldem.Users;
 
@@ -10,9 +9,9 @@ namespace AllTests.UnitTests.Game
     [TestClass]
     public class PlayerTests
     {
-        private IUser _userMock ;
-        private ICard _card1Mock ;
-        private ICard _card2Mock ;
+        private ICard _card1Mock;
+        private ICard _card2Mock;
+        private IUser _userMock;
 
         [TestInitialize]
         public void Initialize()
@@ -36,6 +35,7 @@ namespace AllTests.UnitTests.Game
             _card1Mock = card1Mock.Object;
             _card2Mock = card2Mock.Object;
         }
+
         [TestMethod]
         public void SetCardsTest()
         {

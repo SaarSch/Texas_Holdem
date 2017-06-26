@@ -11,39 +11,48 @@ namespace TexasHoldem
 {
     public class GameCenter
     {
-        private static void Main()
-        {   
-			/*DatabaseContext db = new DatabaseContext();
-
-	        // Display all users from the database - for debugging
-	        var query1 = from u in db.Users
-		        orderby u.Username
-		        select u;
-
-	        Console.WriteLine("All users in the database:");
-	        List<User> res = query1.ToList();
-	        foreach (var item in res)
-	        {
-		        Console.WriteLine(item.Username);
-	        }*/
-			Console.WriteLine("Press any key to exit...");
-	        Console.ReadKey();
-        }
-
-        
-
-        private static GameCenter _instance;
-        public List<Tuple<IUser, bool>> Users { get; }
-        public List<IRoom> Rooms;
-        public int ExpCriteria { get; }
-        public int DefaultRank { get; private set; }
-
-		public const int MinRank = 0;
+        public const int MinRank = 0;
         public const int MaxRank = 10;
         public const int MinCriteria = 5;
         public const int MaxCriteria = 20;
 
+
+        private static GameCenter _instance;
+        public List<IRoom> Rooms;
+
         public UserLogic UserLogic;
+
+
+        private GameCenter(string dbName)
+        {
+            Rooms = new List<IRoom>();
+            UserLogic = new UserLogic(dbName);
+            Users = UserLogic.GetAllUsers();
+            ExpCriteria = 10;
+        }
+
+        public List<Tuple<IUser, bool>> Users { get; }
+        public int ExpCriteria { get; }
+        public int DefaultRank { get; private set; }
+
+        private static void Main()
+        {
+            /*DatabaseContext db = new DatabaseContext();
+
+            // Display all users from the database - for debugging
+            var query1 = from u in db.Users
+                orderby u.Username
+                select u;
+
+            Console.WriteLine("All users in the database:");
+            List<User> res = query1.ToList();
+            foreach (var item in res)
+            {
+                Console.WriteLine(item.Username);
+            }*/
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }
 
         public List<IUser> GetTopStat(int kind)
         {
@@ -51,7 +60,7 @@ namespace TexasHoldem
             switch (kind)
             {
                 case 1:
-                    u.Sort(delegate (IUser x, IUser y)
+                    u.Sort(delegate(IUser x, IUser y)
                     {
                         if (x.GrossProfit < y.GrossProfit) return 1;
                         if (y.GrossProfit < x.GrossProfit) return -1;
@@ -59,7 +68,7 @@ namespace TexasHoldem
                     });
                     break;
                 case 2:
-                    u.Sort(delegate (IUser x, IUser y)
+                    u.Sort(delegate(IUser x, IUser y)
                     {
                         if (x.HighestCashGain < y.HighestCashGain) return 1;
                         if (y.HighestCashGain < x.HighestCashGain) return -1;
@@ -67,7 +76,7 @@ namespace TexasHoldem
                     });
                     break;
                 case 3:
-                    u.Sort(delegate (IUser x, IUser y)
+                    u.Sort(delegate(IUser x, IUser y)
                     {
                         if (x.NumOfGames < y.NumOfGames) return 1;
                         if (y.NumOfGames < x.NumOfGames) return -1;
@@ -78,18 +87,8 @@ namespace TexasHoldem
                     var err = new IllegalCriteriaException("ERROR in GetTopStat: kind out of bound!");
                     Logger.Log(Severity.Error, err.Message);
                     throw err;
-                   
             }
             return u.Count > 20 ? u.GetRange(0, 20) : u;
-        }
-
-
-        private GameCenter(string dbName)
-        {
-            Rooms = new List<IRoom>();
-            UserLogic = new UserLogic(dbName);
-			Users = UserLogic.GetAllUsers();
-			ExpCriteria = 10;
         }
 
         // Implementation according to the Singleton Pattern
@@ -129,14 +128,10 @@ namespace TexasHoldem
         {
             IRoom roomFound = null;
             for (var i = 0; i < Rooms.Count && roomFound == null; i++)
-            {
                 if (Rooms[i].Name == roomName)
                     roomFound = Rooms[i];
-            }
             if (roomFound != null)
-            {
                 return roomFound;
-            }
             var e = new IllegalRoomNameException("Error in GetRoom: Room " + roomName + " doesn't exist!");
             Logger.Log(Severity.Error, e.Message);
             throw e;
@@ -163,14 +158,9 @@ namespace TexasHoldem
             if (room != null)
             {
                 if (isSpectator)
-                {
                     room.Spectate(user);
-                }
                 else
-                { 
-                    
-                return room.AddPlayer(new Player(playerName, user));
-                }
+                    return room.AddPlayer(new Player(playerName, user));
             }
             else
             {
@@ -189,12 +179,13 @@ namespace TexasHoldem
             if (room != null)
             {
                 room.ExitRoom(playerName);
-				IUser user = Users.First(u => u.Item1.Username == username).Item1;
-				UserLogic.UpdateDB();
+                var user = Users.First(u => u.Item1.Username == username).Item1;
+                UserLogic.UpdateDB();
             }
             else
             {
-                var e = new IllegalRoomNameException("Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
+                var e =
+                    new IllegalRoomNameException("Error in RemoveUserFromRoom: Room " + roomName + " doesn't exist!");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -204,14 +195,12 @@ namespace TexasHoldem
         public void DeleteRoom(string roomName)
         {
             for (var i = 0; i < Rooms.Count; i++)
-            {
                 if (Rooms[i].Name == roomName)
                 {
                     Rooms.RemoveAt(i);
                     Logger.Log(Severity.Action, "Room " + roomName + " deleted successfully!");
                     return;
                 }
-            }
             var e = new IllegalRoomNameException("Room " + roomName + " does not exist!");
             Logger.Log(Severity.Error, e.Message);
             throw e;
@@ -220,39 +209,25 @@ namespace TexasHoldem
         public List<IRoom> FindGames(List<Predicate<IRoom>> predicates)
         {
             var ans = new List<IRoom>();
-            string roomsFound = "";
+            var roomsFound = "";
             foreach (var r in Rooms)
             {
                 var toAdd = true;
                 foreach (var p in predicates)
-                {
                     if (!p.Invoke(r))
-                    {
                         toAdd = false;
-                    }
-                }
                 if (toAdd)
-                {
                     ans.Add(r);
-                }
             }
 
             if (ans.Count > 0)
             {
                 for (var i = 0; i < ans.Count; i++)
-                {
                     if (i < ans.Count - 1)
-                    {
                         roomsFound = roomsFound + ans[i].Name + ", ";
-                    }
                     else
-                    {
                         roomsFound = roomsFound + ans[i].Name + ".";
-                    }
-
-                }
                 Logger.Log(Severity.Action, "Found the following game rooms: " + roomsFound);
-
             }
             else
             {
@@ -274,9 +249,7 @@ namespace TexasHoldem
             var list = UserLogic.GetUser(username, Users).Notifications.FindAll(pair => pair.Item1 == roomName);
             var ans = new List<string>();
             foreach (var pair in list)
-            {
                 ans.Add(pair.Item2);
-            }
             return ans;
         }
     }

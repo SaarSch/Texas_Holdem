@@ -6,15 +6,14 @@ namespace TexasHoldem.Game
 {
     public enum CardType
     {
-        Spades, 
-        Hearts, 
-        Diamonds, 
-        Clubs, 
+        Spades,
+        Hearts,
+        Diamonds,
+        Clubs
     }
+
     public class Card : IComparable, ICard
     {
-        public int Value { get; }
-        public CardType Type { get; }
         public const int MinValue = 2;
         public const int MaxValue = 14;
 
@@ -31,6 +30,14 @@ namespace TexasHoldem.Game
             Type = type;
         }
 
+        public int Value { get; }
+        public CardType Type { get; }
+
+        public override string ToString()
+        {
+            return Value + "" + Type;
+        }
+
         public int CompareTo(object obj)
         {
             if (obj == null) return 1;
@@ -38,11 +45,6 @@ namespace TexasHoldem.Game
             if (otherCard == null) return -1;
             if (Value.CompareTo(otherCard.Value) == 0 && Type.CompareTo(otherCard.Type) == 0) return 0;
             return -1;
-        }
-
-        public override string ToString()
-        {
-            return Value +""+ Type;
         }
     }
 }

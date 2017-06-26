@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace TexasHoldem.Exceptions
 {
@@ -9,6 +8,5 @@ namespace TexasHoldem.Exceptions
         public IllegalAvatarException(string message) : base(message)
         {
         }
-
     }
 }

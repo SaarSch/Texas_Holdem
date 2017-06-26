@@ -5,45 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Profile Editor" Height="400" Width="500" WindowStartupLocation="CenterScreen" Closing="Window_Closing" ResizeMode="NoResize">
+        Title="Profile Editor" Height="400" Width="500" WindowStartupLocation="CenterScreen" Closing="Window_Closing"
+        ResizeMode="NoResize">
     <Window.Background>
-        <ImageBrush ImageSource="Resources/background.png"></ImageBrush>
+        <ImageBrush ImageSource="Resources/background.png" />
     </Window.Background>
     <Grid>
-        <Image Name="ProfilePic" HorizontalAlignment="Left" Height="144" Margin="31,90,0,0" VerticalAlignment="Top" Width="143" Source="Resources/profilePicture.png" Stretch="Fill"/>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="228,146,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <Button Content="Reset Avatar" HorizontalAlignment="Left" Margin="31,314,0,0" VerticalAlignment="Top" Width="143" Name="AvatarButton" Click="AvatarButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
-        <Label Name="PasswordLbl" Visibility="Hidden" Content="Password" HorizontalAlignment="Left" Margin="228,255,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <Label Content="Email" HorizontalAlignment="Left" Margin="228,180,0,0" VerticalAlignment="Top" Foreground="White"/>
-        <TextBox Name = "UsernameTxt"  HorizontalAlignment="Left" Height="23" Margin="308,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
-        <TextBox Name = "PasswordTxt" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="308,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
-        <TextBox Name = "EmailTxt" HorizontalAlignment="Left" Height="23" Margin="308,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771"/>
-        <Button Content="Confirm" HorizontalAlignment="Left" Margin="353,297,0,0" VerticalAlignment="Top" Width="75" Name ="ConfirmButton" Click="ConfirmButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
-        <Button Content="Back" HorizontalAlignment="Left" Margin="266,297,0,0" VerticalAlignment="Top" Width="75" x:Name ="BackButton" Click="BackButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
-        <Button Name="Opt1" HorizontalAlignment="Left" Margin="31,253,0,0" VerticalAlignment="Top" Width="32" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt1_Click">
-            <Image Source="Resources/avatar1.png"></Image>
+        <Image Name="ProfilePic" HorizontalAlignment="Left" Height="144" Margin="31,90,0,0" VerticalAlignment="Top"
+               Width="143" Source="Resources/profilePicture.png" Stretch="Fill" />
+        <Label Content="Username" HorizontalAlignment="Left" Margin="228,146,0,0" VerticalAlignment="Top"
+               Foreground="White" />
+        <Button Content="Reset Avatar" HorizontalAlignment="Left" Margin="31,314,0,0" VerticalAlignment="Top"
+                Width="143" Name="AvatarButton" Click="AvatarButton_Click" Background="#FFC15252"
+                BorderBrush="#FFE67474" />
+        <Label Name="PasswordLbl" Visibility="Hidden" Content="Password" HorizontalAlignment="Left"
+               Margin="228,255,0,0" VerticalAlignment="Top" Foreground="White" />
+        <Label Content="Email" HorizontalAlignment="Left" Margin="228,180,0,0" VerticalAlignment="Top"
+               Foreground="White" />
+        <TextBox Name="UsernameTxt" HorizontalAlignment="Left" Height="23" Margin="308,150,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771" />
+        <TextBox Name="PasswordTxt" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="308,259,0,0"
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771" />
+        <TextBox Name="EmailTxt" HorizontalAlignment="Left" Height="23" Margin="308,183,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.468,0.771" />
+        <Button Content="Confirm" HorizontalAlignment="Left" Margin="353,297,0,0" VerticalAlignment="Top" Width="75"
+                Name="ConfirmButton" Click="ConfirmButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
+        <Button Content="Back" HorizontalAlignment="Left" Margin="266,297,0,0" VerticalAlignment="Top" Width="75"
+                x:Name="BackButton" Click="BackButton_Click" Background="#FFC15252" BorderBrush="#FFE67474" />
+        <Button Name="Opt1" HorizontalAlignment="Left" Margin="31,253,0,0" VerticalAlignment="Top" Width="32"
+                Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt1_Click">
+            <Image Source="Resources/avatar1.png" />
         </Button>
-        <Button Name="Opt2" HorizontalAlignment="Left" Margin="68,251,0,0" VerticalAlignment="Top" Width="32" Height="56" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt2_Click">
-            <Image Source="Resources/avatar2.png" Height="40" Width="32"></Image>
+        <Button Name="Opt2" HorizontalAlignment="Left" Margin="68,251,0,0" VerticalAlignment="Top" Width="32"
+                Height="56" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt2_Click">
+            <Image Source="Resources/avatar2.png" Height="40" Width="32" />
         </Button>
-        <Button Name="Opt3" HorizontalAlignment="Left" Margin="105,254,0,0" VerticalAlignment="Top" Width="32" Height="50" BorderBrush="{x:Null}" Background="{x:Null}" Click="Opt3_Click">
-            <Image Source="Resources/avatar3.png" Height="33" Width="32"></Image>
+        <Button Name="Opt3" HorizontalAlignment="Left" Margin="105,254,0,0" VerticalAlignment="Top" Width="32"
+                Height="50" BorderBrush="{x:Null}" Background="{x:Null}" Click="Opt3_Click">
+            <Image Source="Resources/avatar3.png" Height="33" Width="32" />
         </Button>
-        <Button Name="Opt4" HorizontalAlignment="Left" Margin="142,254,0,0" VerticalAlignment="Top" Width="32" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt4_Click">
-            <Image Source="Resources/avatar4.png" Height="33" Width="32"></Image>
+        <Button Name="Opt4" HorizontalAlignment="Left" Margin="142,254,0,0" VerticalAlignment="Top" Width="32"
+                Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Click="Opt4_Click">
+            <Image Source="Resources/avatar4.png" Height="33" Width="32" />
         </Button>
-        <Image HorizontalAlignment="Left" Height="69" Margin="340,10,0,0" VerticalAlignment="Top" Width="142" Source="Resources/gamelogo.png"/>
-        <Label Content="Edit Profile" HorizontalAlignment="Left" Margin="31,25,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="18">
+        <Image HorizontalAlignment="Left" Height="69" Margin="340,10,0,0" VerticalAlignment="Top" Width="142"
+               Source="Resources/gamelogo.png" />
+        <Label Content="Edit Profile" HorizontalAlignment="Left" Margin="31,25,0,0" VerticalAlignment="Top"
+               Foreground="White" FontWeight="Bold" FontSize="18">
             <Label.Effect>
-                <DropShadowEffect/>
+                <DropShadowEffect />
             </Label.Effect>
         </Label>
-        <Label Content="Upgrade your profile with a cool avatar!" HorizontalAlignment="Left" Margin="192,99,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold">
+        <Label Content="Upgrade your profile with a cool avatar!" HorizontalAlignment="Left" Margin="192,99,0,0"
+               VerticalAlignment="Top" Foreground="White" FontWeight="Bold">
             <Label.Effect>
-                <DropShadowEffect/>
+                <DropShadowEffect />
             </Label.Effect>
         </Label>
-        <CheckBox Name="ChangePsswd" Content="Change Password" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top" Width="138" Foreground="White" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
+        <CheckBox Name="ChangePsswd" Content="Change Password" HorizontalAlignment="Left" Margin="192,226,0,0"
+                  VerticalAlignment="Top" Width="138" Foreground="White" Checked="CheckBox_Checked"
+                  Unchecked="CheckBox_Checked" />
 
     </Grid>
 </Window>

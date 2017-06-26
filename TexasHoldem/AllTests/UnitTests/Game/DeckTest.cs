@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Game;
-using Moq;
 
 namespace AllTests.UnitTests.Game
 {

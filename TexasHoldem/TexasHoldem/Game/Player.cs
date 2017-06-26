@@ -7,6 +7,14 @@ namespace TexasHoldem.Game
 {
     public class Player : IPlayer
     {
+        public Player(string name, IUser user)
+        {
+            User = user ?? throw new Exception("illegal User");
+            Name = name ?? throw new Exception("illegal player name");
+            Exit = false;
+            Logger.Log(Severity.Action, "new player created for user:" + User.Username);
+        }
+
         public ICard[] Hand { get; set; } = new ICard[2];
         public string Name { get; set; }
         public int ChipsAmount { get; set; }
@@ -18,14 +26,6 @@ namespace TexasHoldem.Game
         public bool BetInThisRound { get; set; }
         public bool Exit { get; set; }
 
-        public Player(string name, IUser user)
-        {
-            User = user ?? throw new Exception("illegal User");
-            Name = name ?? throw new Exception("illegal player name");
-            Exit = false;
-            Logger.Log(Severity.Action, "new player created for user:"+User.Username);
-        }
-
         public void SetCards(ICard first, ICard second)
         {
             if (first == null || second == null)
@@ -36,7 +36,8 @@ namespace TexasHoldem.Game
             }
             Hand[0] = first;
             Hand[1] = second;
-            Logger.Log(Severity.Action,"user: " +User.Username+" player: "+Name+" got 2 cards: " +first.Value+", "+second.Value);
+            Logger.Log(Severity.Action,
+                "user: " + User.Username + " player: " + Name + " got 2 cards: " + first.Value + ", " + second.Value);
         }
 
         public void SetBet(int amount)
@@ -47,11 +48,13 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            CurrentBet +=amount;
+            CurrentBet += amount;
             ChipsAmount -= amount;
             PreviousRaise = amount;
             BetInThisRound = true;
-            Logger.Log(Severity.Action, "User: " + User.Username + " player: " + Name + " set Bets= " + CurrentBet+ " current Chips Amount="+ ChipsAmount);
+            Logger.Log(Severity.Action,
+                "User: " + User.Username + " player: " + Name + " set Bets= " + CurrentBet + " current Chips Amount=" +
+                ChipsAmount);
         }
 
         public void ClearBet()
@@ -61,10 +64,19 @@ namespace TexasHoldem.Game
             Folded = false;
         }
 
-        public void Fold() { Folded = true; }
+        public void Fold()
+        {
+            Folded = true;
+        }
 
-        public void UndoFold() { Folded = false; }
+        public void UndoFold()
+        {
+            Folded = false;
+        }
 
-        public override string ToString() { return "User name: " + User.Username + " Player name: " + Name+" Chip amount:"+ChipsAmount; }
+        public override string ToString()
+        {
+            return "User name: " + User.Username + " Player name: " + Name + " Chip amount:" + ChipsAmount;
+        }
     }
 }

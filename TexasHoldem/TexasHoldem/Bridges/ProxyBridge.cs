@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TexasHoldem.Game;
-using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
 {
     public class ProxyBridge : IBridge
     {
         private readonly IBridge _real;
+
         public ProxyBridge()
         {
             _real = new RealBridge();
         }
+
         public bool Register(string username, string pass)
         {
-            return  _real==null || _real.Register(username, pass);
-            
+            return _real == null || _real.Register(username, pass);
         }
 
         public bool IsGameExist(string gameName)
@@ -68,11 +68,13 @@ namespace TexasHoldem.Bridges
             return _real == null || _real.CreateNewGame(gameName, username, creatorName);
         }
 
-        public bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType, int buyInPolicy,
+        public bool CreateNewGameWithPrefrences(string gameName, string username, string creatorName, string gameType,
+            int buyInPolicy,
             int chipPolicy, int minBet, int minPlayers, int maxPlayer, bool spectating)
         {
-            return _real == null || _real.CreateNewGameWithPrefrences(gameName, username, creatorName, gameType, buyInPolicy,
-            chipPolicy, minBet, minPlayers, maxPlayer, spectating);
+            return _real == null || _real.CreateNewGameWithPrefrences(gameName, username, creatorName, gameType,
+                       buyInPolicy,
+                       chipPolicy, minBet, minPlayers, maxPlayer, spectating);
         }
 
 
@@ -101,7 +103,7 @@ namespace TexasHoldem.Bridges
         {
             return _real?.GetRank(username) ?? 0;
         }
-       
+
 
         public bool RaiseInGame(int raiseamount, string gamename, string playername)
         {
@@ -123,9 +125,11 @@ namespace TexasHoldem.Bridges
             return _real == null || _real.SendMessageToEveryone(roomName, isSpectator, senderPlayerName, message);
         }
 
-        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName, string message)
+        public bool SendWhisper(string roomName, bool isSpectator, string senderPlayerName, string receiverPlayerName,
+            string message)
         {
-            return _real == null || _real.SendWhisper(roomName, isSpectator, senderPlayerName, receiverPlayerName, message);
+            return _real == null || _real.SendWhisper(roomName, isSpectator, senderPlayerName, receiverPlayerName,
+                       message);
         }
 
         public IList GetMessages(string roomName, string username)

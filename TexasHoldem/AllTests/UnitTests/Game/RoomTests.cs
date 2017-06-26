@@ -12,16 +12,16 @@ namespace AllTests.UnitTests.Game
     public class RoomTests
     {
         private readonly GamePreferences _gp = new GamePreferences();
-        private IUser _u ;
-        private IUser _u1 ;
-        private IUser _u2 ;
-        private IUser _u3;
-        private IUser _u4;
         private IPlayer _p;
         private IPlayer _p1;
         private IPlayer _p2;
         private IPlayer _p3;
         private IPlayer _p4;
+        private IUser _u;
+        private IUser _u1;
+        private IUser _u2;
+        private IUser _u3;
+        private IUser _u4;
 
         private void MokUpdateHand(ICard d1, ICard d2, IPlayer p)
         {
@@ -64,28 +64,28 @@ namespace AllTests.UnitTests.Game
             card2Mock.Setup(card => card.Value).Returns(2);
             card2Mock.Setup(card => card.Type).Returns(CardType.Clubs);
 
-			userMock.SetupAllProperties();
-			userMock.Setup(user => user.Username).Returns("tom12345");
+            userMock.SetupAllProperties();
+            userMock.Setup(user => user.Username).Returns("tom12345");
             userMock.Setup(user => user.Password).Returns("12345678");
             userMock.Setup(user => user.AvatarPath).Returns("aaa.png");
-			userMock.Setup(user => user.Email).Returns("hello@gmail.com");
-	        userMock.Setup(user => user.NumOfGames).Returns(15);
-			userMock.Setup(user => user.ChipsAmount).Returns(50000);
-	        userMock.SetupProperty(user => user.Notifications);
-			_u = userMock.Object;
+            userMock.Setup(user => user.Email).Returns("hello@gmail.com");
+            userMock.Setup(user => user.NumOfGames).Returns(15);
+            userMock.Setup(user => user.ChipsAmount).Returns(50000);
+            userMock.SetupProperty(user => user.Notifications);
+            _u = userMock.Object;
             _u.Notifications = new List<Tuple<string, string>>();
             userMock.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((room, notif) => MokAddNotification(room, notif, _u));
             userMock.Setup(r => r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((s1, s2) => _u.Notifications.Add(new Tuple<string, string>(s1, s2)));
 
-			userMock1.SetupAllProperties();
-			userMock1.Setup(user => user.Username).Returns("tom12346");
+            userMock1.SetupAllProperties();
+            userMock1.Setup(user => user.Username).Returns("tom12346");
             userMock1.Setup(user => user.AvatarPath).Returns("bbb.png");
             userMock1.Setup(user => user.Email).Returns("hello1@gmail.com");
             userMock1.Setup(user => user.ChipsAmount).Returns(50000);
-	        userMock1.Setup(user => user.NumOfGames).Returns(15);
-			userMock1.Setup(user => user.Password).Returns("12345678");
+            userMock1.Setup(user => user.NumOfGames).Returns(15);
+            userMock1.Setup(user => user.Password).Returns("12345678");
             userMock1.SetupProperty(user => user.Notifications);
             _u1 = userMock1.Object;
             _u1.Notifications = new List<Tuple<string, string>>();
@@ -94,42 +94,42 @@ namespace AllTests.UnitTests.Game
             userMock1.Setup(r => r.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((s1, s2) => _u1.Notifications.Add(new Tuple<string, string>(s1, s2)));
 
-	        userMock2.SetupAllProperties();
-			userMock2.Setup(user => user.Username).Returns("tom12347");
+            userMock2.SetupAllProperties();
+            userMock2.Setup(user => user.Username).Returns("tom12347");
             userMock2.Setup(user => user.AvatarPath).Returns("ccc.png");
             userMock2.Setup(user => user.Email).Returns("hello3@gmail.com");
             userMock2.Setup(user => user.ChipsAmount).Returns(50000);
-	        userMock2.Setup(user => user.NumOfGames).Returns(15);
-			userMock2.Setup(user => user.Password).Returns("12345678");
+            userMock2.Setup(user => user.NumOfGames).Returns(15);
+            userMock2.Setup(user => user.Password).Returns("12345678");
             userMock2.SetupProperty(user => user.Notifications);
             _u2 = userMock2.Object;
             _u2.Notifications = new List<Tuple<string, string>>();
             userMock2.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((room, notif) => MokAddNotification(room, notif, _u2));
-	        
 
-	        userMock3.SetupAllProperties();
-			userMock3.Setup(user => user.Username).Returns("tom12348");
+
+            userMock3.SetupAllProperties();
+            userMock3.Setup(user => user.Username).Returns("tom12348");
             userMock3.Setup(user => user.AvatarPath).Returns("ccc.png");
             userMock3.Setup(user => user.Email).Returns("hello3@gmail.com");
             userMock3.Setup(user => user.ChipsAmount).Returns(50000);
-	        userMock3.Setup(user => user.NumOfGames).Returns(15);
-			userMock3.Setup(user => user.Password).Returns("12345678");
+            userMock3.Setup(user => user.NumOfGames).Returns(15);
+            userMock3.Setup(user => user.Password).Returns("12345678");
             userMock3.SetupProperty(user => user.Notifications);
-			_u3 = userMock3.Object;
+            _u3 = userMock3.Object;
             _u3.Notifications = new List<Tuple<string, string>>();
             userMock3.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((room, notif) => MokAddNotification(room, notif, _u3));
 
-	        userMock4.SetupAllProperties();
-			userMock4.Setup(user => user.Username).Returns("tom12349");
+            userMock4.SetupAllProperties();
+            userMock4.Setup(user => user.Username).Returns("tom12349");
             userMock4.Setup(user => user.AvatarPath).Returns("ccc.png");
             userMock4.Setup(user => user.Email).Returns("hello3@gmail.com");
             userMock4.Setup(user => user.ChipsAmount).Returns(50000);
             userMock4.Setup(user => user.Password).Returns("12345678");
-	        userMock4.Setup(user => user.NumOfGames).Returns(15);
-			userMock4.SetupProperty(user => user.Notifications);
-			_u4 = userMock4.Object;
+            userMock4.Setup(user => user.NumOfGames).Returns(15);
+            userMock4.SetupProperty(user => user.Notifications);
+            _u4 = userMock4.Object;
             _u4.Notifications = new List<Tuple<string, string>>();
             userMock4.Setup(user => user.AddNotification(It.IsAny<string>(), It.IsAny<string>()))
                 .Callback<string, string>((room, notif) => MokAddNotification(room, notif, _u4));
@@ -241,7 +241,7 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, -8, 4, 2, 8, true
-                new GamePreferences { ChipPolicy = -8 };
+                new GamePreferences {ChipPolicy = -8};
                 Assert.Fail();
             }
 
@@ -252,7 +252,7 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 2, 1, 2, 8, true
-                new GamePreferences { MinBet = 1 };
+                new GamePreferences {MinBet = 1};
                 Assert.Fail();
             }
 
@@ -263,7 +263,7 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 4, 4, 1, 8, true
-                new GamePreferences { MinPlayers = 1 };
+                new GamePreferences {MinPlayers = 1};
                 Assert.Fail();
             }
 
@@ -274,7 +274,7 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 4, 4, 2, 15, true
-                new GamePreferences { MaxPlayers = 15 };
+                new GamePreferences {MaxPlayers = 15};
                 Assert.Fail();
             }
 
@@ -285,7 +285,7 @@ namespace AllTests.UnitTests.Game
             try
             {
                 //Gametype.NoLimit, 1, 2, 4, 2, 8, true
-                new GamePreferences { ChipPolicy = 2, MinBet = 4 };
+                new GamePreferences {ChipPolicy = 2, MinBet = 4};
                 Assert.Fail();
             }
 
@@ -353,7 +353,7 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void DealCommunityThirdTest()
         {
-           // var p = new Player("shachar", _u);
+            // var p = new Player("shachar", _u);
             var r = new Room("aaaa", _p, _gp);
             Assert.IsTrue(r.Players.Count == 1);
             r.IsOn = true;
@@ -374,7 +374,6 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorRoyalStraightTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
             var win = new List<Card>
             {
@@ -398,13 +397,13 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Clubs)
             }; // straight flush
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorStraight4OfTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
             var win = new List<Card>
             {
@@ -428,13 +427,13 @@ namespace AllTests.UnitTests.Game
                 new Card(10, CardType.Diamonds)
             }; // 4 of a kind
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculator4OfFullTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
             var win = new List<Card>
             {
@@ -458,13 +457,13 @@ namespace AllTests.UnitTests.Game
                 new Card(8, CardType.Diamonds)
             }; //full house
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorFullFlushTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -489,13 +488,13 @@ namespace AllTests.UnitTests.Game
                 new Card(4, CardType.Diamonds)
             }; //flush
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorFlushStraightTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -520,13 +519,13 @@ namespace AllTests.UnitTests.Game
                 new Card(7, CardType.Diamonds)
             }; //straight
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorStraight3OfTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -551,13 +550,13 @@ namespace AllTests.UnitTests.Game
                 new Card(7, CardType.Diamonds)
             }; //3 of a kind
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculator3Of2PairsTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -582,13 +581,13 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //2 pairs
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculator2PairsPairTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
             var win = new List<Card>
@@ -613,7 +612,8 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //pair
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -645,13 +645,13 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // high card
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorPairPairTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -677,13 +677,13 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // pair
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculator2Pair2PairTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -709,13 +709,13 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //  2 pair
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorHighHighTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -741,7 +741,8 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // high card
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -749,7 +750,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            
+
             var r = new Room("aaaa", _p, gp1);
 
 
@@ -775,7 +776,8 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; // high card
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
@@ -784,10 +786,10 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            
+
             var r = new Room("aaaa", _p, gp1);
 
-                r.SetBet(null, 1000,false);   
+            r.SetBet(null, 1000, false);
         }
 
         [TestMethod]
@@ -795,20 +797,18 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            
+
             var r = new Room("aaaa", _p, gp1);
 
             try
             {
                 r.SetBet(_p, 0, false);
-
             }
 
             catch (Exception e)
             {
                 Assert.IsTrue(true);
             }
-
         }
 
         [TestMethod]
@@ -816,7 +816,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.NoLimit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            
+
             var r = new Room("aaaa", _p, gp1);
             try
             {
@@ -835,7 +835,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            
+
             var r = new Room("aaaa", _p, gp1);
             try
             {
@@ -852,7 +852,7 @@ namespace AllTests.UnitTests.Game
         {
             //Gametype.Limit, 1, 30, 10, 3, 8, true
             var gp1 = new GamePreferences();
-            
+
             var r = new Room("aaaa", _p, gp1)
             {
                 CommunityCards =
@@ -883,8 +883,8 @@ namespace AllTests.UnitTests.Game
                 MinBet = 10,
                 MinPlayers = 3
             };
-            
-            
+
+
             var r = new Room("aaaa", _p, gp);
             r.AddPlayer(_p1);
             _p1.CurrentBet = 500;
@@ -909,7 +909,7 @@ namespace AllTests.UnitTests.Game
                 MinPlayers = 3
             };
 
-    
+
             var r = new Room("aaaa", _p, gp);
             r.AddPlayer(_p2);
             _p.ChipsAmount = 60000;
@@ -921,7 +921,6 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void HandCalculatorStraightStraightTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -947,13 +946,13 @@ namespace AllTests.UnitTests.Game
                 new Card(2, CardType.Hearts)
             }; //straight
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorStraightStraightTest1()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -979,13 +978,13 @@ namespace AllTests.UnitTests.Game
                 new Card(2, CardType.Diamonds)
             }; //straight
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorStraightStraightTest2()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -1011,13 +1010,13 @@ namespace AllTests.UnitTests.Game
                 new Card(2, CardType.Diamonds)
             }; //straight
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculatorStraightStraightTest3()
         {
-            
             var r = new Room("aaaa", _p, _gp);
 
 
@@ -1043,15 +1042,16 @@ namespace AllTests.UnitTests.Game
                 new Card(3, CardType.Hearts)
             }; //straight
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void HandCalculator3Of3OfTest()
         {
-           // var p = new Player("shachar", _u);
+            // var p = new Player("shachar", _u);
             var r = new Room("aaaa", _p, _gp);
-            
+
             var win = new List<Card>
             {
                 new Card(14, CardType.Diamonds),
@@ -1074,13 +1074,14 @@ namespace AllTests.UnitTests.Game
                 new Card(9, CardType.Hearts)
             }; //3 of a kind
 
-            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue > r.HandLogic.HandCalculator(loss).HandStrongessValue);
+            Assert.IsTrue(r.HandLogic.HandCalculator(win).HandStrongessValue >
+                          r.HandLogic.HandCalculator(loss).HandStrongessValue);
         }
 
         [TestMethod]
         public void WinnersTest()
         {
-           // var p = new Player("shachar", _u);
+            // var p = new Player("shachar", _u);
             var r = new Room("aaaa", _p, _gp);
             //var p1 = new Player("shachar1", _u1);
 
@@ -1128,7 +1129,6 @@ namespace AllTests.UnitTests.Game
         [TestMethod]
         public void WinnersTieTest()
         {
-            
             var r = new Room("aaaa", _p, _gp);
             r.AddPlayer(_p2);
             r.CommunityCards[0] = new Card(13, CardType.Diamonds);
@@ -1250,7 +1250,7 @@ namespace AllTests.UnitTests.Game
         {
             var r = new Room("aaaa", _p, _gp);
             r.AddPlayer(_p1);
-            r.Fold(null);  
+            r.Fold(null);
         }
 
         [TestMethod]
@@ -1286,10 +1286,9 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", _p, _gp);
             r.AddPlayer(_p1);
             _p1.Folded = true;
-            Assert.AreEqual(r.Fold(_p),r);
+            Assert.AreEqual(r.Fold(_p), r);
         }
 
-       
 
         [TestMethod]
         public void FoldTest7()
@@ -1385,7 +1384,7 @@ namespace AllTests.UnitTests.Game
         {
             var r = new Room("aaaa", _p, _gp);
             r.Spectate(_p1.User);
-            Assert.AreEqual(_p1.User,r.GetSpectator(_p1.User.Username));
+            Assert.AreEqual(_p1.User, r.GetSpectator(_p1.User.Username));
         }
 
 
@@ -1472,18 +1471,18 @@ namespace AllTests.UnitTests.Game
         public void ExitSpectator()
         {
             var r = new Room("aaaa", _p, _gp);
-            r.ExitSpectator((IUser)null);
+            r.ExitSpectator((IUser) null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void ExitSpectator1()
-        {   
+        {
             var r = new Room("aaaa", _p, _gp);
             r.ExitSpectator(_p1.User);
         }
 
-        [TestMethod]     
+        [TestMethod]
         public void ExitSpectator2()
         {
             var r = new Room("aaaa", _p, _gp);
@@ -1530,12 +1529,10 @@ namespace AllTests.UnitTests.Game
             ml.PlayerSendMessage(message, _p1, r);
 
             foreach (var p2 in r.Players)
-            {
                 Assert.AreEqual(
                     DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ":  " + _p1.Name +
                     ": " + message,
                     p2.User.Notifications[0].Item2);
-            }
             _p1.Exit = true;
             r.CleanGame();
         }
@@ -1551,10 +1548,11 @@ namespace AllTests.UnitTests.Game
             var r = new Room("aaaa", p, _gp);
             var p1 = new Player("shachar2", kobi);
             r.AddPlayer(p1);
-            ml.PlayerWhisper(message, p1,p.User,r);
-                Assert.AreEqual(
-                    DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + p1.Name + ": " + message,
-                    p.User.Notifications[0].Item2);
+            ml.PlayerWhisper(message, p1, p.User, r);
+            Assert.AreEqual(
+                DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString() + ": " + p1.Name + ": " +
+                message,
+                p.User.Notifications[0].Item2);
         }
 
         [TestMethod]
@@ -1571,12 +1569,11 @@ namespace AllTests.UnitTests.Game
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
                 ml.PlayerWhisper(message, p1, p.User, r);
-               
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Assert.AreEqual(
-                   e.Message, "cant send null message");
+                    e.Message, "cant send null message");
             }
         }
 
@@ -1593,12 +1590,11 @@ namespace AllTests.UnitTests.Game
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
                 ml.PlayerWhisper("aa", null, p.User, r);
-
             }
             catch (Exception e)
             {
                 Assert.AreEqual(
-                   e.Message, "sender cant be null");
+                    e.Message, "sender cant be null");
             }
         }
 
@@ -1615,34 +1611,30 @@ namespace AllTests.UnitTests.Game
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
                 ml.PlayerWhisper("", p1, p.User, r);
-
             }
             catch (Exception e)
             {
                 Assert.AreEqual(
-                   e.Message, "cant send empty message / curses");
+                    e.Message, "cant send empty message / curses");
             }
         }
 
         [TestMethod]
         public void CallTest()
         {
-
-                var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
-                var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
-                var p = new Player("shachar1", yossi);
-                var r = new Room("aaaa", p, _gp);
-                var p1 = new Player("shachar2", kobi);
-                r.AddPlayer(p1);
-                r.Call(p);
-      
+            var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
+            var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
+            var p = new Player("shachar1", yossi);
+            var r = new Room("aaaa", p, _gp);
+            var p1 = new Player("shachar2", kobi);
+            r.AddPlayer(p1);
+            r.Call(p);
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void CallTest1()
         {
-
             var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
             var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
             var p = new Player("shachar1", yossi);
@@ -1656,7 +1648,6 @@ namespace AllTests.UnitTests.Game
         [ExpectedException(typeof(Exception))]
         public void CallTest2()
         {
-
             var yossi = new User("KillingHsX", "12345678", "pic.jpg", "hello@gmail.com", 5000);
             var kobi = new User("KillingHsX1", "12345678", "pic1.jpg", "hello@gmail.com", 5000);
             var p = new Player("shachar1", yossi);
@@ -1678,13 +1669,12 @@ namespace AllTests.UnitTests.Game
                 var p1 = new Player("shachar2", kobi);
                 r.AddPlayer(p1);
                 ml.PlayerWhisper("fuck", p1, p.User, r);
-
             }
             catch (Exception e)
             {
                 Assert.AreEqual(
-                   e.Message, "cant send empty message / curses");
+                    e.Message, "cant send empty message / curses");
             }
         }
     }
-} 
+}

@@ -2,16 +2,16 @@
 {
     public class Room
     {
-        public string RoomName;
-        public string CreatorUserName;
+        public int BuyInPolicy;
+        public int ChipPolicy;
         public string CreatorPlayerName;
+        public string CreatorUserName;
         public string GameType;
         public int League;
-        public int ChipPolicy;
-        public int BuyInPolicy;
+        public int MaxPlayers;
         public int MinBet;
         public int MinPlayers;
-        public int MaxPlayers;
+        public string RoomName;
         public bool SpectatingAllowed;
     }
 }

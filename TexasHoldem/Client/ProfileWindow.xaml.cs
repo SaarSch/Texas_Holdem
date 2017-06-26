@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Client.Data;
@@ -9,13 +8,13 @@ using Newtonsoft.Json.Linq;
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for ProfileWindow.xaml
+    ///     Interaction logic for ProfileWindow.xaml
     /// </summary>
     public partial class ProfileWindow
     {
-        public bool Open;
-        private UserData _user;
         private readonly MainWindow _mainWindow;
+        private readonly UserData _user;
+        public bool Open;
         private string Picture;
 
         public ProfileWindow(UserData user, MainWindow mainWindow)
@@ -28,22 +27,22 @@ namespace Client
             PasswordTxt.Text = "";
             EmailTxt.Text = user.Email;
             Picture = user.AvatarPath;
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(Picture, UriKind.Relative)));
         }
 
         private void AvatarButton_Click(object sender, RoutedEventArgs e)
         {
             Picture = _user.AvatarPath;
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(Picture, UriKind.Relative)));
         }
 
         // POST: api/User?username=elad
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            var controller = "User?username=" + Crypto.Encrypt(_user.Username) + "&token=" +_user.token;
+            var controller = "User?username=" + Crypto.Encrypt(_user.Username) + "&token=" + _user.token;
             var data = "{\"Username\":\"" + Crypto.Encrypt(UsernameTxt.Text) + "\"," +
-                          "\"Password\":\"" + Crypto.Encrypt(PasswordTxt.Text) + "\","
-                          + "\"AvatarPath\":\"" + Picture + "\"," +
+                       "\"Password\":\"" + Crypto.Encrypt(PasswordTxt.Text) + "\","
+                       + "\"AvatarPath\":\"" + Picture + "\"," +
                        "\"Email\":\"" + Crypto.Encrypt(EmailTxt.Text) + "\"}";
             var ans = RestClient.MakePostRequest(controller, data);
             var json = JObject.Parse(ans);
@@ -64,11 +63,11 @@ namespace Client
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
-        {   
+        {
             Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (Open)
             {
@@ -81,25 +80,25 @@ namespace Client
         private void Opt1_Click(object sender, RoutedEventArgs e)
         {
             Picture = "Resources/avatar1.png";
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(Picture, UriKind.Relative)));
         }
 
         private void Opt2_Click(object sender, RoutedEventArgs e)
         {
             Picture = "Resources/avatar2.png";
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(Picture, UriKind.Relative)));
         }
 
         private void Opt3_Click(object sender, RoutedEventArgs e)
         {
             Picture = "Resources/avatar3.png";
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(Picture, UriKind.Relative)));
         }
 
         private void Opt4_Click(object sender, RoutedEventArgs e)
         {
             Picture = "Resources/avatar4.png";
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@Picture, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(Picture, UriKind.Relative)));
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

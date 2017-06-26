@@ -16,13 +16,14 @@ namespace TexasHoldem.Services
         {
             _gameCenter = GameCenter.GetGameCenter(dbName);
             _messageLogic = new MessageLogic(); // TODO change?
-	        _userLogic = _gameCenter.UserLogic;
+            _userLogic = _gameCenter.UserLogic;
         }
 
         public IUser WebLogin(string username, string password)
         {
             return _userLogic.WebLogin(username, password);
         }
+
         public IUser GetStat(string userName)
         {
             return _userLogic.GetStat(userName);
@@ -48,7 +49,8 @@ namespace TexasHoldem.Services
             return _gameCenter.CreateRoom(gameName, username, creatorName, new GamePreferences());
         }
 
-        public Room CreateGameWithPreferences(string gameName, string username, string creatorName, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating)
+        public Room CreateGameWithPreferences(string gameName, string username, string creatorName, string gameType,
+            int buyInPolicy, int chipPolicy, int minBet, int minPlayers, int maxPlayers, bool spectating)
         {
             var gp = new GamePreferences
             {
@@ -89,66 +91,46 @@ namespace TexasHoldem.Services
             return _gameCenter.RemoveUserFromRoom(username, roomName, playerName);
         }
 
-        public List<IRoom> FindGames(string username, RoomFilter r)  // UC 11 (Finds any available game)
+        public List<IRoom> FindGames(string username, RoomFilter r) // UC 11 (Finds any available game)
         {
             var context = _userLogic.GetUser(username, _gameCenter.Users);
 
             var predicates = new List<Predicate<IRoom>>();
 
             if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
-            {
                 predicates.Add(room => room.League == context.League);
-            }
             if (r.PlayerName != null)
-            {
                 predicates.Add(room => room.HasPlayer(r.PlayerName));
-            }
             if (r.PotSize != null)
-            {
                 predicates.Add(room => room.Pot == r.PotSize.Value);
-            }
             if (r.GameType != null)
-            {
                 predicates.Add(room => room.GamePreferences.GameType.ToString() == r.GameType);
-            }
             if (r.BuyInPolicy != null)
-            {
                 predicates.Add(room => room.GamePreferences.BuyInPolicy == r.BuyInPolicy.Value);
-            }
             if (r.ChipPolicy != null)
-            {
                 predicates.Add(room => room.GamePreferences.ChipPolicy == r.ChipPolicy.Value);
-            }
             if (r.MinBet != null)
-            {
                 predicates.Add(room => room.GamePreferences.MinBet == r.MinBet.Value);
-            }
             if (r.MinPlayers != null)
-            {
                 predicates.Add(room => room.GamePreferences.MinPlayers == r.MinPlayers.Value);
-            }
             if (r.MaxPlayers != null)
-            {
                 predicates.Add(room => room.GamePreferences.MaxPlayers == r.MaxPlayers.Value);
-            }
             if (r.SepctatingAllowed != null)
-            {
                 predicates.Add(room => room.GamePreferences.Spectating == r.SepctatingAllowed.Value);
-            }
 
             return _gameCenter.FindGames(predicates);
         }
 
         public Room StartGame(string gameName) // UC 12
         {
-           return _gameCenter.GetRoom(gameName).StartGame();
+            return _gameCenter.GetRoom(gameName).StartGame();
         }
 
-        public Room PlaceBet(string gameName,string player,int bet) // UC 13
+        public Room PlaceBet(string gameName, string player, int bet) // UC 13
         {
             return _gameCenter.GetRoom(gameName).SetBet(_gameCenter.GetRoom(gameName).GetPlayer(player), bet, false);
         }
-      
+
         public Room Fold(string room, string userName)
         {
             return _gameCenter.GetRoom(room).Fold(_gameCenter.GetRoom(room).GetPlayer(userName));
@@ -166,36 +148,41 @@ namespace TexasHoldem.Services
 
         public IRoom PlayerWhisper(string room, string playernameSender, string usernameReceiver, string message)
         {
-            Users.IUser reciever = null;
-	        IRoom roomObj = null;
+            IUser reciever = null;
+            IRoom roomObj = null;
 
-			try {
-				roomObj = _gameCenter.GetRoom(room);
-				reciever = _gameCenter.GetRoom(room).GetSpectator(usernameReceiver);
+            try
+            {
+                roomObj = _gameCenter.GetRoom(room);
+                reciever = _gameCenter.GetRoom(room).GetSpectator(usernameReceiver);
                 return _messageLogic.PlayerWhisper(message, roomObj.GetPlayer(playernameSender), reciever, roomObj);
             }
             catch
             {
-	            roomObj = _gameCenter.GetRoom(room);
-				return _messageLogic.PlayerWhisper(message, roomObj.GetPlayer(playernameSender), roomObj.GetPlayer(usernameReceiver).User, roomObj);
+                roomObj = _gameCenter.GetRoom(room);
+                return _messageLogic.PlayerWhisper(message, roomObj.GetPlayer(playernameSender),
+                    roomObj.GetPlayer(usernameReceiver).User, roomObj);
             }
         }
 
         public IRoom SpectatorWhisper(string room, string usernameSender, string usernameReceiver, string message)
         {
-            Users.IUser reciever = null;
+            IUser reciever = null;
             reciever = _gameCenter.GetRoom(room).GetSpectator(usernameReceiver);
-            return _messageLogic.SpectatorWhisper(message, _gameCenter.GetRoom(room).GetSpectator(usernameSender), reciever, _gameCenter.GetRoom(room));
+            return _messageLogic.SpectatorWhisper(message, _gameCenter.GetRoom(room).GetSpectator(usernameSender),
+                reciever, _gameCenter.GetRoom(room));
         }
 
         public IRoom PlayerSendMessage(string room, string playerNameSender, string message)
         {
-            return _messageLogic.PlayerSendMessage(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender),_gameCenter.GetRoom(room));
+            return _messageLogic.PlayerSendMessage(message, _gameCenter.GetRoom(room).GetPlayer(playerNameSender),
+                _gameCenter.GetRoom(room));
         }
 
         public IRoom SpectatorsSendMessage(string room, string usernameSender, string message)
         {
-            return _messageLogic.SpectatorsSendMessage(message, _userLogic.GetUser(usernameSender, _gameCenter.Users), _gameCenter.GetRoom(room));
+            return _messageLogic.SpectatorsSendMessage(message, _userLogic.GetUser(usernameSender, _gameCenter.Users),
+                _gameCenter.GetRoom(room));
         }
 
         public bool RestartGameCenter(bool deleteUsers)
@@ -204,7 +191,7 @@ namespace TexasHoldem.Services
             {
                 _gameCenter.DeleteAllRooms();
                 if (deleteUsers)
-					_userLogic.DeleteAllUsers(_gameCenter.Users);
+                    _userLogic.DeleteAllUsers(_gameCenter.Users);
             }
             catch (Exception)
             {

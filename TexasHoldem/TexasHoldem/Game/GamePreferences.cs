@@ -5,20 +5,35 @@ namespace TexasHoldem.Game
 {
     public enum Gametype
     {
-        Limit, 
+        Limit,
         NoLimit,
-        PotLimit, 
+        PotLimit
     }
 
     public class GamePreferences
     {
+        public const int MinBetValue = 2;
+        public const int MinPlayersValue = 2;
+        public const int MaxPlayersValue = 10;
         private int _buyInPolicy;
         private int _chipPolicy;
+        private int _maxPlayers;
         private int _minBet;
         private int _minPlayers;
-        private int _maxPlayers;
+
+        public GamePreferences()
+        {
+            GameType = Gametype.NoLimit;
+            BuyInPolicy = 1;
+            ChipPolicy = 0;
+            MinBet = 4;
+            MinPlayers = 2;
+            MaxPlayers = 8;
+            Spectating = true;
+        }
 
         public Gametype GameType { get; set; }
+
         public int BuyInPolicy
         {
             get => _buyInPolicy;
@@ -33,6 +48,7 @@ namespace TexasHoldem.Game
                 _buyInPolicy = value;
             }
         }
+
         public int ChipPolicy
         {
             get => _chipPolicy;
@@ -53,6 +69,7 @@ namespace TexasHoldem.Game
                 _chipPolicy = value;
             }
         }
+
         public int MinBet
         {
             get => _minBet;
@@ -73,6 +90,7 @@ namespace TexasHoldem.Game
                 _minBet = value;
             }
         }
+
         public int MinPlayers
         {
             get => _minPlayers;
@@ -87,6 +105,7 @@ namespace TexasHoldem.Game
                 _minPlayers = value;
             }
         }
+
         public int MaxPlayers
         {
             get => _maxPlayers;
@@ -101,21 +120,7 @@ namespace TexasHoldem.Game
                 _maxPlayers = value;
             }
         }
+
         public bool Spectating { get; set; }
-
-        public const int MinBetValue = 2;
-        public const int MinPlayersValue = 2;
-        public const int MaxPlayersValue = 10;
-
-        public GamePreferences()
-        {
-            GameType = Gametype.NoLimit;
-            BuyInPolicy = 1;
-            ChipPolicy = 0;
-            MinBet = 4;
-            MinPlayers = 2;
-            MaxPlayers = 8;
-            Spectating = true;
-        }
     }
 }

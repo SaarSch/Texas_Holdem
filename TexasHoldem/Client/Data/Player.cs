@@ -4,11 +4,11 @@ namespace Client.Data
 {
     public class Player
     {
-        public string PlayerName;
-        public int CurrentBet;
-        public int ChipsAmount;
         public string Avatar;
-        public string[] PlayerHand;
+        public int ChipsAmount;
+        public int CurrentBet;
         public List<string> Messages = new List<string>();
+        public string[] PlayerHand;
+        public string PlayerName;
     }
 }

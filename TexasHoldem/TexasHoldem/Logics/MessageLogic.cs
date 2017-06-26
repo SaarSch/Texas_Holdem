@@ -32,6 +32,7 @@ namespace TexasHoldem.Logics
                 throw e;
             }
         }
+
         public void CheckMessage(string message, object sender, object reciver)
         {
             CheckMessage(message, sender);
@@ -81,7 +82,7 @@ namespace TexasHoldem.Logics
 
         public IRoom SpectatorWhisper(string message, IUser sender, IUser reciver, IRoom r)
         {
-            CheckMessage(message, sender,reciver);
+            CheckMessage(message, sender, reciver);
             if (!r.SpectateUsers.Contains(sender))
             {
                 Logger.Log(Severity.Error, "sender dose not exist");
@@ -92,14 +93,14 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<IUser> { sender, reciver };
+            var roomUsers = new List<IUser> {sender, reciver};
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Username + ": " + message);
             return r;
         }
 
         public IRoom PlayerWhisper(string message, IPlayer sender, IUser reciver, IRoom r)
         {
-            CheckMessage(message, sender, reciver);         
+            CheckMessage(message, sender, reciver);
             if (!r.Players.Contains(sender))
             {
                 Logger.Log(Severity.Error, "sender dose not exist");
@@ -110,7 +111,7 @@ namespace TexasHoldem.Logics
                 Logger.Log(Severity.Error, "reciver dose not exist");
                 throw new Exception("reciver dose not exist");
             }
-            var roomUsers = new List<IUser> { reciver, sender.User };
+            var roomUsers = new List<IUser> {reciver, sender.User};
             Notifier.Instance.Notify(roomUsers, r.Name, sender.Name + ": " + message);
             return r;
         }
@@ -118,9 +119,7 @@ namespace TexasHoldem.Logics
         private bool IsUserIsPlayer(IUser u, IRoom r)
         {
             foreach (var p in r.Players)
-            {
                 if (p.User == u) return true;
-            }
             return false;
         }
 

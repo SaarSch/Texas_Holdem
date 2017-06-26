@@ -9,7 +9,7 @@ using TexasHoldem.Users;
 namespace AllTests.UnitTests.GameReplay
 {
     [TestClass]
-    public class TestReplayer//todo: do mock to all
+    public class TestReplayer //todo: do mock to all
     {
         [TestMethod]
         public void CreateReplay_CreateAReplayFile_FileCreated()

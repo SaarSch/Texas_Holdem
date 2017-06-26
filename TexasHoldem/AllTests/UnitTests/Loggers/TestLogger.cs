@@ -40,14 +40,14 @@ namespace AllTests.UnitTests.Loggers
         [ExpectedException(typeof(Exception))]
         public void Log_LogEmptyErrorMessage_ExceptionThrown()
         {
-                Logger.Log(Severity.Error, "");
+            Logger.Log(Severity.Error, "");
         }
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void Log_LogEmptyActionMessage_ExceptionThrown()
         {
-                Logger.Log(Severity.Action, "");
+            Logger.Log(Severity.Action, "");
         }
     }
 }

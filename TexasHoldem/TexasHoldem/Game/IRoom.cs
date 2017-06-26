@@ -20,6 +20,7 @@ namespace TexasHoldem.Game
         GameStatus GameStatus { get; set; }
         HandLogic HandLogic { get; }
         string GameReplay { get; }
+        int CurrentTurn { get; set; }
         bool HasPlayer(string name);
         Room AddPlayer(IPlayer p);
         void Spectate(IUser user);
@@ -41,6 +42,5 @@ namespace TexasHoldem.Game
         Room Fold(IPlayer p);
         IPlayer GetPlayer(string name);
         IUser GetSpectator(string name);
-        int CurrentTurn { get; set; }
     }
 }

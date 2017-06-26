@@ -330,3 +330,5 @@
 21/06/2017 19:09: Error: Error in GetRoom: Room sdfhj doesn't exist!
 21/06/2017 19:10: Error: Error in GetRoom: Room sdfhj doesn't exist!
 21/06/2017 19:10: Error: Error in GetRoom: Room sdfhj doesn't exist!
+26/06/2017 10:47: Error: Error in GetRoom: Room kaka doesn't exist!
+26/06/2017 10:47: Error: Error in GetRoom: Room kaka doesn't exist!

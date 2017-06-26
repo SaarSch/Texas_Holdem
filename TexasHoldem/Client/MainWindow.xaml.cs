@@ -1,28 +1,27 @@
 ﻿using System;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
-using Client.Data;
-using System.Web.Script.Serialization;
 using System.Windows.Media.Imaging;
+using Client.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
-        public UserData LoggedUser;
-        public List<Room> RoomResults;
-        public List<TupleModel<string, string>> Replays;
-        public ProfileWindow ProfileWindow;
         private bool _loggedIn;
+        public UserData LoggedUser;
         public List<GameWindow> OpenWindows;
+        public ProfileWindow ProfileWindow;
+        public List<TupleModel<string, string>> Replays;
+        public List<Room> RoomResults;
 
         public MainWindow(UserData user)
         {
@@ -42,7 +41,7 @@ namespace Client
 
         public void UpdateAvatar(string path)
         {
-            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(@path, UriKind.Relative)));
+            ProfilePic.Dispatcher.Invoke(() => ProfilePic.Source = new BitmapImage(new Uri(path, UriKind.Relative)));
         }
 
         private void PlayerCheckBoxChecked(object sender, RoutedEventArgs e)
@@ -57,13 +56,10 @@ namespace Client
 
         private RoomFilter SetFilter()
         {
-            var filter = new RoomFilter { User = LoggedUser.Username };
+            var filter = new RoomFilter {User = LoggedUser.Username};
             if (PlayerCheckbox.IsChecked != null && PlayerCheckbox.IsChecked.Value)
-            {
                 filter.PlayerName = PlayerNameTxt.Text;
-            }
             if (PotCheckbox.IsChecked != null && PotCheckbox.IsChecked.Value)
-            {
                 try
                 {
                     var pot = int.Parse(PotSizeTxt.Text);
@@ -71,20 +67,15 @@ namespace Client
                 }
                 catch
                 {
-                    MessageBox.Show("Pot size must be a number!", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Pot size must be a number!", "Error in search", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     return null;
                 }
-            }
             if (LeagueCheckbox.IsChecked != null && LeagueCheckbox.IsChecked.Value)
-            {
                 filter.LeagueOnly = true;
-            }
             if (GameTypeCheckbox.IsChecked != null && GameTypeCheckbox.IsChecked.Value)
-            {
                 filter.GameType = GameTypeCombobox.Text;
-            }
             if (BuyinPolicyCheckbox.IsChecked != null && BuyinPolicyCheckbox.IsChecked.Value)
-            {
                 try
                 {
                     var buy = int.Parse(BuyinPolicyTxt.Text);
@@ -92,12 +83,11 @@ namespace Client
                 }
                 catch
                 {
-                    MessageBox.Show("Buy in policy must be a number!", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Buy in policy must be a number!", "Error in search", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     return null;
                 }
-            }
             if (ChipPolicyCheckbox.IsChecked != null && ChipPolicyCheckbox.IsChecked.Value)
-            {
                 try
                 {
                     var chip = int.Parse(ChipPolicyTxt.Text);
@@ -105,12 +95,11 @@ namespace Client
                 }
                 catch
                 {
-                    MessageBox.Show("Chip policy must be a number!", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Chip policy must be a number!", "Error in search", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     return null;
                 }
-            }
             if (MinBetCheckbox.IsChecked != null && MinBetCheckbox.IsChecked.Value)
-            {
                 try
                 {
                     var minB = int.Parse(MinBetTxt.Text);
@@ -118,12 +107,11 @@ namespace Client
                 }
                 catch
                 {
-                    MessageBox.Show("Minimum bet must be a number!", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Minimum bet must be a number!", "Error in search", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     return null;
                 }
-            }
             if (MinPlayersCheckbox.IsChecked != null && MinPlayersCheckbox.IsChecked.Value)
-            {
                 try
                 {
                     var minP = int.Parse(MinPlayersTxt.Text);
@@ -131,12 +119,11 @@ namespace Client
                 }
                 catch
                 {
-                    MessageBox.Show("Minimum number of players must be a number!", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Minimum number of players must be a number!", "Error in search",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                     return null;
                 }
-            }
             if (MaxPlayersCheckbox.IsChecked != null && MaxPlayersCheckbox.IsChecked.Value)
-            {
                 try
                 {
                     var maxP = int.Parse(MaxPlayersTxt.Text);
@@ -144,10 +131,10 @@ namespace Client
                 }
                 catch
                 {
-                    MessageBox.Show("Maximum number of players must be a number!", "Error in search", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Maximum number of players must be a number!", "Error in search",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
                     return null;
                 }
-            }
             if (SpectatingCheckbox.IsChecked != null && SpectatingCheckbox.IsChecked.Value)
             {
                 var cond = SpectatingCombobox.SelectedIndex <= 0;
@@ -163,7 +150,7 @@ namespace Client
             if (filter == null)
                 return;
 
-            string controller = "Search?token=" + LoggedUser.token;
+            var controller = "Search?token=" + LoggedUser.token;
             filter.User = Crypto.Encrypt(filter.User);
             var data = new JavaScriptSerializer().Serialize(filter);
             var ans = RestClient.MakePostRequest(controller, data);
@@ -216,13 +203,10 @@ namespace Client
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ProfileWindow== null)
-            {
+            if (ProfileWindow == null)
                 ProfileWindow = new ProfileWindow(LoggedUser, this);
-            }
             Application.Current.MainWindow = ProfileWindow;
             ProfileWindow.Show();
-
         }
 
         private void GameTypeCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -309,7 +293,7 @@ namespace Client
             if (room == null)
                 return;
 
-            string controller = "Room?token=" + LoggedUser.token;
+            var controller = "Room?token=" + LoggedUser.token;
             room.CreatorUserName = Crypto.Encrypt(room.CreatorUserName);
             var data = new JavaScriptSerializer().Serialize(room);
             var ans = RestClient.MakePostRequest(controller, data);
@@ -317,15 +301,11 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                var chip = (int)chipsLabel.Content;
+                var chip = (int) chipsLabel.Content;
                 if (room.ChipPolicy != 0)
-                {
                     LoggedUser.Chips = chip - room.ChipPolicy;
-                }
                 else
-                {
                     LoggedUser.Chips = 0;
-                }
                 RoomNameTxt.Text = "";
                 var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
                 OpenWindows.Add(gameWindow);
@@ -354,7 +334,7 @@ namespace Client
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            Room room = RoomResults[RoomsGrid.SelectedIndex];
+            var room = RoomResults[RoomsGrid.SelectedIndex];
             var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
                              "&playerName=" + LoggedUser.Username + "&option=join&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
@@ -362,15 +342,11 @@ namespace Client
             var roomState = json.ToObject<RoomState>();
             if (roomState.Messege == null)
             {
-                var chip = (int)chipsLabel.Content;
+                var chip = (int) chipsLabel.Content;
                 if (RoomResults[RoomsGrid.SelectedIndex].ChipPolicy != 0)
-                {
                     LoggedUser.Chips = chip - RoomResults[RoomsGrid.SelectedIndex].ChipPolicy;
-                }
                 else
-                {
                     LoggedUser.Chips = 0;
-                }
 
                 var gameWindow = new GameWindow(LoggedUser, LoggedUser.Username, roomState, this, null);
                 OpenWindows.Add(gameWindow);
@@ -381,7 +357,6 @@ namespace Client
             {
                 MessageBox.Show(roomState.Messege, "Error in join", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
         private void LogoutButton_OnClick(object sender, RoutedEventArgs e)
@@ -389,11 +364,12 @@ namespace Client
             Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (_loggedIn)
             {
-                var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" + LoggedUser.token;
+                var controller = "User?username=" + Crypto.Encrypt(LoggedUser.Username) + "&mode=logout&token=" +
+                                 LoggedUser.token;
                 var ans = RestClient.MakeGetRequest(controller);
                 ans = ans.Normalize();
                 if (ans != "\"\"")
@@ -403,7 +379,7 @@ namespace Client
                 }
                 else
                 {
-                    foreach(GameWindow w in OpenWindows)
+                    foreach (var w in OpenWindows)
                     {
                         w.Playing = false;
                         w.Close();
@@ -423,7 +399,7 @@ namespace Client
 
         private void Spectate_Click(object sender, RoutedEventArgs e)
         {
-            Room room = RoomResults[RoomsGrid.SelectedIndex];
+            var room = RoomResults[RoomsGrid.SelectedIndex];
             var controller = "Room?userName=" + Crypto.Encrypt(LoggedUser.Username) + "&gameName=" + room.RoomName +
                              "&playerName=none&option=spectate&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
@@ -444,12 +420,13 @@ namespace Client
 
         private void Watch_Click(object sender, RoutedEventArgs e)
         {
-            TupleModel<string, string> selection = Replays[ReplayGrid.SelectedIndex];
+            var selection = Replays[ReplayGrid.SelectedIndex];
             var dateAndTime = selection.m_Item1.Split(' ');
             var controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&roomName=" + selection.m_Item2 +
-                             "&date=" + dateAndTime[0].Replace('/','_') + ' ' + dateAndTime[1].Replace(':', '_') + "&token=" + LoggedUser.token;
+                             "&date=" + dateAndTime[0].Replace('/', '_') + ' ' + dateAndTime[1].Replace(':', '_') +
+                             "&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
-            JavaScriptSerializer js = new JavaScriptSerializer();
+            var js = new JavaScriptSerializer();
             try
             {
                 var replayStates = js.Deserialize<List<RoomState>>(ans);
@@ -460,26 +437,21 @@ namespace Client
             }
             catch
             {
-                MessageBox.Show("Replay is not available.", "Error in replay", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Replay is not available.", "Error in replay", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
-
         }
 
         private void ReplayGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ReplayGrid.SelectedIndex >= 0)
-            {
                 Watch.IsEnabled = true;
-            }
             else
-            {
                 Watch.IsEnabled = false;
-            }
         }
 
         private void GameTypeCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -489,15 +461,15 @@ namespace Client
 
         private void ReplayRequest()
         {
-            string controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&&token=" + LoggedUser.token;
+            var controller = "Replay?user=" + Crypto.Encrypt(LoggedUser.Username) + "&&token=" + LoggedUser.token;
             var ans = RestClient.MakeGetRequest(controller);
-            JavaScriptSerializer js = new JavaScriptSerializer();
+            var js = new JavaScriptSerializer();
             var replayAns = js.Deserialize<List<TupleModel<string, string>>>(ans);
             var tmpList = replayAns.ToList();
             Replays.Clear();
-            foreach (TupleModel<string, string> pair in tmpList)
+            foreach (var pair in tmpList)
             {
-                TupleModel<string, string> tmpTpl = new TupleModel<string, string>();
+                var tmpTpl = new TupleModel<string, string>();
                 var dateAndTime = pair.m_Item1.Split(' ');
                 tmpTpl.m_Item1 = dateAndTime[0].Replace('_', '/') + ' ' + dateAndTime[1].Replace('_', ':');
                 tmpTpl.m_Item2 = pair.m_Item2;

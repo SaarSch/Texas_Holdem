@@ -1,12 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 
 namespace Client.Data
 {
     public class UserData : INotifyPropertyChanged
     {
+        private string _avatarPath;
+        private int _chips;
+        private string _email;
+        private string _password;
+        private int _rank;
+
+        private string _username;
+        public string Message;
+        public List<string> Messages = new List<string>();
+        public string token;
+        public int Wins;
+
+        public UserData(string username, string password, string avatarPath, string email, int rank, int wins,
+            int chips, string message)
+        {
+            Username = username;
+            Password = password;
+            AvatarPath = avatarPath;
+            Email = email;
+            Rank = rank;
+            Wins = wins;
+            Chips = chips;
+            Message = message;
+        }
+
+        public UserData()
+        {
+        }
+
         public string Username
         {
             get => _username;
@@ -16,6 +44,7 @@ namespace Client.Data
                 OnPropertyChanged();
             }
         }
+
         public string Password
         {
             get => _password;
@@ -56,13 +85,6 @@ namespace Client.Data
             }
         }
 
-        private string _username;
-        private string _password;
-        private string _avatarPath;
-        private string _email;
-        private int _chips;
-        private int _rank;
-        public int Wins;
         public int Chips
         {
             get => _chips;
@@ -71,24 +93,6 @@ namespace Client.Data
                 _chips = value;
                 OnPropertyChanged();
             }
-        }
-        public string Message;
-        public List<string> Messages = new List<string>();
-        public string token;
-
-        public UserData(string username, string password, string avatarPath, string email, int rank, int wins, int chips, string message)
-        {
-            Username = username;
-            Password = password;
-            AvatarPath = avatarPath;
-            Email = email;
-            Rank = rank;
-            Wins = wins;
-            Chips = chips;
-            Message = message;
-        }
-        public UserData()
-        {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
