@@ -54,6 +54,7 @@ namespace TexasHoldem.Game
             if (creator.User.ChipsAmount < gamePreferences.MinBet ||
                 creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0)
             {
+                creator.User.ChipsAmount += GamePreferences.BuyInPolicy;
                 var e = new Exception("Player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
@@ -61,6 +62,7 @@ namespace TexasHoldem.Game
 
             if (gamePreferences.GameType == Gametype.Limit && creator.User.ChipsAmount < 6 * gamePreferences.MinBet)
             {
+                creator.User.ChipsAmount += GamePreferences.BuyInPolicy;
                 var e = new Exception("Limit mode, player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
@@ -167,7 +169,16 @@ namespace TexasHoldem.Game
             if (p.User.ChipsAmount < GamePreferences.MinBet ||
                 p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)
             {
+                p.User.ChipsAmount += GamePreferences.BuyInPolicy;
                 var e = new Exception("Player chips amount is too low to join");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            if (GamePreferences.GameType == Gametype.Limit && p.User.ChipsAmount < 6 * GamePreferences.MinBet)
+            {
+                p.User.ChipsAmount += GamePreferences.BuyInPolicy;
+                var e = new Exception("Limit mode, player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -728,7 +739,10 @@ namespace TexasHoldem.Game
                 return false;
 
             if (GamePreferences.GameType == Gametype.Limit && p.User.ChipsAmount < 6 * GamePreferences.MinBet)
+            {
                 return false;
+            }
+                
             return true;
         }
 
