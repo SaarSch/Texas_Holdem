@@ -19,7 +19,6 @@ namespace TexasHoldem.Game
         int Pot { get; set; }
         GameStatus GameStatus { get; set; }
         HandLogic HandLogic { get; }
-        string GameReplay { get; }
         int CurrentTurn { get; set; }
         bool HasPlayer(string name);
         Room AddPlayer(IPlayer p);
