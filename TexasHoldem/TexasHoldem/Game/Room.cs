@@ -460,7 +460,7 @@ namespace TexasHoldem.Game
                     }
 
                 if (GameStatus == GameStatus.Turn || GameStatus == GameStatus.River) //turn & river
-                    if (bet * 2 != GamePreferences.MinBet)
+                    if (bet  != GamePreferences.MinBet * 2)
                     {
                         var e = new IllegalBetException(
                             "In pre turn/river in limit mode bet must be equal to 2*big blind");
@@ -734,11 +734,10 @@ namespace TexasHoldem.Game
         private bool CanBeInRoom(IPlayer p)
         {
             if (p.ChipsAmount < GamePreferences.MinBet ||
-                p.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0 ||
-                p.ChipsAmount < GamePreferences.BuyInPolicy)
+                p.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)
                 return false;
 
-            if (GamePreferences.GameType == Gametype.Limit && p.User.ChipsAmount < 6 * GamePreferences.MinBet)
+            if (GamePreferences.GameType == Gametype.Limit && p.ChipsAmount < 6 * GamePreferences.MinBet)
             {
                 return false;
             }
