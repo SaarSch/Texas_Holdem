@@ -41,10 +41,20 @@ namespace TexasHoldem.Game
             //minBet- the minimum bet
             //buy-in- the minimum chip to join the game
 
-            if (creator.User.ChipsAmount < gamePreferences.MinBet ||
-                creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0 ||
-                creator.User.ChipsAmount < gamePreferences.BuyInPolicy)
+            if (creator.User.ChipsAmount < gamePreferences.BuyInPolicy)
+
             {
+                var e = new Exception("Player chips amount is low the the buy in");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            creator.User.ChipsAmount -= gamePreferences.BuyInPolicy;
+
+            if (creator.User.ChipsAmount < gamePreferences.MinBet ||
+                creator.User.ChipsAmount < gamePreferences.ChipPolicy && gamePreferences.ChipPolicy > 0)
+            {
+                creator.User.ChipsAmount += GamePreferences.BuyInPolicy;
                 var e = new Exception("Player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
@@ -52,6 +62,7 @@ namespace TexasHoldem.Game
 
             if (gamePreferences.GameType == Gametype.Limit && creator.User.ChipsAmount < 6 * gamePreferences.MinBet)
             {
+                creator.User.ChipsAmount += GamePreferences.BuyInPolicy;
                 var e = new Exception("Limit mode, player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
@@ -144,11 +155,30 @@ namespace TexasHoldem.Game
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
-            if (p.User.ChipsAmount < GamePreferences.MinBet ||
-                p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0 ||
-                p.User.ChipsAmount < GamePreferences.BuyInPolicy)
+
+            if ( p.User.ChipsAmount < GamePreferences.BuyInPolicy)
             {
+                var e = new Exception("Player chips amount is low then buy in");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            p.User.ChipsAmount -= GamePreferences.BuyInPolicy;
+
+
+            if (p.User.ChipsAmount < GamePreferences.MinBet ||
+                p.User.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)
+            {
+                p.User.ChipsAmount += GamePreferences.BuyInPolicy;
                 var e = new Exception("Player chips amount is too low to join");
+                Logger.Log(Severity.Error, e.Message);
+                throw e;
+            }
+
+            if (GamePreferences.GameType == Gametype.Limit && p.User.ChipsAmount < 6 * GamePreferences.MinBet)
+            {
+                p.User.ChipsAmount += GamePreferences.BuyInPolicy;
+                var e = new Exception("Limit mode, player chips amount is too low to join");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -430,7 +460,7 @@ namespace TexasHoldem.Game
                     }
 
                 if (GameStatus == GameStatus.Turn || GameStatus == GameStatus.River) //turn & river
-                    if (bet * 2 != GamePreferences.MinBet)
+                    if (bet  != GamePreferences.MinBet * 2)
                     {
                         var e = new IllegalBetException(
                             "In pre turn/river in limit mode bet must be equal to 2*big blind");
@@ -452,8 +482,7 @@ namespace TexasHoldem.Game
             }
 
             p.SetBet(bet);
-			
-            NextPlayer();
+			NextPlayer();
             return this;
         }
 
@@ -703,13 +732,14 @@ namespace TexasHoldem.Game
 
         private bool CanBeInRoom(IPlayer p)
         {
-            if (p.ChipsAmount < GamePreferences.MinBet ||
-                p.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0 ||
-                p.ChipsAmount < GamePreferences.BuyInPolicy)
+            if (p.ChipsAmount < GamePreferences.MinBet)
                 return false;
 
-            if (GamePreferences.GameType == Gametype.Limit && p.User.ChipsAmount < 6 * GamePreferences.MinBet)
+            if (GamePreferences.GameType == Gametype.Limit && p.ChipsAmount < 6 * GamePreferences.MinBet)
+            {
                 return false;
+            }
+                
             return true;
         }
 

@@ -1020,3 +1020,27 @@
 26/06/2017 10:47: kaka4567's profile edited successfully!
 26/06/2017 10:47: kaka456''s profile edited successfully!
 26/06/2017 10:47: kaka4567 logged out successfully!
+27/06/2017 17:10: cfir3210 logged in successfully!
+27/06/2017 17:10: new player created for user:cfir3210
+27/06/2017 17:10: New room was created room  name=cfir3210 rank=-1
+27/06/2017 17:10: Room cfir3210 created successfully by cfir3210!
+27/06/2017 17:10: cfir32101 logged in successfully!
+27/06/2017 17:10: Found the following game rooms: cfir3210.
+27/06/2017 17:10: new player created for user:cfir32101
+27/06/2017 17:10: New player joined the room: room name=cfir3210player name=cfir32101
+27/06/2017 17:10: New game started in room cfir3210 dealer and small blind-User name: cfir3210 Player name: cfir3210 Chip amount:1000big blind-User name: cfir32101 Player name: cfir32101 Chip amount:1000
+27/06/2017 17:10: User: cfir3210 player: cfir3210 set Bets= 2 current Chips Amount=998
+27/06/2017 17:10: User: cfir32101 player: cfir32101 set Bets= 4 current Chips Amount=996
+27/06/2017 17:10: user: cfir3210 player: cfir3210 got 2 cards: 12, 9
+27/06/2017 17:10: Player cfir3210 got 2 cards: 12Clubs9Spades
+27/06/2017 17:10: user: cfir32101 player: cfir32101 got 2 cards: 7, 5
+27/06/2017 17:10: Player cfir32101 got 2 cards: 7Spades5Spades
+27/06/2017 17:11: User: cfir3210 player: cfir3210 set Bets= 6 current Chips Amount=994
+27/06/2017 17:11: User: cfir32101 player: cfir32101 set Bets= 6 current Chips Amount=994
+27/06/2017 17:11: 3 community cards dealed room name=cfir3210community cards:12Spades4Clubs5Diamonds
+27/06/2017 17:11: User: cfir3210 player: cfir3210 set Bets= 10 current Chips Amount=990
+27/06/2017 17:12: User: cfir32101 player: cfir32101 set Bets= 10 current Chips Amount=990
+27/06/2017 17:12: 1 community card dealed room name=cfir3210community cards:12Spades4Clubs5Diamonds2Diamonds
+27/06/2017 17:12: 1 community card dealed room name=cfir3210community cards:12Spades4Clubs5Diamonds2Diamonds5Hearts
+27/06/2017 17:12: The winners in room cfir3210 is Players:User name: cfir32101 Player name: cfir32101 Chip amount:990
+27/06/2017 17:12: Current status in room cfir3210 is Players:User name: cfir3210 Player name: cfir3210 Chip amount:990User name: cfir32101 Player name: cfir32101 Chip amount:1010
