@@ -482,8 +482,7 @@ namespace TexasHoldem.Game
             }
 
             p.SetBet(bet);
-			
-            NextPlayer();
+			NextPlayer();
             return this;
         }
 
@@ -733,8 +732,7 @@ namespace TexasHoldem.Game
 
         private bool CanBeInRoom(IPlayer p)
         {
-            if (p.ChipsAmount < GamePreferences.MinBet ||
-                p.ChipsAmount < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0)
+            if (p.ChipsAmount < GamePreferences.MinBet)
                 return false;
 
             if (GamePreferences.GameType == Gametype.Limit && p.ChipsAmount < 6 * GamePreferences.MinBet)
