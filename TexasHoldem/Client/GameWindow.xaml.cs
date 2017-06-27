@@ -276,9 +276,9 @@ namespace Client
             if (SelfPlayerName == null)
                 nameToSend = User.Username;
             var controller = "Room?gameName=" + RoomName + "&playerName=" + nameToSend + "&token=" + User.token;
-            var ans = RestClient.MakePutRequest(controller, "");
             try
             {
+                var ans = RestClient.MakePutRequest(controller, "");
                 var json = JObject.Parse(ans);
                 var roomState = json.ToObject<RoomState>();
                 if (roomState.Messege == null && roomState.RoomName == RoomName)
@@ -302,7 +302,7 @@ namespace Client
             }
             catch
             {
-                StatusRequest();
+                Application.Current.Dispatcher.Invoke(() => Close());
             }
         }
 
@@ -451,16 +451,23 @@ namespace Client
         {
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName +
                              "&bet=" + (int) BetSlide.Value + "&token=" + User.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                //           UpdateRoom(roomState);
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    //           UpdateRoom(roomState);
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in bet", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "Error in bet", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Dispatcher.Invoke(() => Close());
             }
         }
 
@@ -468,16 +475,23 @@ namespace Client
         {
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=call&token=" +
                              User.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                //          UpdateRoom(roomState);
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    //          UpdateRoom(roomState);
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in call", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "Error in call", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Dispatcher.Invoke(() => Close());
             }
         }
 
@@ -485,16 +499,23 @@ namespace Client
         {
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&option=fold&token=" +
                              User.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege == null)
+            try
             {
-                //           UpdateRoom(roomState);
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege == null)
+                {
+                    //           UpdateRoom(roomState);
+                }
+                else
+                {
+                    MessageBox.Show(roomState.Messege, "Error in fold", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(roomState.Messege, "Error in fold", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Dispatcher.Invoke(() => Close());
             }
         }
 
@@ -509,11 +530,19 @@ namespace Client
             }
 
             var controller = "Room?gameName=" + RoomName + "&playerName=" + SelfPlayerName + "&token=" + User.token;
-            var ans = RestClient.MakeGetRequest(controller);
-            var json = JObject.Parse(ans);
-            var roomState = json.ToObject<RoomState>();
-            if (roomState.Messege != null)
-                MessageBox.Show(roomState.Messege, "Cannot start game", MessageBoxButton.OK, MessageBoxImage.Error);
+            try
+            {
+                var ans = RestClient.MakeGetRequest(controller);
+                var json = JObject.Parse(ans);
+                var roomState = json.ToObject<RoomState>();
+                if (roomState.Messege != null)
+                    MessageBox.Show(roomState.Messege, "Cannot start game", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch
+            {
+                Application.Current.Dispatcher.Invoke(() => Close());
+            }
+
         }
 
         private void Leave_Click(object sender, RoutedEventArgs e)
@@ -539,20 +568,28 @@ namespace Client
                     option = "leaveSpectator";
                 var controller = "Room?userName=" + Crypto.Encrypt(User.Username) + "&gameName=" + RoomName +
                                  "&playerName=" + SelfPlayerName + "&option=" + option + "&token=" + User.token;
-                var ans = RestClient.MakeGetRequest(controller);
-                var json = JObject.Parse(ans);
-                var roomState = json.ToObject<RoomState>();
-                if (roomState.Messege == null)
+                try
+                {
+                    var ans = RestClient.MakeGetRequest(controller);
+                    var json = JObject.Parse(ans);
+                    var roomState = json.ToObject<RoomState>();
+                    if (roomState.Messege == null)
+                    {
+                        Playing = false;
+                        UpdateUserDataOnExit();
+                        Main.OpenWindows.Remove(this);
+                        Application.Current.MainWindow = Main;
+                        Main.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch
                 {
                     Playing = false;
-                    UpdateUserDataOnExit();
-                    Main.OpenWindows.Remove(this);
-                    Application.Current.MainWindow = Main;
-                    Main.Show();
-                }
-                else
-                {
-                    MessageBox.Show(roomState.Messege, "Cannot leave game", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Main.HandleCrashing();
                 }
             }
         }
@@ -560,13 +597,20 @@ namespace Client
         private void UpdateUserDataOnExit()
         {
             var controller = "User?userName=" + Crypto.Encrypt(User.Username);
-            var ans = RestClient.MakePutRequest(controller, "");
-            var json = JObject.Parse(ans);
-            var data = json.ToObject<UserData>();
-            if (data.Message == null)
+            try
             {
-                User.Chips = data.Chips;
-                User.Rank = data.Rank;
+                var ans = RestClient.MakePutRequest(controller, "");
+                var json = JObject.Parse(ans);
+                var data = json.ToObject<UserData>();
+                if (data.Message == null)
+                {
+                    User.Chips = data.Chips;
+                    User.Rank = data.Rank;
+                }
+            }
+            catch
+            {
+                Application.Current.Dispatcher.Invoke(() => Close());
             }
         }
 
@@ -612,7 +656,14 @@ namespace Client
                                  "&reciver=" + ChatComboBoxContent[ChatComboBox.SelectedIndex] + "&message=" + msg +
                                  "&status=" + status + "&token=" + User.token;
                 Message.Text = "";
-                RestClient.MakeGetRequest(controller);
+                try
+                {
+                    RestClient.MakeGetRequest(controller);
+                }
+                catch
+                {
+                    Application.Current.Dispatcher.Invoke(() => Close());
+                }
             }
         }
 

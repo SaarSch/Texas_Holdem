@@ -23,18 +23,34 @@ namespace Client
 
         public static string MakePostRequest(string controller, string data)
         {
+            var ans = "";
             var request = (HttpWebRequest) WebRequest.Create(_endPoint + controller);
             request.Method = "POST";
             WriteData(request, data);
-            var ans = PerformRequest(request);
+            try
+            {
+                ans = PerformRequest(request);
+            }
+            catch
+            {
+                throw;
+            }
             return ans;
         }
 
         public static string MakeGetRequest(string controller)
         {
+            var ans = "";
             var request = (HttpWebRequest) WebRequest.Create(_endPoint + controller);
             request.Method = "GET";
-            var ans = PerformRequest(request);
+            try
+            {
+                ans = PerformRequest(request);
+            }
+            catch
+            {
+                throw;
+            }
             return ans;
         }
 
@@ -44,7 +60,14 @@ namespace Client
             var request = (HttpWebRequest) WebRequest.Create(_endPoint + controller);
             request.Method = "PUT";
             WriteData(request, data);
-            ans = PerformRequest(request);
+            try
+            {
+                ans = PerformRequest(request);
+            }
+            catch
+            {
+                throw;
+            }
             return ans;
         }
 
@@ -68,7 +91,7 @@ namespace Client
             }
             catch (Exception)
             {
-                return "Failed to connect to remote server";
+               throw new Exception("Failed to connect to remote server");
             }
             return strResponseValue;
         }

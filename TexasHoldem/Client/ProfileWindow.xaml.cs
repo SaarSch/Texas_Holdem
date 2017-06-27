@@ -44,21 +44,28 @@ namespace Client
                        "\"Password\":\"" + Crypto.Encrypt(PasswordTxt.Text) + "\","
                        + "\"AvatarPath\":\"" + Picture + "\"," +
                        "\"Email\":\"" + Crypto.Encrypt(EmailTxt.Text) + "\"}";
-            var ans = RestClient.MakePostRequest(controller, data);
-            var json = JObject.Parse(ans);
-            var tmpUser = json.ToObject<UserData>();
-            if (tmpUser.Message == null)
+            try
             {
-                _user.Username = Crypto.Decrypt(tmpUser.Username);
-                _user.Password = Crypto.Decrypt(tmpUser.Password);
-                _user.Email = Crypto.Decrypt(tmpUser.Email);
-                _user.AvatarPath = tmpUser.AvatarPath;
-                _mainWindow.UpdateAvatar(tmpUser.AvatarPath);
-                Close();
+                var ans = RestClient.MakePostRequest(controller, data);
+                var json = JObject.Parse(ans);
+                var tmpUser = json.ToObject<UserData>();
+                if (tmpUser.Message == null)
+                {
+                    _user.Username = Crypto.Decrypt(tmpUser.Username);
+                    _user.Password = Crypto.Decrypt(tmpUser.Password);
+                    _user.Email = Crypto.Decrypt(tmpUser.Email);
+                    _user.AvatarPath = tmpUser.AvatarPath;
+                    _mainWindow.UpdateAvatar(tmpUser.AvatarPath);
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show(tmpUser.Message, "Error in edit profile", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show(tmpUser.Message, "Error in edit profile", MessageBoxButton.OK, MessageBoxImage.Error);
+                this._mainWindow.HandleCrashing();
             }
         }
 
