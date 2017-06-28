@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TexasHoldem.Game;
 
 namespace TexasHoldem.Bridges
 {
@@ -78,9 +77,9 @@ namespace TexasHoldem.Bridges
         }
 
 
-        public IList FindGames(string username, RoomFilter filter)
+        public IList FindGames(string username)
         {
-            var s = _real != null ? _real.FindGames(username, filter) : new List<string> {"Good Game Name"};
+            var s = _real != null ? _real.FindGames(username) : new List<string> {"Good Game Name"};
             return s;
         }
 

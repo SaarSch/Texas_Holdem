@@ -23,7 +23,7 @@ namespace TexasHoldem.Bridges
         bool JoinGame(string username, string roomName, string playerName);
         bool SpectateGame(string username, string roomName, string playerName);
         bool LeaveGame(string username, string roomName, string playerName);
-        IList FindGames(string username, RoomFilter filter);
+        IList FindGames(string username);
         int GetRank(string username);
         bool RaiseInGame(int raiseamount, string gamename, string playername);
         bool CallInGame(string gamename, string playername);
