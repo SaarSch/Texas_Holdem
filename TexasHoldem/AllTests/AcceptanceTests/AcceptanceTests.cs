@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
-using TexasHoldem.Game;
 
 namespace AllTests.AcceptanceTests
 {
@@ -225,8 +224,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void
-            TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers()
+        public void TestCreateNewTexasHoldemGame_Sad_IllegalNumberOfPlayers()
         {
             _bridge.Login(LegalUserName, LegalPass);
 
@@ -251,12 +249,12 @@ namespace AllTests.AcceptanceTests
             _bridge.Register("GoodName", LegalPass);
 
             _bridge.Login(LegalUserName, LegalPass);
-            _bridge.CreateNewGame("Good Game Name1568", LegalUserName, LegalPlayer);
+            _bridge.CreateNewGame("Good Game", LegalUserName, LegalPlayer);
             _bridge.LogOut(LegalUserName);
 
             _bridge.Login("GoodName", LegalPass);
 
-            Assert.IsTrue(_bridge.JoinGame("GoodName", "Good Game Name1568", "imaplayer"));
+            Assert.IsTrue(_bridge.JoinGame("GoodName", "Good Game", "imaplayer"));
         }
 
         [TestMethod]
@@ -274,7 +272,7 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestJoinExistingGame_bad_MultiplejoiningAttemptsToFullRoom()
+        public void TestJoinExistingGame_Bad_MultipleJoiningAttemptsToFullRoom()
         {
             _bridge.Register("GoodName", LegalPass);
             _bridge.Register("AnotherGoodName", LegalPass);
@@ -304,7 +302,6 @@ namespace AllTests.AcceptanceTests
             Assert.IsFalse(_bridge.JoinGame(LegalUserName, "",
                 LegalPlayer)); // the room shouldn't exist because it's name is illegal
         }
-
 
         [TestMethod]
         public void TestSpectateExistingGame_Good()
@@ -338,44 +335,43 @@ namespace AllTests.AcceptanceTests
         public void TestLeaveGame_Good()
         {
             _bridge.Login(LegalUserName, LegalPass);
-            _bridge.CreateNewGame("Good Game Name123", LegalUserName, LegalPlayer);
+            _bridge.CreateNewGame("Good Game", LegalUserName, LegalPlayer);
 
-            Assert.IsTrue(_bridge.LeaveGame(LegalUserName, "Good Game Name123", LegalPlayer));
+            Assert.IsTrue(_bridge.LeaveGame(LegalUserName, "Good Game", LegalPlayer));
+        }
+
+        [TestMethod]
+        public void TestLeaveGame_Good_EndGame()
+        {
+            _bridge.Login(LegalUserName, LegalPass);
+            _bridge.CreateNewGame("Good Game Name123", LegalUserName, LegalPlayer);
+            _bridge.LeaveGame(LegalUserName, "Good Game Name123", LegalPlayer);
+
+            Assert.IsFalse(_bridge.IsGameExist("Good Game Name123"));
         }
 
         [TestMethod]
         public void TestFindGames_Good()
         {
             _bridge.Login(LegalUserName, LegalPass);
-            _bridge.CreateNewGame("Good Game Name564", LegalUserName, LegalPlayer);
-            _bridge.CreateNewGame("Game Not In Rank", LegalUserName, LegalPlayer);
+            _bridge.CreateNewGame("Good Game", LegalUserName, LegalPlayer);
+            _bridge.CreateNewGameWithPrefrences("Game Not", LegalUserName, LegalPlayer, "NoLimit", 1, 0, 4, 2, 9, false);
+            var activeGames = _bridge.FindGames(LegalUserName);
 
-            var rf = new RoomFilter
-            {
-                LeagueOnly = true,
-                GameType = "NoLimit",
-                BuyInPolicy = 1,
-                ChipPolicy = 0,
-                MinBet = 4,
-                MinPlayers = 2,
-                SepctatingAllowed = true
-            };
-            var activeGames = _bridge.FindGames(LegalUserName, rf);
+            Assert.IsTrue(activeGames.Contains("Good Game"));
+            Assert.IsFalse(activeGames.Contains("Game Not"));
 
-            Assert.IsTrue(activeGames.Contains("Good Game Name564"));
-            Assert.IsFalse(activeGames.Contains("Game Not In Rank"));
-
-            _bridge.LeaveGame(LegalUserName, "Good Game Name564", LegalPlayer);
-            _bridge.LeaveGame(LegalUserName, "Game Not In Rank", LegalPlayer);
+            _bridge.LeaveGame(LegalUserName, "Good Game", LegalPlayer);
+            _bridge.LeaveGame(LegalUserName, "Game Not", LegalPlayer);
         }
 
         [TestMethod]
-        public void TestFindGames_Sad_NoGamesFound()
+        public void TestFindGames_Good_NoGamesFound()
         {
             _bridge.Login(LegalUserName, LegalPass);
 
-            var rf = new RoomFilter {LeagueOnly = true};
-            var activeGames = _bridge.FindGames(LegalUserName, rf);
+            //var rf = new RoomFilter {LeagueOnly = true};
+            var activeGames = _bridge.FindGames(LegalUserName);
 
             Assert.IsTrue(activeGames.Count == 0);
         }
@@ -531,22 +527,6 @@ namespace AllTests.AcceptanceTests
         }
 
         [TestMethod]
-        public void TestMessageStream_Bad_SpectatorToPlayer()
-        {
-            //login 2 players
-
-            _bridge.Login(LegalUserName, LegalPass);
-            _bridge.Login(LegalUserName + "1", LegalPass);
-            //create and join to players to a game
-            _bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer);
-            _bridge.SpectateGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
-
-            _bridge.SendWhisper(LegalRoomName, true, LegalPlayer + "1", LegalPlayer, "Hiiii!");
-            var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
-            Assert.AreEqual(0, messages.Count);
-        }
-
-        [TestMethod]
         public void TestMessageStream_Sad_EmptyMessage()
         {
             //login 2 players
@@ -585,6 +565,22 @@ namespace AllTests.AcceptanceTests
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(0, messages.Count);
             messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "2");
+            Assert.AreEqual(0, messages.Count);
+        }
+
+        [TestMethod]
+        public void TestMessageStream_Bad_SpectatorToPlayer()
+        {
+            //login 2 players
+
+            _bridge.Login(LegalUserName, LegalPass);
+            _bridge.Login(LegalUserName + "1", LegalPass);
+            //create and join to players to a game
+            _bridge.CreateNewGame(LegalRoomName, LegalUserName, LegalPlayer);
+            _bridge.SpectateGame(LegalUserName + "1", LegalRoomName, LegalPlayer + "1");
+
+            _bridge.SendWhisper(LegalRoomName, true, LegalPlayer + "1", LegalPlayer, "Hiiii!");
+            var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(0, messages.Count);
         }
     }

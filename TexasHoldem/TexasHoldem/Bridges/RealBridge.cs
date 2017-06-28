@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TexasHoldem.Game;
 using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
@@ -162,12 +161,11 @@ namespace TexasHoldem.Bridges
             return _gameManager.IsRoomExist(gameName);
         }
 
-
-        public IList FindGames(string username, RoomFilter filter)
+        public IList FindGames(string username)
         {
             try
             {
-                var tmp = _gameManager.FindGames(username, filter);
+                var tmp = _gameManager.FindGames(username);
                 var ans = new List<string>();
                 foreach (var r in tmp)
                     ans.Add(r.Name);
