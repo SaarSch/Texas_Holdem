@@ -453,7 +453,7 @@
                               Unchecked="PlayerCheckBoxChecked" />
                     <CheckBox Content="Pot Size" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"
                               x:Name="PotCheckbox" Checked="PotCheckboxChecked" Unchecked="PotCheckboxChecked" />
-                    <CheckBox Content="Show only games in my league" HorizontalAlignment="Left" Margin="10,96,0,0"
+                    <CheckBox Content="Can join" HorizontalAlignment="Left" Margin="10,96,0,0"
                               VerticalAlignment="Top" x:Name="LeagueCheckbox" Grid.ColumnSpan="4" />
                     <Frame Content="Game Preferences" HorizontalAlignment="Left" Height="122" Margin="66,6,0,0"
                            VerticalAlignment="Top" Width="454" BorderBrush="#FF9E1616" BorderThickness="1"

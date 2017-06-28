@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TexasHoldem.Game;
 using TexasHoldem.Logics;
@@ -96,19 +97,50 @@ namespace TexasHoldem.Services
             var context = _userLogic.GetUser(username, _gameCenter.Users);
 
             var predicates = new List<Predicate<IRoom>>();
-            //var r = new RoomFilter
-            //{
-            //    LeagueOnly = true,
-            //    GameType = "NoLimit",
-            //    BuyInPolicy = 1,
-            //    ChipPolicy = 0,
-            //    MinBet = 4,
-            //    MinPlayers = 2,
-            //    SepctatingAllowed = true
-            //};
             var r = new RoomFilter
             {
                 SepctatingAllowed = true
+            };
+
+            if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
+                predicates.Add(room => room.League == context.League);
+            if (r.PlayerName != null)
+                predicates.Add(room => room.HasPlayer(r.PlayerName));
+            if (r.PotSize != null)
+                predicates.Add(room => room.Pot == r.PotSize.Value);
+            if (r.GameType != null)
+                predicates.Add(room => room.GamePreferences.GameType.ToString() == r.GameType);
+            if (r.BuyInPolicy != null)
+                predicates.Add(room => room.GamePreferences.BuyInPolicy == r.BuyInPolicy.Value);
+            if (r.ChipPolicy != null)
+                predicates.Add(room => room.GamePreferences.ChipPolicy == r.ChipPolicy.Value);
+            if (r.MinBet != null)
+                predicates.Add(room => room.GamePreferences.MinBet == r.MinBet.Value);
+            if (r.MinPlayers != null)
+                predicates.Add(room => room.GamePreferences.MinPlayers == r.MinPlayers.Value);
+            if (r.MaxPlayers != null)
+                predicates.Add(room => room.GamePreferences.MaxPlayers == r.MaxPlayers.Value);
+            if (r.SepctatingAllowed != null)
+                predicates.Add(room => room.GamePreferences.Spectating == r.SepctatingAllowed.Value);
+
+            return _gameCenter.FindGames(predicates);
+        }
+
+        public List<IRoom> FindGamesWithFilter(string legalUserName, bool leagueOnly, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, bool sepctatingAllowed)
+        {
+            var context = _userLogic.GetUser(legalUserName, _gameCenter.Users);
+
+            var predicates = new List<Predicate<IRoom>>();
+            var r = new RoomFilter
+            {
+                PlayerName = legalUserName,
+                LeagueOnly = leagueOnly,
+                GameType = gameType,
+                BuyInPolicy = buyInPolicy,
+                ChipPolicy = chipPolicy,
+                MinBet = minBet,
+                MinPlayers = minPlayers,
+                SepctatingAllowed = sepctatingAllowed
             };
 
             if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
@@ -141,8 +173,8 @@ namespace TexasHoldem.Services
 
             var predicates = new List<Predicate<IRoom>>();
 
-            if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
-                predicates.Add(room => room.League == context.League);
+            if (r.LeagueOnly != null && r.LeagueOnly.Value)
+                predicates.Add(room => room.CanJoin(context));
             if (r.PlayerName != null)
                 predicates.Add(room => room.HasPlayer(r.PlayerName));
             if (r.PotSize != null)

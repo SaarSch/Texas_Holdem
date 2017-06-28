@@ -198,6 +198,51 @@ namespace TexasHoldem.Game
             return this;
         }
 
+        public bool CanJoin(IUser user)
+        {
+            if (user == null)
+            {
+                return false;
+            }
+            if(this.IsInRoom(user.Username))
+            {
+                return false;
+            }
+            if (IsOn)
+            {
+                return false;
+            }
+            if (Players.Count + 1 > GamePreferences.MaxPlayers)
+            {
+                return false;
+            }
+            if (user.League != League && user.League != -1)
+            {
+                return false;
+            }
+
+            if (user.ChipsAmount < GamePreferences.BuyInPolicy)
+            {
+                return false;
+            }
+
+             var tmp = user.ChipsAmount - GamePreferences.BuyInPolicy;
+
+
+            if (tmp < GamePreferences.MinBet ||
+                (tmp < GamePreferences.ChipPolicy && GamePreferences.ChipPolicy > 0))
+            {
+                return false;
+            }
+
+            if (GamePreferences.GameType == Gametype.Limit && tmp < 6 * GamePreferences.MinBet)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void Spectate(IUser user)
         {
             if (!GamePreferences.Spectating)

@@ -8,7 +8,8 @@ namespace Client
     public class RestClient
     {
 
-        private static readonly string _endPoint = "http://localhost:57856/api/";
+       // private static readonly string _endPoint = "http://localhost:57856/api/";
+        private static readonly string _endPoint = "http://132.73.199.185:5000/api/";
 
         private static void WriteData(WebRequest request, string data)
         {
