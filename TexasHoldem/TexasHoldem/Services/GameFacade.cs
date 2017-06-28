@@ -141,8 +141,8 @@ namespace TexasHoldem.Services
 
             var predicates = new List<Predicate<IRoom>>();
 
-            if (context.League != -1 && r.LeagueOnly != null && r.LeagueOnly.Value)
-                predicates.Add(room => room.League == context.League);
+            if (r.LeagueOnly != null && r.LeagueOnly.Value)
+                predicates.Add(room => room.CanJoin(context));
             if (r.PlayerName != null)
                 predicates.Add(room => room.HasPlayer(r.PlayerName));
             if (r.PotSize != null)
