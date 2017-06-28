@@ -314,6 +314,7 @@ namespace TexasHoldem.Game
                     p.User.League = p.User.Wins;
             }
             CurrentWinners = "";
+            Pot = 0;
             GameStatus = GameStatus.PreFlop;
             IsOn = true;
             CurrentTurn = 0;
@@ -481,6 +482,7 @@ namespace TexasHoldem.Game
                 }
             }
 
+            Pot += bet;
             p.SetBet(bet);
 			NextPlayer();
             return this;
@@ -734,7 +736,7 @@ namespace TexasHoldem.Game
         {
             if (p.ChipsAmount < GamePreferences.MinBet)
                 return false;
-
+            
             if (GamePreferences.GameType == Gametype.Limit && p.ChipsAmount < 6 * GamePreferences.MinBet)
             {
                 return false;
