@@ -369,9 +369,16 @@ namespace AllTests.AcceptanceTests
         public void TestFindGames_Good_NoGamesFound()
         {
             _bridge.Login(LegalUserName, LegalPass);
-
-            //var rf = new RoomFilter {LeagueOnly = true};
             var activeGames = _bridge.FindGames(LegalUserName);
+
+            Assert.IsTrue(activeGames.Count == 0);
+        }
+
+        [TestMethod] 
+        public void TestFindGames_Bad_IrrationalFilters()
+        {
+            _bridge.Login(LegalUserName, LegalPass);
+            var activeGames = _bridge.FindGamesWithFilter(LegalUserName, true, "CoolLimit", -1, 0, 4, 2, true);
 
             Assert.IsTrue(activeGames.Count == 0);
         }

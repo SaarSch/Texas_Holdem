@@ -39,6 +39,7 @@ namespace TexasHoldem.Bridges
         bool RestartGameCenter(bool deleteUsers);
 
         bool StartGame(string roomName);
-        bool SetBet(string roomName, string PlayerName, int bet);
+        bool SetBet(string roomName, string playerName, int bet);
+        IList FindGamesWithFilter(string legalUserName, bool leagueOnly, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, bool sepctatingAllowed);
     }
 }

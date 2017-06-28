@@ -171,7 +171,25 @@ namespace TexasHoldem.Bridges
                     ans.Add(r.Name);
                 return ans;
             }
-            catch (Exception e)
+            catch (Exception)
+            {
+                return new List<string>();
+            }
+        }
+
+        public IList FindGamesWithFilter(string legalUserName, bool leagueOnly, string gameType, int buyInPolicy, int chipPolicy,
+            int minBet, int minPlayers, bool sepctatingAllowed)
+        {
+            try
+            {
+                var tmp = _gameManager.FindGamesWithFilter(legalUserName, leagueOnly, gameType, buyInPolicy, chipPolicy,
+                minBet, minPlayers, sepctatingAllowed);
+                var ans = new List<string>();
+                foreach (var r in tmp)
+                    ans.Add(r.Name);
+                return ans;
+            }
+            catch (Exception)
             {
                 return new List<string>();
             }
