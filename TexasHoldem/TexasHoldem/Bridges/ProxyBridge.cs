@@ -151,5 +151,16 @@ namespace TexasHoldem.Bridges
         {
             return _real == null || _real.SetBet(roomName, playerName, bet);
         }
+
+        public bool GetStat(string userName)
+        {
+            return _real == null || _real.GetStat(userName);
+        }
+
+        public IList GetLead20(int i)
+        {
+            var s = _real != null ? _real.GetLead20(i) : new List<string>();
+            return s;
+        }
     }
 }

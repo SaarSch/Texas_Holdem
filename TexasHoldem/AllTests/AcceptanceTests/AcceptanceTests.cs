@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Bridges;
 
 namespace AllTests.AcceptanceTests
@@ -583,5 +584,32 @@ namespace AllTests.AcceptanceTests
             var messages = _bridge.GetMessages(LegalRoomName, LegalUserName + "1");
             Assert.AreEqual(0, messages.Count);
         }
+        [TestMethod]
+        public void TestUserStatistics_Good()
+        {
+            Assert.IsTrue(_bridge.GetStat(LegalUserName));
+        }
+        [TestMethod]
+        public void TestUserStatistics_Sad_UserNotExsit()
+        {
+            Assert.IsFalse(_bridge.GetStat(LegalUserName+"-1"));
+        }
+        [TestMethod]
+        public void TestUserStatistics_Bad_UserEmpty()
+        {
+            Assert.IsFalse(_bridge.GetStat(""));
+        }
+        [TestMethod]
+        public void TestUserStatistics_Bad_SQL()
+        {
+            Assert.IsFalse(_bridge.GetStat("DROP TABLE"));
+        }
+        [TestMethod]
+        public void TestLeaderboards_Good()
+        {
+            IList l = _bridge.GetLead20(1);
+            Assert.AreEqual(11,l.Count);
+        }
+
     }
 }
