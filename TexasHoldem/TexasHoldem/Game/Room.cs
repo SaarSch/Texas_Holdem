@@ -158,7 +158,7 @@ namespace TexasHoldem.Game
 
             if ( p.User.ChipsAmount < GamePreferences.BuyInPolicy)
             {
-                var e = new Exception("Player chips amount is low then buy in");
+                var e = new Exception("Player chips amount is low than buy in");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -337,7 +337,7 @@ namespace TexasHoldem.Game
                 }
             if (Players.Count < GamePreferences.MinPlayers)
             {
-                var e = new Exception("Can not play with less then min players");
+                var e = new Exception("Can not play with less than min players");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -474,14 +474,14 @@ namespace TexasHoldem.Game
             }
             if (bet + p.CurrentBet < maxCips)
             {
-                var e = new Exception("Can not bet lower then the higest bet");
+                var e = new Exception("Can not bet lower than the higest bet");
                 Logger.Log(Severity.Exception, e.Message);
                 throw e;
             }
 
             if (bet < GamePreferences.MinBet && !smallBlind)
             {
-                var e = new IllegalBetException("Can not bet less then min bet");
+                var e = new IllegalBetException("Can not bet less than min bet");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -489,7 +489,7 @@ namespace TexasHoldem.Game
             if (!smallBlind && GamePreferences.GameType == Gametype.NoLimit && p.BetInThisRound &&
                 p.PreviousRaise > bet) // no limit mode
             {
-                var e = new IllegalBetException("Can not bet less then previous raise in no limit mode");
+                var e = new IllegalBetException("Can not bet less than previous raise in no limit mode");
                 Logger.Log(Severity.Error, e.Message);
                 throw e;
             }
@@ -500,7 +500,7 @@ namespace TexasHoldem.Game
                     if (bet != GamePreferences.MinBet)
                     {
                         var e =
-                            new IllegalBetException("In pre flop/flop in limit mode bet must be equal to big blind");
+                            new IllegalBetException("In pre flop/flop in limit mode bet must be equal to " + GamePreferences.MinBet);
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
@@ -509,7 +509,7 @@ namespace TexasHoldem.Game
                     if (bet  != GamePreferences.MinBet * 2)
                     {
                         var e = new IllegalBetException(
-                            "In pre turn/river in limit mode bet must be equal to 2*big blind");
+                            "In pre turn/river in limit mode bet must be equal to "+ GamePreferences.MinBet * 2);
                         Logger.Log(Severity.Error, e.Message);
                         throw e;
                     }
@@ -521,7 +521,7 @@ namespace TexasHoldem.Game
                 foreach (var p1 in Players) pot += p1.CurrentBet;
                 if (bet > pot)
                 {
-                    var e = new IllegalBetException("In limit pot mode bet must lower then pot");
+                    var e = new IllegalBetException("In limit pot mode bet must lower than " +pot);
                     Logger.Log(Severity.Error, e.Message);
                     throw e;
                 }
