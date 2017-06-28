@@ -470,8 +470,7 @@ namespace TexasHoldem.Game
                     }
             }
 
-            if (!smallBlind && GamePreferences.GameType == Gametype.
-                Limit) // limit pot
+            if (!smallBlind && GamePreferences.GameType == Gametype.Limit) // limit pot
             {
                 var pot = 0;
                 foreach (var p1 in Players) pot += p1.CurrentBet;
