@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.Services;
 
 namespace TexasHoldem.Bridges
@@ -345,6 +346,19 @@ namespace TexasHoldem.Bridges
                 return false;
             }
             return true;
+        }
+
+        public bool GetStat(string userName)
+        {
+
+           return _gameManager.GetStat(userName)!=null;
+
+        }
+
+        public IList GetLead20(int i)
+        {
+                var tmp = _gameManager.GetTopStat(i);
+                return tmp?.Select(r => r.Username).ToList() ?? new List<string>();
         }
     }
 }

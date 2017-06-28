@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using TexasHoldem.Game;
 
 namespace TexasHoldem.Bridges
@@ -39,7 +39,10 @@ namespace TexasHoldem.Bridges
         bool RestartGameCenter(bool deleteUsers);
 
         bool StartGame(string roomName);
-        bool SetBet(string roomName, string playerName, int bet);
+
+        bool SetBet(string roomName, string PlayerName, int bet);
+        bool GetStat(string userName);
+        IList GetLead20(int i);
         IList FindGamesWithFilter(string legalUserName, bool leagueOnly, string gameType, int buyInPolicy, int chipPolicy, int minBet, int minPlayers, bool sepctatingAllowed);
     }
 }
