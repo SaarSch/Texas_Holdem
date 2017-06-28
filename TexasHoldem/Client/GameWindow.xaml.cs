@@ -631,15 +631,19 @@ namespace Client
         {
             var tmpMsg = "";
             if (SelfPlayerName != null)
+            {
                 foreach (var p in state.AllPlayers)
                     if (p.PlayerName == SelfPlayerName)
                         foreach (var message in p.Messages)
                             tmpMsg = tmpMsg + message + "\n";
+            }
             else
+            {
                 foreach (var u in state.Spectators)
                     if (u.Username == User.Username)
                         foreach (var message in u.Messages)
                             tmpMsg = tmpMsg + message + "\n";
+            }
             Msg = tmpMsg;
             ChatScroll.Dispatcher.Invoke(() => ChatScroll.ScrollToBottom());
         }
