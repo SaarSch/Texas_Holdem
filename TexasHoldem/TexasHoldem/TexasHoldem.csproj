@@ -71,16 +71,15 @@
     <Compile Include="Bridges\RealBridge.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="DatabaseContext.cs" />
-    <Compile Include="Exceptions\IllegalLeagueException.cs" />
     <Compile Include="Game\Card.cs" />
     <Compile Include="Game\Deck.cs" />
     <Compile Include="GameCenter.cs" />
     <Compile Include="Game\GamePreferences.cs" />
+    <Compile Include="Exceptions\IllegalCardValueException.cs" />
     <Compile Include="Game\IPlayer.cs" />
     <Compile Include="Game\IRoom.cs" />
     <Compile Include="Logics\HandLogic.cs" />
     <Compile Include="Game\HandStrength.cs" />
-    <Compile Include="Exceptions\IllegalCardValueException.cs" />
     <Compile Include="Exceptions\IllegalBetException.cs" />
     <Compile Include="Exceptions\IllegalRoomNameException.cs" />
     <Compile Include="Exceptions\IllegalCriteriaException.cs" />
