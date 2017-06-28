@@ -59,56 +59,56 @@ namespace AllTests.UnitTests.GameCenter
             Assert.IsNull(ans);
         }
 
-        [TestMethod]
-        //[ExpectedException(typeof(Exception))]
-        public void GameCenter_GetTopStat_fail()
-        {
-            try
-            {
-                _gc.Users.AddRange(_u);
-                var ans = _gc.GetTopStat(8);
-                Assert.Fail();
-            }
-            catch
-            {
-            }
-        }
+        //[TestMethod]
+        ////[ExpectedException(typeof(Exception))]
+        //public void GameCenter_GetTopStat_fail()
+        //{
+        //    try
+        //    {
+        //        _gc.Users.AddRange(_u);
+        //        var ans = _gc.GetTopStat(8);
+        //        Assert.Fail();
+        //    }
+        //    catch
+        //    {
+        //    }
+        //}
 
-        [TestMethod]
-        public void GameCenter_GetTopStat1()
-        {
-            var i = 0;
-            _gc.Users.AddRange(_u);
-            foreach (var u in _u)
-                u.Item1.GrossProfit = i++;
-            var ans = _gc.GetTopStat(1);
-            for (var j = 0; j < ans.Count; j++)
-                Assert.AreEqual(ans[j].GrossProfit, --i);
-        }
+        //[TestMethod]
+        //public void GameCenter_GetTopStat1()
+        //{
+        //    var i = 0;
+        //    _gc.Users.AddRange(_u);
+        //    foreach (var u in _u)
+        //        u.Item1.GrossProfit = i++;
+        //    var ans = _gc.GetTopStat(1);
+        //    for (var j = 0; j < ans.Count; j++)
+        //        Assert.AreEqual(ans[j].GrossProfit, --i);
+        //}
 
-        [TestMethod]
-        public void GameCenter_GetTopStat2()
-        {
-            var i = 0;
-            _gc.Users.AddRange(_u);
-            foreach (var u in _u)
-                u.Item1.HighestCashGain = i++;
-            var ans = _gc.GetTopStat(2);
-            for (var j = 0; j < ans.Count; j++)
-                Assert.AreEqual(ans[j].HighestCashGain, --i);
-        }
+        //[TestMethod]
+        //public void GameCenter_GetTopStat2()
+        //{
+        //    var i = 0;
+        //    _gc.Users.AddRange(_u);
+        //    foreach (var u in _u)
+        //        u.Item1.HighestCashGain = i++;
+        //    var ans = _gc.GetTopStat(2);
+        //    for (var j = 0; j < ans.Count; j++)
+        //        Assert.AreEqual(ans[j].HighestCashGain, --i);
+        //}
 
-        [TestMethod]
-        public void GameCenter_GetTopStat3()
-        {
-            var i = 0;
-            _gc.Users.AddRange(_u);
-            foreach (var u in _u)
-                u.Item1.NumOfGames = i++;
-            var ans = _gc.GetTopStat(3);
-            for (var j = 0; j < ans.Count; j++)
-                Assert.AreEqual(ans[j].NumOfGames, --i);
-        }
+        //[TestMethod]
+        //public void GameCenter_GetTopStat3()
+        //{
+        //    var i = 0;
+        //    _gc.Users.AddRange(_u);
+        //    foreach (var u in _u)
+        //        u.Item1.NumOfGames = i++;
+        //    var ans = _gc.GetTopStat(3);
+        //    for (var j = 0; j < ans.Count; j++)
+        //        Assert.AreEqual(ans[j].NumOfGames, --i);
+        //}
 
         [TestMethod]
         public void GameCenter_SetLeagues_all_leagues_full()
