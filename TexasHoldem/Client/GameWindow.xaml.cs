@@ -41,6 +41,7 @@ namespace Client
         public string SelfPlayerName;
         public Rectangle[] TurnSymbol;
         public UserData User;
+        private int CountCrashes;
 
 
         public GameWindow(UserData user, string self, RoomState state, MainWindow main, List<RoomState> replayStates)
@@ -48,6 +49,7 @@ namespace Client
             InitializeComponent();
             Main = main;
             SelfPlayerName = self;
+            CountCrashes = 0;
             User = user;
             RoomName = state.RoomName;
             RoomNameLbl.Content = RoomName;
@@ -281,6 +283,7 @@ namespace Client
                 var ans = RestClient.MakePutRequest(controller, "");
                 var json = JObject.Parse(ans);
                 var roomState = json.ToObject<RoomState>();
+                CountCrashes = 0;
                 if (roomState.Messege == null && roomState.RoomName == RoomName)
                 {
                     UpdateRoom(roomState);
@@ -300,9 +303,19 @@ namespace Client
                         }
                 }
             }
-            catch
+            catch(Exception e)
             {
-                Application.Current.Dispatcher.Invoke(() => Close());
+                if(CountCrashes == 3)
+                {
+                    MessageBox.Show(e.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Dispatcher.Invoke(() => Close());
+                }
+                else
+                {
+                    CountCrashes++;
+                    StatusRequest();
+                }
+                
             }
         }
 
